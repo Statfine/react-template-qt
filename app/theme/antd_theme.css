@@ -1,0 +1,18 @@
+.ant-select-selection {
+  background-color: transparent;
+}
+.ant-calendar-picker-container-placement-topLeft {
+  z-index: 99999;
+}
+.ant-time-picker-panel-placement-bottomLeft {
+  z-index: 99999;
+}
+.ant-calendar-picker-container {
+  z-index: 99999;
+}
+.ant-select-dropdown {
+  z-index: 10000;
+}
+.ant-popover {
+  z-index: 99999;
+}

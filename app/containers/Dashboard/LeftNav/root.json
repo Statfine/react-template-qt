@@ -1,0 +1,50 @@
+[
+  {
+    "type": "list",
+    "name": "Tab1",
+    "url": "/dashboard/one",
+    "icon": "setting",
+    "listUrl": [
+      {
+        "name": "Tab1-1",
+        "url": "/dashboard/one/one"
+      },
+      {
+        "name": "Tab1-2",
+        "url": "/dashboard/one/two"
+      },
+      {
+        "name": "Tab1-3",
+        "url": "/dashboard/one/three"
+      },
+      {
+        "name": "Tab1-4",
+        "url": "/dashboard/one/four"
+      }
+    ]
+  },
+  {
+    "type": "list",
+    "name": "Tab2",
+    "url": "/dashboard/two",
+    "icon": "message",
+    "listUrl": [
+      {
+        "name": "Tab2-1",
+        "url": "/dashboard/two/one"
+      }
+    ]
+  },
+  {
+    "type": "single",
+    "name": "权限设置",
+    "url": "/dashboard/auth",
+    "icon": "key"
+  },
+  {
+    "type": "single",
+    "name": "个人设置",
+    "url": "/dashboard/own",
+    "icon": "setting"
+  }
+]
