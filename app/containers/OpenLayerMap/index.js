@@ -16,7 +16,7 @@ import XYZSource from 'ol/source/XYZ'; // 可以加载Tile瓦片图
 
 import { Icon, Style, Fill, Stroke, Circle, Text } from 'ol/style'; // 样式
 import Feature from 'ol/Feature'; //  feature（要素），即地图上的几何对象geometry ↓
-import { Point, LineString, Polygon } from 'ol/geom';  // ↑ 包括点（Point），线（LineString）,多边形（Polygon），圆（Circle） 区别在于Polygon和LineString一个会连接第一和最后一个点, 一个不会.
+import { Point, LineString, Polygon } from 'ol/geom';  // ↑ 包括点（Point），线（LineString）,多边形（Polygon），圆（Circle） 区别在于Polygon和LineString一个会连接第一和最后一个点, 一个不会. LineString 二维数组   Polygon三位数组
 
 import GeoJSON from 'ol/format/GeoJSON';
 
@@ -210,9 +210,9 @@ export default class OpenLayerMap extends PureComponent {
       })
     });
     
-    // const plygon = new LineString([coordinatesPolygon]) error????
+    const plygon = new LineString(coordinatesPolygon)  // LineString 二维数组   Polygon三位数组
     // // 多边形要素类
-    const plygon = new Polygon([coordinatesPolygon]) // 设置
+    // const plygon = new Polygon([coordinatesPolygon]) // 设置
     const feature = new Feature({
       type: 'route',
       geometry: plygon,

@@ -17,6 +17,7 @@ import Login from 'containers/Login/Loadable';
 import Dashboard from 'containers/Dashboard/Loadable';
 import OpenLayer from 'containers/Openlayer';
 import OpenLayerMap from 'containers/OpenLayerMap';
+import OpenLayerMapTest from 'containers/OpenLayerMap/indexTest';
 import GaoDeMap from 'containers/GaoDeMap';
 import HistoryPage from 'containers/HistoryPage';
 
@@ -58,6 +59,7 @@ function App() {
         <Route path="/dashboard" component={DashboardPage} />
         <Route path="/openlayer" component={OpenLayer} />
         <Route path="/openlayermap" component={OpenLayerMap} />
+        <Route path="/test" component={OpenLayerMapTest} />
         <Route path="/gaode" component={GaoDeMap} />
         <Route path="/params" component={HistoryPage} />
         <Route component={NotFoundPage} />
