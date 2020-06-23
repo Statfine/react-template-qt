@@ -67,6 +67,7 @@ module.exports = {
     'no-use-before-define': 0,
     'prefer-template': 2,
     'prettier/prettier': 0,
+    'prefer-destructuring': 0,
     'radix': 0,
     'react/destructuring-assignment': 0,
     'react-hooks/rules-of-hooks': 'error',

@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 export default class GaoDeMap extends PureComponent {
 
   componentDidMount() {
-    const url = 'https://webapi.amap.com/maps?v=1.4.15&key=97617fb9aa9d9c9d0bc1177a1a8ec396&plugin=AMap.DistrictSearch,AMap.Walking,AMap.Autocomplete';
+    const url = 'https://webapi.amap.com/maps?v=1.4.15&key=97617fb9aa9d9c9d0bc1177a1a8ec396&plugin=AMap.DistrictSearch,AMap.Walking,AMap.Driving,AMap.Autocomplete';
     const jsapi = document.createElement('script');
     jsapi.charset = 'utf-8';
     jsapi.src = url;
@@ -121,19 +121,23 @@ export default class GaoDeMap extends PureComponent {
   }
 
   handleWalkPlan = () => {
+    const driving = new AMap.Driving({
+      // 驾车路线规划策略，AMap.DrivingPolicy.LEAST_TIME是最快捷模式
+      policy: AMap.DrivingPolicy.LEAST_TIME
+    })
     // 步行导航
-    const walking = new AMap.Walking({
-      map: this.map,
-      panel: "panel"
-    }); 
+    // const walking = new AMap.Walking({
+    //   map: this.map,
+    //   panel: "panel"
+    // }); 
     // walking.search([[121.549792,29.868388],[121.549792,29.468388]], (status, result) => {
-    walking.search([
+    driving.search([
       {keyword: '华强北(地铁站)',city:'深圳'},
       {keyword: '华新(地铁站)',city:'深圳'}
     ], (status, result) => {
       // result即是对应的步行路线数据信息，相关数据结构文档请参考  https://lbs.amap.com/api/javascript-api/reference/route-search#m_WalkingResult
       if (status === 'complete') {
-        console.log('success', '绘制步行路线完成', result, JSON.stringify(result))
+        console.log('success', '绘制步行路线完成', JSON.stringify(result))
       } else {
         console.log('error', `步行路线数据查询失败${result}`)
       } 
