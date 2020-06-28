@@ -7,7 +7,7 @@ import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import XYZ from 'ol/source/XYZ';
 import { Map, View, Feature } from 'ol';
-import { Style, Icon, Stroke } from 'ol/style';
+import { Style, Icon, Stroke, Circle } from 'ol/style';
 import Text from 'ol/style/Text';
 import Fill from 'ol/style/Fill';
 import { Point, LineString, Polygon } from 'ol/geom';
@@ -26,6 +26,16 @@ export default class OpenLayerTestMap extends PureComponent {
   componentDidMount() {
     this.init();
   }
+
+  coordinate2 = [
+    [112.87197876066057, 28.22084712811648],
+    [112.8720016491825, 28.225383281160706],
+    [112.87314605792562, 28.228450298111515],
+    [112.87527465926178, 28.23101377452122],
+    [112.87994384801641, 28.232203960351857],
+    [112.88353729301525, 28.23128843224413],
+    [112.8825531017319, 28.225932597479645],
+  ];
 
   init = () => {
     const projection = olProj.get('EPSG:3857');
@@ -48,35 +58,10 @@ export default class OpenLayerTestMap extends PureComponent {
       layers: [navlayer],
       view: this.view,
     });
-    // this.map = new Map({
-    //   target: 'map',
-    //   layers: [
-    //     new TileLayer({
-    //       source: new XYZ({
-    //         url:
-    //           'http://webrd01.is.autonavi.com/appmaptile?x={x}&y={y}&z={z}&lang=zh_cn&size=1&scale=1&style=8',
-    //       }),
-    //     }),
-    //   ],
-    //   view: new View({
-    //     // 指定地图投影模式
-    //     projection: 'EPSG:4326',
-    //     // 定义地图显示的坐标
-    //     center: [112.87, 28.23],
-    //     // center: olProj.transform([112.87, 28.23], 'EPSG:4326', 'EPSG:3857'), // 数据存储在EPSG：4326([106.51, 29.55])中并显示在 EPSG：3857([12958752, 4848452])中
-    //     // 限制地图中心范围，但无法限制缩小范围
-    //     extent: [110, 26, 114, 30],
-    //     // 定义地图显示层级为16
-    //     zoom: 13,
-    //     // 限制缩放级别，可以和extent同用限制范围
-    //     maxZoom: 19,
-    //     // 最小级别，越大则面积越大
-    //     minZoom: 5,
-    //   }),
-    // });
     // this.handleAddBatchFeature();
-    this.addLine();
+    // this.addLine();
     // this.addPolygon();
+    this.renderSport();
   };
 
   // const coordinates = [];
@@ -196,17 +181,6 @@ export default class OpenLayerTestMap extends PureComponent {
       type: 'route',
       geometry: new LineString(coordinates),
     });
-    // routeFeature.setStyle(
-    //   new Style({
-    //     stroke: new Stroke({
-    //       width: 4,
-    //       color: [255, 0, 0, 0.5],
-    //     }),
-    //     text: new Text({
-    //       text: '这是线路',
-    //     }),
-    //   }),
-    // );
     // 设置图层
     const routeLayer = new VectorLayer({
       source: new VectorSource({
@@ -230,11 +204,6 @@ export default class OpenLayerTestMap extends PureComponent {
         }),
       }),
     ];
-    // debugger;
-    // const lineStringsArray = geometry.getLineStrings();
-    // for (let i = 0; i < lineStringsArray.length; i += 1) {
-      
-    // }
     geometry.forEachSegment((start, end) => {
       const dx = end[0] - start[0];
       const dy = end[1] - start[1];
@@ -289,6 +258,58 @@ export default class OpenLayerTestMap extends PureComponent {
     });
     this.map.addLayer(polygonLayer);
   };
+
+  renderSport = () => {
+    // 实例一个数据源获取feature
+    // 实例化一个矢量图层Vector作为绘制层
+    const source = new VectorSource();
+    // 实例一个线(标记点)的全局变量
+    const coordinates = []; // 线,Point 点,Polygon 线
+    // for (let i = 0; i < this.coordinate2.length; i += 1) {
+    //   const pointTransform = olProj.transform(
+    //     [this.coordinate2[i][0], this.coordinate2[i][1]],
+    //     'EPSG:4326',
+    //     'EPSG:3857',
+    //   );
+    //   coordinates.push(pointTransform);
+    // }
+    const geometry = new LineString(coordinates);
+
+    const LineStringFeature = new Feature(geometry); // 绘制线的数据
+    // 将线添加到Vector绘制层上
+    source.addFeature(LineStringFeature);
+
+    const vectorLayer = new VectorLayer({
+      source,
+      style: new Style({
+        fill: new Fill({
+          color: 'rgba(255, 255, 255, 0.2)'
+        }),
+        stroke: new Stroke({
+          color: '#f00',
+          width: 4
+        }),
+        image: new Circle({
+          radius: 2,
+          fill: new Fill({
+            color: '#f00'
+          })
+        })
+      })
+    });
+    this.map.addLayer(vectorLayer); // 将绘制层添加到地图容器中
+
+    let i = 0;
+    const interval = setInterval(() => {
+      const point = olProj.transform(this.coordinate2[i], 'EPSG:4326', 'EPSG:3857');
+      geometry.appendCoordinate(point);
+      i += 1;
+    }, 500);
+
+    setTimeout(() => {
+      clearInterval(interval);
+    }, 7000);
+  }
 
   render() {
     return (

@@ -253,6 +253,7 @@ export default class OpenLayerMap extends PureComponent {
     const endF = new Feature({ geometry: new Point(endC) });
     endF.name = "终点" || result.end.name;
     const features = [startF, endF];
+    // const features = []; // 方法二
     const {routes} = result;
     for(let i=0; i<routes.length; i += 1){
       const eachRoute = routes[i];
@@ -265,7 +266,9 @@ export default class OpenLayerMap extends PureComponent {
           const { path } = tmcsPaths[m];
           for(let k=0; k<path.length; k += 1){
             const eachPath = path[k];
-            coord.push(olProj.transform([eachPath.lng, eachPath.lat], "EPSG:4326", "EPSG:3857"))
+            const point = olProj.transform([eachPath.lng, eachPath.lat], "EPSG:4326", "EPSG:3857");
+            coord.push(point)
+            // features.push(point) // 方法二
           }
           const pathF = new Feature(new LineString(coord));
           pathF.status = tmcsPaths[m].status;
@@ -273,6 +276,13 @@ export default class OpenLayerMap extends PureComponent {
         }
       }
     }
+
+    // 方法二
+    // const geometry = new LineString(features);
+    // const LineStringFeature = new Feature(geometry); // 绘制线的数据
+    // // 将线添加到Vector绘制层上
+    // const vectorSource = new VectorSource();
+    // vectorSource.addFeature(LineStringFeature);
 
     const vectorSource = new VectorSource({
       features,

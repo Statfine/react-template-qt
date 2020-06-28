@@ -20,6 +20,7 @@ import OpenLayerMap from 'containers/OpenLayerMap';
 import OpenLayerMapTest from 'containers/OpenLayerMap/indexTest';
 import GaoDeMap from 'containers/GaoDeMap';
 import HistoryPage from 'containers/HistoryPage';
+import DefaultMap from 'containers/DefaultOpenLayer';
 
 import { useInjectReducer, useInjectSaga } from 'redux-injectors';
 
@@ -59,6 +60,7 @@ function App() {
         <Route path="/dashboard" component={DashboardPage} />
         <Route path="/openlayer" component={OpenLayer} />
         <Route path="/openlayermap" component={OpenLayerMap} />
+        <Route path="/defaultmap" component={DefaultMap} />
         <Route path="/test" component={OpenLayerMapTest} />
         <Route path="/gaode" component={GaoDeMap} />
         <Route path="/params" component={HistoryPage} />
