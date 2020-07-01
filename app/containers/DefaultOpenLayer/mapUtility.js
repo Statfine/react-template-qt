@@ -1,4 +1,5 @@
 import Vector from 'ol/layer/Vector';
+import Heatmap from 'ol/layer/Heatmap';
 import VectorSource from 'ol/source/Vector';
 import Feature from 'ol/Feature'; //  feature（要素），即地图上的几何对象geometry ↓
 import { Point, LineString, Polygon } from 'ol/geom'; // ↑ 包括点（Point），线（LineString）,多边形（Polygon），圆（Circle） 区别在于Polygon和LineString一个会连接第一和最后一个点, 一个不会. LineString 二维数组   Polygon三位数组
@@ -326,6 +327,30 @@ function getStyle(fillColor, name) {
   )
 }
 
+/**
+ *  热力图
+*/
+function drawHeatMap(heatData, id, callback) {
+  // 矢量图层 获取geojson数据
+  const vectorSource = new VectorSource({
+    features: (new GeoJSON()).readFeatures(heatData,{
+      dataProjection : 'EPSG:4326',
+      featureProjection : 'EPSG:3857'
+    })
+  });
+  // Heatmap热力图             
+  const vector = new Heatmap({
+    source: vectorSource,
+    opacity: 0.8, // 透明度
+    blur: 15, // 模糊大小（以像素为单位）,默认15
+    radius: 12, // 半径大小（以像素为单位,默认8
+    shadow: 250, // 阴影像素大小，默认250
+  });
+  map.addLayer(vector);
+
+  if (callback) callback(vector);
+}
+
 
 export {
   injectMap,
@@ -335,5 +360,6 @@ export {
   drawRoadByGaoDeJson,
   drawRoadByCoordinates,
   drawAreaShadeByJson,
-  drawAreaShadeByCoordinates
+  drawAreaShadeByCoordinates,
+  drawHeatMap
 };

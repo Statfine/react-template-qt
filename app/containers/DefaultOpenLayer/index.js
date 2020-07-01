@@ -9,12 +9,13 @@ import XYZSource from 'ol/source/XYZ'; // 可以加载Tile瓦片图
 import { Map, View, Overlay } from 'ol';
 
 import './style.css';
-import { injectMap, setViewZoom, addMark, drawLine, drawRoadByGaoDeJson, drawRoadByCoordinates, drawAreaShadeByJson, drawAreaShadeByCoordinates } from './mapUtility';
+import { injectMap, setViewZoom, addMark, drawLine, drawRoadByGaoDeJson, drawRoadByCoordinates, drawAreaShadeByJson, drawAreaShadeByCoordinates, drawHeatMap } from './mapUtility';
 
 import coordinatePng from './img/coordinate.png';
 import RoadGaoDeJson from './data/huangqiangbeiToHuaxinDriving.json'; // 路径json
 import RoadMoveJson from './data/move.json'; // 路径json
 import ShenZhenAreaJson from './data/shenzhen.json';
+import HeatMap from './data/heatData.json';
 
 function guid() {
   function S4() {
@@ -48,6 +49,7 @@ export default class DefaultOpenLayer extends PureComponent {
     line: {},
     area: {},
     road: {},
+    heat: {},
   };
 
   /**
@@ -116,6 +118,7 @@ export default class DefaultOpenLayer extends PureComponent {
       'EPSG:3857',
       'EPSG:4326',
     );
+    console.log(coordinate, clickPosition);
     const featureMap = this.map.forEachFeatureAtPixel(pixel, f => f);
     // 判断有无覆盖物
     if (featureMap) {
@@ -197,9 +200,16 @@ export default class DefaultOpenLayer extends PureComponent {
     });
   }
 
+  handleDrawHeatMap = () => {
+    const id = guid();
+    drawHeatMap(HeatMap, id, layer => {
+      this.layerList.heat[id] = layer;
+    });
+  }
+
   /**
    * 清理layer层
-   * flag  0-全部；1-mark；2-line；3-area； 4-road
+   * flag  0-全部；1-mark；2-line；3-area； 4-road; 5-heat
    */
   handleClear = (flag) => {
     if (flag === 1 || flag === 0) {
@@ -220,6 +230,11 @@ export default class DefaultOpenLayer extends PureComponent {
     if (flag === 4 || flag === 0) {
       for (const k in this.layerList.road) {
         this.map.removeLayer(this.layerList.road[k]);
+      }
+    }
+    if (flag === 5 || flag === 0) {
+      for (const k in this.layerList.heat) {
+        this.map.removeLayer(this.layerList.heat[k]);
       }
     }
   };
@@ -275,6 +290,9 @@ export default class DefaultOpenLayer extends PureComponent {
               <Button style={{ margin: '10px', display: 'block' }} type="primary" onClick={this.handleDrawAreaByCoordinates}>
                 罗湖区域
               </Button>
+              <Button style={{ margin: '10px', display: 'block' }} type="primary" onClick={this.handleDrawHeatMap}>
+                热点图
+              </Button>
               <Button style={{ margin: '10px', display: 'block' }} type="primary" onClick={this.handleDrawLine}>
                 {this.state.drawLineFlag ? '关闭连线' : '开启连线'}
               </Button>
@@ -293,6 +311,9 @@ export default class DefaultOpenLayer extends PureComponent {
               </Button>
               <Button style={{ margin: '10px', display: 'block' }} type="primary" onClick={() => this.handleClear(4)}>
                 清空路线
+              </Button>
+              <Button style={{ margin: '10px', display: 'block' }} type="primary" onClick={() => this.handleClear(5)}>
+                清空热力
               </Button>
             </Card>
           </Col>
