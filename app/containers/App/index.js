@@ -21,6 +21,7 @@ import OpenLayerMapTest from 'containers/OpenLayerMap/indexTest';
 import GaoDeMap from 'containers/GaoDeMap';
 import HistoryPage from 'containers/HistoryPage';
 import DefaultMap from 'containers/DefaultOpenLayer';
+import AntdTable from 'containers/AntdTable';
 
 import { useInjectReducer, useInjectSaga } from 'redux-injectors';
 
@@ -64,6 +65,7 @@ function App() {
         <Route path="/test" component={OpenLayerMapTest} />
         <Route path="/gaode" component={GaoDeMap} />
         <Route path="/params" component={HistoryPage} />
+        <Route path="/table" component={AntdTable} />
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalStyle />
