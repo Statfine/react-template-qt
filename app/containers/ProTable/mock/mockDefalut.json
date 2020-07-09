@@ -1,0 +1,287 @@
+{
+  "data": [
+    {
+      "id": "62B5FkBVg!^!^#85u^5^q4GEHPR!HhuD",
+      "name": "kzl",
+      "age": 51,
+      "sex": "0",
+      "money": "3375485",
+      "address": "London, Park Lane no.fWypz$NGl@#VGZz",
+      "url": "https://www.baidu.com",
+      "image": "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg",
+      "merge": [
+        {
+          "dataIndex": "name",
+          "rowSpan": 3
+        }
+      ]
+    },
+    {
+      "id": "K$l!xIclVw3AHB%Zh06w%zIlpkMn#ItF",
+      "name": "kzl",
+      "age": 76,
+      "sex": "1",
+      "money": "4960657",
+      "address": "London, Park Lane no.E#T272C7D5NiEsc",
+      "url": "https://www.baidu.com",
+      "image": "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg",
+      "merge": [
+        {
+          "dataIndex": "name",
+          "rowSpan": 0
+        }
+      ]
+    },
+    {
+      "id": "a68U1Bu&GKVQ#mvR&IugT@jpkBiRG@R*",
+      "name": "kzl",
+      "age": 58,
+      "sex": "0",
+      "money": "7473987",
+      "address": "London, Park Lane no.PdlGNQyXzSxCX27",
+      "url": "https://www.baidu.com",
+      "image": "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg",
+      "merge": [
+        {
+          "dataIndex": "name",
+          "rowSpan": 0
+        }
+      ]
+    },
+    {
+      "id": "U^HXcrgqpW9I#2PHj5xrqg64NPInwmDS",
+      "name": "8U@",
+      "age": 87,
+      "sex": "0",
+      "money": "944839",
+      "address": "London, Park Lane no.9aLUZ9uXOp%YH*B",
+      "url": "https://www.baidu.com",
+      "image": "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
+    },
+    {
+      "id": "%y91^zVTihqgq$0kvSZl5dWy$spL1luA",
+      "name": "mu^",
+      "age": 56,
+      "sex": "1",
+      "money": "7883081",
+      "address": "London, Park Lane no.hRLgX&hITH*FmZ&",
+      "url": "https://www.baidu.com",
+      "image": "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
+    },
+    {
+      "id": "UQEyNayladA!19vcS1lvZjHA$r4O%QQp",
+      "name": "1QO",
+      "age": 43,
+      "sex": "1",
+      "money": "626662",
+      "address": "London, Park Lane no.MoYUtD&Pg%uj*@Y",
+      "url": "https://www.baidu.com",
+      "image": "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg",
+      "merge": [
+        {
+          "dataIndex": "sex",
+          "colSpan": 2
+        },
+        {
+          "dataIndex": "money",
+          "colSpan": 0
+        }
+      ]
+    },
+    {
+      "id": "aOlzzEhP1O!um0t%sR2D7&PYCBshh@nO",
+      "name": "Yq!",
+      "age": 31,
+      "sex": "1",
+      "money": "9707798",
+      "address": "London, Park Lane no.Oje63D7rgJWIizV",
+      "url": "https://www.baidu.com",
+      "image": "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg",
+      "merge": [
+        {
+          "dataIndex": "age",
+          "colSpan": 2
+        },
+        {
+          "dataIndex": "sex",
+          "colSpan": 0
+        },
+        {
+          "dataIndex": "money",
+          "colSpan": 2
+        },
+        {
+          "dataIndex": "address",
+          "colSpan": 0
+        }
+      ]
+    },
+    {
+      "id": "9t&oYef0DQxa0lO47XLcfSG8H#bVU8Y!",
+      "name": "Yq!",
+      "age": 27,
+      "sex": "1",
+      "money": "4155284",
+      "address": "London, Park Lane no.4aMLOe1*caw4!c&",
+      "url": "https://www.baidu.com",
+      "image": "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg",
+      "merge": [
+        {
+          "dataIndex": "age",
+          "colSpan": 4
+        },
+        {
+          "dataIndex": "sex",
+          "colSpan": 0
+        },
+        {
+          "dataIndex": "money",
+          "colSpan": 0
+        },
+        {
+          "dataIndex": "address",
+          "colSpan": 0
+        }
+      ]
+    },
+    {
+      "id": "59p9^D*3y4DKm9mvrX&^9T$nghJLb2p9",
+      "name": "wS9",
+      "age": 33,
+      "sex": "0",
+      "money": "555178",
+      "address": "London, Park Lane no.EzgCn$ccXmDEhta",
+      "url": "https://www.baidu.com",
+      "image": "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
+    },
+    {
+      "id": "fX%VnQ&02YV*0qZ#zM2SEoXN!wsjP#S5",
+      "name": "BC#",
+      "age": 70,
+      "sex": "0",
+      "money": "680825",
+      "address": "London, Park Lane no.kxvif*k@EaVVGN4",
+      "url": "https://www.baidu.com",
+      "image": "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg",
+      "merge": [
+        {
+          "dataIndex": "age",
+          "rowSpan": 3
+        }
+      ]
+    },
+    {
+      "id": "3JmpWrEV8NmbpsZKFA&Ni%IWTKBynHZN",
+      "name": "m@%",
+      "age": 99,
+      "sex": "0",
+      "money": "3639306",
+      "address": "London, Park Lane no.hryeHO9hgI6c^#N",
+      "url": "https://www.baidu.com",
+      "image": "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg",
+      "merge": [
+        {
+          "dataIndex": "age",
+          "rowSpan": 0
+        }
+      ]
+    },
+    {
+      "id": "cUKT5wgcq9vuV^lVi2Em$Ntpy1T1%gDO",
+      "name": "@#T",
+      "age": 99,
+      "sex": "0",
+      "money": "2473747",
+      "address": "London, Park Lane no.QJCw04w!LCBrNiA",
+      "url": "https://www.baidu.com",
+      "image": "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg",
+      "merge": [
+        {
+          "dataIndex": "age",
+          "rowSpan": 0
+        }
+      ]
+    },
+    {
+      "id": "60p6SQz^xMbgyYyHiAowgVD52Ic1gk53",
+      "name": "S#*",
+      "age": 99,
+      "sex": "1",
+      "money": "617545",
+      "address": "London, Park Lane no.3%4vsNFke$79Bvj",
+      "url": "https://www.baidu.com",
+      "image": "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
+    },
+    {
+      "id": "cEVhZZbGf6$9vr9je$!^FeBfDu*e3EK7",
+      "name": "wLo",
+      "age": 30,
+      "sex": "0",
+      "money": "4066143",
+      "address": "London, Park Lane no.^rdcl@G&rLJttai",
+      "url": "https://www.baidu.com",
+      "image": "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
+    },
+    {
+      "id": "3TZSLGfXQ$#r4aB1bJAtrhS0sHs7j3NM",
+      "name": "@T^",
+      "age": 49,
+      "sex": "0",
+      "money": "2219076",
+      "address": "London, Park Lane no.r&fMvNj3Tbn^GFe",
+      "url": "https://www.baidu.com",
+      "image": "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
+    },
+    {
+      "id": "G@qDK!ncmWjTxfVCuyZq#LsQB3SaOL@$",
+      "name": "gk*",
+      "age": 60,
+      "sex": "0",
+      "money": "5502931",
+      "address": "London, Park Lane no.JAD&Y*%lKQ^Cxi6",
+      "url": "https://www.baidu.com",
+      "image": "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
+    },
+    {
+      "id": "q$EbqOjyteRypM3bNjCgfj5bvsRuU$tD",
+      "name": "#y%",
+      "age": 85,
+      "sex": "0",
+      "money": "7300113",
+      "address": "London, Park Lane no.fhtlWTMR3IBNzfu",
+      "url": "https://www.baidu.com",
+      "image": "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
+    },
+    {
+      "id": "aFJaIW46uXsbE9P#Z51TnHBMeyr0B@BR",
+      "name": "3sn",
+      "age": 96,
+      "sex": "0",
+      "money": "4997285",
+      "address": "London, Park Lane no.IR#mamy^!#kU%9e",
+      "url": "https://www.baidu.com",
+      "image": "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
+    },
+    {
+      "id": "j$jla5eVZB6aWF$YI%EHVbZ8Upe!rY@g",
+      "name": "a&X",
+      "age": 24,
+      "sex": "1",
+      "money": "4239622",
+      "address": "London, Park Lane no.fySla!Eglax!Fsu",
+      "url": "https://www.baidu.com",
+      "image": "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
+    },
+    {
+      "id": "DNcvS5@$YJWqnsFPj3cJkme9RQ2S82lh",
+      "name": "vfe",
+      "age": 42,
+      "sex": "0",
+      "money": "2596643",
+      "address": "London, Park Lane no.dwB6sTaYTtpQc@d",
+      "url": "https://www.baidu.com",
+      "image": "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
+    }
+  ],
+  "total": 100
+}

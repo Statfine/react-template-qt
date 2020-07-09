@@ -22,6 +22,8 @@ import GaoDeMap from 'containers/GaoDeMap';
 import HistoryPage from 'containers/HistoryPage';
 import DefaultMap from 'containers/DefaultOpenLayer';
 import AntdTable from 'containers/AntdTable';
+import AntdResizTable from 'containers/AntdTable/ResizableTable';
+import ProTable from 'containers/ProTable';
 
 import { useInjectReducer, useInjectSaga } from 'redux-injectors';
 
@@ -66,6 +68,8 @@ function App() {
         <Route path="/gaode" component={GaoDeMap} />
         <Route path="/params" component={HistoryPage} />
         <Route path="/table" component={AntdTable} />
+        <Route path="/resizetable" component={AntdResizTable} />
+        <Route path="/protable" component={ProTable} />
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalStyle />

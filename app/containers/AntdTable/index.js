@@ -198,7 +198,7 @@ export default class AntdTable extends PureComponent {
         <Table
           rowSelection={{
             type: "checkbox",
-            onChange: (selectedRowKey, selectedRows) => { // 时间
+            onChange: (selectedRowKey, selectedRows) => { // 事件
               console.log(`selectedRowKeys: ${selectedRowKey}`, 'selectedRows: ', selectedRows);
               this.setState({ selectedRowKeys: selectedRowKey });
             },
