@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" id="Definitions_06armuw" targetNamespace="http://bpmn.io/schema/bpmn" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="7.0.0">
+  <bpmn:collaboration id="Collaboration_1">
+    <!-- <bpmn:participant id="Participant_1ptp2bv" name="" processRef="Process_1" /> -->
+  </bpmn:collaboration>
+   <!-- <bpmn:process id="Process_1">
+    <bpmn:task id="Activity_04umbnx" name="12312" link_id="id1" />
+  </bpmn:process> -->
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1">
+      <!-- <bpmndi:BPMNShape id="Participant_1ptp2bv_di" bpmnElement="Participant_1ptp2bv" isHorizontal="true">
+        <dc:Bounds x="200" y="470" width="600" height="250" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_04umbnx_di" bpmnElement="Activity_04umbnx" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="320" y="570" width="100" height="80" />
+      </bpmndi:BPMNShape> -->
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

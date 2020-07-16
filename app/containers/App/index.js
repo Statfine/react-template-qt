@@ -24,6 +24,7 @@ import DefaultMap from 'containers/DefaultOpenLayer';
 import AntdTable from 'containers/AntdTable';
 import AntdResizTable from 'containers/AntdTable/ResizableTable';
 import ProTable from 'containers/ProTable';
+import BpmnPage from 'containers/Bpmn';
 
 import { useInjectReducer, useInjectSaga } from 'redux-injectors';
 
@@ -70,6 +71,7 @@ function App() {
         <Route path="/table" component={AntdTable} />
         <Route path="/resizetable" component={AntdResizTable} />
         <Route path="/protable" component={ProTable} />
+        <Route path="/bpmn" component={BpmnPage} />
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalStyle />

@@ -39,6 +39,10 @@ module.exports = options => ({
         use: ['style-loader', 'css-loader'],
       },
       {
+        test: /\.bpmn$/,
+        use: 'raw-loader'
+      },
+      {
         // Preprocess 3rd party .css files located in node_modules
         test: /\.css$/,
         include: /node_modules/,

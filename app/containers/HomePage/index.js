@@ -32,6 +32,11 @@ export default function HomePage() {
   const handleLogin = () => history.push('/login');
   const handelJumpDashboard = () => history.push('/dashboard');
 
+  const postFatherMessage = () => {
+    // 可以向父窗体返回结果
+    window.parent.postMessage({code: 200}, "*");
+  }
+
   return (
     <Container>
       <Helmet>
@@ -42,6 +47,7 @@ export default function HomePage() {
           <ActionBtn type="primary" onClick={handleLogout}>退出</ActionBtn> :
           <ActionBtn type="primary" onClick={handleLogin}>登录</ActionBtn>
       }
+      <ActionBtn type="primary" onClick={postFatherMessage}>发送message</ActionBtn>
       <ActionBtn type="primary" onClick={handelJumpDashboard}>面板</ActionBtn>
     </Container>
   );

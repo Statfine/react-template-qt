@@ -1,0 +1,118 @@
+.custom-tool-title {
+  color: #426395;
+  border-bottom: solid 1px #DBECFF;
+  padding: 10px;
+  text-align: center;
+}
+
+.bjs-powered-by {
+  display: none;
+}
+
+.choosed—blue {
+  background: red;
+}
+
+/* fill-背景色(djs-label下文字颜色)， stroke-边框色 */ /* 设置所有线条为蓝色 */
+/* .nodeSuccess:not(.djs-connection) .djs-visual > :nth-child(1) {
+  fill: #f8fbfd!important;
+} */
+
+.nodeSuccess > g > text {
+  font-size: 14px!important;
+}
+
+/* 所有边框 */
+/* .djs-element .djs-visual > :nth-child(1):not(.djs-label) {
+  stroke: #DBECFF !important;
+  stroke-width: 1px!important;
+} */
+.djs-element .djs-visual rect {
+  stroke: #DBECFF !important;
+  stroke-width: 1px!important;
+}
+
+/* 边框 */
+.djs-element .djs-visual circle {
+  stroke: #6389C5 !important;
+}
+.djs-element .djs-visual > path {
+  stroke: #6389C5 !important;
+}
+.djs-element .djs-visual > polygon {
+  stroke: #6389C5 !important;
+}
+
+
+/* 文字颜色 */
+.djs-element .djs-visual > text {
+  fill: #426395!important;
+}
+
+/* palette 左侧图标颜色 */
+.djs-popup, .djs-palette {
+  border: solid 1px #DBECFF!important;
+}
+.djs-palette .entry:before {
+  vertical-align: text-bottom;
+  color: #426395!important;
+}
+.djs-palette .separator {
+  border-bottom: solid 1px #DBECFF!important;
+}
+
+/* context-pad 图标颜色 */
+.djs-context-pad .entry:before {
+  vertical-align: top;
+  color: #426395!important;
+}
+
+/* Participant内边框 */
+.djs-visual > polyline{
+  stroke: #DBECFF !important;
+  stroke-width: 1px!important;
+}
+
+/* Task 背景+样式 */
+.djs-children .djs-group .djs-element .djs-visual > rect:not(.djs-label) {
+  stroke: #6389C5 !important;
+  stroke-width: 2px!important;
+}
+
+/*   */
+/* 
+ * 线条
+ * stroke-dasharray 虚线修改为实线
+*/
+.djs-connection .djs-visual path {
+  stroke: rgba(99,137,197, 0.6) !important;
+  stroke-width: 3px!important;
+  stroke-dasharray: 0!important;
+  marker-start: none!important;
+}
+
+marker > path {
+  stroke: rgba(99,137,197) !important;
+  fill: rgba(99,137,197) !important;
+}
+
+/* 拖动时线条样式调整 */
+.djs-connection-preview > path {
+  stroke: rgba(99,137,197, 0.6) !important;
+  stroke-width: 3px!important;
+  stroke-dasharray: 0!important;
+  marker-start: none!important;
+}
+
+/* .bpmn-icon-start-event-message {
+  display: none;
+}
+.bpmn-icon-start-event-timer {
+  display: none;
+}
+.bpmn-icon-start-event-condition {
+  display: none;
+}
+.bpmn-icon-start-event-signal {
+  display: none;
+} */
