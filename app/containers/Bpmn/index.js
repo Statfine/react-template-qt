@@ -21,13 +21,14 @@ import xmlInit from './init.bpmn';
 import './styled.css';
 // import customModule from './custom';
 import StyleUtil from './utils/StyleUtil';
-// import customTranslate from './customTranslate/customTranslate';
+import customTranslate from './customTranslate/customTranslate';
 
 import JsonToString from './utils/bpmnString';
+import qaPackage from './utils/qaPackage.json';
 
-// const customTranslateModule = {
-//   translate: [ 'value', customTranslate ]
-// };
+const customTranslateModule = {
+  translate: [ 'value', customTranslate ]
+};
 
 const NEED_RELEVANCY_STYEL = { stroke: '#666', fill: '#666' };
 const RELEVANCY_STYEL = { stroke: 'black', fill: 'white' };
@@ -118,9 +119,11 @@ export default class BpmnPage extends PureComponent {
         // customModule, // 自定义render
         propertiesPanelModule, // 右侧工具栏
         propertiesProviderModule,
+        customTranslateModule,
       ],
       moddleExtensions: {
-        camunda: camundaModdleDescriptor
+        camunda: camundaModdleDescriptor,
+        qa: qaPackage
       }
     });
     this.initDiagram(xmlData);
@@ -253,16 +256,41 @@ export default class BpmnPage extends PureComponent {
           // }
           // 创建一个BPMN element , 并且载入到导出的xml里
           // const modeling = this.bpmnModeler.get('modeling');
-          // const newCondition = this.bpmnModeler.get('moddle').create('bpmn:FormalExpression', {
+          // const extensionElements = this.bpmnModeler.get('moddle').create('bpmn:ExtensionElements', {
           //   body: '${ value > 100 }'
           // });
+          // extensionElements.values = [];
           // modeling.updateProperties(e.element, {
-          //   conditionExpression: newCondition
+          //   extensionElements
           // });
-          const elementRegistry = this.bpmnModeler.get('elementRegistry');
-          const parent = elementRegistry.get('Process_1')
-          const el = elementHelper.createElement("bp:FormalExpression", { name: 'haha' }, parent, this.bpmnModeler.get('bpmnFactory'))
-          parent.businessObject.flowElements.push(el);
+          // const elementRegistry = this.bpmnModeler.get('elementRegistry');
+          // const parent = elementRegistry.get('Activity_0igoslw')
+          const parent = e.element
+          // const extensionElements = this.bpmnModeler.get('bpmnFactory').create("bpmn:ExtensionElements")
+          // parent.businessObject.extensionElements = extensionElements;
+
+          const bpmnFactory = this.bpmnModeler.get('bpmnFactory');
+          const elCom = elementHelper.createElement("qa:Comment", { text: 'hwoolo', author: "sj" }, parent, bpmnFactory)
+          const el = elementHelper.createElement("qa:AnalysisDetails", { name: 'haha', body: 'helo', comments: [elCom]  }, parent, bpmnFactory)
+          // const elele = this.bpmnModeler.get('bpmnFactory').create("qa:AnalyzedNode")
+          if (!parent.businessObject.extensionElements) {
+            // parent.businessObject.extensionElements.values = []
+            const modeling = this.bpmnModeler.get('modeling');
+            const extensionElements = this.bpmnModeler.get('moddle').create('bpmn:ExtensionElements', {
+              // eslint-disable-next-line no-template-curly-in-string
+              body: "${ value > 100 }"
+            });
+            // 设置更新
+            modeling.updateProperties(e.element, {
+              extensionElements
+            });
+          }
+          parent.businessObject.extensionElements.values.push(el);
+          // console.log(el, elele)
+          // const son = elementHelper.createElement("qa:AnalysisDetails", { name: 'son', id: 'qa_son', body: 'helo son' }, el, this.bpmnModeler.get('bpmnFactory'))
+          // el.businessObject.documentation.push(son);
+          // console.log('son', son)
+          console.log('getExtension', this.getExtension(e.element, 'qa:AnalysisDetails'))
         } else if (eventType === 'element.dblclick' && e.element.type === 'bpmn:Task') {
           this.setState({ modalVisible: true, choosedEl: e.element });
         } else if (eventType === 'element.updateLabel') {
@@ -270,6 +298,13 @@ export default class BpmnPage extends PureComponent {
         }
       })
     })
+  }
+
+  getExtension = (element, type) => {
+    if (!element.businessObject.extensionElements) {
+      return null;
+    }
+    return element.businessObject.extensionElements.values.filter((e) => e.$instanceOf(type))[0];
   }
 
   // 前进

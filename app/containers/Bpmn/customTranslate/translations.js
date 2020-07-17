@@ -22,6 +22,7 @@ export default {
   'Conditional Start Event (non-interrupting)': '条件启动事件 (非中断)',
   'Signal Start Event (non-interrupting)': '信号启动事件 (非中断)',
   'Escalation Start Event (non-interrupting)': '升级启动事件 (非中断)',
+  'Create Task': '新建任务',
   // ---------属性面板--------
   'General':'通用',
   'Details':'详情',
