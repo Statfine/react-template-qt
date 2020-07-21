@@ -15,6 +15,6 @@
   },
   {
     "role": "角色2",
-    "activity": []
+    "activity": [{ "title": "活动10", "id": "1" }]
   }
 ]

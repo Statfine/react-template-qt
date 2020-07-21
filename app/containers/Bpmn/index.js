@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { Button, Modal, Input, Select, Form } from 'antd';
 
 import BpmnModeler from 'bpmn-js/lib/Modeler';
-import propertiesPanelModule from 'bpmn-js-properties-panel';   // 右侧工具栏
 import elementHelper from 'bpmn-js-properties-panel/lib/helper/ElementHelper';
-import propertiesProviderModule from 'bpmn-js-properties-panel/lib/provider/camunda';
-import camundaModdleDescriptor from 'camunda-bpmn-moddle/resources/camunda.json';
+import propertiesPanelModule from 'bpmn-js-properties-panel';   // 这里引入的是右侧属性栏这个框
+import propertiesProviderModule from 'bpmn-js-properties-panel/lib/provider/camunda'; // 而这个引入的是右侧属性栏里的内容
+// import camundaModdleDescriptor from 'camunda-bpmn-moddle/resources/camunda.json'; // 如果要在属性面板中维护camunda：XXX属性，则需要此 
 import 'bpmn-js/dist/assets/diagram-js.css' // 左边工具栏以及编辑节点的样式
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css'
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css'
@@ -25,6 +25,7 @@ import customTranslate from './customTranslate/customTranslate';
 
 import JsonToString from './utils/bpmnString';
 import qaPackage from './utils/qaPackage.json';
+import smartPackage from './utils/smart.json';
 
 const customTranslateModule = {
   translate: [ 'value', customTranslate ]
@@ -122,7 +123,7 @@ export default class BpmnPage extends PureComponent {
         customTranslateModule,
       ],
       moddleExtensions: {
-        camunda: camundaModdleDescriptor,
+        smart: smartPackage,
         qa: qaPackage
       }
     });
@@ -268,6 +269,11 @@ export default class BpmnPage extends PureComponent {
           const parent = e.element
           // const extensionElements = this.bpmnModeler.get('bpmnFactory').create("bpmn:ExtensionElements")
           // parent.businessObject.extensionElements = extensionElements;
+
+          // const field = this.bpmnModeler.get('moddle').create("field", {
+          //   // eslint-disable-next-line no-template-curly-in-string
+          //   body: "${ value > 100 }"
+          // });
 
           const bpmnFactory = this.bpmnModeler.get('bpmnFactory');
           const elCom = elementHelper.createElement("qa:Comment", { text: 'hwoolo', author: "sj" }, parent, bpmnFactory)

@@ -55,9 +55,14 @@
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="Flow_0bngvff" sourceRef="StartEvent_1" targetRef="Activity_0igoslw" />
     <bpmn:serviceTask id="Activity_0igoslw" name="买家下单" camunda:type="external" camunda:topic="ex&#39;">
-      <!-- <bpmn:extensionElements /> -->
-        <!-- <qa:analysisDetails name="haha" id="qa_" body="helo" /> -->
-      <!-- </bpmn:extensionElements> -->
+      <bpmn:extensionElements >
+        <qa:analysisDetails name="haha" body="helo" />
+        <properties>
+          <value name="name" value="张三" />
+        </properties>
+        <field name="inParam"><string>request</string></field>
+        <field name="inParam2"><class>request2</class></field>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_0bngvff</bpmn:incoming>
     </bpmn:serviceTask>
   </bpmn:process>
