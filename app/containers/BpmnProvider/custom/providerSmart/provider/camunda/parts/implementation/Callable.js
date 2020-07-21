@@ -1,19 +1,19 @@
-'use strict';
-
-var cmdHelper = require('../../../../helper/CmdHelper'),
-    entryFactory = require('../../../../factory/EntryFactory'),
-    elementHelper = require('../../../../helper/ElementHelper'),
-    extensionElementsHelper = require('../../../../helper/ExtensionElementsHelper');
 
 
-var resultVariable = require('./ResultVariable');
+const cmdHelper = require('../../../../helper/CmdHelper');
+const entryFactory = require('../../../../factory/EntryFactory');
+const elementHelper = require('../../../../helper/ElementHelper');
+const extensionElementsHelper = require('../../../../helper/ExtensionElementsHelper');
 
-var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
-var is = require('bpmn-js/lib/util/ModelUtil').is;
 
-var forEach = require('lodash/forEach');
+const resultVariable = require('./ResultVariable');
 
-var attributeInfo = {
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+const is = require('bpmn-js/lib/util/ModelUtil').is;
+
+const forEach = require('lodash/forEach');
+
+const attributeInfo = {
   bpmn: {
     element: 'calledElement',
     binding: 'smart:calledElementBinding',
@@ -38,7 +38,7 @@ var attributeInfo = {
   }
 };
 
-var mapDecisionResultOptions = [
+const mapDecisionResultOptions = [
   {
     name: 'singleEntry (TypedValue)',
     value: 'singleEntry'
@@ -57,7 +57,7 @@ var mapDecisionResultOptions = [
   }
 ];
 
-var delegateVariableMappingOptions = [
+const delegateVariableMappingOptions = [
   {
     name: 'variableMappingClass',
     value: 'variableMappingClass'
@@ -69,10 +69,10 @@ var delegateVariableMappingOptions = [
 ];
 
 function getSmartInWithBusinessKey(element) {
-  var smartIn = [],
-      bo = getBusinessObject(element);
+  const smartIn = [];
+  const bo = getBusinessObject(element);
 
-  var smartInParams = extensionElementsHelper.getExtensionElements(bo, 'smart:In');
+  const smartInParams = extensionElementsHelper.getExtensionElements(bo, 'smart:In');
   if (smartInParams) {
     forEach(smartInParams, function(param) {
       if (param.businessKey !== undefined) {
@@ -84,24 +84,24 @@ function getSmartInWithBusinessKey(element) {
 }
 
 function setBusinessKey(element, text, bpmnFactory) {
-  var commands = [];
+  const commands = [];
 
-  var smartInWithBusinessKey = getSmartInWithBusinessKey(element);
+  const smartInWithBusinessKey = getSmartInWithBusinessKey(element);
 
   if (smartInWithBusinessKey.length) {
     commands.push(cmdHelper.updateBusinessObject(element, smartInWithBusinessKey[0], {
       businessKey: text
     }));
   } else {
-    var bo = getBusinessObject(element),
-        extensionElements = bo.extensionElements;
+    const bo = getBusinessObject(element);
+    let extensionElements = bo.extensionElements;
 
     if (!extensionElements) {
       extensionElements = elementHelper.createElement('bpmn:ExtensionElements', { values: [] }, bo, bpmnFactory);
-      commands.push(cmdHelper.updateProperties(element, { extensionElements: extensionElements }));
+      commands.push(cmdHelper.updateProperties(element, { extensionElements }));
     }
 
-    var smartIn = elementHelper.createElement(
+    const smartIn = elementHelper.createElement(
       'smart:In',
       { 'businessKey': text },
       extensionElements,
@@ -121,8 +121,8 @@ function setBusinessKey(element, text, bpmnFactory) {
 }
 
 function deleteBusinessKey(element) {
-  var smartInExtensions = getSmartInWithBusinessKey(element);
-  var commands = [];
+  const smartInExtensions = getSmartInWithBusinessKey(element);
+  const commands = [];
   forEach(smartInExtensions, function(elem) {
     commands.push(extensionElementsHelper.removeEntry(getBusinessObject(element), element, elem));
   });
@@ -135,7 +135,7 @@ function isSupportedCallableType(type) {
 
 module.exports = function(element, bpmnFactory, options, translate) {
 
-  var bindingOptions = [
+  const bindingOptions = [
     {
       name: translate('latest'),
       value: 'latest'
@@ -154,29 +154,29 @@ module.exports = function(element, bpmnFactory, options, translate) {
     }
   ];
 
-  var getCallableType = options.getCallableType;
+  const getCallableType = options.getCallableType;
 
-  var entries = [];
+  let entries = [];
 
   function getAttribute(element, prop) {
-    var type = getCallableType(element);
+    const type = getCallableType(element);
     return (attributeInfo[type] || {})[prop];
   }
 
   function getCallActivityBindingValue(element) {
-    var type = getCallableType(element);
-    var bo = getBusinessObject(element);
-    var attr = (attributeInfo[type] || {}).binding;
+    const type = getCallableType(element);
+    const bo = getBusinessObject(element);
+    const attr = (attributeInfo[type] || {}).binding;
     return bo.get(attr);
   }
 
   function getDelegateVariableMappingType(element) {
-    var bo = getBusinessObject(element);
+    const bo = getBusinessObject(element);
 
-    var boVariableMappingClass = bo.get('smart:variableMappingClass'),
-        boVariableMappingDelegateExpression = bo.get('smart:variableMappingDelegateExpression');
+    const boVariableMappingClass = bo.get('smart:variableMappingClass');
+    const boVariableMappingDelegateExpression = bo.get('smart:variableMappingDelegateExpression');
 
-    var delegateVariableMappingType = '';
+    let delegateVariableMappingType = '';
     if (typeof boVariableMappingClass !== 'undefined') {
       delegateVariableMappingType = 'variableMappingClass';
     } else
@@ -194,17 +194,17 @@ module.exports = function(element, bpmnFactory, options, translate) {
     dataValueLabel: 'callableElementLabel',
     modelProperty: 'callableElementRef',
 
-    get: function(element, node) {
-      var callableElementRef;
+    get(element, node) {
+      let callableElementRef;
 
-      var attr = getAttribute(element, 'element');
+      const attr = getAttribute(element, 'element');
       if (attr) {
-        var bo = getBusinessObject(element);
+        const bo = getBusinessObject(element);
         callableElementRef = bo.get(attr);
       }
 
-      var label = '';
-      var type = getCallableType(element);
+      let label = '';
+      const type = getCallableType(element);
       if (type === 'bpmn') {
         label = translate('Called Element');
       }
@@ -216,28 +216,28 @@ module.exports = function(element, bpmnFactory, options, translate) {
       }
 
       return {
-        callableElementRef: callableElementRef,
+        callableElementRef,
         callableElementLabel: label
       };
     },
 
-    set: function(element, values, node) {
-      var newCallableElementRef = values.callableElementRef;
-      var attr = getAttribute(element, 'element');
+    set(element, values, node) {
+      const newCallableElementRef = values.callableElementRef;
+      const attr = getAttribute(element, 'element');
 
-      var props = {};
+      const props = {};
       props[attr] = newCallableElementRef || '';
 
       return cmdHelper.updateProperties(element, props);
     },
 
-    validate: function(element, values, node) {
-      var elementRef = values.callableElementRef;
-      var type = getCallableType(element);
+    validate(element, values, node) {
+      const elementRef = values.callableElementRef;
+      const type = getCallableType(element);
       return isSupportedCallableType(type) && !elementRef ? { callableElementRef: translate('Must provide a value') } : {};
     },
 
-    hidden: function(element, node) {
+    hidden(element, node) {
       return !isSupportedCallableType(getCallableType(element));
     }
 
@@ -246,9 +246,9 @@ module.exports = function(element, bpmnFactory, options, translate) {
   entries.push(entryFactory.selectBox({
     id: 'callable-binding',
     label: translate('Binding'),
-    selectOptions: function(element) {
-      var type = getCallableType(element);
-      var options;
+    selectOptions(element) {
+      const type = getCallableType(element);
+      let options;
 
       if (type === 'cmmn') {
         options = bindingOptions.filter(function(bindingOption) {
@@ -261,27 +261,27 @@ module.exports = function(element, bpmnFactory, options, translate) {
     },
     modelProperty: 'callableBinding',
 
-    get: function(element, node) {
-      var callableBinding;
+    get(element, node) {
+      let callableBinding;
 
-      var attr = getAttribute(element, 'binding');
+      const attr = getAttribute(element, 'binding');
       if (attr) {
-        var bo = getBusinessObject(element);
+        const bo = getBusinessObject(element);
         callableBinding = bo.get(attr) || 'latest';
       }
 
       return {
-        callableBinding: callableBinding
+        callableBinding
       };
     },
 
-    set: function(element, values, node) {
-      var binding = values.callableBinding;
-      var attr = getAttribute(element, 'binding'),
-          attrVer = getAttribute(element, 'version'),
-          attrVerTag = getAttribute(element, 'versionTag');
+    set(element, values, node) {
+      const binding = values.callableBinding;
+      const attr = getAttribute(element, 'binding');
+      const attrVer = getAttribute(element, 'version');
+      const attrVerTag = getAttribute(element, 'versionTag');
 
-      var props = {};
+      const props = {};
       props[attr] = binding;
 
       // set version and versionTag values always to undefined to delete the existing value
@@ -291,7 +291,7 @@ module.exports = function(element, bpmnFactory, options, translate) {
       return cmdHelper.updateProperties(element, props);
     },
 
-    hidden: function(element, node) {
+    hidden(element, node) {
       return !isSupportedCallableType(getCallableType(element));
     }
 
@@ -302,34 +302,34 @@ module.exports = function(element, bpmnFactory, options, translate) {
     label: translate('Version'),
     modelProperty: 'callableVersion',
 
-    get: function(element, node) {
-      var callableVersion;
+    get(element, node) {
+      let callableVersion;
 
-      var attr = getAttribute(element, 'version');
+      const attr = getAttribute(element, 'version');
       if (attr) {
-        var bo = getBusinessObject(element);
+        const bo = getBusinessObject(element);
         callableVersion = bo.get(attr);
       }
 
       return {
-        callableVersion: callableVersion
+        callableVersion
       };
     },
 
-    set: function(element, values, node) {
-      var version = values.callableVersion;
-      var attr = getAttribute(element, 'version');
+    set(element, values, node) {
+      const version = values.callableVersion;
+      const attr = getAttribute(element, 'version');
 
-      var props = {};
+      const props = {};
       props[attr] = version || undefined;
 
       return cmdHelper.updateProperties(element, props);
     },
 
-    validate: function(element, values, node) {
-      var version = values.callableVersion;
+    validate(element, values, node) {
+      const version = values.callableVersion;
 
-      var type = getCallableType(element);
+      const type = getCallableType(element);
       return (
         isSupportedCallableType(type) &&
         getCallActivityBindingValue(element) === 'version' && (
@@ -338,8 +338,8 @@ module.exports = function(element, bpmnFactory, options, translate) {
       );
     },
 
-    hidden: function(element, node) {
-      var type = getCallableType(element);
+    hidden(element, node) {
+      const type = getCallableType(element);
       return !isSupportedCallableType(type) || getCallActivityBindingValue(element) !== 'version';
     }
 
@@ -350,38 +350,38 @@ module.exports = function(element, bpmnFactory, options, translate) {
     label: translate('Version Tag'),
     modelProperty: 'versionTag',
 
-    get: function(element, node) {
-      var versionTag;
+    get(element, node) {
+      let versionTag;
 
-      var attr = getAttribute(element, 'versionTag');
+      const attr = getAttribute(element, 'versionTag');
 
       if (attr) {
-        var bo = getBusinessObject(element);
+        const bo = getBusinessObject(element);
 
         versionTag = bo.get(attr);
       }
 
       return {
-        versionTag: versionTag
+        versionTag
       };
     },
 
-    set: function(element, values, node) {
-      var versionTag = values.versionTag;
+    set(element, values, node) {
+      const versionTag = values.versionTag;
 
-      var attr = getAttribute(element, 'versionTag');
+      const attr = getAttribute(element, 'versionTag');
 
-      var props = {};
+      const props = {};
 
       props[attr] = versionTag || undefined;
 
       return cmdHelper.updateProperties(element, props);
     },
 
-    validate: function(element, values, node) {
-      var versionTag = values.versionTag;
+    validate(element, values, node) {
+      const versionTag = values.versionTag;
 
-      var type = getCallableType(element);
+      const type = getCallableType(element);
 
       return (
         isSupportedCallableType(type) &&
@@ -391,8 +391,8 @@ module.exports = function(element, bpmnFactory, options, translate) {
       );
     },
 
-    hidden: function(element, node) {
-      var type = getCallableType(element);
+    hidden(element, node) {
+      const type = getCallableType(element);
 
       return !isSupportedCallableType(type) || getCallActivityBindingValue(element) !== 'versionTag';
     }
@@ -404,32 +404,32 @@ module.exports = function(element, bpmnFactory, options, translate) {
     label: translate('Tenant Id'),
     modelProperty: 'tenantId',
 
-    get: function(element, node) {
-      var tenantId;
+    get(element, node) {
+      let tenantId;
 
-      var attr = getAttribute(element, 'tenantId');
+      const attr = getAttribute(element, 'tenantId');
       if (attr) {
-        var bo = getBusinessObject(element);
+        const bo = getBusinessObject(element);
         tenantId = bo.get(attr);
       }
 
       return {
-        tenantId: tenantId
+        tenantId
       };
     },
 
-    set: function(element, values, node) {
-      var tenantId = values.tenantId;
-      var attr = getAttribute(element, 'tenantId');
+    set(element, values, node) {
+      const tenantId = values.tenantId;
+      const attr = getAttribute(element, 'tenantId');
 
-      var props = {};
+      const props = {};
       props[attr] = tenantId || undefined;
 
       return cmdHelper.updateProperties(element, props);
     },
 
-    hidden: function(element, node) {
-      var type = getCallableType(element);
+    hidden(element, node) {
+      const type = getCallableType(element);
       return !isSupportedCallableType(type);
     }
 
@@ -441,20 +441,20 @@ module.exports = function(element, bpmnFactory, options, translate) {
       label: translate('Business Key'),
       modelProperty: 'callableBusinessKey',
 
-      get: function(element, node) {
-        var smartIn = getSmartInWithBusinessKey(element);
+      get(element, node) {
+        const smartIn = getSmartInWithBusinessKey(element);
 
         return {
           callableBusinessKey: !!(smartIn && smartIn.length > 0)
         };
       },
 
-      set: function(element, values, node) {
+      set(element, values, node) {
         if (values.callableBusinessKey) {
           return setBusinessKey(element, '#{execution.processBusinessKey}', bpmnFactory);
-        } else {
-          return deleteBusinessKey(element);
-        }
+        } 
+        return deleteBusinessKey(element);
+        
       }
     }));
   }
@@ -464,8 +464,8 @@ module.exports = function(element, bpmnFactory, options, translate) {
     label: translate('Business Key Expression'),
     modelProperty: 'businessKey',
 
-    get: function(element, node) {
-      var smartInWithBusinessKey = getSmartInWithBusinessKey(element);
+    get(element, node) {
+      const smartInWithBusinessKey = getSmartInWithBusinessKey(element);
 
       return {
         businessKey: (
@@ -476,19 +476,19 @@ module.exports = function(element, bpmnFactory, options, translate) {
       };
     },
 
-    set: function(element, values, node) {
-      var businessKey = values.businessKey;
+    set(element, values, node) {
+      const businessKey = values.businessKey;
 
       return setBusinessKey(element, businessKey, bpmnFactory);
     },
 
-    validate: function(element, values, node) {
-      var businessKey = values.businessKey;
+    validate(element, values, node) {
+      const businessKey = values.businessKey;
 
       return businessKey === '' ? { businessKey: translate('Must provide a value') } : {};
     },
 
-    hidden: function(element, node) {
+    hidden(element, node) {
       return !getSmartInWithBusinessKey(element).length;
     }
 
@@ -496,9 +496,9 @@ module.exports = function(element, bpmnFactory, options, translate) {
 
   entries = entries.concat(resultVariable(element, bpmnFactory, {
     id: 'dmn-resultVariable',
-    getBusinessObject: getBusinessObject,
+    getBusinessObject,
     getImplementationType: getCallableType,
-    hideResultVariable: function(element, node) {
+    hideResultVariable(element, node) {
       return getCallableType(element) !== 'dmn';
     }
   }, translate));
@@ -509,22 +509,22 @@ module.exports = function(element, bpmnFactory, options, translate) {
     selectOptions: mapDecisionResultOptions,
     modelProperty: 'mapDecisionResult',
 
-    get: function(element, node) {
-      var bo = getBusinessObject(element);
+    get(element, node) {
+      const bo = getBusinessObject(element);
       return {
         mapDecisionResult: bo.get('smart:mapDecisionResult') || 'resultList'
       };
     },
 
-    set: function(element, values, node) {
+    set(element, values, node) {
       return cmdHelper.updateProperties(element, {
         'smart:mapDecisionResult': values.mapDecisionResult || 'resultList'
       });
     },
 
-    hidden: function(element, node) {
-      var bo = getBusinessObject(element);
-      var resultVariable = bo.get('smart:resultVariable');
+    hidden(element, node) {
+      const bo = getBusinessObject(element);
+      const resultVariable = bo.get('smart:resultVariable');
       return !(getCallableType(element) === 'dmn' && typeof resultVariable !== 'undefined');
     }
 
@@ -538,16 +538,16 @@ module.exports = function(element, bpmnFactory, options, translate) {
     emptyParameter: true,
     modelProperty: 'delegateVariableMappingType',
 
-    get: function(element, node) {
+    get(element, node) {
       return {
         delegateVariableMappingType : getDelegateVariableMappingType(element)
       };
     },
 
-    set: function(element, values, node) {
-      var delegateVariableMappingType = values.delegateVariableMappingType;
+    set(element, values, node) {
+      const delegateVariableMappingType = values.delegateVariableMappingType;
 
-      var props = {
+      const props = {
         'smart:variableMappingClass' : undefined,
         'smart:variableMappingDelegateExpression' : undefined
       };
@@ -562,7 +562,7 @@ module.exports = function(element, bpmnFactory, options, translate) {
       return cmdHelper.updateProperties(element, props);
     },
 
-    hidden: function(element, node) {
+    hidden(element, node) {
       return (getCallableType(element) !== 'bpmn');
     }
 
@@ -573,12 +573,12 @@ module.exports = function(element, bpmnFactory, options, translate) {
     dataValueLabel: 'delegateVariableMappingLabel',
     modelProperty: 'delegateVariableMapping',
 
-    get: function(element, node) {
-      var bo = getBusinessObject(element);
+    get(element, node) {
+      const bo = getBusinessObject(element);
 
-      var label = '';
-      var delegateVariableMapping = undefined;
-      var type = getDelegateVariableMappingType(element);
+      let label = '';
+      let delegateVariableMapping;
+      const type = getDelegateVariableMappingType(element);
 
       if (type === 'variableMappingClass') {
         label = translate('Class');
@@ -590,24 +590,24 @@ module.exports = function(element, bpmnFactory, options, translate) {
       }
 
       return {
-        delegateVariableMapping: delegateVariableMapping,
+        delegateVariableMapping,
         delegateVariableMappingLabel: label
       };
     },
 
-    set: function(element, values, node) {
-      var delegateVariableMapping = values.delegateVariableMapping;
+    set(element, values, node) {
+      const delegateVariableMapping = values.delegateVariableMapping;
 
-      var attr = 'smart:' + getDelegateVariableMappingType(element);
+      const attr = `smart:${  getDelegateVariableMappingType(element)}`;
 
-      var props = {};
+      const props = {};
       props[attr] = delegateVariableMapping || undefined;
 
       return cmdHelper.updateProperties(element, props);
     },
 
-    validate: function(element, values, node) {
-      var delegateVariableMapping = values.delegateVariableMapping;
+    validate(element, values, node) {
+      const delegateVariableMapping = values.delegateVariableMapping;
       return (
         getCallableType(element) === 'bpmn' && (
           !delegateVariableMapping ? { delegateVariableMapping: translate('Must provide a value') } : {}
@@ -615,7 +615,7 @@ module.exports = function(element, bpmnFactory, options, translate) {
       );
     },
 
-    hidden: function(element, node) {
+    hidden(element, node) {
       return !(getCallableType(element) === 'bpmn' && getDelegateVariableMappingType(element) !== '');
     }
 

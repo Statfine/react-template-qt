@@ -1,8 +1,8 @@
-'use strict';
 
-var domQuery = require('min-dom').query,
-    escapeHTML = require('../../../../Utils').escapeHTML,
-    utils = require('../../../../Utils');
+
+const domQuery = require('min-dom').query;
+const escapeHTML = require('../../../../Utils').escapeHTML;
+const utils = require('../../../../Utils');
 
 
 function getScriptType(node) {
@@ -14,50 +14,50 @@ module.exports = function(scriptLanguagePropName, scriptValuePropName, isFormatR
 
   return {
     template:
-    '<div class="bpp-row bpp-textfield">' +
-      '<label for="cam-script-format">' + escapeHTML(translate('Script Format')) + '</label>' +
-      '<div class="bpp-field-wrapper">' +
-        '<input id="cam-script-format" type="text" name="scriptFormat" />' +
-        '<button class="clear" data-action="script.clearScriptFormat" data-show="script.canClearScriptFormat">' +
-          '<span>X</span>' +
-        '</button>' +
-      '</div>' +
-    '</div>' +
+    `${'<div class="bpp-row bpp-textfield">' +
+      '<label for="cam-script-format">'}${  escapeHTML(translate('Script Format'))  }</label>` +
+      `<div class="bpp-field-wrapper">` +
+        `<input id="cam-script-format" type="text" name="scriptFormat" />` +
+        `<button class="clear" data-action="script.clearScriptFormat" data-show="script.canClearScriptFormat">` +
+          `<span>X</span>` +
+        `</button>` +
+      `</div>` +
+    `</div>` +
 
-    '<div class="bpp-row">' +
-      '<label for="cam-script-type">' + escapeHTML(translate('Script Type')) + '</label>' +
-      '<div class="bpp-field-wrapper">' +
-        '<select id="cam-script-type" name="scriptType" data-value>' +
-          '<option value="script" selected>' + escapeHTML(translate('Inline Script')) + '</option>' +
-          '<option value="scriptResource">' + escapeHTML(translate('External Resource')) + '</option>' +
-        '</select>' +
-      '</div>' +
-    '</div>' +
+    `<div class="bpp-row">` +
+      `<label for="cam-script-type">${  escapeHTML(translate('Script Type'))  }</label>` +
+      `<div class="bpp-field-wrapper">` +
+        `<select id="cam-script-type" name="scriptType" data-value>` +
+          `<option value="script" selected>${  escapeHTML(translate('Inline Script'))  }</option>` +
+          `<option value="scriptResource">${  escapeHTML(translate('External Resource'))  }</option>` +
+        `</select>` +
+      `</div>` +
+    `</div>` +
 
-    '<div class="bpp-row bpp-textfield">' +
-      '<label for="cam-script-resource-val" data-show="script.isScriptResource">' + escapeHTML(translate('Resource')) + '</label>' +
-      '<div class="bpp-field-wrapper" data-show="script.isScriptResource">' +
-        '<input id="cam-script-resource-val" type="text" name="scriptResourceValue" />' +
-        '<button class="clear" data-action="script.clearScriptResource" data-show="script.canClearScriptResource">' +
-          '<span>X</span>' +
-        '</button>' +
-      '</div>' +
-    '</div>' +
+    `<div class="bpp-row bpp-textfield">` +
+      `<label for="cam-script-resource-val" data-show="script.isScriptResource">${  escapeHTML(translate('Resource'))  }</label>` +
+      `<div class="bpp-field-wrapper" data-show="script.isScriptResource">` +
+        `<input id="cam-script-resource-val" type="text" name="scriptResourceValue" />` +
+        `<button class="clear" data-action="script.clearScriptResource" data-show="script.canClearScriptResource">` +
+          `<span>X</span>` +
+        `</button>` +
+      `</div>` +
+    `</div>` +
 
-    '<div class="bpp-row">' +
-      '<label for="cam-script-val" data-show="script.isScript">' + escapeHTML(translate('Script')) + '</label>' +
-      '<div class="bpp-field-wrapper" data-show="script.isScript">' +
-        '<textarea id="cam-script-val" type="text" name="scriptValue"></textarea>' +
-      '</div>'+
-    '</div>',
+    `<div class="bpp-row">` +
+      `<label for="cam-script-val" data-show="script.isScript">${  escapeHTML(translate('Script'))  }</label>` +
+      `<div class="bpp-field-wrapper" data-show="script.isScript">` +
+        `<textarea id="cam-script-val" type="text" name="scriptValue"></textarea>` +
+      `</div>`+
+    `</div>`,
 
-    get: function(element, bo) {
-      var values = {};
+    get(element, bo) {
+      const values = {};
 
       // read values from xml:
-      var boScriptResource = bo.get('smart:resource'),
-          boScript = bo.get(scriptValuePropName),
-          boScriptFormat = bo.get(scriptLanguagePropName);
+      const boScriptResource = bo.get('smart:resource');
+      const boScript = bo.get(scriptValuePropName);
+      const boScriptFormat = bo.get(scriptLanguagePropName);
 
       if (typeof boScriptResource !== 'undefined') {
         values.scriptResourceValue = boScriptResource;
@@ -72,14 +72,14 @@ module.exports = function(scriptLanguagePropName, scriptValuePropName, isFormatR
       return values;
     },
 
-    set: function(element, values, containerElement) {
-      var scriptFormat = values.scriptFormat,
-          scriptType = values.scriptType,
-          scriptResourceValue = values.scriptResourceValue,
-          scriptValue = values.scriptValue;
+    set(element, values, containerElement) {
+      const scriptFormat = values.scriptFormat;
+      const scriptType = values.scriptType;
+      const scriptResourceValue = values.scriptResourceValue;
+      const scriptValue = values.scriptValue;
 
       // init update
-      var update = {
+      const update = {
         'smart:resource': undefined
       };
       update[scriptValuePropName] = undefined;
@@ -95,7 +95,7 @@ module.exports = function(scriptLanguagePropName, scriptValuePropName, isFormatR
       }
 
       // set either inline script or resource
-      if ('scriptResource' === scriptType) {
+      if (scriptType === 'scriptResource') {
         update['smart:resource'] = scriptResourceValue || '';
       } else {
         update[scriptValuePropName] = scriptValue || '';
@@ -104,8 +104,8 @@ module.exports = function(scriptLanguagePropName, scriptValuePropName, isFormatR
       return update;
     },
 
-    validate: function(element, values) {
-      var validationResult = {};
+    validate(element, values) {
+      const validationResult = {};
 
       if (values.scriptType === 'script' && !values.scriptValue) {
         validationResult.scriptValue = translate('Must provide a value');
@@ -122,49 +122,49 @@ module.exports = function(scriptLanguagePropName, scriptValuePropName, isFormatR
       return validationResult;
     },
 
-    clearScriptFormat: function(element, inputNode, btnNode, scopeNode) {
+    clearScriptFormat(element, inputNode, btnNode, scopeNode) {
       domQuery('input[name=scriptFormat]', scopeNode).value='';
 
       return true;
     },
 
-    canClearScriptFormat: function(element, inputNode, btnNode, scopeNode) {
-      var input = domQuery('input[name=scriptFormat]', scopeNode);
+    canClearScriptFormat(element, inputNode, btnNode, scopeNode) {
+      const input = domQuery('input[name=scriptFormat]', scopeNode);
 
       return input.value !== '';
     },
 
-    clearScriptResource: function(element, inputNode, btnNode, scopeNode) {
+    clearScriptResource(element, inputNode, btnNode, scopeNode) {
       domQuery('input[name=scriptResourceValue]', scopeNode).value='';
 
       return true;
     },
 
-    canClearScriptResource: function(element, inputNode, btnNode, scopeNode) {
-      var input = domQuery('input[name=scriptResourceValue]', scopeNode);
+    canClearScriptResource(element, inputNode, btnNode, scopeNode) {
+      const input = domQuery('input[name=scriptResourceValue]', scopeNode);
 
       return input.value !== '';
     },
 
-    clearScript: function(element, inputNode, btnNode, scopeNode) {
+    clearScript(element, inputNode, btnNode, scopeNode) {
       domQuery('textarea[name=scriptValue]', scopeNode).value='';
 
       return true;
     },
 
-    canClearScript: function(element, inputNode, btnNode, scopeNode) {
-      var input = domQuery('textarea[name=scriptValue]', scopeNode);
+    canClearScript(element, inputNode, btnNode, scopeNode) {
+      const input = domQuery('textarea[name=scriptValue]', scopeNode);
 
       return input.value !== '';
     },
 
-    isScriptResource: function(element, inputNode, btnNode, scopeNode) {
-      var scriptType = getScriptType(scopeNode);
+    isScriptResource(element, inputNode, btnNode, scopeNode) {
+      const scriptType = getScriptType(scopeNode);
       return scriptType === 'scriptResource';
     },
 
-    isScript: function(element, inputNode, btnNode, scopeNode) {
-      var scriptType = getScriptType(scopeNode);
+    isScript(element, inputNode, btnNode, scopeNode) {
+      const scriptType = getScriptType(scopeNode);
       return scriptType === 'script';
     }
 

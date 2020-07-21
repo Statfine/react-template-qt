@@ -1,24 +1,24 @@
-'use strict';
-
-var escapeHTML = require('../Utils').escapeHTML;
-
-var domify = require('min-dom').domify;
-
-var forEach = require('lodash/forEach');
-
-var entryFieldDescription = require('./EntryFieldDescription');
 
 
-var isList = function(list) {
+
+const domify = require('min-dom').domify;
+
+const forEach = require('lodash/forEach');
+const escapeHTML = require('../Utils').escapeHTML;
+
+const entryFieldDescription = require('./EntryFieldDescription');
+
+
+const isList = function(list) {
   return !(!list || Object.prototype.toString.call(list) !== '[object Array]');
 };
 
-var addEmptyParameter = function(list) {
+const addEmptyParameter = function(list) {
   return list.concat([ { name: '', value: '' } ]);
 };
 
-var createOption = function(option) {
-  return '<option value="' + option.value + '">' + option.name + '</option>';
+const createOption = function(option) {
+  return `<option value="${  option.value  }">${  option.name  }</option>`;
 };
 
 /**
@@ -34,15 +34,15 @@ var createOption = function(option) {
  *
  * @return {Object}
  */
-var selectbox = function(options, defaultParameters) {
-  var resource = defaultParameters,
-      label = options.label || resource.id,
-      selectOptions = options.selectOptions || [ { name: '', value: '' } ],
-      modelProperty = options.modelProperty,
-      emptyParameter = options.emptyParameter,
-      canBeDisabled = !!options.disabled && typeof options.disabled === 'function',
-      canBeHidden = !!options.hidden && typeof options.hidden === 'function',
-      description = options.description;
+const selectbox = function(options, defaultParameters) {
+  const resource = defaultParameters;
+  const label = options.label || resource.id;
+  let selectOptions = options.selectOptions || [ { name: '', value: '' } ];
+  const modelProperty = options.modelProperty;
+  const emptyParameter = options.emptyParameter;
+  const canBeDisabled = !!options.disabled && typeof options.disabled === 'function';
+  const canBeHidden = !!options.hidden && typeof options.hidden === 'function';
+  const description = options.description;
 
 
   if (emptyParameter) {
@@ -51,20 +51,20 @@ var selectbox = function(options, defaultParameters) {
 
 
   resource.html =
-    '<label for="smart-' + escapeHTML(resource.id) + '"' +
-    (canBeDisabled ? 'data-disable="isDisabled" ' : '') +
-    (canBeHidden ? 'data-show="isHidden" ' : '') +
-    '>' + escapeHTML(label) + '</label>' +
-    '<select id="smart-' + escapeHTML(resource.id) + '-select" name="' +
-    escapeHTML(modelProperty) + '"' +
-    (canBeDisabled ? 'data-disable="isDisabled" ' : '') +
-    (canBeHidden ? 'data-show="isHidden" ' : '') +
-    ' data-value>';
+    `<label for="smart-${  escapeHTML(resource.id)  }"${ 
+      canBeDisabled ? 'data-disable="isDisabled" ' : '' 
+    }${canBeHidden ? 'data-show="isHidden" ' : '' 
+    }>${  escapeHTML(label)  }</label>` +
+    `<select id="smart-${  escapeHTML(resource.id)  }-select" name="${ 
+      escapeHTML(modelProperty)  }"${ 
+      canBeDisabled ? 'data-disable="isDisabled" ' : '' 
+    }${canBeHidden ? 'data-show="isHidden" ' : '' 
+    } data-value>`;
 
   if (isList(selectOptions)) {
     forEach(selectOptions, function(option) {
-      resource.html += '<option value="' + escapeHTML(option.value) + '">' +
-      (option.name ? escapeHTML(option.name) : '') + '</option>';
+      resource.html += `<option value="${  escapeHTML(option.value)  }">${ 
+        option.name ? escapeHTML(option.name) : ''  }</option>`;
     });
   }
 
@@ -90,7 +90,7 @@ var selectbox = function(options, defaultParameters) {
   resource.setControlValue = function(element, entryNode, inputNode, inputName, newValue) {
     if (typeof selectOptions === 'function') {
 
-      var options = selectOptions(element, inputNode);
+      const options = selectOptions(element, inputNode);
 
       if (options) {
 
@@ -101,7 +101,7 @@ var selectbox = function(options, defaultParameters) {
 
         // add options
         forEach(options, function(option) {
-          var template = domify(createOption(option));
+          const template = domify(createOption(option));
 
           inputNode.appendChild(template);
         });

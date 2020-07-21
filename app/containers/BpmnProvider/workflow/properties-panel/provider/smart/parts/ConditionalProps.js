@@ -1,71 +1,71 @@
-'use strict';
 
-var is = require('bpmn-js/lib/util/ModelUtil').is,
-    isAny = require('bpmn-js/lib/features/modeling/util/ModelingUtil').isAny,
-    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
-    escapeHTML = require('../../../Utils').escapeHTML,
-    domQuery = require('min-dom').query,
-    cmdHelper = require('../../../helper/CmdHelper'),
-    elementHelper = require('../../../helper/ElementHelper'),
-    eventDefinitionHelper = require('../../../helper/EventDefinitionHelper'),
-    scriptImplementation = require('./implementation/Script');
+
+const is = require('bpmn-js/lib/util/ModelUtil').is;
+const isAny = require('bpmn-js/lib/features/modeling/util/ModelingUtil').isAny;
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+const escapeHTML = require('../../../Utils').escapeHTML;
+const domQuery = require('min-dom').query;
+const cmdHelper = require('../../../helper/CmdHelper');
+const elementHelper = require('../../../helper/ElementHelper');
+const eventDefinitionHelper = require('../../../helper/EventDefinitionHelper');
+const scriptImplementation = require('./implementation/Script');
 
 
 module.exports = function(group, element, bpmnFactory, translate) {
-  var bo = getBusinessObject(element);
+  const bo = getBusinessObject(element);
 
   if (!bo) {
     return;
   }
 
-  var conditionalEventDefinition = eventDefinitionHelper.getConditionalEventDefinition(element);
+  const conditionalEventDefinition = eventDefinitionHelper.getConditionalEventDefinition(element);
 
   if (!(is(element, 'bpmn:SequenceFlow') && isConditionalSource(element.source))
     && !conditionalEventDefinition) {
     return;
   }
 
-  var script = scriptImplementation('language', 'body', true, translate);
+  const script = scriptImplementation('language', 'body', true, translate);
   group.entries.push({
     id: 'condition',
     label: translate('Condition'),
-    html: '<div class="bpp-row">' +
-              '<label for="cam-condition-type">'+ escapeHTML(translate('Condition Type')) + '</label>' +
-              '<div class="bpp-field-wrapper">' +
-                '<select id="cam-condition-type" name="conditionType" data-value>' +
-                  '<option value="expression">'+ escapeHTML(translate('Expression')) + '</option>' +
-                  '<option value="script">'+ escapeHTML(translate('Script')) + '</option>' +
-                  '<option value="" selected></option>' +
-                '</select>' +
-              '</div>' +
-            '</div>' +
+    html: `${'<div class="bpp-row">' +
+              '<label for="cam-condition-type">'}${ escapeHTML(translate('Condition Type'))  }</label>` +
+              `<div class="bpp-field-wrapper">` +
+                `<select id="cam-condition-type" name="conditionType" data-value>` +
+                  `<option value="expression">${ escapeHTML(translate('Expression'))  }</option>` +
+                  `<option value="script">${ escapeHTML(translate('Script'))  }</option>` +
+                  `<option value="" selected></option>` +
+                `</select>` +
+              `</div>` +
+            `</div>` +
 
             // expression
-            '<div class="bpp-row">' +
-              '<label for="cam-condition" data-show="isExpression">' + escapeHTML(translate('Expression')) + '</label>' +
-              '<div class="bpp-field-wrapper" data-show="isExpression">' +
-                '<input id="cam-condition" type="text" name="condition" />' +
-                '<button class="clear" data-action="clear" data-show="canClear">' +
-                  '<span>X</span>' +
-                '</button>' +
-              '</div>' +
-              '<div data-show="isScript">' +
-                script.template +
-              '</div>' +
-            '</div>',
+            `<div class="bpp-row">` +
+              `<label for="cam-condition" data-show="isExpression">${  escapeHTML(translate('Expression'))  }</label>` +
+              `<div class="bpp-field-wrapper" data-show="isExpression">` +
+                `<input id="cam-condition" type="text" name="condition" />` +
+                `<button class="clear" data-action="clear" data-show="canClear">` +
+                  `<span>X</span>` +
+                `</button>` +
+              `</div>` +
+              `<div data-show="isScript">${ 
+                script.template 
+              }</div>` +
+            `</div>`,
 
-    get: function(element, propertyName) {
-      var conditionalEventDefinition = eventDefinitionHelper.getConditionalEventDefinition(element);
+    get(element, propertyName) {
+      const conditionalEventDefinition = eventDefinitionHelper.getConditionalEventDefinition(element);
 
-      var conditionExpression = conditionalEventDefinition
+      const conditionExpression = conditionalEventDefinition
         ? conditionalEventDefinition.condition
         : bo.conditionExpression;
 
-      var values = {},
-          conditionType = '';
+      let values = {};
+      let conditionType = '';
 
       if (conditionExpression) {
-        var conditionLanguage = conditionExpression.language;
+        const conditionLanguage = conditionExpression.language;
         if (typeof conditionLanguage !== 'undefined') {
           conditionType = 'script';
           values = script.get(element, conditionExpression);
@@ -81,23 +81,23 @@ module.exports = function(group, element, bpmnFactory, translate) {
 
     },
 
-    set: function(element, values, containerElement) {
-      var conditionType = values.conditionType;
-      var commands = [];
+    set(element, values, containerElement) {
+      const conditionType = values.conditionType;
+      const commands = [];
 
-      var conditionProps = {
+      let conditionProps = {
         body: undefined
       };
 
       if (conditionType === 'script') {
         conditionProps = script.set(element, values, containerElement);
       } else {
-        var condition = values.condition;
+        const condition = values.condition;
 
         conditionProps.body = condition;
       }
 
-      var conditionOrConditionExpression;
+      let conditionOrConditionExpression;
 
       if (conditionType) {
         conditionOrConditionExpression = elementHelper.createElement(
@@ -107,7 +107,7 @@ module.exports = function(group, element, bpmnFactory, translate) {
           bpmnFactory
         );
 
-        var source = element.source;
+        const source = element.source;
 
         // if default-flow, remove default-property from source
         if (source && source.businessObject.default === bo) {
@@ -115,7 +115,7 @@ module.exports = function(group, element, bpmnFactory, translate) {
         }
       }
 
-      var update = conditionalEventDefinition
+      const update = conditionalEventDefinition
         ? { condition: conditionOrConditionExpression }
         : { conditionExpression: conditionOrConditionExpression };
 
@@ -124,8 +124,8 @@ module.exports = function(group, element, bpmnFactory, translate) {
       return commands;
     },
 
-    validate: function(element, values) {
-      var validationResult = {};
+    validate(element, values) {
+      let validationResult = {};
 
       if (!values.condition && values.conditionType === 'expression') {
         validationResult.condition = translate('Must provide a value');
@@ -137,34 +137,34 @@ module.exports = function(group, element, bpmnFactory, translate) {
       return validationResult;
     },
 
-    isExpression: function(element, inputNode) {
-      var conditionType = domQuery('select[name=conditionType]', inputNode);
+    isExpression(element, inputNode) {
+      const conditionType = domQuery('select[name=conditionType]', inputNode);
       if (conditionType.selectedIndex >= 0) {
         return conditionType.options[conditionType.selectedIndex].value === 'expression';
       }
     },
 
-    isScript: function(element, inputNode) {
-      var conditionType = domQuery('select[name=conditionType]', inputNode);
+    isScript(element, inputNode) {
+      const conditionType = domQuery('select[name=conditionType]', inputNode);
       if (conditionType.selectedIndex >= 0) {
         return conditionType.options[conditionType.selectedIndex].value === 'script';
       }
     },
 
-    clear: function(element, inputNode) {
+    clear(element, inputNode) {
       // clear text input
       domQuery('input[name=condition]', inputNode).value='';
 
       return true;
     },
 
-    canClear: function(element, inputNode) {
-      var input = domQuery('input[name=condition]', inputNode);
+    canClear(element, inputNode) {
+      const input = domQuery('input[name=condition]', inputNode);
 
       return input.value !== '';
     },
 
-    script : script,
+    script,
 
     cssClasses: [ 'bpp-textfield' ]
   });
@@ -173,7 +173,7 @@ module.exports = function(group, element, bpmnFactory, translate) {
 
 // utilities //////////////////////////
 
-var CONDITIONAL_SOURCES = [
+const CONDITIONAL_SOURCES = [
   'bpmn:Activity',
   'bpmn:ExclusiveGateway',
   'bpmn:InclusiveGateway',

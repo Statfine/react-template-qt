@@ -1,8 +1,8 @@
-'use strict';
 
-var forEach = require('lodash/forEach');
 
-var elementHelper = require('../helper/ElementHelper');
+const forEach = require('lodash/forEach');
+
+const elementHelper = require('../helper/ElementHelper');
 
 /**
  * A handler that implements a BPMN 2.0 property update
@@ -30,14 +30,14 @@ module.exports = CreateBusinessObjectListHandler;
 
 function ensureNotNull(prop, name) {
   if (!prop) {
-    throw new Error(name + ' required');
+    throw new Error(`${name  } required`);
   }
   return prop;
 
 }
 function ensureList(prop, name) {
   if (!prop || Object.prototype.toString.call(prop) !== '[object Array]') {
-    throw new Error(name + ' needs to be a list');
+    throw new Error(`${name  } needs to be a list`);
   }
   return prop;
 }
@@ -61,18 +61,18 @@ function ensureList(prop, name) {
  */
 CreateBusinessObjectListHandler.prototype.execute = function(context) {
 
-  var currentObject = ensureNotNull(context.currentObject, 'currentObject'),
-      propertyName = ensureNotNull(context.propertyName, 'propertyName'),
-      newObjects = ensureList(context.newObjects, 'newObjects'),
-      changed = [ context.element ]; // this will not change any diagram-js elements
+  const currentObject = ensureNotNull(context.currentObject, 'currentObject');
+  const propertyName = ensureNotNull(context.propertyName, 'propertyName');
+  const newObjects = ensureList(context.newObjects, 'newObjects');
+  const changed = [ context.element ]; // this will not change any diagram-js elements
 
 
-  var childObjects = [];
-  var self = this;
+  const childObjects = [];
+  const self = this;
 
   // create new array of business objects
   forEach(newObjects, function(obj) {
-    var element = elementHelper.createElement(obj.type, obj.properties, currentObject, self._bpmnFactory);
+    const element = elementHelper.createElement(obj.type, obj.properties, currentObject, self._bpmnFactory);
 
     childObjects.push(element);
   });
@@ -99,9 +99,9 @@ CreateBusinessObjectListHandler.prototype.execute = function(context) {
  */
 CreateBusinessObjectListHandler.prototype.revert = function(context) {
 
-  var currentObject = context.currentObject,
-      propertyName = context.propertyName,
-      previousChilds = context.previousChilds;
+  const currentObject = context.currentObject;
+  const propertyName = context.propertyName;
+  const previousChilds = context.previousChilds;
 
   // remove new element
   currentObject.set(propertyName, previousChilds);

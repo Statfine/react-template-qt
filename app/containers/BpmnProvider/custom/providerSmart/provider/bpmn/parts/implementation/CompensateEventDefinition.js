@@ -1,17 +1,17 @@
-'use strict';
 
-var entryFactory = require('../../../../factory/EntryFactory');
 
-var cmdHelper = require('../../../../helper/CmdHelper'),
-    eventDefinitionHelper = require('../../../../helper/EventDefinitionHelper'),
-    utils = require('../../../../Utils');
 
-var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
-    is = require('bpmn-js/lib/util/ModelUtil').is;
 
-var forEach = require('lodash/forEach'),
-    find = require('lodash/find'),
-    filter = require('lodash/filter');
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+const is = require('bpmn-js/lib/util/ModelUtil').is;
+
+const forEach = require('lodash/forEach');
+const find = require('lodash/find');
+const filter = require('lodash/filter');
+const utils = require('../../../../Utils');
+const eventDefinitionHelper = require('../../../../helper/EventDefinitionHelper');
+const cmdHelper = require('../../../../helper/CmdHelper');
+const entryFactory = require('../../../../factory/EntryFactory');
 
 
 function getContainedActivities(element) {
@@ -27,10 +27,10 @@ function getFlowElements(element, type) {
 }
 
 function isCompensationEventAttachedToActivity(activity, boundaryEvents) {
-  var activityId = activity.id;
-  var boundaryEvent = find(boundaryEvents, function(boundaryEvent) {
-    var compensateEventDefinition = eventDefinitionHelper.getCompensateEventDefinition(boundaryEvent);
-    var attachedToRef = boundaryEvent.attachedToRef;
+  const activityId = activity.id;
+  const boundaryEvent = find(boundaryEvents, function(boundaryEvent) {
+    const compensateEventDefinition = eventDefinitionHelper.getCompensateEventDefinition(boundaryEvent);
+    const attachedToRef = boundaryEvent.attachedToRef;
     return compensateEventDefinition && attachedToRef && attachedToRef.id === activityId;
   });
   return !!boundaryEvent;
@@ -46,17 +46,17 @@ function canActivityBeCompensated(activity, boundaryEvents) {
 }
 
 function getActivitiesForCompensation(element) {
-  var boundaryEvents = getContainedBoundaryEvents(element);
+  const boundaryEvents = getContainedBoundaryEvents(element);
   return filter(getContainedActivities(element), function(activity) {
     return canActivityBeCompensated(activity, boundaryEvents);
   });
 }
 
 function getActivitiesForActivityRef(element) {
-  var bo = getBusinessObject(element);
-  var parent = bo.$parent;
+  const bo = getBusinessObject(element);
+  let parent = bo.$parent;
 
-  var activitiesForActivityRef = getActivitiesForCompensation(parent);
+  let activitiesForActivityRef = getActivitiesForCompensation(parent);
 
   // if throwing compensation event is in an event sub process:
   // get also all activities outside of the event sub process
@@ -72,13 +72,13 @@ function getActivitiesForActivityRef(element) {
 }
 
 function createActivityRefOptions(element) {
-  var options = [ { value: '' } ];
+  const options = [ { value: '' } ];
 
-  var activities = getActivitiesForActivityRef(element);
+  const activities = getActivitiesForActivityRef(element);
   forEach(activities, function(activity) {
-    var activityId = activity.id;
-    var name = (activity.name ? (activity.name + ' ') : '') + '(id=' + activityId + ')';
-    options.push({ value: activityId, name: name });
+    const activityId = activity.id;
+    const name = `${activity.name ? (`${activity.name  } `) : ''  }(id=${  activityId  })`;
+    options.push({ value: activityId, name });
   });
 
   return options;
@@ -92,13 +92,13 @@ module.exports = function(group, element, bpmnFactory, compensateEventDefinition
     label: translate('Wait for Completion'),
     modelProperty: 'waitForCompletion',
 
-    get: function(element, node) {
+    get(element, node) {
       return {
         waitForCompletion: compensateEventDefinition.waitForCompletion
       };
     },
 
-    set: function(element, values) {
+    set(element, values) {
       values.waitForCompletion = values.waitForCompletion || false;
       return cmdHelper.updateBusinessObject(element, compensateEventDefinition, values);
     }
@@ -110,19 +110,19 @@ module.exports = function(group, element, bpmnFactory, compensateEventDefinition
     selectOptions: createActivityRefOptions(element),
     modelProperty: 'activityRef',
 
-    get: function(element, node) {
-      var activityRef = compensateEventDefinition.activityRef;
+    get(element, node) {
+      let activityRef = compensateEventDefinition.activityRef;
       activityRef = activityRef && activityRef.id;
       return {
         activityRef: activityRef || ''
       };
     },
 
-    set: function(element, values) {
-      var activityRef = values.activityRef || undefined;
+    set(element, values) {
+      let activityRef = values.activityRef || undefined;
       activityRef = activityRef && getBusinessObject(elementRegistry.get(activityRef));
       return cmdHelper.updateBusinessObject(element, compensateEventDefinition, {
-        activityRef: activityRef
+        activityRef
       });
     }
   }));

@@ -1,13 +1,13 @@
-'use strict';
 
-var entryFactory = require('../../../factory/EntryFactory'),
-    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
-    utils = require('../../../Utils'),
-    cmdHelper = require('../../../helper/CmdHelper');
+
+const entryFactory = require('../../../factory/EntryFactory');
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+const utils = require('../../../Utils');
+const cmdHelper = require('../../../helper/CmdHelper');
 
 module.exports = function(group, element, translate, options) {
 
-  var description = options && options.description;
+  const description = options && options.description;
 
   // Id
   group.entries.push(entryFactory.validationAwareTextField({
@@ -15,21 +15,21 @@ module.exports = function(group, element, translate, options) {
     label: translate('Id'),
     description: description && translate(description),
     modelProperty: 'id',
-    getProperty: function(element) {
+    getProperty(element) {
       return getBusinessObject(element).id;
     },
-    setProperty: function(element, properties) {
+    setProperty(element, properties) {
 
       element = element.labelTarget || element;
 
       return cmdHelper.updateProperties(element, properties);
     },
-    validate: function(element, values) {
-      var idValue = values.id;
+    validate(element, values) {
+      const idValue = values.id;
 
-      var bo = getBusinessObject(element);
+      const bo = getBusinessObject(element);
 
-      var idError = utils.isIdValid(bo, idValue, translate);
+      const idError = utils.isIdValid(bo, idValue, translate);
 
       return idError ? { id: idError } : {};
     }

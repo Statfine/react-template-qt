@@ -1,20 +1,20 @@
-'use strict';
 
-var entryFactory = require('../../../factory/EntryFactory'),
-    cmdHelper = require('../../../helper/CmdHelper'),
-    is = require('bpmn-js/lib/util/ModelUtil').is,
-    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+
+const entryFactory = require('../../../factory/EntryFactory');
+const cmdHelper = require('../../../helper/CmdHelper');
+const is = require('bpmn-js/lib/util/ModelUtil').is;
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
 module.exports = function(group, element, translate) {
 
-  var bo = getBusinessObject(element);
+  const bo = getBusinessObject(element);
 
   if (!bo) {
     return;
   }
 
   if (is(element, 'bpmn:Process') || is(element, 'bpmn:Participant') && bo.get('processRef')) {
-    var versionTagEntry = entryFactory.textField({
+    const versionTagEntry = entryFactory.textField({
       id: 'versionTag',
       label: translate('Version Tag'),
       modelProperty: 'versionTag'
@@ -23,7 +23,7 @@ module.exports = function(group, element, translate) {
     // in participants we have to change the default behavior of set and get
     if (is(element, 'bpmn:Participant')) {
       versionTagEntry.get = function(element) {
-        var processBo = bo.get('processRef');
+        const processBo = bo.get('processRef');
 
         return {
           versionTag: processBo.get('smart:versionTag')
@@ -31,7 +31,7 @@ module.exports = function(group, element, translate) {
       };
 
       versionTagEntry.set = function(element, values) {
-        var processBo = bo.get('processRef');
+        const processBo = bo.get('processRef');
 
         return cmdHelper.updateBusinessObject(element, processBo, {
           'smart:versionTag': values.versionTag || undefined

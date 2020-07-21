@@ -1,44 +1,44 @@
-'use strict';
 
-var assign = require('lodash/assign');
 
-var entryFactory = require('../../../../factory/EntryFactory'),
-    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
-    getTemplate = require('../Helper').getTemplate,
-    cmdHelper = require('../../../../helper/CmdHelper'),
-    elementHelper = require('../../../../helper/ElementHelper');
+const assign = require('lodash/assign');
 
-var findExtension = require('../Helper').findExtension,
-    findExtensions = require('../Helper').findExtensions,
-    findInputParameter = require('../Helper').findInputParameter,
-    findOutputParameter = require('../Helper').findOutputParameter,
-    findSmartProperty = require('../Helper').findSmartProperty,
-    findSmartInOut = require('../Helper').findSmartInOut;
+const entryFactory = require('../../../../factory/EntryFactory');
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+const getTemplate = require('../Helper').getTemplate;
+const cmdHelper = require('../../../../helper/CmdHelper');
+const elementHelper = require('../../../../helper/ElementHelper');
 
-var createSmartProperty = require('../CreateHelper').createSmartProperty,
-    createInputParameter = require('../CreateHelper').createInputParameter,
-    createOutputParameter = require('../CreateHelper').createOutputParameter,
-    createSmartIn = require('../CreateHelper').createSmartIn,
-    createSmartOut = require('../CreateHelper').createSmartOut,
-    createSmartInWithBusinessKey = require('../CreateHelper').createSmartInWithBusinessKey,
-    createSmartFieldInjection = require('../CreateHelper').createSmartFieldInjection;
+const findExtension = require('../Helper').findExtension;
+const findExtensions = require('../Helper').findExtensions;
+const findInputParameter = require('../Helper').findInputParameter;
+const findOutputParameter = require('../Helper').findOutputParameter;
+const findSmartProperty = require('../Helper').findSmartProperty;
+const findSmartInOut = require('../Helper').findSmartInOut;
 
-var SMART_PROPERTY_TYPE = 'smart:property',
-    SMART_INPUT_PARAMETER_TYPE = 'smart:inputParameter',
-    SMART_OUTPUT_PARAMETER_TYPE = 'smart:outputParameter',
-    SMART_IN_TYPE = 'smart:in',
-    SMART_OUT_TYPE = 'smart:out',
-    SMART_IN_BUSINESS_KEY_TYPE = 'smart:in:businessKey',
-    SMART_EXECUTION_LISTENER_TYPE = 'smart:executionListener',
-    SMART_FIELD = 'smart:field';
+const createSmartProperty = require('../CreateHelper').createSmartProperty;
+const createInputParameter = require('../CreateHelper').createInputParameter;
+const createOutputParameter = require('../CreateHelper').createOutputParameter;
+const createSmartIn = require('../CreateHelper').createSmartIn;
+const createSmartOut = require('../CreateHelper').createSmartOut;
+const createSmartInWithBusinessKey = require('../CreateHelper').createSmartInWithBusinessKey;
+const createSmartFieldInjection = require('../CreateHelper').createSmartFieldInjection;
 
-var BASIC_MODDLE_TYPES = [
+const SMART_PROPERTY_TYPE = 'smart:property';
+const SMART_INPUT_PARAMETER_TYPE = 'smart:inputParameter';
+const SMART_OUTPUT_PARAMETER_TYPE = 'smart:outputParameter';
+const SMART_IN_TYPE = 'smart:in';
+const SMART_OUT_TYPE = 'smart:out';
+const SMART_IN_BUSINESS_KEY_TYPE = 'smart:in:businessKey';
+const SMART_EXECUTION_LISTENER_TYPE = 'smart:executionListener';
+const SMART_FIELD = 'smart:field';
+
+const BASIC_MODDLE_TYPES = [
   'Boolean',
   'Integer',
   'String'
 ];
 
-var EXTENSION_BINDING_TYPES = [
+const EXTENSION_BINDING_TYPES = [
   SMART_PROPERTY_TYPE,
   SMART_INPUT_PARAMETER_TYPE,
   SMART_OUTPUT_PARAMETER_TYPE,
@@ -48,12 +48,12 @@ var EXTENSION_BINDING_TYPES = [
   SMART_FIELD
 ];
 
-var IO_BINDING_TYPES = [
+const IO_BINDING_TYPES = [
   SMART_INPUT_PARAMETER_TYPE,
   SMART_OUTPUT_PARAMETER_TYPE
 ];
 
-var IN_OUT_BINDING_TYPES = [
+const IN_OUT_BINDING_TYPES = [
   SMART_IN_TYPE,
   SMART_OUT_TYPE,
   SMART_IN_BUSINESS_KEY_TYPE
@@ -69,17 +69,17 @@ var IN_OUT_BINDING_TYPES = [
  */
 module.exports = function(element, elementTemplates, bpmnFactory, translate) {
 
-  var template = getTemplate(element, elementTemplates);
+  const template = getTemplate(element, elementTemplates);
 
   if (!template) {
     return [];
   }
 
-  var renderCustomField = function(id, p, idx) {
-    var propertyType = p.type;
+  const renderCustomField = function(id, p, idx) {
+    const propertyType = p.type;
 
-    var entryOptions = {
-      id: id,
+    const entryOptions = {
+      id,
       description: p.description,
       label: p.label ? translate(p.label) : p.label,
       modelProperty: id,
@@ -88,7 +88,7 @@ module.exports = function(element, elementTemplates, bpmnFactory, translate) {
       validate: propertyValidator(id, p, translate)
     };
 
-    var entry;
+    let entry;
 
     if (propertyType === 'Boolean') {
       entry = entryFactory.checkbox(entryOptions);
@@ -111,17 +111,17 @@ module.exports = function(element, elementTemplates, bpmnFactory, translate) {
     return entry;
   };
 
-  var groups = [];
-  var id, entry;
+  const groups = [];
+  let id; let entry;
 
-  var customFieldsGroup = {
+  const customFieldsGroup = {
     id: 'customField',
     label: translate('Custom Fields'),
     entries: []
   };
   template.properties.forEach(function(p, idx) {
 
-    id = 'custom-' + template.id + '-' + idx;
+    id = `custom-${  template.id  }-${  idx}`;
 
     entry = renderCustomField(id, p, idx);
     if (entry) {
@@ -135,20 +135,20 @@ module.exports = function(element, elementTemplates, bpmnFactory, translate) {
   if (template.scopes) {
     for (var scopeName in template.scopes) {
 
-      var scope = template.scopes[scopeName];
+      const scope = template.scopes[scopeName];
       var idScopeName = scopeName.replace(/:/g, '_');
 
       var customScopeFieldsGroup = {
-        id: 'customField-' + idScopeName,
+        id: `customField-${  idScopeName}`,
         label: translate('Custom Fields for scope: ') + scopeName,
         entries: []
       };
 
       scope.properties.forEach(function(p, idx) {
 
-        var propertyId = 'custom-' + template.id + '-' + idScopeName + '-' + idx;
+        const propertyId = `custom-${  template.id  }-${  idScopeName  }-${  idx}`;
 
-        var scopedProperty = propertyWithScope(p, scopeName);
+        const scopedProperty = propertyWithScope(p, scopeName);
 
         entry = renderCustomField(propertyId, scopedProperty, idx);
         if (entry) {
@@ -181,7 +181,7 @@ function propertyGetter(name, property) {
 
   /* getter */
   return function get(element) {
-    var value = getPropertyValue(element, property);
+    const value = getPropertyValue(element, property);
 
     return objectWithKey(name, value);
   };
@@ -201,7 +201,7 @@ function propertySetter(name, property, bpmnFactory) {
   /* setter */
   return function set(element, values) {
 
-    var value = values[name];
+    const value = values[name];
 
     return setPropertyValue(element, property, value, bpmnFactory);
   };
@@ -220,9 +220,9 @@ function propertyValidator(name, property, translate) {
 
   /* validator */
   return function validate(element, values) {
-    var value = values[name];
+    const value = values[name];
 
-    var error = validateValue(value, property, translate);
+    const error = validateValue(value, property, translate);
 
     if (error) {
       return objectWithKey(name, error);
@@ -244,15 +244,15 @@ function propertyValidator(name, property, translate) {
  */
 function getPropertyValue(element, property) {
 
-  var bo = getBusinessObject(element);
+  let bo = getBusinessObject(element);
 
-  var binding = property.binding,
-      scope = property.scope;
+  const binding = property.binding;
+  const scope = property.scope;
 
-  var bindingType = binding.type,
-      bindingName = binding.name;
+  const bindingType = binding.type;
+  const bindingName = binding.name;
 
-  var propertyValue = property.value || '';
+  const propertyValue = property.value || '';
 
   if (scope) {
     bo = findExtension(bo, scope.name);
@@ -264,23 +264,23 @@ function getPropertyValue(element, property) {
   // property
   if (bindingType === 'property') {
 
-    var value = bo.get(bindingName);
+    const value = bo.get(bindingName);
 
     if (bindingName === 'conditionExpression') {
       if (value) {
         return value.body;
-      } else {
-        // return defined default
-        return propertyValue;
-      }
-    } else {
-      // return value; default to defined default
-      return typeof value !== 'undefined' ? value : propertyValue;
-    }
+      } 
+      // return defined default
+      return propertyValue;
+      
+    } 
+    // return value; default to defined default
+    return typeof value !== 'undefined' ? value : propertyValue;
+    
   }
 
-  var smartProperties,
-      smartProperty;
+  let smartProperties;
+  let smartProperty;
 
   if (bindingType === SMART_PROPERTY_TYPE) {
     if (scope) {
@@ -300,8 +300,8 @@ function getPropertyValue(element, property) {
     return propertyValue;
   }
 
-  var inputOutput,
-      ioParameter;
+  let inputOutput;
+  let ioParameter;
 
   if (IO_BINDING_TYPES.indexOf(bindingType) !== -1) {
 
@@ -346,7 +346,7 @@ function getPropertyValue(element, property) {
   }
 
 
-  var ioElement;
+  let ioElement;
 
   if (IN_OUT_BINDING_TYPES.indexOf(bindingType) != -1) {
     ioElement = findSmartInOut(bo, binding);
@@ -354,11 +354,9 @@ function getPropertyValue(element, property) {
     if (ioElement) {
       if (bindingType === SMART_IN_BUSINESS_KEY_TYPE) {
         return ioElement.businessKey;
-      } else
-      if (bindingType === SMART_OUT_TYPE) {
+      } if (bindingType === SMART_OUT_TYPE) {
         return ioElement.target;
-      } else
-      if (bindingType === SMART_IN_TYPE) {
+      } if (bindingType === SMART_IN_TYPE) {
         return ioElement[binding.expression ? 'sourceExpression' : 'source'];
       }
     }
@@ -367,7 +365,7 @@ function getPropertyValue(element, property) {
   }
 
   if (bindingType === SMART_EXECUTION_LISTENER_TYPE) {
-    var executionListener;
+    let executionListener;
     if (scope) {
       executionListener = bo.get('executionListener');
     } else {
@@ -377,9 +375,9 @@ function getPropertyValue(element, property) {
     return executionListener.script.value;
   }
 
-  var fieldInjection;
+  let fieldInjection;
   if (SMART_FIELD === bindingType) {
-    var fieldInjections = findExtensions(bo, [ 'smart:Field' ]);
+    const fieldInjections = findExtensions(bo, [ 'smart:Field' ]);
     fieldInjections.forEach(function(item) {
       if (item.name === binding.name) {
         fieldInjection = item;
@@ -387,9 +385,9 @@ function getPropertyValue(element, property) {
     });
     if (fieldInjection) {
       return fieldInjection.string || fieldInjection.expression;
-    } else {
-      return '';
-    }
+    } 
+    return '';
+    
   }
 
   throw unknownPropertyBinding(property);
@@ -413,19 +411,19 @@ module.exports.getPropertyValue = getPropertyValue;
  * @return {Object|Array<Object>} results to be processed
  */
 function setPropertyValue(element, property, value, bpmnFactory) {
-  var bo = getBusinessObject(element);
+  let bo = getBusinessObject(element);
 
-  var binding = property.binding,
-      scope = property.scope;
+  const binding = property.binding;
+  const scope = property.scope;
 
-  var bindingType = binding.type,
-      bindingName = binding.name;
+  const bindingType = binding.type;
+  const bindingName = binding.name;
 
-  var propertyValue;
+  let propertyValue;
 
-  var updates = [];
+  const updates = [];
 
-  var extensionElements;
+  let extensionElements;
 
   if (EXTENSION_BINDING_TYPES.indexOf(bindingType) !== -1) {
     extensionElements = bo.get('extensionElements');
@@ -462,14 +460,14 @@ function setPropertyValue(element, property, value, bpmnFactory) {
       }, bo, bpmnFactory);
     } else {
 
-      var moddlePropertyDescriptor = bo.$descriptor.propertiesByName[bindingName];
+      const moddlePropertyDescriptor = bo.$descriptor.propertiesByName[bindingName];
 
-      var moddleType = moddlePropertyDescriptor.type;
+      const moddleType = moddlePropertyDescriptor.type;
 
       // make sure we only update String, Integer, Real and
       // Boolean properties (do not accidentally override complex objects...)
       if (BASIC_MODDLE_TYPES.indexOf(moddleType) === -1) {
-        throw new Error('cannot set moddle type <' + moddleType + '>');
+        throw new Error(`cannot set moddle type <${  moddleType  }>`);
       }
 
       if (moddleType === 'Boolean') {
@@ -495,9 +493,9 @@ function setPropertyValue(element, property, value, bpmnFactory) {
   }
 
   // smart:property
-  var smartProperties,
-      existingSmartProperty,
-      newSmartProperty;
+  let smartProperties;
+  let existingSmartProperty;
+  let newSmartProperty;
 
   if (bindingType === SMART_PROPERTY_TYPE) {
 
@@ -538,9 +536,9 @@ function setPropertyValue(element, property, value, bpmnFactory) {
 
   // smart:inputParameter
   // smart:outputParameter
-  var inputOutput,
-      existingIoParameter,
-      newIoParameter;
+  let inputOutput;
+  let existingIoParameter;
+  let newIoParameter;
 
   if (IO_BINDING_TYPES.indexOf(bindingType) !== -1) {
 
@@ -556,7 +554,7 @@ function setPropertyValue(element, property, value, bpmnFactory) {
 
       if (scope) {
         updates.push(cmdHelper.updateBusinessObject(
-          element, bo, { inputOutput: inputOutput }
+          element, bo, { inputOutput }
         ));
       }
       else {
@@ -603,8 +601,8 @@ function setPropertyValue(element, property, value, bpmnFactory) {
   // smart:in
   // smart:out
   // smart:in:businessKey
-  var existingInOut,
-      newInOut;
+  let existingInOut;
+  let newInOut;
 
   if (IN_OUT_BINDING_TYPES.indexOf(bindingType) !== -1) {
 
@@ -630,8 +628,8 @@ function setPropertyValue(element, property, value, bpmnFactory) {
   }
 
   if (bindingType === SMART_FIELD) {
-    var existingFieldInjections = findExtensions(bo, [ 'smart:Field' ]);
-    var newFieldInjections = [];
+    const existingFieldInjections = findExtensions(bo, [ 'smart:Field' ]);
+    const newFieldInjections = [];
 
     if (existingFieldInjections.length > 0) {
       existingFieldInjections.forEach(function(item) {
@@ -651,7 +649,7 @@ function setPropertyValue(element, property, value, bpmnFactory) {
       'values',
       null,
       newFieldInjections,
-      existingFieldInjections ? existingFieldInjections : []
+      existingFieldInjections || []
     ));
   }
 
@@ -676,7 +674,7 @@ module.exports.setPropertyValue = setPropertyValue;
  */
 function validateValue(value, property, translate) {
 
-  var constraints = property.constraints || {};
+  const constraints = property.constraints || {};
 
   if (constraints.notEmpty && isEmpty(value)) {
     return translate('Must not be empty');
@@ -690,8 +688,8 @@ function validateValue(value, property, translate) {
     return translate('Must have min length {length}', { length: constraints.minLength });
   }
 
-  var pattern = constraints.pattern,
-      message;
+  let pattern = constraints.pattern;
+  let message;
 
   if (pattern) {
 
@@ -701,7 +699,7 @@ function validateValue(value, property, translate) {
     }
 
     if (!matchesPattern(value, pattern)) {
-      return message || translate('Must match pattern {pattern}', { pattern: pattern });
+      return message || translate('Must match pattern {pattern}', { pattern });
     }
   }
 }
@@ -730,7 +728,7 @@ function propertyWithScope(property, scopeName) {
  * @return {Object}
  */
 function objectWithKey(key, value) {
-  var obj = {};
+  const obj = {};
 
   obj[key] = value;
 
@@ -746,7 +744,7 @@ function objectWithKey(key, value) {
  * @return {Boolean}
  */
 function matchesPattern(str, pattern) {
-  var regexp = new RegExp(pattern);
+  const regexp = new RegExp(pattern);
 
   return regexp.test(str);
 }
@@ -764,7 +762,7 @@ function isEmpty(str) {
  * @return {Error}
  */
 function unknownPropertyBinding(property) {
-  var binding = property.binding;
+  const binding = property.binding;
 
-  return new Error('unknown binding: <' + binding.type + '>');
+  return new Error(`unknown binding: <${  binding.type  }>`);
 }

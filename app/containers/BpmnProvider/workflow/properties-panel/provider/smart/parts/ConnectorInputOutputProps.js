@@ -1,10 +1,10 @@
-'use strict';
 
-var inputOutput = require('./implementation/InputOutput');
+
+const inputOutput = require('./implementation/InputOutput');
 
 module.exports = function(group, element, bpmnFactory, translate) {
 
-  var inputOutputEntry = inputOutput(element, bpmnFactory, {
+  const inputOutputEntry = inputOutput(element, bpmnFactory, {
     idPrefix: 'connector-',
     insideConnector: true
   }, translate);

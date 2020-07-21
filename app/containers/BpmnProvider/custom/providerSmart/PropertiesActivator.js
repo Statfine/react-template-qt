@@ -1,6 +1,6 @@
-'use strict';
 
-var DEFAULT_PRIORITY = 1000;
+
+const DEFAULT_PRIORITY = 1000;
 
 
 /**
@@ -19,7 +19,7 @@ var DEFAULT_PRIORITY = 1000;
  * @param {Number} [priority] at which priority to hook into the activation
  */
 function PropertiesActivator(eventBus, priority) {
-  var self = this;
+  const self = this;
 
   priority = priority || DEFAULT_PRIORITY;
 

@@ -1,9 +1,9 @@
-'use strict';
 
-var collectionAdd = require('diagram-js/lib/util/Collections').add,
-    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
-var CategoryHelper = {};
+const collectionAdd = require('diagram-js/lib/util/Collections').add;
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+
+const CategoryHelper = {};
 
 module.exports = CategoryHelper;
 
@@ -16,10 +16,10 @@ module.exports = CategoryHelper;
  * @return {ModdleElement} categoryValue.
  */
 CategoryHelper.createCategoryValue = function(definitions, bpmnFactory) {
-  var categoryValue = bpmnFactory.create('bpmn:CategoryValue'),
-      category = bpmnFactory.create('bpmn:Category', {
-        categoryValue: [ categoryValue ]
-      });
+  const categoryValue = bpmnFactory.create('bpmn:CategoryValue');
+  const category = bpmnFactory.create('bpmn:Category', {
+    categoryValue: [ categoryValue ]
+  });
 
   // add to correct place
   collectionAdd(definitions.get('rootElements'), category);

@@ -1,14 +1,14 @@
-'use strict';
 
-var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
-    is = require('bpmn-js/lib/util/ModelUtil').is,
-    entryFactory = require('../../../factory/EntryFactory'),
-    cmdHelper = require('../../../helper/CmdHelper'),
-    scriptImplementation = require('./implementation/Script');
+
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+const is = require('bpmn-js/lib/util/ModelUtil').is;
+const entryFactory = require('../../../factory/EntryFactory');
+const cmdHelper = require('../../../helper/CmdHelper');
+const scriptImplementation = require('./implementation/Script');
 
 
 module.exports = function(group, element, bpmnFactory, translate) {
-  var bo;
+  let bo;
 
   if (is(element, 'bpmn:ScriptTask')) {
     bo = getBusinessObject(element);
@@ -18,27 +18,27 @@ module.exports = function(group, element, bpmnFactory, translate) {
     return;
   }
 
-  var script = scriptImplementation('scriptFormat', 'script', false, translate);
+  const script = scriptImplementation('scriptFormat', 'script', false, translate);
   group.entries.push({
     id: 'script-implementation',
     label: translate('Script'),
     html: script.template,
 
-    get: function(element) {
+    get(element) {
       return script.get(element, bo);
     },
 
-    set: function(element, values, containerElement) {
-      var properties = script.set(element, values, containerElement);
+    set(element, values, containerElement) {
+      const properties = script.set(element, values, containerElement);
 
       return cmdHelper.updateProperties(element, properties);
     },
 
-    validate: function(element, values) {
+    validate(element, values) {
       return script.validate(element, values);
     },
 
-    script : script,
+    script,
 
     cssClasses: ['bpp-textfield']
 
@@ -49,13 +49,13 @@ module.exports = function(group, element, bpmnFactory, translate) {
     label : translate('Result Variable'),
     modelProperty : 'scriptResultVariable',
 
-    get: function(element, propertyName) {
-      var boResultVariable = bo.get('smart:resultVariable');
+    get(element, propertyName) {
+      const boResultVariable = bo.get('smart:resultVariable');
 
       return { scriptResultVariable : boResultVariable };
     },
 
-    set: function(element, values, containerElement) {
+    set(element, values, containerElement) {
       return cmdHelper.updateProperties(element, {
         'smart:resultVariable': values.scriptResultVariable.length
           ? values.scriptResultVariable

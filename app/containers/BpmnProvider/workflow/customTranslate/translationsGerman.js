@@ -120,7 +120,7 @@ export default {
     '由{referenced}#{property}引用的{element}元素仍未绘制',
   'already rendered {element}': '{element} 已被渲染',
   'failed to import {element}': '导入{element}失败',
-  //属性面板的参数
+  // 属性面板的参数
   Id: '编号',
   Name: '名称',
   General: '常规',

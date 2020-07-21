@@ -1,21 +1,21 @@
-'use strict';
 
-var domQuery = require('min-dom').query,
-    domClear = require('min-dom').clear,
-    is = require('bpmn-js/lib/util/ModelUtil').is,
-    forEach = require('lodash/forEach'),
-    domify = require('min-dom').domify,
-    Ids = require('ids').default;
 
-var SPACE_REGEX = /\s/;
+const domQuery = require('min-dom').query;
+const domClear = require('min-dom').clear;
+const is = require('bpmn-js/lib/util/ModelUtil').is;
+const forEach = require('lodash/forEach');
+const domify = require('min-dom').domify;
+const Ids = require('ids').default;
+
+const SPACE_REGEX = /\s/;
 
 // for QName validation as per http://www.w3.org/TR/REC-xml/#NT-NameChar
-var QNAME_REGEX = /^([a-z][\w-.]*:)?[a-z_][\w-.]*$/i;
+const QNAME_REGEX = /^([a-z][\w-.]*:)?[a-z_][\w-.]*$/i;
 
 // for ID validation as per BPMN Schema (QName - Namespace)
-var ID_REGEX = /^[a-z_][\w-.]*$/i;
+const ID_REGEX = /^[a-z_][\w-.]*$/i;
 
-var HTML_ESCAPE_MAP = {
+const HTML_ESCAPE_MAP = {
   '&': '&amp;',
   '<': '&lt;',
   '>': '&gt;',
@@ -33,7 +33,7 @@ module.exports.selectedOption = selectedOption;
 
 
 function selectedType(elementSyntax, inputNode) {
-  var typeSelect = domQuery(elementSyntax, inputNode);
+  const typeSelect = domQuery(elementSyntax, inputNode);
   return selectedOption(typeSelect);
 }
 
@@ -47,7 +47,7 @@ module.exports.selectedType = selectedType;
  * @return {ModdleElement}
  */
 function getRoot(businessObject) {
-  var parent = businessObject;
+  let parent = businessObject;
   while (parent.$parent) {
     parent = parent.$parent;
   }
@@ -62,8 +62,8 @@ module.exports.getRoot = getRoot;
  * removes a new list
  */
 function filterElementsByType(objectList, type) {
-  var list = objectList || [];
-  var result = [];
+  const list = objectList || [];
+  const result = [];
   forEach(list, function(obj) {
     if (is(obj, type)) {
       result.push(obj);
@@ -76,7 +76,7 @@ module.exports.filterElementsByType = filterElementsByType;
 
 
 function findRootElementsByType(businessObject, referencedType) {
-  var root = getRoot(businessObject);
+  const root = getRoot(businessObject);
 
   return filterElementsByType(root.rootElements, referencedType);
 }
@@ -107,11 +107,11 @@ module.exports.addEmptyParameter = addEmptyParameter;
  * returns a list with all root elements for the given parameter 'referencedType'
  */
 function refreshOptionsModel(businessObject, referencedType) {
-  var model = [];
-  var referableObjects = findRootElementsByType(businessObject, referencedType);
+  const model = [];
+  const referableObjects = findRootElementsByType(businessObject, referencedType);
   forEach(referableObjects, function(obj) {
     model.push({
-      label: (obj.name || '') + ' (id='+obj.id+')',
+      label: `${obj.name || ''  } (id=${obj.id})`,
       value: obj.id,
       name: obj.name
     });
@@ -126,13 +126,13 @@ module.exports.refreshOptionsModel = refreshOptionsModel;
  * fills the drop down with options
  */
 function updateOptionsDropDown(domSelector, businessObject, referencedType, entryNode) {
-  var options = refreshOptionsModel(businessObject, referencedType);
+  const options = refreshOptionsModel(businessObject, referencedType);
   addEmptyParameter(options);
-  var selectBox = domQuery(domSelector, entryNode);
+  const selectBox = domQuery(domSelector, entryNode);
   domClear(selectBox);
 
   forEach(options, function(option) {
-    var optionEntry = domify('<option value="' + escapeHTML(option.value) + '">' + escapeHTML(option.label) + '</option>');
+    const optionEntry = domify(`<option value="${  escapeHTML(option.value)  }">${  escapeHTML(option.label)  }</option>`);
     selectBox.appendChild(optionEntry);
   });
   return options;
@@ -151,9 +151,9 @@ module.exports.updateOptionsDropDown = updateOptionsDropDown;
  * @return {String} error message
  */
 function isIdValid(bo, idValue, translate) {
-  var assigned = bo.$model.ids.assigned(idValue);
+  const assigned = bo.$model.ids.assigned(idValue);
 
-  var idExists = assigned && assigned !== bo;
+  const idExists = assigned && assigned !== bo;
 
   if (!idValue || idExists) {
     return translate('Element must have an unique id.');
@@ -194,7 +194,7 @@ module.exports.containsSpace = containsSpace;
  * generate a semantic id with given prefix
  */
 function nextId(prefix) {
-  var ids = new Ids([32,32,1]);
+  const ids = new Ids([32,32,1]);
 
   return ids.nextPrefixed(prefix);
 }
@@ -203,8 +203,8 @@ module.exports.nextId = nextId;
 
 
 function triggerClickEvent(element) {
-  var evt;
-  var eventType = 'click';
+  let evt;
+  const eventType = 'click';
 
   if (document.createEvent) {
     try {
@@ -217,19 +217,19 @@ function triggerClickEvent(element) {
       evt.initEvent((eventType), true, true);
     }
     return element.dispatchEvent(evt);
-  } else {
-    // Welcome IE
-    evt = document.createEventObject();
+  } 
+  // Welcome IE
+  evt = document.createEventObject();
 
-    return element.fireEvent('on' + eventType, evt);
-  }
+  return element.fireEvent(`on${  eventType}`, evt);
+  
 }
 
 module.exports.triggerClickEvent = triggerClickEvent;
 
 
 function escapeHTML(str) {
-  str = '' + str;
+  str = `${  str}`;
 
   return str && str.replace(/[&<>"']/g, function(match) {
     return HTML_ESCAPE_MAP[match];

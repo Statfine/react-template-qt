@@ -1,23 +1,23 @@
-'use strict';
 
-var is = require('bpmn-js/lib/util/ModelUtil').is,
-    isAny = require('bpmn-js/lib/features/modeling/util/ModelingUtil').isAny,
-    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
-    eventDefinitionHelper = require('../../../helper/EventDefinitionHelper');
 
-var forEach = require('lodash/forEach');
+const is = require('bpmn-js/lib/util/ModelUtil').is;
+const isAny = require('bpmn-js/lib/features/modeling/util/ModelingUtil').isAny;
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+const forEach = require('lodash/forEach');
+const eventDefinitionHelper = require('../../../helper/EventDefinitionHelper');
 
-var message = require('./implementation/MessageEventDefinition'),
-    signal = require('./implementation/SignalEventDefinition'),
-    error = require('./implementation/ErrorEventDefinition'),
-    escalation = require('./implementation/EscalationEventDefinition'),
-    timer = require('./implementation/TimerEventDefinition'),
-    compensation = require('./implementation/CompensateEventDefinition'),
-    condition = require('./implementation/ConditionalEventDefinition');
+
+const message = require('./implementation/MessageEventDefinition');
+const signal = require('./implementation/SignalEventDefinition');
+const error = require('./implementation/ErrorEventDefinition');
+const escalation = require('./implementation/EscalationEventDefinition');
+const timer = require('./implementation/TimerEventDefinition');
+const compensation = require('./implementation/CompensateEventDefinition');
+const condition = require('./implementation/ConditionalEventDefinition');
 
 
 module.exports = function(group, element, bpmnFactory, elementRegistry, translate) {
-  var events = [
+  const events = [
     'bpmn:StartEvent',
     'bpmn:EndEvent',
     'bpmn:IntermediateThrowEvent',
@@ -29,8 +29,8 @@ module.exports = function(group, element, bpmnFactory, elementRegistry, translat
   forEach(events, function(event) {
     if (is(element, event)) {
 
-      var messageEventDefinition = eventDefinitionHelper.getMessageEventDefinition(element),
-          signalEventDefinition = eventDefinitionHelper.getSignalEventDefinition(element);
+      const messageEventDefinition = eventDefinitionHelper.getMessageEventDefinition(element);
+      const signalEventDefinition = eventDefinitionHelper.getSignalEventDefinition(element);
 
       if (messageEventDefinition) {
         message(group, element, bpmnFactory, messageEventDefinition, translate);
@@ -49,7 +49,7 @@ module.exports = function(group, element, bpmnFactory, elementRegistry, translat
   }
 
   // Error Event Definition
-  var errorEvents = [
+  const errorEvents = [
     'bpmn:StartEvent',
     'bpmn:BoundaryEvent',
     'bpmn:EndEvent'
@@ -58,7 +58,7 @@ module.exports = function(group, element, bpmnFactory, elementRegistry, translat
   forEach(errorEvents, function(event) {
     if (is(element, event)) {
 
-      var errorEventDefinition = eventDefinitionHelper.getErrorEventDefinition(element);
+      const errorEventDefinition = eventDefinitionHelper.getErrorEventDefinition(element);
 
       if (errorEventDefinition) {
 
@@ -68,7 +68,7 @@ module.exports = function(group, element, bpmnFactory, elementRegistry, translat
   });
 
   // Escalation Event Definition
-  var escalationEvents = [
+  const escalationEvents = [
     'bpmn:StartEvent',
     'bpmn:BoundaryEvent',
     'bpmn:IntermediateThrowEvent',
@@ -78,10 +78,10 @@ module.exports = function(group, element, bpmnFactory, elementRegistry, translat
   forEach(escalationEvents, function(event) {
     if (is(element, event)) {
 
-      var showEscalationCodeVariable = is(element, 'bpmn:StartEvent') || is(element, 'bpmn:BoundaryEvent');
+      const showEscalationCodeVariable = is(element, 'bpmn:StartEvent') || is(element, 'bpmn:BoundaryEvent');
 
       // get business object
-      var escalationEventDefinition = eventDefinitionHelper.getEscalationEventDefinition(element);
+      const escalationEventDefinition = eventDefinitionHelper.getEscalationEventDefinition(element);
 
       if (escalationEventDefinition) {
         escalation(group, element, bpmnFactory, escalationEventDefinition, showEscalationCodeVariable,
@@ -92,7 +92,7 @@ module.exports = function(group, element, bpmnFactory, elementRegistry, translat
   });
 
   // Timer Event Definition
-  var timerEvents = [
+  const timerEvents = [
     'bpmn:StartEvent',
     'bpmn:BoundaryEvent',
     'bpmn:IntermediateCatchEvent'
@@ -102,7 +102,7 @@ module.exports = function(group, element, bpmnFactory, elementRegistry, translat
     if (is(element, event)) {
 
       // get business object
-      var timerEventDefinition = eventDefinitionHelper.getTimerEventDefinition(element);
+      const timerEventDefinition = eventDefinitionHelper.getTimerEventDefinition(element);
 
       if (timerEventDefinition) {
         timer(group, element, bpmnFactory, timerEventDefinition, translate);
@@ -111,7 +111,7 @@ module.exports = function(group, element, bpmnFactory, elementRegistry, translat
   });
 
   // Compensate Event Definition
-  var compensationEvents = [
+  const compensationEvents = [
     'bpmn:EndEvent',
     'bpmn:IntermediateThrowEvent'
   ];
@@ -120,7 +120,7 @@ module.exports = function(group, element, bpmnFactory, elementRegistry, translat
     if (is(element, event)) {
 
       // get business object
-      var compensateEventDefinition = eventDefinitionHelper.getCompensateEventDefinition(element);
+      const compensateEventDefinition = eventDefinitionHelper.getCompensateEventDefinition(element);
 
       if (compensateEventDefinition) {
         compensation(group, element, bpmnFactory, compensateEventDefinition, elementRegistry, translate);
@@ -130,7 +130,7 @@ module.exports = function(group, element, bpmnFactory, elementRegistry, translat
 
 
   // Conditional Event Definition
-  var conditionalEvents = [
+  const conditionalEvents = [
     'bpmn:StartEvent',
     'bpmn:BoundaryEvent',
     'bpmn:IntermediateThrowEvent',
@@ -140,7 +140,7 @@ module.exports = function(group, element, bpmnFactory, elementRegistry, translat
   if (isAny(element, conditionalEvents)) {
 
     // get business object
-    var conditionalEventDefinition = eventDefinitionHelper.getConditionalEventDefinition(element);
+    const conditionalEventDefinition = eventDefinitionHelper.getConditionalEventDefinition(element);
 
     if (conditionalEventDefinition) {
       condition(group, element, bpmnFactory, conditionalEventDefinition, elementRegistry, translate);

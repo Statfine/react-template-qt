@@ -1,8 +1,8 @@
-'use strict';
 
-var entryFactory = require('../../../../factory/EntryFactory');
 
-var cmdHelper = require('../../../../helper/CmdHelper');
+const entryFactory = require('../../../../factory/EntryFactory');
+
+const cmdHelper = require('../../../../helper/CmdHelper');
 
 /**
  * Create an entry to modify a property of an element which
@@ -22,41 +22,41 @@ var cmdHelper = require('../../../../helper/CmdHelper');
  */
 module.exports = function(element, definition, bpmnFactory, options) {
 
-  var id = options.id || 'element-property';
-  var label = options.label;
-  var referenceProperty = options.referenceProperty;
-  var modelProperty = options.modelProperty || 'name';
-  var shouldValidate = options.shouldValidate || false;
+  const id = options.id || 'element-property';
+  const label = options.label;
+  const referenceProperty = options.referenceProperty;
+  const modelProperty = options.modelProperty || 'name';
+  const shouldValidate = options.shouldValidate || false;
 
-  var entry = entryFactory.textField({
-    id: id,
-    label: label,
-    modelProperty: modelProperty,
+  const entry = entryFactory.textField({
+    id,
+    label,
+    modelProperty,
 
-    get: function(element, node) {
-      var reference = definition.get(referenceProperty);
-      var props = {};
+    get(element, node) {
+      const reference = definition.get(referenceProperty);
+      const props = {};
       props[modelProperty] = reference && reference.get(modelProperty);
       return props;
     },
 
-    set: function(element, values, node) {
-      var reference = definition.get(referenceProperty);
-      var props = {};
+    set(element, values, node) {
+      const reference = definition.get(referenceProperty);
+      const props = {};
       props[modelProperty] = values[modelProperty] || undefined;
       return cmdHelper.updateBusinessObject(element, reference, props);
     },
 
-    hidden: function(element, node) {
+    hidden(element, node) {
       return !definition.get(referenceProperty);
     }
   });
 
   if (shouldValidate) {
     entry.validate = function(element, values, node) {
-      var reference = definition.get(referenceProperty);
+      const reference = definition.get(referenceProperty);
       if (reference && !values[modelProperty]) {
-        var validationErrors = {};
+        const validationErrors = {};
         validationErrors[modelProperty] = 'Must provide a value';
         return validationErrors;
       }

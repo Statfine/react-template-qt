@@ -1,9 +1,9 @@
-'use strict';
 
-var ChangeElementTemplateHandler = require('./ChangeElementTemplateHandler');
 
-var getTemplate = require('../Helper').getTemplate,
-    getDefaultTemplate = require('../Helper').getDefaultTemplate;
+const ChangeElementTemplateHandler = require('./ChangeElementTemplateHandler');
+
+const getTemplate = require('../Helper').getTemplate;
+const getDefaultTemplate = require('../Helper').getDefaultTemplate;
 
 function registerHandlers(commandStack, elementTemplates, eventBus, elementRegistry) {
   commandStack.registerHandler(
@@ -35,9 +35,9 @@ function applyDefaultTemplate(element, elementTemplates, commandStack) {
   if (!getTemplate(element, elementTemplates)
       && getDefaultTemplate(element, elementTemplates)) {
 
-    var command = 'propertiesPanel.smart.changeTemplate';
-    var commandContext = {
-      element: element,
+    const command = 'propertiesPanel.smart.changeTemplate';
+    const commandContext = {
+      element,
       newTemplate: getDefaultTemplate(element, elementTemplates)
     };
 

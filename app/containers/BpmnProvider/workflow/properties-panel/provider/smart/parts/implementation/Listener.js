@@ -1,45 +1,45 @@
-'use strict';
 
-var is = require('bpmn-js/lib/util/ModelUtil').is,
-    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
-var extensionElementsEntry = require('./ExtensionElements'),
-    extensionElementsHelper = require('../../../../helper/ExtensionElementsHelper'),
-    cmdHelper = require('../../../../helper/CmdHelper'),
-    elementHelper = require('../../../../helper/ElementHelper'),
-    ImplementationTypeHelper = require('../../../../helper/ImplementationTypeHelper');
+const is = require('bpmn-js/lib/util/ModelUtil').is;
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+
+const extensionElementsEntry = require('./ExtensionElements');
+const extensionElementsHelper = require('../../../../helper/ExtensionElementsHelper');
+const cmdHelper = require('../../../../helper/CmdHelper');
+const elementHelper = require('../../../../helper/ElementHelper');
+const ImplementationTypeHelper = require('../../../../helper/ImplementationTypeHelper');
 
 
 function getListeners(bo, type) {
   return bo && extensionElementsHelper.getExtensionElements(bo, type) || [];
 }
 
-var SMART_EXECUTION_LISTENER_ELEMENT = 'smart:ExecutionListener';
-var SMART_TASK_LISTENER_ELEMENT = 'smart:TaskListener';
+const SMART_EXECUTION_LISTENER_ELEMENT = 'smart:ExecutionListener';
+const SMART_TASK_LISTENER_ELEMENT = 'smart:TaskListener';
 
 module.exports = function(element, bpmnFactory, options, translate) {
 
-  var LISTENER_TYPE_LABEL = {
+  const LISTENER_TYPE_LABEL = {
     class: translate('Java Class'),
     expression: translate('Expression'),
     delegateExpression: translate('Delegate Expression'),
     script: translate('Script')
   };
 
-  var bo;
+  let bo;
 
-  var result = {
-    getSelectedListener: getSelectedListener
+  const result = {
+    getSelectedListener
   };
 
-  var entries = result.entries = [];
+  const entries = result.entries = [];
 
-  var isSequenceFlow = ImplementationTypeHelper.isSequenceFlow(element);
+  const isSequenceFlow = ImplementationTypeHelper.isSequenceFlow(element);
 
   function getSelectedListener(element, node) {
-    var selection = (executionListenerEntry && executionListenerEntry.getSelected(element, node)) || { idx: -1 };
+    let selection = (executionListenerEntry && executionListenerEntry.getSelected(element, node)) || { idx: -1 };
 
-    var listener = getListeners(bo, SMART_EXECUTION_LISTENER_ELEMENT)[selection.idx];
+    let listener = getListeners(bo, SMART_EXECUTION_LISTENER_ELEMENT)[selection.idx];
     if (!listener && taskListenerEntry) {
       selection = taskListenerEntry.getSelected(element, node);
       listener = getListeners(bo, SMART_TASK_LISTENER_ELEMENT)[selection.idx];
@@ -47,37 +47,37 @@ module.exports = function(element, bpmnFactory, options, translate) {
     return listener;
   }
 
-  var setOptionLabelValue = function(type) {
+  const setOptionLabelValue = function(type) {
     return function(element, node, option, property, value, idx) {
-      var listeners = getListeners(bo, type);
-      var listener = listeners[idx];
-      var listenerType = ImplementationTypeHelper.getImplementationType(listener);
+      const listeners = getListeners(bo, type);
+      const listener = listeners[idx];
+      const listenerType = ImplementationTypeHelper.getImplementationType(listener);
 
-      var event = (listener.get('event')) ? listener.get('event') : '<empty>';
+      const event = (listener.get('event')) ? listener.get('event') : '<empty>';
 
-      var label = (event || '*') + ' : ' + (LISTENER_TYPE_LABEL[listenerType] || '');
+      const label = `${event || '*'  } : ${  LISTENER_TYPE_LABEL[listenerType] || ''}`;
 
       option.text = label;
     };
   };
 
-  var newElement = function(element, type, initialEvent) {
+  const newElement = function(element, type, initialEvent) {
     return function(element, extensionElements, value) {
-      var props = {
+      const props = {
         event: initialEvent,
         class: ''
       };
 
-      var newElem = elementHelper.createElement(type, props, extensionElements, bpmnFactory);
+      const newElem = elementHelper.createElement(type, props, extensionElements, bpmnFactory);
 
       return cmdHelper.addElementsTolist(element, extensionElements, 'values', [ newElem ]);
     };
   };
 
-  var removeElement = function(element, type) {
+  const removeElement = function(element, type) {
     return function(element, extensionElements, value, idx) {
-      var listeners = getListeners(bo, type);
-      var listener = listeners[idx];
+      const listeners = getListeners(bo, type);
+      const listener = listeners[idx];
       if (listener) {
         return extensionElementsHelper.removeEntry(bo, element, listener);
       }
@@ -106,11 +106,11 @@ module.exports = function(element, bpmnFactory, options, translate) {
         createExtensionElement: newElement(element, SMART_EXECUTION_LISTENER_ELEMENT, (isSequenceFlow) ? 'take' : 'start'),
         removeExtensionElement: removeElement(element, SMART_EXECUTION_LISTENER_ELEMENT),
 
-        getExtensionElements: function(element) {
+        getExtensionElements(element) {
           return getListeners(bo, SMART_EXECUTION_LISTENER_ELEMENT);
         },
 
-        onSelectionChange: function(element, node, event, scope) {
+        onSelectionChange(element, node, event, scope) {
           taskListenerEntry && taskListenerEntry.deselect(element, node);
         },
 
@@ -137,11 +137,11 @@ module.exports = function(element, bpmnFactory, options, translate) {
       createExtensionElement: newElement(element, SMART_TASK_LISTENER_ELEMENT, 'create'),
       removeExtensionElement: removeElement(element, SMART_TASK_LISTENER_ELEMENT),
 
-      getExtensionElements: function(element) {
+      getExtensionElements(element) {
         return getListeners(bo, SMART_TASK_LISTENER_ELEMENT);
       },
 
-      onSelectionChange: function(element, node, event, scope) {
+      onSelectionChange(element, node, event, scope) {
         executionListenerEntry.deselect(element, node);
       },
 

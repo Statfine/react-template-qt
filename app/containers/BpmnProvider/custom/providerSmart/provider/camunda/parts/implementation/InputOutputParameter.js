@@ -1,14 +1,14 @@
-'use strict';
 
-var is = require('bpmn-js/lib/util/ModelUtil').is;
 
-var elementHelper = require('../../../../helper/ElementHelper'),
-    inputOutputHelper = require('../../../../helper/InputOutputHelper'),
-    cmdHelper = require('../../../../helper/CmdHelper'),
-    utils = require('../../../../Utils');
+const is = require('bpmn-js/lib/util/ModelUtil').is;
 
-var entryFactory = require('../../../../factory/EntryFactory'),
-    scriptImplementation = require('./Script');
+const elementHelper = require('../../../../helper/ElementHelper');
+const inputOutputHelper = require('../../../../helper/InputOutputHelper');
+const cmdHelper = require('../../../../helper/CmdHelper');
+const utils = require('../../../../Utils');
+
+const entryFactory = require('../../../../factory/EntryFactory');
+const scriptImplementation = require('./Script');
 
 
 function createElement(type, parent, factory, properties) {
@@ -33,7 +33,7 @@ function ensureInputOutputSupported(element, insideConnector) {
 
 module.exports = function(element, bpmnFactory, options, translate) {
 
-  var typeInfo = {
+  const typeInfo = {
     'smart:Map': {
       value: 'map',
       label: translate('Map')
@@ -50,18 +50,18 @@ module.exports = function(element, bpmnFactory, options, translate) {
 
   options = options || {};
 
-  var insideConnector = !!options.insideConnector,
-      idPrefix = options.idPrefix || '';
+  const insideConnector = !!options.insideConnector;
+  const idPrefix = options.idPrefix || '';
 
-  var getSelected = options.getSelectedParameter;
+  const getSelected = options.getSelectedParameter;
 
   if (!ensureInputOutputSupported(element, insideConnector)) {
     return [];
   }
 
-  var entries = [];
+  const entries = [];
 
-  var isSelected = function(element, node) {
+  const isSelected = function(element, node) {
     return getSelected(element, node);
   };
 
@@ -69,25 +69,25 @@ module.exports = function(element, bpmnFactory, options, translate) {
   // parameter name ////////////////////////////////////////////////////////
 
   entries.push(entryFactory.validationAwareTextField({
-    id: idPrefix + 'parameterName',
+    id: `${idPrefix  }parameterName`,
     label: translate('Name'),
     modelProperty: 'name',
 
-    getProperty: function(element, node) {
+    getProperty(element, node) {
       return (getSelected(element, node) || {}).name;
     },
 
-    setProperty: function(element, values, node) {
-      var param = getSelected(element, node);
+    setProperty(element, values, node) {
+      const param = getSelected(element, node);
       return cmdHelper.updateBusinessObject(element, param, values);
     },
 
-    validate: function(element, values, node) {
-      var bo = getSelected(element, node);
+    validate(element, values, node) {
+      const bo = getSelected(element, node);
 
-      var validation = {};
+      const validation = {};
       if (bo) {
-        var nameValue = values.name;
+        const nameValue = values.name;
 
         if (nameValue) {
           if (utils.containsSpace(nameValue)) {
@@ -101,7 +101,7 @@ module.exports = function(element, bpmnFactory, options, translate) {
       return validation;
     },
 
-    hidden: function(element, node) {
+    hidden(element, node) {
       return !isSelected(element, node);
     }
   }));
@@ -109,7 +109,7 @@ module.exports = function(element, bpmnFactory, options, translate) {
 
   // parameter type //////////////////////////////////////////////////////
 
-  var selectOptions = [
+  const selectOptions = [
     { value: 'text', name: translate('Text') },
     { value: 'script', name: translate('Script') },
     { value: 'list', name: translate('List') },
@@ -117,42 +117,42 @@ module.exports = function(element, bpmnFactory, options, translate) {
   ];
 
   entries.push(entryFactory.selectBox({
-    id : idPrefix + 'parameterType',
+    id : `${idPrefix  }parameterType`,
     label: translate('Type'),
-    selectOptions: selectOptions,
+    selectOptions,
     modelProperty: 'parameterType',
 
-    get: function(element, node) {
-      var bo = getSelected(element, node);
+    get(element, node) {
+      const bo = getSelected(element, node);
 
-      var parameterType = 'text';
+      let parameterType = 'text';
 
       if (typeof bo !== 'undefined') {
-        var definition = bo.get('definition');
+        const definition = bo.get('definition');
         if (typeof definition !== 'undefined') {
-          var type = definition.$type;
+          const type = definition.$type;
           parameterType = typeInfo[type].value;
         }
       }
 
       return {
-        parameterType: parameterType
+        parameterType
       };
     },
 
-    set: function(element, values, node) {
-      var bo = getSelected(element, node);
+    set(element, values, node) {
+      const bo = getSelected(element, node);
 
-      var properties = {
+      const properties = {
         value: undefined,
         definition: undefined
       };
 
-      var createParameterTypeElem = function(type) {
+      const createParameterTypeElem = function(type) {
         return createElement(type, bo, bpmnFactory);
       };
 
-      var parameterType = values.parameterType;
+      const parameterType = values.parameterType;
 
       if (parameterType === 'script') {
         properties.definition = createParameterTypeElem('smart:Script');
@@ -167,7 +167,7 @@ module.exports = function(element, bpmnFactory, options, translate) {
       return cmdHelper.updateBusinessObject(element, bo, properties);
     },
 
-    show: function(element, node) {
+    show(element, node) {
       return isSelected(element, node);
     }
 
@@ -177,23 +177,23 @@ module.exports = function(element, bpmnFactory, options, translate) {
   // parameter value (type = text) ///////////////////////////////////////////////////////
 
   entries.push(entryFactory.textBox({
-    id : idPrefix + 'parameterType-text',
+    id : `${idPrefix  }parameterType-text`,
     label : translate('Value'),
     modelProperty: 'value',
-    get: function(element, node) {
+    get(element, node) {
       return {
         value: (getSelected(element, node) || {}).value
       };
     },
 
-    set: function(element, values, node) {
-      var param = getSelected(element, node);
+    set(element, values, node) {
+      const param = getSelected(element, node);
       values.value = values.value || undefined;
       return cmdHelper.updateBusinessObject(element, param, values);
     },
 
-    show: function(element, node) {
-      var bo = getSelected(element, node);
+    show(element, node) {
+      const bo = getSelected(element, node);
       return bo && !bo.definition;
     }
 
@@ -201,34 +201,34 @@ module.exports = function(element, bpmnFactory, options, translate) {
 
 
   // parameter value (type = script) ///////////////////////////////////////////////////////
-  var script = scriptImplementation('scriptFormat', 'value', true, translate);
+  const script = scriptImplementation('scriptFormat', 'value', true, translate);
   entries.push({
-    id: idPrefix + 'parameterType-script',
-    html: '<div data-show="isScript">' +
-            script.template +
-          '</div>',
-    get: function(element, node) {
-      var bo = getSelected(element, node);
+    id: `${idPrefix  }parameterType-script`,
+    html: `<div data-show="isScript">${ 
+      script.template 
+    }</div>`,
+    get(element, node) {
+      const bo = getSelected(element, node);
       return bo && isScript(bo.definition) ? script.get(element, bo.definition) : {};
     },
 
-    set: function(element, values, node) {
-      var bo = getSelected(element, node);
-      var update = script.set(element, values);
+    set(element, values, node) {
+      const bo = getSelected(element, node);
+      const update = script.set(element, values);
       return cmdHelper.updateBusinessObject(element, bo.definition, update);
     },
 
-    validate: function(element, values, node) {
-      var bo = getSelected(element, node);
+    validate(element, values, node) {
+      const bo = getSelected(element, node);
       return bo && isScript(bo.definition) ? script.validate(element, bo.definition) : {};
     },
 
-    isScript: function(element, node) {
-      var bo = getSelected(element, node);
+    isScript(element, node) {
+      const bo = getSelected(element, node);
       return bo && isScript(bo.definition);
     },
 
-    script: script
+    script
 
   });
 
@@ -236,13 +236,13 @@ module.exports = function(element, bpmnFactory, options, translate) {
   // parameter value (type = list) ///////////////////////////////////////////////////////
 
   entries.push(entryFactory.table({
-    id: idPrefix + 'parameterType-list',
+    id: `${idPrefix  }parameterType-list`,
     modelProperties: [ 'value' ],
     labels: [ translate('Value') ],
     addLabel: translate('Add Value'),
 
-    getElements: function(element, node) {
-      var bo = getSelected(element, node);
+    getElements(element, node) {
+      const bo = getSelected(element, node);
 
       if (bo && isList(bo.definition)) {
         return bo.definition.items;
@@ -251,32 +251,32 @@ module.exports = function(element, bpmnFactory, options, translate) {
       return [];
     },
 
-    updateElement: function(element, values, node, idx) {
-      var bo = getSelected(element, node);
-      var item = bo.definition.items[idx];
+    updateElement(element, values, node, idx) {
+      const bo = getSelected(element, node);
+      const item = bo.definition.items[idx];
       return cmdHelper.updateBusinessObject(element, item, values);
     },
 
-    addElement: function(element, node) {
-      var bo = getSelected(element, node);
-      var newValue = createElement('smart:Value', bo.definition, bpmnFactory, { value: undefined });
+    addElement(element, node) {
+      const bo = getSelected(element, node);
+      const newValue = createElement('smart:Value', bo.definition, bpmnFactory, { value: undefined });
       return cmdHelper.addElementsTolist(element, bo.definition, 'items', [ newValue ]);
     },
 
-    removeElement: function(element, node, idx) {
-      var bo = getSelected(element, node);
+    removeElement(element, node, idx) {
+      const bo = getSelected(element, node);
       return cmdHelper.removeElementsFromList(element, bo.definition, 'items', null, [ bo.definition.items[idx] ]);
     },
 
-    editable: function(element, node, prop, idx) {
-      var bo = getSelected(element, node);
-      var item = bo.definition.items[idx];
+    editable(element, node, prop, idx) {
+      const bo = getSelected(element, node);
+      const item = bo.definition.items[idx];
       return !isMap(item) && !isList(item) && !isScript(item);
     },
 
-    setControlValue: function(element, node, input, prop, value, idx) {
-      var bo = getSelected(element, node);
-      var item = bo.definition.items[idx];
+    setControlValue(element, node, input, prop, value, idx) {
+      const bo = getSelected(element, node);
+      const item = bo.definition.items[idx];
 
       if (!isMap(item) && !isList(item) && !isScript(item)) {
         input.value = value;
@@ -285,8 +285,8 @@ module.exports = function(element, bpmnFactory, options, translate) {
       }
     },
 
-    show: function(element, node) {
-      var bo = getSelected(element, node);
+    show(element, node) {
+      const bo = getSelected(element, node);
       return bo && bo.definition && isList(bo.definition);
     }
 
@@ -296,13 +296,13 @@ module.exports = function(element, bpmnFactory, options, translate) {
   // parameter value (type = map) ///////////////////////////////////////////////////////
 
   entries.push(entryFactory.table({
-    id: idPrefix + 'parameterType-map',
+    id: `${idPrefix  }parameterType-map`,
     modelProperties: [ 'key', 'value' ],
     labels: [ translate('Key'), translate('Value') ],
     addLabel: translate('Add Entry'),
 
-    getElements: function(element, node) {
-      var bo = getSelected(element, node);
+    getElements(element, node) {
+      const bo = getSelected(element, node);
 
       if (bo && isMap(bo.definition)) {
         return bo.definition.entries;
@@ -311,9 +311,9 @@ module.exports = function(element, bpmnFactory, options, translate) {
       return [];
     },
 
-    updateElement: function(element, values, node, idx) {
-      var bo = getSelected(element, node);
-      var entry = bo.definition.entries[idx];
+    updateElement(element, values, node, idx) {
+      const bo = getSelected(element, node);
+      const entry = bo.definition.entries[idx];
 
       if (isMap(entry.definition) || isList(entry.definition) || isScript(entry.definition)) {
         values = {
@@ -324,26 +324,26 @@ module.exports = function(element, bpmnFactory, options, translate) {
       return cmdHelper.updateBusinessObject(element, entry, values);
     },
 
-    addElement: function(element, node) {
-      var bo = getSelected(element, node);
-      var newEntry = createElement('smart:Entry', bo.definition, bpmnFactory, { key: undefined, value: undefined });
+    addElement(element, node) {
+      const bo = getSelected(element, node);
+      const newEntry = createElement('smart:Entry', bo.definition, bpmnFactory, { key: undefined, value: undefined });
       return cmdHelper.addElementsTolist(element, bo.definition, 'entries', [ newEntry ]);
     },
 
-    removeElement: function(element, node, idx) {
-      var bo = getSelected(element, node);
+    removeElement(element, node, idx) {
+      const bo = getSelected(element, node);
       return cmdHelper.removeElementsFromList(element, bo.definition, 'entries', null, [ bo.definition.entries[idx] ]);
     },
 
-    editable: function(element, node, prop, idx) {
-      var bo = getSelected(element, node);
-      var entry = bo.definition.entries[idx];
+    editable(element, node, prop, idx) {
+      const bo = getSelected(element, node);
+      const entry = bo.definition.entries[idx];
       return prop === 'key' || (!isMap(entry.definition) && !isList(entry.definition) && !isScript(entry.definition));
     },
 
-    setControlValue: function(element, node, input, prop, value, idx) {
-      var bo = getSelected(element, node);
-      var entry = bo.definition.entries[idx];
+    setControlValue(element, node, input, prop, value, idx) {
+      const bo = getSelected(element, node);
+      const entry = bo.definition.entries[idx];
 
       if (prop === 'key' || (!isMap(entry.definition) && !isList(entry.definition) && !isScript(entry.definition))) {
         input.value = value;
@@ -352,8 +352,8 @@ module.exports = function(element, bpmnFactory, options, translate) {
       }
     },
 
-    show: function(element, node) {
-      var bo = getSelected(element, node);
+    show(element, node) {
+      const bo = getSelected(element, node);
       return bo && bo.definition && isMap(bo.definition);
     }
 

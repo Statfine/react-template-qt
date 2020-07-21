@@ -1,9 +1,9 @@
-'use strict';
 
-var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
-    getExtensionElements = require('./ExtensionElementsHelper').getExtensionElements;
 
-var FormHelper = {};
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+const getExtensionElements = require('./ExtensionElementsHelper').getExtensionElements;
+
+const FormHelper = {};
 
 module.exports = FormHelper;
 
@@ -18,7 +18,7 @@ module.exports = FormHelper;
  *
  */
 FormHelper.getFormData = function(element) {
- /* var bo = getBusinessObject(element);
+  /* var bo = getBusinessObject(element);
 
   var formFields = getExtensionElements(bo, 'smart:FormProperty');
 
@@ -26,8 +26,8 @@ FormHelper.getFormData = function(element) {
 
   if (typeof formData !== 'undefined') {
     return formData[0];
-  }*/
- return {};
+  } */
+  return {};
 };
 
 
@@ -41,10 +41,10 @@ FormHelper.getFormData = function(element) {
  */
 FormHelper.getFormFields = function(element) {
 
-  /**直接获取 ExtensionElements的 smart:FormProperty元素*/
-  var bo = getBusinessObject(element);
+  /** 直接获取 ExtensionElements的 smart:FormProperty元素 */
+  const bo = getBusinessObject(element);
 
-  var formFields = getExtensionElements(bo, 'smart:FormProperty');
+  const formFields = getExtensionElements(bo, 'smart:FormProperty');
 
   return formFields || [];
 };
@@ -60,7 +60,7 @@ FormHelper.getFormFields = function(element) {
  */
 FormHelper.getFormField = function(element, idx) {
 
-  var formFields = this.getFormFields(element);
+  const formFields = this.getFormFields(element);
 
   return formFields[idx];
 };

@@ -1,30 +1,30 @@
-'use strict';
 
-var entryFactory = require('../../../../factory/EntryFactory');
 
-var cmdHelper = require('../../../../helper/CmdHelper');
+const entryFactory = require('../../../../factory/EntryFactory');
+
+const cmdHelper = require('../../../../helper/CmdHelper');
 
 module.exports = function(element, bpmnFactory, options, translate) {
 
-  var getBusinessObject = options.getBusinessObject;
+  const getBusinessObject = options.getBusinessObject;
 
-  var candidateStarterGroupsEntry = entryFactory.textField({
+  const candidateStarterGroupsEntry = entryFactory.textField({
     id: 'candidateStarterGroups',
     label: translate('Candidate Starter Groups'),
     modelProperty: 'candidateStarterGroups',
     description: translate('Specify more than one group as a comma separated list.'),
 
-    get: function(element, node) {
-      var bo = getBusinessObject(element);
-      var candidateStarterGroups = bo.get('smart:candidateStarterGroups');
+    get(element, node) {
+      const bo = getBusinessObject(element);
+      const candidateStarterGroups = bo.get('smart:candidateStarterGroups');
 
       return {
-        candidateStarterGroups: candidateStarterGroups ? candidateStarterGroups : ''
+        candidateStarterGroups: candidateStarterGroups || ''
       };
     },
 
-    set: function(element, values) {
-      var bo = getBusinessObject(element);
+    set(element, values) {
+      const bo = getBusinessObject(element);
       return cmdHelper.updateBusinessObject(element, bo, {
         'smart:candidateStarterGroups': values.candidateStarterGroups || undefined
       });
@@ -32,23 +32,23 @@ module.exports = function(element, bpmnFactory, options, translate) {
 
   });
 
-  var candidateStarterUsersEntry = entryFactory.textField({
+  const candidateStarterUsersEntry = entryFactory.textField({
     id: 'candidateStarterUsers',
     label: translate('Candidate Starter Users'),
     modelProperty: 'candidateStarterUsers',
     description: translate('Specify more than one user as a comma separated list.'),
 
-    get: function(element, node) {
-      var bo = getBusinessObject(element);
-      var candidateStarterUsers = bo.get('smart:candidateStarterUsers');
+    get(element, node) {
+      const bo = getBusinessObject(element);
+      const candidateStarterUsers = bo.get('smart:candidateStarterUsers');
 
       return {
-        candidateStarterUsers: candidateStarterUsers ? candidateStarterUsers : ''
+        candidateStarterUsers: candidateStarterUsers || ''
       };
     },
 
-    set: function(element, values) {
-      var bo = getBusinessObject(element);
+    set(element, values) {
+      const bo = getBusinessObject(element);
       return cmdHelper.updateBusinessObject(element, bo, {
         'smart:candidateStarterUsers': values.candidateStarterUsers || undefined
       });

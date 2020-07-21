@@ -1,35 +1,35 @@
-'use strict';
 
-var is = require('bpmn-js/lib/util/ModelUtil').is;
 
-var assign = require('lodash/assign');
+const is = require('bpmn-js/lib/util/ModelUtil').is;
 
-var entryFactory = require('../../../../factory/EntryFactory'),
-    cmdHelper = require('../../../../helper/CmdHelper');
+const assign = require('lodash/assign');
+
+const entryFactory = require('../../../../factory/EntryFactory');
+const cmdHelper = require('../../../../helper/CmdHelper');
 
 module.exports = function(element, bpmnFactory, options, translate) {
 
-  var getBusinessObject = options.getBusinessObject,
-      hideResultVariable = options.hideResultVariable,
-      id = options.id || 'resultVariable';
+  const getBusinessObject = options.getBusinessObject;
+  const hideResultVariable = options.hideResultVariable;
+  const id = options.id || 'resultVariable';
 
 
   var resultVariableEntry = entryFactory.textField({
-    id: id,
+    id,
     label: translate('Result Variable'),
     modelProperty: 'resultVariable',
 
-    get: function(element, node) {
-      var bo = getBusinessObject(element);
+    get(element, node) {
+      const bo = getBusinessObject(element);
       return { resultVariable: bo.get('smart:resultVariable') };
     },
 
-    set: function(element, values, node) {
-      var bo = getBusinessObject(element);
+    set(element, values, node) {
+      const bo = getBusinessObject(element);
 
-      var resultVariable = values.resultVariable || undefined;
+      const resultVariable = values.resultVariable || undefined;
 
-      var props = {
+      let props = {
         'smart:resultVariable': resultVariable
       };
 
@@ -40,7 +40,7 @@ module.exports = function(element, bpmnFactory, options, translate) {
       return cmdHelper.updateBusinessObject(element, bo, props);
     },
 
-    hidden: function(element, node) {
+    hidden(element, node) {
       if (typeof hideResultVariable === 'function') {
         return hideResultVariable.apply(resultVariableEntry, arguments);
       }

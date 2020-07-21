@@ -1,14 +1,14 @@
-'use strict';
-
-var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
-
-var is = require('bpmn-js/lib/util/ModelUtil').is,
-    isAny = require('bpmn-js/lib/features/modeling/util/ModelingUtil').isAny;
-
-var find = require('lodash/find');
 
 
-var TEMPLATE_ATTR = 'smart:modelerTemplate';
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+
+const is = require('bpmn-js/lib/util/ModelUtil').is;
+const isAny = require('bpmn-js/lib/features/modeling/util/ModelingUtil').isAny;
+
+const find = require('lodash/find');
+
+
+const TEMPLATE_ATTR = 'smart:modelerTemplate';
 
 /**
  * The BPMN 2.0 extension attribute name under
@@ -28,7 +28,7 @@ module.exports.TEMPLATE_ATTR = TEMPLATE_ATTR;
  */
 function getTemplateId(element) {
 
-  var bo = getBusinessObject(element);
+  const bo = getBusinessObject(element);
 
   if (bo) {
     return bo.get(TEMPLATE_ATTR);
@@ -47,7 +47,7 @@ module.exports.getTemplateId = getTemplateId;
  * @return {TemplateDefinition}
  */
 function getTemplate(element, elementTemplates) {
-  var id = getTemplateId(element);
+  const id = getTemplateId(element);
 
   return id && elementTemplates.get(id);
 }
@@ -85,9 +85,9 @@ module.exports.getDefaultTemplate = getDefaultTemplate;
  * @return {ModdleElement} the extension
  */
 function findExtension(element, type) {
-  var bo = getBusinessObject(element);
+  const bo = getBusinessObject(element);
 
-  var extensionElements;
+  let extensionElements;
 
   if (is(bo, 'bpmn:ExtensionElements')) {
     extensionElements = bo;
@@ -108,7 +108,7 @@ module.exports.findExtension = findExtension;
 
 
 function findExtensions(element, types) {
-  var extensionElements = getExtensionElements(element);
+  const extensionElements = getExtensionElements(element);
 
   if (!extensionElements) {
     return [];
@@ -124,13 +124,13 @@ module.exports.findExtensions = findExtensions;
 
 function findSmartInOut(element, binding) {
 
-  var extensionElements = getExtensionElements(element);
+  const extensionElements = getExtensionElements(element);
 
   if (!extensionElements) {
     return;
   }
 
-  var matcher;
+  let matcher;
 
   if (binding.type === 'smart:in') {
     matcher = function(e) {
@@ -163,7 +163,7 @@ module.exports.findSmartProperty = findSmartProperty;
 
 
 function findInputParameter(inputOutput, binding) {
-  var parameters = inputOutput.get('inputParameters');
+  const parameters = inputOutput.get('inputParameters');
 
   return find(parameters, function(p) {
     return p.name === binding.name;
@@ -174,16 +174,16 @@ module.exports.findInputParameter = findInputParameter;
 
 
 function findOutputParameter(inputOutput, binding) {
-  var parameters = inputOutput.get('outputParameters');
+  const parameters = inputOutput.get('outputParameters');
 
   return find(parameters, function(p) {
-    var value = p.value;
+    const value = p.value;
 
     if (!binding.scriptFormat) {
       return value === binding.source;
     }
 
-    var definition = p.definition;
+    const definition = p.definition;
 
     if (!definition || binding.scriptFormat !== definition.scriptFormat) {
       return false;
@@ -200,13 +200,13 @@ module.exports.findOutputParameter = findOutputParameter;
 // helpers /////////////////////////////////
 
 function getExtensionElements(element) {
-  var bo = getBusinessObject(element);
+  const bo = getBusinessObject(element);
 
   if (is(bo, 'bpmn:ExtensionElements')) {
     return bo;
-  } else {
-    return bo.extensionElements;
-  }
+  } 
+  return bo.extensionElements;
+  
 }
 
 

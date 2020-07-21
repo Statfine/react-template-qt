@@ -1,10 +1,10 @@
-'use strict';
 
-var listener = require('./implementation/Listener');
+
+const listener = require('./implementation/Listener');
 
 module.exports = function(group, element, bpmnFactory, translate) {
 
-  var listenerEntry = listener(element, bpmnFactory, {}, translate);
+  const listenerEntry = listener(element, bpmnFactory, {}, translate);
 
   group.entries = group.entries.concat(listenerEntry.entries);
 

@@ -1,19 +1,19 @@
-'use strict';
 
-var cmdHelper = require('../../../../helper/CmdHelper');
 
-var domQuery = require('min-dom').query,
-    domify = require('min-dom').domify,
-    domAttr = require('min-dom').attr;
 
-var forEach = require('lodash/forEach'),
-    find = require('lodash/find');
+const domQuery = require('min-dom').query;
+const domify = require('min-dom').domify;
+const domAttr = require('min-dom').attr;
 
-var elementHelper = require('../../../../helper/ElementHelper');
-var utils = require('../../../../Utils'),
-    escapeHTML = utils.escapeHTML;
+const forEach = require('lodash/forEach');
+const find = require('lodash/find');
+const cmdHelper = require('../../../../helper/CmdHelper');
 
-var selector = 'select[name=selectedElement]';
+const elementHelper = require('../../../../helper/ElementHelper');
+const utils = require('../../../../Utils');
+const escapeHTML = utils.escapeHTML;
+
+const selector = 'select[name=selectedElement]';
 
 /**
  * Get select box containing all elements.
@@ -34,7 +34,7 @@ function getSelectBox(node) {
  * @return {ModdleElement} an element
  */
 function findElementById(eventDefinition, type, id) {
-  var elements = utils.findRootElementsByType(eventDefinition, type);
+  const elements = utils.findRootElementsByType(eventDefinition, type);
   return find(elements, function(element) {
     return element.id === id;
   });
@@ -59,42 +59,42 @@ function findElementById(eventDefinition, type, id) {
  */
 module.exports = function(element, definition, bpmnFactory, options) {
 
-  var elementName = options.elementName || '',
-      elementType = options.elementType,
-      referenceProperty = options.referenceProperty;
+  const elementName = options.elementName || '';
+  const elementType = options.elementType;
+  const referenceProperty = options.referenceProperty;
 
-  var newElementIdPrefix = options.newElementIdPrefix || 'elem_';
+  const newElementIdPrefix = options.newElementIdPrefix || 'elem_';
 
-  var label = options.label || '',
-      description = options.description || '';
+  const label = options.label || '';
+  const description = options.description || '';
 
-  var entries = [];
+  const entries = [];
 
   entries.push({
 
-    id: 'event-definitions-' + elementName,
-    description: description,
-    html: '<div class="bpp-row bpp-select">' +
-             '<label for="camunda-' + escapeHTML(elementName) + '">' + escapeHTML(label) + '</label>' +
-             '<div class="bpp-field-wrapper">' +
-               '<select id="camunda-' + escapeHTML(elementName) + '" name="selectedElement" data-value>' +
-               '</select>' +
-               '<button class="add" id="addElement" data-action="addElement"><span>+</span></button>' +
-             '</div>' +
-          '</div>',
+    id: `event-definitions-${  elementName}`,
+    description,
+    html: `${'<div class="bpp-row bpp-select">' +
+             '<label for="camunda-'}${  escapeHTML(elementName)  }">${  escapeHTML(label)  }</label>` +
+             `<div class="bpp-field-wrapper">` +
+               `<select id="camunda-${  escapeHTML(elementName)  }" name="selectedElement" data-value>` +
+               `</select>` +
+               `<button class="add" id="addElement" data-action="addElement"><span>+</span></button>` +
+             `</div>` +
+          `</div>`,
 
-    get: function(element, entryNode) {
+    get(element, entryNode) {
       utils.updateOptionsDropDown(selector, definition, elementType, entryNode);
-      var reference = definition.get(referenceProperty);
+      const reference = definition.get(referenceProperty);
       return {
         selectedElement: (reference && reference.id) || ''
       };
     },
 
-    set: function(element, values) {
-      var selection = values.selectedElement;
+    set(element, values) {
+      const selection = values.selectedElement;
 
-      var props = {};
+      const props = {};
 
       if (!selection || typeof selection === 'undefined') {
         // remove reference to element
@@ -102,11 +102,11 @@ module.exports = function(element, definition, bpmnFactory, options) {
         return cmdHelper.updateBusinessObject(element, definition, props);
       }
 
-      var commands = [];
+      const commands = [];
 
-      var selectedElement = findElementById(definition, elementType, selection);
+      let selectedElement = findElementById(definition, elementType, selection);
       if (!selectedElement) {
-        var root = utils.getRoot(definition);
+        const root = utils.getRoot(definition);
 
         // create a new element
         selectedElement = elementHelper.createElement(elementType, { name: selection }, root, bpmnFactory);
@@ -120,15 +120,15 @@ module.exports = function(element, definition, bpmnFactory, options) {
       return commands;
     },
 
-    addElement: function(element, inputNode) {
+    addElement(element, inputNode) {
       // note: this generated id will be used as name
       // of the element and not as id
-      var id = utils.nextId(newElementIdPrefix);
+      const id = utils.nextId(newElementIdPrefix);
 
-      var optionTemplate = domify('<option value="' + escapeHTML(id) + '"> (id='+escapeHTML(id)+')' + '</option>');
+      const optionTemplate = domify(`<option value="${  escapeHTML(id)  }"> (id=${escapeHTML(id)})` + `</option>`);
 
       // add new option
-      var selectBox = getSelectBox(inputNode);
+      const selectBox = getSelectBox(inputNode);
       selectBox.insertBefore(optionTemplate, selectBox.firstChild);
 
       // select new element in the select box

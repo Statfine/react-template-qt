@@ -1,27 +1,27 @@
-'use strict';
 
-var entryFactory = require('../../../factory/EntryFactory'),
-    cmdHelper = require('../../../helper/CmdHelper');
 
-var ModelUtil = require('bpmn-js/lib/util/ModelUtil'),
-    is = ModelUtil.is,
-    getBusinessObject = ModelUtil.getBusinessObject;
+const ModelUtil = require('bpmn-js/lib/util/ModelUtil');
+const entryFactory = require('../../../factory/EntryFactory');
+const cmdHelper = require('../../../helper/CmdHelper');
+
+const is = ModelUtil.is;
+const getBusinessObject = ModelUtil.getBusinessObject;
 
 
 module.exports = function(group, element, bpmnFactory, translate) {
 
-  var getValue = function(businessObject) {
+  const getValue = function(businessObject) {
     return function(element) {
-      var documentations = businessObject && businessObject.get('documentation'),
-          text = (documentations && documentations.length > 0) ? documentations[0].text : '';
+      const documentations = businessObject && businessObject.get('documentation');
+      const text = (documentations && documentations.length > 0) ? documentations[0].text : '';
 
       return { documentation: text };
     };
   };
 
-  var setValue = function(businessObject) {
+  const setValue = function(businessObject) {
     return function(element, values) {
-      var newObjectList = [];
+      const newObjectList = [];
 
       if (typeof values.documentation !== 'undefined' && values.documentation !== '') {
         newObjectList.push(bpmnFactory.create('bpmn:Documentation', {
@@ -34,7 +34,7 @@ module.exports = function(group, element, bpmnFactory, translate) {
   };
 
   // Element Documentation
-  var elementDocuEntry = entryFactory.textBox({
+  const elementDocuEntry = entryFactory.textBox({
     id: 'documentation',
     label: translate('Element Documentation'),
     modelProperty: 'documentation'
@@ -47,7 +47,7 @@ module.exports = function(group, element, bpmnFactory, translate) {
   group.entries.push(elementDocuEntry);
 
 
-  var processRef;
+  let processRef;
 
   // Process Documentation when having a Collaboration Diagram
   if (is(element, 'bpmn:Participant')) {
@@ -56,7 +56,7 @@ module.exports = function(group, element, bpmnFactory, translate) {
 
     // do not show for collapsed Pools/Participants
     if (processRef) {
-      var processDocuEntry = entryFactory.textBox({
+      const processDocuEntry = entryFactory.textBox({
         id: 'process-documentation',
         label: translate('Process Documentation'),
         modelProperty: 'documentation'

@@ -1,15 +1,15 @@
-'use strict';
 
-var entryFactory = require('../../../../factory/EntryFactory'),
-    cmdHelper = require('../../../../helper/CmdHelper');
 
-var DELEGATE_TYPES = [
+const entryFactory = require('../../../../factory/EntryFactory');
+const cmdHelper = require('../../../../helper/CmdHelper');
+
+const DELEGATE_TYPES = [
   'class',
   'expression',
   'delegateExpression'
 ];
 
-var PROPERTIES = {
+const PROPERTIES = {
   class: 'smart:class',
   expression: 'smart:expression',
   delegateExpression: 'smart:delegateExpression'
@@ -26,53 +26,53 @@ function getAttribute(type) {
 
 module.exports = function(element, bpmnFactory, options, translate) {
 
-  var getImplementationType = options.getImplementationType,
-      getBusinessObject = options.getBusinessObject;
+  const getImplementationType = options.getImplementationType;
+  const getBusinessObject = options.getBusinessObject;
 
   function getDelegationLabel(type) {
     switch (type) {
-    case 'class':
-      return translate('Java Class');
-    case 'expression':
-      return translate('Expression');
-    case 'delegateExpression':
-      return translate('Delegate Expression');
-    default:
-      return '';
+      case 'class':
+        return translate('Java Class');
+      case 'expression':
+        return translate('Expression');
+      case 'delegateExpression':
+        return translate('Delegate Expression');
+      default:
+        return '';
     }
   }
 
-  var delegateEntry = entryFactory.textField({
+  const delegateEntry = entryFactory.textField({
     id: 'delegate',
     label: translate('Value'),
     dataValueLabel: 'delegationLabel',
     modelProperty: 'delegate',
 
-    get: function(element, node) {
-      var bo = getBusinessObject(element);
-      var type = getImplementationType(element);
-      var attr = getAttribute(type);
-      var label = getDelegationLabel(type);
+    get(element, node) {
+      const bo = getBusinessObject(element);
+      const type = getImplementationType(element);
+      const attr = getAttribute(type);
+      const label = getDelegationLabel(type);
       return {
         delegate: bo.get(attr),
         delegationLabel: label
       };
     },
 
-    set: function(element, values, node) {
-      var bo = getBusinessObject(element);
-      var type = getImplementationType(element);
-      var attr = getAttribute(type);
-      var prop = {};
+    set(element, values, node) {
+      const bo = getBusinessObject(element);
+      const type = getImplementationType(element);
+      const attr = getAttribute(type);
+      const prop = {};
       prop[attr] = values.delegate || '';
       return cmdHelper.updateBusinessObject(element, bo, prop);
     },
 
-    validate: function(element, values, node) {
+    validate(element, values, node) {
       return isDelegate(getImplementationType(element)) && !values.delegate ? { delegate: translate('Must provide a value') } : {};
     },
 
-    hidden: function(element, node) {
+    hidden(element, node) {
       return !isDelegate(getImplementationType(element));
     }
 

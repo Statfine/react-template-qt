@@ -1,6 +1,6 @@
-'use strict';
 
-var assign = require('lodash/assign');
+
+const assign = require('lodash/assign');
 
 /**
  * Create an input parameter representing the given
@@ -13,14 +13,14 @@ var assign = require('lodash/assign');
  * @return {ModdleElement}
  */
 function createInputParameter(binding, value, bpmnFactory) {
-  var scriptFormat = binding.scriptFormat,
-      parameterValue,
-      parameterDefinition;
+  const scriptFormat = binding.scriptFormat;
+  let parameterValue;
+  let parameterDefinition;
 
   if (scriptFormat) {
     parameterDefinition = bpmnFactory.create('smart:Script', {
-      scriptFormat: scriptFormat,
-      value: value
+      scriptFormat,
+      value
     });
   } else {
     parameterValue = value;
@@ -47,13 +47,13 @@ module.exports.createInputParameter = createInputParameter;
  * @return {ModdleElement}
  */
 function createOutputParameter(binding, value, bpmnFactory) {
-  var scriptFormat = binding.scriptFormat,
-      parameterValue,
-      parameterDefinition;
+  const scriptFormat = binding.scriptFormat;
+  let parameterValue;
+  let parameterDefinition;
 
   if (scriptFormat) {
     parameterDefinition = bpmnFactory.create('smart:Script', {
-      scriptFormat: scriptFormat,
+      scriptFormat,
       value: binding.source
     });
   } else {
@@ -100,7 +100,7 @@ module.exports.createSmartProperty = createSmartProperty;
  */
 function createSmartIn(binding, value, bpmnFactory) {
 
-  var properties = createSmartInOutAttrs(binding, value);
+  const properties = createSmartInOutAttrs(binding, value);
 
   return bpmnFactory.create('smart:In', properties);
 }
@@ -136,7 +136,7 @@ module.exports.createSmartInWithBusinessKey = createSmartInWithBusinessKey;
  * @return {ModdleElement}
  */
 function createSmartOut(binding, value, bpmnFactory) {
-  var properties = createSmartInOutAttrs(binding, value);
+  const properties = createSmartInOutAttrs(binding, value);
 
   return bpmnFactory.create('smart:Out', properties);
 }
@@ -154,14 +154,14 @@ module.exports.createSmartOut = createSmartOut;
  * @return {ModdleElement}
  */
 function createSmartExecutionListenerScript(binding, value, bpmnFactory) {
-  var scriptFormat = binding.scriptFormat,
-      parameterValue,
-      parameterDefinition;
+  const scriptFormat = binding.scriptFormat;
+  let parameterValue;
+  let parameterDefinition;
 
   if (scriptFormat) {
     parameterDefinition = bpmnFactory.create('smart:Script', {
-      scriptFormat: scriptFormat,
-      value: value
+      scriptFormat,
+      value
     });
   } else {
     parameterValue = value;
@@ -186,13 +186,13 @@ module.exports.createSmartExecutionListenerScript = createSmartExecutionListener
  * @return {ModdleElement}
  */
 function createSmartFieldInjection(binding, value, bpmnFactory) {
-  var DEFAULT_PROPS = {
+  const DEFAULT_PROPS = {
     'string': undefined,
     'expression': undefined,
     'name': undefined
   };
 
-  var props = assign({}, DEFAULT_PROPS);
+  const props = assign({}, DEFAULT_PROPS);
 
   if (!binding.expression) {
     props.string = value;
@@ -213,7 +213,7 @@ module.exports.createSmartFieldInjection = createSmartFieldInjection;
  */
 function createSmartInOutAttrs(binding, value) {
 
-  var properties = {};
+  const properties = {};
 
   // smart:in source(Expression) target
   if (binding.target) {

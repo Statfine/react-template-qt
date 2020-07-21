@@ -1,15 +1,15 @@
-'use strict';
 
-var is = require('bpmn-js/lib/util/ModelUtil').is,
-    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
-var entryFactory = require('../../../factory/EntryFactory');
+const is = require('bpmn-js/lib/util/ModelUtil').is;
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
-var participantHelper = require('../../../helper/ParticipantHelper');
+const entryFactory = require('../../../factory/EntryFactory');
+
+const participantHelper = require('../../../helper/ParticipantHelper');
 
 module.exports = function(group, element, translate) {
 
-  var bo = getBusinessObject(element);
+  const bo = getBusinessObject(element);
 
   if (!bo) {
     return;
@@ -17,7 +17,7 @@ module.exports = function(group, element, translate) {
 
   if (is(element, 'bpmn:Process') || (is(element, 'bpmn:Participant') && bo.get('processRef'))) {
 
-    var executableEntry = entryFactory.checkbox({
+    const executableEntry = entryFactory.checkbox({
       id: 'process-is-executable',
       label: translate('Executable'),
       modelProperty: 'isExecutable'

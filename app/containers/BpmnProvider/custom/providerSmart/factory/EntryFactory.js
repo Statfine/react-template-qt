@@ -1,25 +1,25 @@
-'use strict';
 
-var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
 // input entities
-var textInputField = require('./TextInputEntryFactory'),
-    checkboxField = require('./CheckboxEntryFactory'),
-    selectBoxField = require('./SelectEntryFactory'),
-    comboBoxField = require('./ComboEntryFactory'),
-    textBoxField = require('./TextBoxEntryFactory'),
-    validationAwareTextInputField = require('./ValidationAwareTextInput'),
-    tableField = require('./TableEntryFactory'),
-    labelEntry = require('./LabelFactory'),
-    link = require('./LinkEntryFactory');
+const textInputField = require('./TextInputEntryFactory');
+const checkboxField = require('./CheckboxEntryFactory');
+const selectBoxField = require('./SelectEntryFactory');
+const comboBoxField = require('./ComboEntryFactory');
+const textBoxField = require('./TextBoxEntryFactory');
+const validationAwareTextInputField = require('./ValidationAwareTextInput');
+const tableField = require('./TableEntryFactory');
+const labelEntry = require('./LabelFactory');
+const link = require('./LinkEntryFactory');
 
-var cmdHelper = require('../helper/CmdHelper');
+const cmdHelper = require('../helper/CmdHelper');
 
 // helpers ////////////////////////////////////////
 
 function ensureNotNull(prop) {
   if (!prop) {
-    throw new Error(prop + ' must be set.');
+    throw new Error(`${prop  } must be set.`);
   }
 
   return prop;
@@ -32,22 +32,22 @@ function ensureNotNull(prop) {
  * @returns {{id: *, description: (*|string), get: (*|Function), set: (*|Function),
  *            validate: (*|Function), html: string}}
  */
-var setDefaultParameters = function(options) {
+const setDefaultParameters = function(options) {
 
   // default method to fetch the current value of the input field
-  var defaultGet = function(element) {
-    var bo = getBusinessObject(element),
-        res = {},
-        prop = ensureNotNull(options.modelProperty);
+  const defaultGet = function(element) {
+    const bo = getBusinessObject(element);
+    const res = {};
+    const prop = ensureNotNull(options.modelProperty);
     res[prop] = bo.get(prop);
 
     return res;
   };
 
   // default method to set a new value to the input field
-  var defaultSet = function(element, values) {
-    var res = {},
-        prop = ensureNotNull(options.modelProperty);
+  const defaultSet = function(element, values) {
+    const res = {};
+    const prop = ensureNotNull(options.modelProperty);
     if (values[prop] !== '') {
       res[prop] = values[prop];
     } else {
@@ -58,7 +58,7 @@ var setDefaultParameters = function(options) {
   };
 
   // default validation method
-  var defaultValidate = function() {
+  const defaultValidate = function() {
     return {};
   };
 

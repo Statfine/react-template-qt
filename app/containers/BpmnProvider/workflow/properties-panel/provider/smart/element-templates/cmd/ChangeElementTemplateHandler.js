@@ -1,20 +1,20 @@
-'use strict';
 
-var findExtension = require('../Helper').findExtension,
-    findExtensions = require('../Helper').findExtensions;
 
-var createSmartProperty = require('../CreateHelper').createSmartProperty,
-    createInputParameter = require('../CreateHelper').createInputParameter,
-    createOutputParameter = require('../CreateHelper').createOutputParameter,
-    createSmartIn = require('../CreateHelper').createSmartIn,
-    createSmartOut = require('../CreateHelper').createSmartOut,
-    createSmartInWithBusinessKey = require('../CreateHelper').createSmartInWithBusinessKey,
-    createSmartExecutionListenerScript = require('../CreateHelper').createSmartExecutionListenerScript,
-    createSmartFieldInjection = require('../CreateHelper').createSmartFieldInjection;
+const findExtension = require('../Helper').findExtension;
+const findExtensions = require('../Helper').findExtensions;
 
-var forEach = require('lodash/forEach');
+const createSmartProperty = require('../CreateHelper').createSmartProperty;
+const createInputParameter = require('../CreateHelper').createInputParameter;
+const createOutputParameter = require('../CreateHelper').createOutputParameter;
+const createSmartIn = require('../CreateHelper').createSmartIn;
+const createSmartOut = require('../CreateHelper').createSmartOut;
+const createSmartInWithBusinessKey = require('../CreateHelper').createSmartInWithBusinessKey;
+const createSmartExecutionListenerScript = require('../CreateHelper').createSmartExecutionListenerScript;
+const createSmartFieldInjection = require('../CreateHelper').createSmartFieldInjection;
 
-var SMART_SERVICE_TASK_LIKE = [
+const forEach = require('lodash/forEach');
+
+const SMART_SERVICE_TASK_LIKE = [
   'smart:class',
   'smart:delegateExpression',
   'smart:expression'
@@ -27,9 +27,9 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
 
   function getOrCreateExtensionElements(element) {
 
-    var bo = element.businessObject;
+    const bo = element.businessObject;
 
-    var extensionElements = bo.extensionElements;
+    let extensionElements = bo.extensionElements;
 
     // add extension elements
     if (!extensionElements) {
@@ -38,7 +38,7 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
       });
 
       modeling.updateProperties(element, {
-        extensionElements: extensionElements
+        extensionElements
       });
     }
 
@@ -53,8 +53,8 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
 
   function updateIoMappings(element, newTemplate, context) {
 
-    var newMappings = createInputOutputMappings(newTemplate, bpmnFactory),
-        oldMappings;
+    const newMappings = createInputOutputMappings(newTemplate, bpmnFactory);
+    let oldMappings;
 
     if (!newMappings) {
       return;
@@ -62,7 +62,7 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
 
     if (context) {
       commandStack.execute('properties-panel.update-businessobject', {
-        element: element,
+        element,
         businessObject: context,
         properties: { inputOutput: newMappings }
       });
@@ -70,7 +70,7 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
       context = getOrCreateExtensionElements(element);
       oldMappings = findExtension(element, 'smart:InputOutput');
       commandStack.execute('properties-panel.update-businessobject-list', {
-        element: element,
+        element,
         currentObject: context,
         propertyName: 'values',
         objectsToAdd: [ newMappings ],
@@ -81,15 +81,15 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
 
   function updateSmartField(element, newTemplate, context) {
 
-    var newMappings = createSmartFieldInjections(newTemplate, bpmnFactory),
-        oldMappings;
+    const newMappings = createSmartFieldInjections(newTemplate, bpmnFactory);
+    let oldMappings;
 
     if (!newMappings) {
       return;
     }
     if (context) {
       commandStack.execute('properties-panel.update-businessobject', {
-        element: element,
+        element,
         businessObject: context,
         properties: { field: newMappings }
       });
@@ -98,11 +98,11 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
       oldMappings = findExtensions(element, ['smart:Field']);
 
       commandStack.execute('properties-panel.update-businessobject-list', {
-        element: element,
+        element,
         currentObject: context,
         propertyName: 'values',
         objectsToAdd: newMappings,
-        objectsToRemove: oldMappings ? oldMappings : []
+        objectsToRemove: oldMappings || []
       });
     }
   }
@@ -110,8 +110,8 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
 
   function updateSmartProperties(element, newTemplate, context) {
 
-    var newProperties = createSmartProperties(newTemplate, bpmnFactory),
-        oldProperties;
+    const newProperties = createSmartProperties(newTemplate, bpmnFactory);
+    let oldProperties;
 
     if (!newProperties) {
       return;
@@ -119,7 +119,7 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
 
     if (context) {
       commandStack.execute('properties-panel.update-businessobject', {
-        element: element,
+        element,
         businessObject: context,
         properties: { properties: newProperties }
       });
@@ -128,7 +128,7 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
       oldProperties = findExtension(element, 'smart:Properties');
 
       commandStack.execute('properties-panel.update-businessobject-list', {
-        element: element,
+        element,
         currentObject: context,
         propertyName: 'values',
         objectsToAdd: [ newProperties ],
@@ -139,9 +139,9 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
 
   function updateProperties(element, newTemplate, context) {
 
-    var newProperties = createBpmnPropertyUpdates(newTemplate, bpmnFactory);
+    const newProperties = createBpmnPropertyUpdates(newTemplate, bpmnFactory);
 
-    var newPropertiesCount = Object.keys(newProperties).length;
+    const newPropertiesCount = Object.keys(newProperties).length;
 
     if (!newPropertiesCount) {
       return;
@@ -149,7 +149,7 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
 
     if (context) {
       commandStack.execute('properties-panel.update-businessobject', {
-        element: element,
+        element,
         businessObject: context,
         properties: newProperties
       });
@@ -160,8 +160,8 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
 
   function updateInOut(element, newTemplate, context) {
 
-    var newInOut = createSmartInOut(newTemplate, bpmnFactory),
-        oldInOut;
+    const newInOut = createSmartInOut(newTemplate, bpmnFactory);
+    let oldInOut;
 
     if (!newInOut) {
       return;
@@ -169,7 +169,7 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
 
     if (context) {
       commandStack.execute('properties-panel.update-businessobject', {
-        element: element,
+        element,
         businessObject: context,
         properties: { inout: newInOut }
       });
@@ -178,7 +178,7 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
       oldInOut = findExtensions(context, [ 'smart:In', 'smart:Out' ]);
 
       commandStack.execute('properties-panel.update-businessobject-list', {
-        element: element,
+        element,
         currentObject: context,
         propertyName: 'values',
         objectsToAdd: newInOut,
@@ -189,8 +189,8 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
 
   function updateExecutionListener(element, newTemplate, context) {
 
-    var newExecutionListeners = createSmartExecutionListeners(newTemplate, bpmnFactory),
-        oldExecutionsListeners;
+    const newExecutionListeners = createSmartExecutionListeners(newTemplate, bpmnFactory);
+    let oldExecutionsListeners;
 
     if (!newExecutionListeners.length) {
       return;
@@ -198,7 +198,7 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
 
     if (context) {
       commandStack.execute('properties-panel.update-businessobject', {
-        element: element,
+        element,
         businessObject: context,
         properties: { executionListener: newExecutionListeners }
       });
@@ -207,7 +207,7 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
       oldExecutionsListeners = findExtensions(context, [ 'smart:ExecutionListener' ]);
 
       commandStack.execute('properties-panel.update-businessobject-list', {
-        element: element,
+        element,
         currentObject: context,
         propertyName: 'values',
         objectsToAdd: newExecutionListeners,
@@ -225,7 +225,7 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
    */
   function updateScopeElements(element, scopeName, scopeDefinition) {
 
-    var scopeElement = bpmnFactory.create(scopeName);
+    const scopeElement = bpmnFactory.create(scopeName);
 
     // update smart:inputOutput
     updateIoMappings(element, scopeDefinition, scopeElement);
@@ -245,11 +245,11 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
     // update smart:executionListener
     updateExecutionListener(element, scopeDefinition, scopeElement);
 
-    var extensionElements = getOrCreateExtensionElements(element);
-    var oldScope = findExtension(extensionElements, scopeName);
+    const extensionElements = getOrCreateExtensionElements(element);
+    const oldScope = findExtension(extensionElements, scopeName);
 
     commandStack.execute('properties-panel.update-businessobject-list', {
-      element: element,
+      element,
       currentObject: extensionElements,
       propertyName: 'values',
       objectsToAdd: [ scopeElement ],
@@ -268,8 +268,8 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
    */
   this.preExecute = function(context) {
 
-    var element = context.element,
-        newTemplate = context.newTemplate;
+    const element = context.element;
+    const newTemplate = context.newTemplate;
 
     // update smart:modelerTemplate attribute
     updateModelerTemplate(element, newTemplate);
@@ -313,13 +313,13 @@ module.exports = ChangeElementTemplateHandler;
 
 function createBpmnPropertyUpdates(template, bpmnFactory) {
 
-  var propertyUpdates = {};
+  const propertyUpdates = {};
 
   template.properties.forEach(function(p) {
 
-    var binding = p.binding,
-        bindingTarget = binding.name,
-        propertyValue;
+    const binding = p.binding;
+    const bindingTarget = binding.name;
+    let propertyValue;
 
     if (binding.type === 'property') {
 
@@ -353,11 +353,11 @@ function createBpmnPropertyUpdates(template, bpmnFactory) {
 }
 
 function createSmartFieldInjections(template, bpmnFactory) {
-  var injections = [];
+  const injections = [];
 
   template.properties.forEach(function(p) {
-    var binding = p.binding,
-        bindingType = binding.type;
+    const binding = p.binding;
+    const bindingType = binding.type;
     if (bindingType === 'smart:field') {
       injections.push(createSmartFieldInjection(
         binding, p.value, bpmnFactory
@@ -372,11 +372,11 @@ function createSmartFieldInjections(template, bpmnFactory) {
 
 function createSmartProperties(template, bpmnFactory) {
 
-  var properties = [];
+  const properties = [];
 
   template.properties.forEach(function(p) {
-    var binding = p.binding,
-        bindingType = binding.type;
+    const binding = p.binding;
+    const bindingType = binding.type;
 
     if (bindingType === 'smart:property') {
       properties.push(createSmartProperty(
@@ -394,12 +394,12 @@ function createSmartProperties(template, bpmnFactory) {
 
 function createInputOutputMappings(template, bpmnFactory) {
 
-  var inputParameters = [],
-      outputParameters = [];
+  const inputParameters = [];
+  const outputParameters = [];
 
   template.properties.forEach(function(p) {
-    var binding = p.binding,
-        bindingType = binding.type;
+    const binding = p.binding;
+    const bindingType = binding.type;
 
     if (bindingType === 'smart:inputParameter') {
       inputParameters.push(createInputParameter(
@@ -417,19 +417,19 @@ function createInputOutputMappings(template, bpmnFactory) {
   // do we need to create new ioMappings (?)
   if (outputParameters.length || inputParameters.length) {
     return bpmnFactory.create('smart:InputOutput', {
-      inputParameters: inputParameters,
-      outputParameters: outputParameters
+      inputParameters,
+      outputParameters
     });
   }
 }
 
 function createSmartInOut(template, bpmnFactory) {
 
-  var inOuts = [];
+  const inOuts = [];
 
   template.properties.forEach(function(p) {
-    var binding = p.binding,
-        bindingType = binding.type;
+    const binding = p.binding;
+    const bindingType = binding.type;
 
     if (bindingType === 'smart:in') {
       inOuts.push(createSmartIn(
@@ -454,11 +454,11 @@ function createSmartInOut(template, bpmnFactory) {
 
 function createSmartExecutionListeners(template, bpmnFactory) {
 
-  var executionListener = [];
+  const executionListener = [];
 
   template.properties.forEach(function(p) {
-    var binding = p.binding,
-        bindingType = binding.type;
+    const binding = p.binding;
+    const bindingType = binding.type;
 
     if (bindingType === 'smart:executionListener') {
       executionListener.push(createSmartExecutionListenerScript(

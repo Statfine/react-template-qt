@@ -1,9 +1,9 @@
-'use strict';
 
-var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
-    getExtensionElements = require('./ExtensionElementsHelper').getExtensionElements;
 
-var FormHelper = {};
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+const getExtensionElements = require('./ExtensionElementsHelper').getExtensionElements;
+
+const FormHelper = {};
 
 module.exports = FormHelper;
 
@@ -15,9 +15,9 @@ module.exports = FormHelper;
  * @return {ModdleElement|undefined} formData
  */
 FormHelper.getFormData = function(element) {
-  var bo = getBusinessObject(element);
+  const bo = getBusinessObject(element);
 
-  var formData = getExtensionElements(bo, 'camunda:FormData');
+  const formData = getExtensionElements(bo, 'camunda:FormData');
 
   if (typeof formData !== 'undefined') {
     return formData[0];
@@ -34,7 +34,7 @@ FormHelper.getFormData = function(element) {
  * @return {Array} a list of form field objects
  */
 FormHelper.getFormFields = function(element) {
-  var formData = this.getFormData(element);
+  const formData = this.getFormData(element);
 
   if (typeof formData === 'undefined') {
     return [];
@@ -54,7 +54,7 @@ FormHelper.getFormFields = function(element) {
  */
 FormHelper.getFormField = function(element, idx) {
 
-  var formFields = this.getFormFields(element);
+  const formFields = this.getFormFields(element);
 
   return formFields[idx];
 };

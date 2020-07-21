@@ -1,18 +1,18 @@
-'use strict';
 
-var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
-    is = require('bpmn-js/lib/util/ModelUtil').is;
 
-var factory = require('../../../../factory/EntryFactory');
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+const is = require('bpmn-js/lib/util/ModelUtil').is;
 
-var elementHelper = require('../../../../helper/ElementHelper'),
-    extensionElementsHelper = require('../../../../helper/ExtensionElementsHelper'),
-    cmdHelper = require('../../../../helper/CmdHelper'),
-    utils = require('../../../../Utils');
+const assign = require('lodash/assign');
+const forEach = require('lodash/forEach');
+const find = require('lodash/find');
+const factory = require('../../../../factory/EntryFactory');
 
-var assign = require('lodash/assign'),
-    forEach = require('lodash/forEach'),
-    find = require('lodash/find');
+const elementHelper = require('../../../../helper/ElementHelper');
+const extensionElementsHelper = require('../../../../helper/ExtensionElementsHelper');
+const cmdHelper = require('../../../../helper/CmdHelper');
+const utils = require('../../../../Utils');
+
 
 function generatePropertyId() {
   return utils.nextId('Property_');
@@ -26,7 +26,7 @@ function generatePropertyId() {
  * @return {Array<ModdleElement>} a list of smart:property objects
  */
 function getPropertyValues(parent) {
-  var properties = parent && getPropertiesElement(parent);
+  const properties = parent && getPropertiesElement(parent);
   if (properties && properties.values) {
     return properties.values;
   }
@@ -43,9 +43,9 @@ function getPropertyValues(parent) {
 function getPropertiesElement(element) {
   if (!isExtensionElements(element)) {
     return element.properties;
-  } else {
-    return getPropertiesElementInsideExtensionElements(element);
-  }
+  } 
+  return getPropertiesElementInsideExtensionElements(element);
+  
 }
 
 /**
@@ -87,12 +87,12 @@ function isExtensionElements(element) {
  */
 module.exports = function(element, bpmnFactory, options, translate) {
 
-  var getParent = options.getParent;
+  const getParent = options.getParent;
 
-  var modelProperties = options.modelProperties,
-      createParent = options.createParent;
+  const modelProperties = options.modelProperties;
+  const createParent = options.createParent;
 
-  var bo = getBusinessObject(element);
+  let bo = getBusinessObject(element);
   if (is(element, 'bpmn:Participant')) {
     bo = bo.get('processRef');
   }
@@ -104,21 +104,21 @@ module.exports = function(element, bpmnFactory, options, translate) {
 
   assign(options, {
     addLabel: translate('Add Property'),
-    getElements: function(element, node) {
-      var parent = getParent(element, node, bo);
+    getElements(element, node) {
+      const parent = getParent(element, node, bo);
       return getPropertyValues(parent);
     },
-    addElement: function(element, node) {
-      var commands = [],
-          parent = getParent(element, node, bo);
+    addElement(element, node) {
+      const commands = [];
+      let parent = getParent(element, node, bo);
 
       if (!parent && typeof createParent === 'function') {
-        var result = createParent(element, bo);
+        const result = createParent(element, bo);
         parent = result.parent;
         commands.push(result.cmd);
       }
 
-      var properties = getPropertiesElement(parent);
+      let properties = getPropertiesElement(parent);
       if (!properties) {
         properties = elementHelper.createElement('smart:Properties', {}, parent, bpmnFactory);
 
@@ -136,7 +136,7 @@ module.exports = function(element, bpmnFactory, options, translate) {
         }
       }
 
-      var propertyProps = {};
+      const propertyProps = {};
       forEach(modelProperties, function(prop) {
         propertyProps[prop] = undefined;
       });
@@ -146,14 +146,14 @@ module.exports = function(element, bpmnFactory, options, translate) {
         propertyProps.id = generatePropertyId();
       }
 
-      var property = elementHelper.createElement('smart:Property', propertyProps, properties, bpmnFactory);
+      const property = elementHelper.createElement('smart:Property', propertyProps, properties, bpmnFactory);
       commands.push(cmdHelper.addElementsTolist(element, properties, 'values', [ property ]));
 
       return commands;
     },
-    updateElement: function(element, value, node, idx) {
-      var parent = getParent(element, node, bo),
-          property = getPropertyValues(parent)[idx];
+    updateElement(element, value, node, idx) {
+      const parent = getParent(element, node, bo);
+      const property = getPropertyValues(parent)[idx];
 
       forEach(modelProperties, function(prop) {
         value[prop] = value[prop] || undefined;
@@ -161,17 +161,17 @@ module.exports = function(element, bpmnFactory, options, translate) {
 
       return cmdHelper.updateBusinessObject(element, property, value);
     },
-    validate: function(element, value, node, idx) {
+    validate(element, value, node, idx) {
       // validate id if necessary
       if (modelProperties.indexOf('id') >= 0) {
 
-        var parent = getParent(element, node, bo),
-            properties = getPropertyValues(parent),
-            property = properties[idx];
+        const parent = getParent(element, node, bo);
+        const properties = getPropertyValues(parent);
+        const property = properties[idx];
 
         if (property) {
           // check if id is valid
-          var validationError = utils.isIdValid(property, value.id, translate);
+          const validationError = utils.isIdValid(property, value.id, translate);
 
           if (validationError) {
             return { id: validationError };
@@ -179,12 +179,12 @@ module.exports = function(element, bpmnFactory, options, translate) {
         }
       }
     },
-    removeElement: function(element, node, idx) {
-      var commands = [],
-          parent = getParent(element, node, bo),
-          properties = getPropertiesElement(parent),
-          propertyValues = getPropertyValues(parent),
-          currentProperty = propertyValues[idx];
+    removeElement(element, node, idx) {
+      const commands = [];
+      const parent = getParent(element, node, bo);
+      const properties = getPropertiesElement(parent);
+      const propertyValues = getPropertyValues(parent);
+      const currentProperty = propertyValues[idx];
 
       commands.push(cmdHelper.removeElementsFromList(element, properties, 'values', null, [ currentProperty ]));
 

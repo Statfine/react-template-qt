@@ -1,30 +1,30 @@
-'use strict';
 
-var entryFactory = require('../../../../factory/EntryFactory'),
-    cmdHelper = require('../../../../helper/CmdHelper'),
-    elementReferenceProperty = require('../../../bpmn/parts/implementation/ElementReferenceProperty');
+
+const entryFactory = require('../../../../factory/EntryFactory');
+const cmdHelper = require('../../../../helper/CmdHelper');
+const elementReferenceProperty = require('../../../bpmn/parts/implementation/ElementReferenceProperty');
 
 module.exports = function(
-    group, element, bpmnFactory, errorEventDefinition,
-    showErrorCodeVariable, showErrorMessageVariable, translate
+  group, element, bpmnFactory, errorEventDefinition,
+  showErrorCodeVariable, showErrorMessageVariable, translate
 ) {
 
 
-  var getValue = function(modelProperty) {
+  const getValue = function(modelProperty) {
     return function(element) {
-      var modelPropertyValue = errorEventDefinition.get('smart:' + modelProperty);
-      var value = {};
+      const modelPropertyValue = errorEventDefinition.get(`smart:${  modelProperty}`);
+      const value = {};
 
       value[modelProperty] = modelPropertyValue;
       return value;
     };
   };
 
-  var setValue = function(modelProperty) {
+  const setValue = function(modelProperty) {
     return function(element, values) {
-      var props = {};
+      const props = {};
 
-      props['smart:' + modelProperty] = values[modelProperty] || undefined;
+      props[`smart:${  modelProperty}`] = values[modelProperty] || undefined;
 
       return cmdHelper.updateBusinessObject(element, errorEventDefinition, props);
     };

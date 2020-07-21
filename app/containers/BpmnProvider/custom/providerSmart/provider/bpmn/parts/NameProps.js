@@ -1,24 +1,24 @@
-'use strict';
 
-var nameEntryFactory = require('./implementation/Name'),
-    createCategoryValue = require('../../../helper/CategoryHelper').createCategoryValue,
-    is = require('bpmn-js/lib/util/ModelUtil').is,
-    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+
+const nameEntryFactory = require('./implementation/Name');
+const createCategoryValue = require('../../../helper/CategoryHelper').createCategoryValue;
+const is = require('bpmn-js/lib/util/ModelUtil').is;
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
 module.exports = function(group, element, bpmnFactory, canvas, translate) {
 
   function initializeCategory(semantic) {
-    var rootElement = canvas.getRootElement(),
-        definitions = getBusinessObject(rootElement).$parent,
-        categoryValue = createCategoryValue(definitions, bpmnFactory);
+    const rootElement = canvas.getRootElement();
+    const definitions = getBusinessObject(rootElement).$parent;
+    const categoryValue = createCategoryValue(definitions, bpmnFactory);
 
     semantic.categoryValueRef = categoryValue;
 
   }
 
   function setGroupName(element, values) {
-    var bo = getBusinessObject(element),
-        categoryValueRef = bo.categoryValueRef;
+    const bo = getBusinessObject(element);
+    const categoryValueRef = bo.categoryValueRef;
 
     if (!categoryValueRef) {
       initializeCategory(bo);
@@ -28,22 +28,22 @@ module.exports = function(group, element, bpmnFactory, canvas, translate) {
     return {
       cmd: 'element.updateLabel',
       context: {
-        element: element,
+        element,
         newLabel: values.categoryValue
       }
     };
   }
 
   function getGroupName(element) {
-    var bo = getBusinessObject(element),
-        value = (bo.categoryValueRef || {}).value;
+    const bo = getBusinessObject(element);
+    const value = (bo.categoryValueRef || {}).value;
 
     return { categoryValue: value };
   }
 
   if (!is(element, 'bpmn:Collaboration')) {
 
-    var options;
+    let options;
     if (is(element, 'bpmn:TextAnnotation')) {
       options = { modelProperty: 'text', label: translate('Text') };
     } else if (is(element, 'bpmn:Group')) {

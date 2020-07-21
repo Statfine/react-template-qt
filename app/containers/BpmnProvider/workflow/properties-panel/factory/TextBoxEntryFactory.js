@@ -1,27 +1,27 @@
-'use strict';
-
-var escapeHTML = require('../Utils').escapeHTML;
-
-var entryFieldDescription = require('./EntryFieldDescription');
 
 
-var textBox = function(options, defaultParameters) {
+const escapeHTML = require('../Utils').escapeHTML;
 
-  var resource = defaultParameters,
-      label = options.label || resource.id,
-      canBeShown = !!options.show && typeof options.show === 'function',
-      description = options.description;
+const entryFieldDescription = require('./EntryFieldDescription');
+
+
+const textBox = function(options, defaultParameters) {
+
+  const resource = defaultParameters;
+  const label = options.label || resource.id;
+  const canBeShown = !!options.show && typeof options.show === 'function';
+  const description = options.description;
 
   resource.html =
-    '<label for="smart-' + escapeHTML(resource.id) + '" ' +
-    (canBeShown ? 'data-show="isShown"' : '') +
-    '>' + label + '</label>' +
-    '<div class="bpp-field-wrapper" ' +
-    (canBeShown ? 'data-show="isShown"' : '') +
-    '>' +
-      '<div contenteditable="true" id="smart-' + escapeHTML(resource.id) + '" ' +
-            'name="' + escapeHTML(options.modelProperty) + '" />' +
-    '</div>';
+    `<label for="smart-${  escapeHTML(resource.id)  }" ${ 
+      canBeShown ? 'data-show="isShown"' : '' 
+    }>${  label  }</label>` +
+    `<div class="bpp-field-wrapper" ${ 
+      canBeShown ? 'data-show="isShown"' : '' 
+    }>` +
+      `<div contenteditable="true" id="smart-${  escapeHTML(resource.id)  }" ` +
+            `name="${  escapeHTML(options.modelProperty)  }" />` +
+    `</div>`;
 
   // add description below text box entry field
   if (description) {

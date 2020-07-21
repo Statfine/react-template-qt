@@ -1,6 +1,6 @@
-'use strict';
 
-var values = require('lodash/values');
+
+const values = require('lodash/values');
 
 /**
  * The guy knowing all configured element templates.
@@ -22,7 +22,7 @@ function ElementTemplates() {
    */
   this.set = function(descriptors) {
 
-    var templates = this._templates = {};
+    const templates = this._templates = {};
 
     descriptors.forEach(function(descriptor) {
       templates[descriptor.id] = descriptor;

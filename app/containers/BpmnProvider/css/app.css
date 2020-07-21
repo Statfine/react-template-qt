@@ -20,6 +20,16 @@
   border-right-width: 1px!important;
 }
 
+.bpp-properties-panel select {
+  border: 1px solid #ccc;
+  height: 26px;
+  border-radius: 2px;
+}
+
+.bpp-properties-entry .bpp-field-wrapper select {
+  overflow: auto;
+}
+
 .bpp-properties-panel [type=text]:hover, .bpp-properties-panel [contenteditable]:hover, .bpp-properties-panel textarea:hover, .bpp-properties-panel select:hover {
   border-color: #40a9ff!important;
   border-right-width: 1px!important;

@@ -1,8 +1,8 @@
-'use strict';
 
-var map = require('lodash/map');
 
-var extensionElementsHelper = require('./ExtensionElementsHelper');
+const map = require('lodash/map');
+
+const extensionElementsHelper = require('./ExtensionElementsHelper');
 
 /**
  * Returns true if the attribute 'smart:asyncBefore' is set
@@ -67,7 +67,7 @@ module.exports.getFailedJobRetryTimeCycle = getFailedJobRetryTimeCycle;
  * @return {Array<ModdleElement>} a list of 'smart:FailedJobRetryTimeCycle'
  */
 function removeFailedJobRetryTimeCycle(bo, element) {
-  var retryTimeCycles = extensionElementsHelper.getExtensionElements(bo, 'smart:FailedJobRetryTimeCycle');
+  const retryTimeCycles = extensionElementsHelper.getExtensionElements(bo, 'smart:FailedJobRetryTimeCycle');
   return map(retryTimeCycles, function(cycle) {
     return extensionElementsHelper.removeEntry(bo, element, cycle);
   });

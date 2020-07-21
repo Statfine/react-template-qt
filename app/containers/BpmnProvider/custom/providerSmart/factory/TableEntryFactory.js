@@ -1,30 +1,30 @@
-'use strict';
 
-var escapeHTML = require('../Utils').escapeHTML;
 
-var cmdHelper = require('../helper/CmdHelper');
 
-var domQuery = require('min-dom').query,
-    domAttr = require('min-dom').attr,
-    domClosest = require('min-dom').closest;
 
-var filter = require('lodash/filter'),
-    forEach = require('lodash/forEach'),
-    keys = require('lodash/keys');
+const domQuery = require('min-dom').query;
+const domAttr = require('min-dom').attr;
+const domClosest = require('min-dom').closest;
 
-var domify = require('min-dom').domify;
+const filter = require('lodash/filter');
+const forEach = require('lodash/forEach');
+const keys = require('lodash/keys');
 
-var entryFieldDescription = require('./EntryFieldDescription');
+const domify = require('min-dom').domify;
 
-var updateSelection = require('selection-update');
+const updateSelection = require('selection-update');
+const entryFieldDescription = require('./EntryFieldDescription');
 
-var TABLE_ROW_DIV_SNIPPET = '<div class="bpp-field-wrapper bpp-table-row">';
-var DELETE_ROW_BUTTON_SNIPPET = '<button class="clear" data-action="deleteElement">' +
+const cmdHelper = require('../helper/CmdHelper');
+const escapeHTML = require('../Utils').escapeHTML;
+
+const TABLE_ROW_DIV_SNIPPET = '<div class="bpp-field-wrapper bpp-table-row">';
+const DELETE_ROW_BUTTON_SNIPPET = '<button class="clear" data-action="deleteElement">' +
                                   '<span>X</span>' +
                                 '</button>';
 
 function createInputRowTemplate(properties, canRemove) {
-  var template = TABLE_ROW_DIV_SNIPPET;
+  let template = TABLE_ROW_DIV_SNIPPET;
   template += createInputTemplate(properties, canRemove);
   template += canRemove ? DELETE_ROW_BUTTON_SNIPPET : '';
   template += '</div>';
@@ -33,20 +33,20 @@ function createInputRowTemplate(properties, canRemove) {
 }
 
 function createInputTemplate(properties, canRemove) {
-  var columns = properties.length;
-  var template = '';
+  const columns = properties.length;
+  let template = '';
   forEach(properties, function(prop) {
-    template += '<input class="bpp-table-row-columns-' + columns + ' ' +
-                               (canRemove ? 'bpp-table-row-removable' : '') + '" ' +
-                       'id="camunda-table-row-cell-input-value" ' +
-                       'type="text" ' +
-                       'name="' + escapeHTML(prop) + '" />';
+    template += `<input class="bpp-table-row-columns-${  columns  } ${ 
+      canRemove ? 'bpp-table-row-removable' : ''  }" ` +
+                       `id="camunda-table-row-cell-input-value" ` +
+                       `type="text" ` +
+                       `name="${  escapeHTML(prop)  }" />`;
   });
   return template;
 }
 
 function createLabelRowTemplate(labels) {
-  var template = TABLE_ROW_DIV_SNIPPET;
+  let template = TABLE_ROW_DIV_SNIPPET;
   template += createLabelTemplate(labels);
   template += '</div>';
 
@@ -54,17 +54,17 @@ function createLabelRowTemplate(labels) {
 }
 
 function createLabelTemplate(labels) {
-  var columns = labels.length;
-  var template = '';
+  const columns = labels.length;
+  let template = '';
   forEach(labels, function(label) {
-    template += '<label class="bpp-table-row-columns-' + columns + '">' + escapeHTML(label) + '</label>';
+    template += `<label class="bpp-table-row-columns-${  columns  }">${  escapeHTML(label)  }</label>`;
   });
   return template;
 }
 
 function pick(elements, properties) {
   return (elements || []).map(function(elem) {
-    var newElement = {};
+    const newElement = {};
     forEach(properties, function(prop) {
       newElement[prop] = elem[prop] || '';
     });
@@ -82,11 +82,11 @@ function valueEqual(element, node, value, oldValue, editable, idx) {
   if (value && !oldValue) {
     return false;
   }
-  var allKeys = keys(value).concat(keys(oldValue));
+  const allKeys = keys(value).concat(keys(oldValue));
 
   return allKeys.every(function(key) {
-    var n = value[key] || undefined;
-    var o = oldValue[key] || undefined;
+    const n = value[key] || undefined;
+    const o = oldValue[key] || undefined;
     return !editable(element, node, key, idx) || n === o;
   });
 }
@@ -129,62 +129,62 @@ function setSelection(node, selection) {
  */
 module.exports = function(options) {
 
-  var id = options.id,
-      modelProperties = options.modelProperties,
-      labels = options.labels,
-      description = options.description;
+  const id = options.id;
+  const modelProperties = options.modelProperties;
+  const labels = options.labels;
+  const description = options.description;
 
-  var labelRow = createLabelRowTemplate(labels);
+  const labelRow = createLabelRowTemplate(labels);
 
-  var getElements = options.getElements;
+  const getElements = options.getElements;
 
-  var removeElement = options.removeElement,
-      canRemove = typeof removeElement === 'function';
+  const removeElement = options.removeElement;
+  const canRemove = typeof removeElement === 'function';
 
-  var addElement = options.addElement,
-      canAdd = typeof addElement === 'function',
-      addLabel = options.addLabel || 'Add Value';
+  const addElement = options.addElement;
+  const canAdd = typeof addElement === 'function';
+  const addLabel = options.addLabel || 'Add Value';
 
-  var updateElement = options.updateElement,
-      canUpdate = typeof updateElement === 'function';
+  const updateElement = options.updateElement;
+  const canUpdate = typeof updateElement === 'function';
 
-  var editable = options.editable || function() { return true; },
-      setControlValue = options.setControlValue;
+  const editable = options.editable || function() { return true; };
+  const setControlValue = options.setControlValue;
 
-  var show = options.show,
-      canBeShown = typeof show === 'function';
+  const show = options.show;
+  const canBeShown = typeof show === 'function';
 
-  var elements = function(element, node) {
+  const elements = function(element, node) {
     return pick(getElements(element, node), modelProperties);
   };
 
-  var factory = {
-    id: id,
-    html: (canAdd ?
-      '<div class="bpp-table-add-row" ' + (canBeShown ? 'data-show="show"' : '') + '>' +
-            '<label>' + escapeHTML(addLabel) + '</label>' +
-            '<button class="add" data-action="addElement"><span>+</span></button>' +
-          '</div>' : '') +
-          '<div class="bpp-table" data-show="showTable">' +
-            '<div class="bpp-field-wrapper bpp-table-row">' +
-               labelRow +
-            '</div>' +
-            '<div data-list-entry-container>' +
-            '</div>' +
-          '</div>' +
+  const factory = {
+    id,
+    html: `${canAdd ?
+      `<div class="bpp-table-add-row" ${  canBeShown ? 'data-show="show"' : ''  }>` +
+            `<label>${  escapeHTML(addLabel)  }</label>` +
+            `<button class="add" data-action="addElement"><span>+</span></button>` +
+          `</div>` : '' 
+    }<div class="bpp-table" data-show="showTable">` +
+            `<div class="bpp-field-wrapper bpp-table-row">${ 
+              labelRow 
+            }</div>` +
+            `<div data-list-entry-container>` +
+            `</div>` +
+          `</div>${ 
 
-          // add description below table entry field
-          (description ? entryFieldDescription(description) : ''),
+            // add description below table entry field
+            description ? entryFieldDescription(description) : ''}`,
 
-    get: function(element, node) {
-      var boElements = elements(element, node, this.__invalidValues);
+    get(element, node) {
+      const boElements = elements(element, node, this.__invalidValues);
 
-      var invalidValues = this.__invalidValues;
+      const invalidValues = this.__invalidValues;
 
       delete this.__invalidValues;
 
       forEach(invalidValues, function(value, idx) {
-        var element = boElements[idx];
+        const element = boElements[idx];
 
         forEach(modelProperties, function(prop) {
           element[prop] = value[prop];
@@ -194,36 +194,36 @@ module.exports = function(options) {
       return boElements;
     },
 
-    set: function(element, values, node) {
-      var action = this.__action || {};
+    set(element, values, node) {
+      const action = this.__action || {};
       delete this.__action;
 
       if (action.id === 'delete-element') {
         return removeElement(element, node, action.idx);
       }
-      else if (action.id === 'add-element') {
+      if (action.id === 'add-element') {
         return addElement(element, node);
       }
-      else if (canUpdate) {
-        var commands = [],
-            valuesToValidate = values;
+      if (canUpdate) {
+        const commands = [];
+        let valuesToValidate = values;
 
         if (typeof options.validate !== 'function') {
           valuesToValidate = diff(element, node, values, elements(element, node), editable);
         }
 
-        var self = this;
+        const self = this;
 
         forEach(valuesToValidate, function(value) {
-          var validationError,
-              idx = values.indexOf(value);
+          let validationError;
+          const idx = values.indexOf(value);
 
           if (typeof options.validate === 'function') {
             validationError = options.validate(element, value, node, idx);
           }
 
           if (!validationError) {
-            var cmd = updateElement(element, value, node, idx);
+            const cmd = updateElement(element, value, node, idx);
 
             if (cmd) {
               commands.push(cmd);
@@ -241,14 +241,14 @@ module.exports = function(options) {
         return commands;
       }
     },
-    createListEntryTemplate: function(value, index, selectBox) {
+    createListEntryTemplate(value, index, selectBox) {
       return createInputRowTemplate(modelProperties, canRemove);
     },
 
-    addElement: function(element, node, event, scopeNode) {
-      var template = domify(createInputRowTemplate(modelProperties, canRemove));
+    addElement(element, node, event, scopeNode) {
+      const template = domify(createInputRowTemplate(modelProperties, canRemove));
 
-      var container = getContainer(node);
+      const container = getContainer(node);
       container.appendChild(template);
 
       this.__action = {
@@ -258,38 +258,38 @@ module.exports = function(options) {
       return true;
     },
 
-    deleteElement: function(element, node, event, scopeNode) {
-      var container = getContainer(node);
-      var rowToDelete = event.delegateTarget.parentNode;
-      var idx = parseInt(domAttr(rowToDelete, 'data-index'), 10);
+    deleteElement(element, node, event, scopeNode) {
+      const container = getContainer(node);
+      const rowToDelete = event.delegateTarget.parentNode;
+      const idx = parseInt(domAttr(rowToDelete, 'data-index'), 10);
 
       container.removeChild(rowToDelete);
 
       this.__action = {
         id: 'delete-element',
-        idx: idx
+        idx
       };
 
       return true;
     },
 
-    editable: function(element, rowNode, input, prop, value, idx) {
-      var entryNode = domClosest(rowNode, '[data-entry]');
+    editable(element, rowNode, input, prop, value, idx) {
+      const entryNode = domClosest(rowNode, '[data-entry]');
       return editable(element, entryNode, prop, idx);
     },
 
-    show: function(element, entryNode, node, scopeNode) {
+    show(element, entryNode, node, scopeNode) {
       entryNode = getEntryNode(entryNode);
       return show(element, entryNode, node, scopeNode);
     },
 
-    showTable: function(element, entryNode, node, scopeNode) {
+    showTable(element, entryNode, node, scopeNode) {
       entryNode = getEntryNode(entryNode);
-      var elems = elements(element, entryNode);
+      const elems = elements(element, entryNode);
       return elems && elems.length && (!canBeShown || show(element, entryNode, node, scopeNode));
     },
 
-    validateListItem: function(element, value, node, idx) {
+    validateListItem(element, value, node, idx) {
       if (typeof options.validate === 'function') {
         return options.validate(element, value, node, idx);
       }
@@ -301,12 +301,12 @@ module.exports = function(options) {
   // It's the same code like for an input value in the PropertiesPanel.js.
   if (setControlValue) {
     factory.setControlValue = function(element, rowNode, input, prop, value, idx) {
-      var entryNode = getEntryNode(rowNode);
+      const entryNode = getEntryNode(rowNode);
 
-      var isReadOnly = domAttr(input, 'readonly');
-      var oldValue = input.value;
+      const isReadOnly = domAttr(input, 'readonly');
+      const oldValue = input.value;
 
-      var selection;
+      let selection;
 
       // prevents input fields from having the value 'undefined'
       if (value === undefined) {

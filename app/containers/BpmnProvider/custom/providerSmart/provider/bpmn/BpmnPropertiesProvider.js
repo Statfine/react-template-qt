@@ -1,23 +1,23 @@
-'use strict';
 
 
-var inherits = require('inherits');
 
-var PropertiesActivator = require('../../PropertiesActivator');
+const inherits = require('inherits');
 
-var processProps = require('./parts/ProcessProps'),
-    eventProps = require('./parts/EventProps'),
-    linkProps = require('./parts/LinkProps'),
-    documentationProps = require('./parts/DocumentationProps'),
-    idProps = require('./parts/IdProps'),
-    nameProps = require('./parts/NameProps'),
-    executableProps = require('./parts/ExecutableProps');
+const PropertiesActivator = require('../../PropertiesActivator');
+
+const processProps = require('./parts/ProcessProps');
+const eventProps = require('./parts/EventProps');
+const linkProps = require('./parts/LinkProps');
+const documentationProps = require('./parts/DocumentationProps');
+const idProps = require('./parts/IdProps');
+const nameProps = require('./parts/NameProps');
+const executableProps = require('./parts/ExecutableProps');
 
 function createGeneralTabGroups(
-    element, canvas, bpmnFactory,
-    elementRegistry, translate) {
+  element, canvas, bpmnFactory,
+  elementRegistry, translate) {
 
-  var generalGroup = {
+  const generalGroup = {
     id: 'general',
     label: translate('General'),
     entries: []
@@ -27,7 +27,7 @@ function createGeneralTabGroups(
   processProps(generalGroup, element, translate);
   executableProps(generalGroup, element, translate);
 
-  var detailsGroup = {
+  const detailsGroup = {
     id: 'details',
     label: translate('Details'),
     entries: []
@@ -35,7 +35,7 @@ function createGeneralTabGroups(
   linkProps(detailsGroup, element, translate);
   eventProps(detailsGroup, element, bpmnFactory, elementRegistry, translate);
 
-  var documentationGroup = {
+  const documentationGroup = {
     id: 'documentation',
     label: translate('Documentation'),
     entries: []
@@ -52,13 +52,13 @@ function createGeneralTabGroups(
 }
 
 function BpmnPropertiesProvider(
-    eventBus, canvas, bpmnFactory, elementRegistry, translate) {
+  eventBus, canvas, bpmnFactory, elementRegistry, translate) {
 
   PropertiesActivator.call(this, eventBus);
 
   this.getTabs = function(element) {
 
-    var generalTab = {
+    const generalTab = {
       id: 'general',
       label: translate('General'),
       groups: createGeneralTabGroups(

@@ -1,29 +1,29 @@
-'use strict';
 
-var entryFactory = require('../../../../factory/EntryFactory');
 
-var cmdHelper = require('../../../../helper/CmdHelper');
+const entryFactory = require('../../../../factory/EntryFactory');
+
+const cmdHelper = require('../../../../helper/CmdHelper');
 
 module.exports = function(element, bpmnFactory, options, translate) {
 
-  var getBusinessObject = options.getBusinessObject;
+  const getBusinessObject = options.getBusinessObject;
 
-  var historyTimeToLiveEntry = entryFactory.textField({
+  const historyTimeToLiveEntry = entryFactory.textField({
     id: 'historyTimeToLive',
     label: translate('History Time To Live'),
     modelProperty: 'historyTimeToLive',
 
-    get: function(element, node) {
-      var bo = getBusinessObject(element);
-      var historyTimeToLive = bo.get('smart:historyTimeToLive');
+    get(element, node) {
+      const bo = getBusinessObject(element);
+      const historyTimeToLive = bo.get('smart:historyTimeToLive');
 
       return {
-        historyTimeToLive: historyTimeToLive ? historyTimeToLive : ''
+        historyTimeToLive: historyTimeToLive || ''
       };
     },
 
-    set: function(element, values) {
-      var bo = getBusinessObject(element);
+    set(element, values) {
+      const bo = getBusinessObject(element);
       return cmdHelper.updateBusinessObject(element, bo, {
         'smart:historyTimeToLive': values.historyTimeToLive || undefined
       });

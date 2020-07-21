@@ -1,23 +1,23 @@
-'use strict';
 
-var entryFactory = require('../../../../factory/EntryFactory'),
-    cmdHelper = require('../../../../helper/CmdHelper'),
-    extensionElementsHelper = require('../../../../helper/ExtensionElementsHelper'),
-    elementHelper = require('../../../../helper/ElementHelper');
 
-var assign = require('lodash/assign');
-var map = require('lodash/map');
+const assign = require('lodash/assign');
+const map = require('lodash/map');
+const entryFactory = require('../../../../factory/EntryFactory');
+const cmdHelper = require('../../../../helper/CmdHelper');
+const extensionElementsHelper = require('../../../../helper/ExtensionElementsHelper');
+const elementHelper = require('../../../../helper/ElementHelper');
 
-var DEFAULT_DELEGATE_PROPS = [ 'class', 'expression', 'delegateExpression' ];
 
-var DELEGATE_PROPS = {
+const DEFAULT_DELEGATE_PROPS = [ 'class', 'expression', 'delegateExpression' ];
+
+const DELEGATE_PROPS = {
   'smart:class': undefined,
   'smart:expression': undefined,
   'smart:delegateExpression': undefined,
   'smart:resultVariable': undefined
 };
 
-var DMN_CAPABLE_PROPS = {
+const DMN_CAPABLE_PROPS = {
   'smart:decisionRef': undefined,
   'smart:decisionRefBinding': 'latest',
   'smart:decisionRefVersion': undefined,
@@ -26,46 +26,46 @@ var DMN_CAPABLE_PROPS = {
 };
 
 
-var EXTERNAL_CAPABLE_PROPS = {
+const EXTERNAL_CAPABLE_PROPS = {
   'smart:type': undefined,
   'smart:topic': undefined
 };
 
 module.exports = function(element, bpmnFactory, options, translate) {
 
-  var DEFAULT_OPTIONS = [
+  const DEFAULT_OPTIONS = [
     { value: 'class', name: translate('Java Class') },
     { value: 'expression', name: translate('Expression') },
     { value: 'delegateExpression', name: translate('Delegate Expression') }
   ];
 
-  var DMN_OPTION = [
+  const DMN_OPTION = [
     { value: 'dmn', name: translate('DMN') }
   ];
 
-  var EXTERNAL_OPTION = [
+  const EXTERNAL_OPTION = [
     { value: 'external', name: translate('External') }
   ];
 
-  var CONNECTOR_OPTION = [
+  const CONNECTOR_OPTION = [
     { value: 'connector', name: translate('Connector') }
   ];
 
-  var SCRIPT_OPTION = [
+  const SCRIPT_OPTION = [
     { value: 'script', name: translate('Script') }
   ];
 
-  var getType = options.getImplementationType,
-      getBusinessObject = options.getBusinessObject;
+  const getType = options.getImplementationType;
+  const getBusinessObject = options.getBusinessObject;
 
-  var hasDmnSupport = options.hasDmnSupport,
-      hasExternalSupport = options.hasExternalSupport,
-      hasServiceTaskLikeSupport = options.hasServiceTaskLikeSupport,
-      hasScriptSupport = options.hasScriptSupport;
+  const hasDmnSupport = options.hasDmnSupport;
+  const hasExternalSupport = options.hasExternalSupport;
+  const hasServiceTaskLikeSupport = options.hasServiceTaskLikeSupport;
+  const hasScriptSupport = options.hasScriptSupport;
 
-  var entries = [];
+  const entries = [];
 
-  var selectOptions = DEFAULT_OPTIONS.concat([]);
+  let selectOptions = DEFAULT_OPTIONS.concat([]);
 
   if (hasDmnSupport) {
     selectOptions = selectOptions.concat(DMN_OPTION);
@@ -88,29 +88,29 @@ module.exports = function(element, bpmnFactory, options, translate) {
   entries.push(entryFactory.selectBox({
     id : 'implementation',
     label: translate('Implementation'),
-    selectOptions: selectOptions,
+    selectOptions,
     modelProperty: 'implType',
 
-    get: function(element, node) {
+    get(element, node) {
       return {
         implType: getType(element) || ''
       };
     },
 
-    set: function(element, values, node) {
-      var bo = getBusinessObject(element);
-      var oldType = getType(element);
-      var newType = values.implType;
+    set(element, values, node) {
+      const bo = getBusinessObject(element);
+      const oldType = getType(element);
+      const newType = values.implType;
 
-      var props = assign({}, DELEGATE_PROPS);
+      let props = assign({}, DELEGATE_PROPS);
 
       if (DEFAULT_DELEGATE_PROPS.indexOf(newType) !== -1) {
 
-        var newValue = '';
+        let newValue = '';
         if (DEFAULT_DELEGATE_PROPS.indexOf(oldType) !== -1) {
-          newValue = bo.get('smart:' + oldType);
+          newValue = bo.get(`smart:${  oldType}`);
         }
-        props['smart:' + newType] = newValue;
+        props[`smart:${  newType}`] = newValue;
       }
 
       if (hasDmnSupport) {
@@ -136,22 +136,22 @@ module.exports = function(element, bpmnFactory, options, translate) {
         }
       }
 
-      var commands = [];
+      const commands = [];
       commands.push(cmdHelper.updateBusinessObject(element, bo, props));
 
       if (hasServiceTaskLikeSupport) {
-        var connectors = extensionElementsHelper.getExtensionElements(bo, 'smart:Connector');
+        const connectors = extensionElementsHelper.getExtensionElements(bo, 'smart:Connector');
         commands.push(map(connectors, function(connector) {
           return extensionElementsHelper.removeEntry(bo, element, connector);
         }));
 
         if (newType === 'connector') {
-          var extensionElements = bo.get('extensionElements');
+          let extensionElements = bo.get('extensionElements');
           if (!extensionElements) {
             extensionElements = elementHelper.createElement('bpmn:ExtensionElements', { values: [] }, bo, bpmnFactory);
-            commands.push(cmdHelper.updateBusinessObject(element, bo, { extensionElements: extensionElements }));
+            commands.push(cmdHelper.updateBusinessObject(element, bo, { extensionElements }));
           }
-          var connector = elementHelper.createElement('smart:Connector', {}, extensionElements, bpmnFactory);
+          const connector = elementHelper.createElement('smart:Connector', {}, extensionElements, bpmnFactory);
           commands.push(cmdHelper.addAndRemoveElementsFromList(
             element,
             extensionElements,

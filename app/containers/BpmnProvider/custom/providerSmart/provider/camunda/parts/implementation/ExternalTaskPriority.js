@@ -1,27 +1,27 @@
-'use strict';
 
-var entryFactory = require('../../../../factory/EntryFactory');
 
-var cmdHelper = require('../../../../helper/CmdHelper');
+const entryFactory = require('../../../../factory/EntryFactory');
+
+const cmdHelper = require('../../../../helper/CmdHelper');
 
 module.exports = function(element, bpmnFactory, options, translate) {
 
-  var getBusinessObject = options.getBusinessObject;
+  const getBusinessObject = options.getBusinessObject;
 
-  var externalTaskPriorityEntry = entryFactory.textField({
+  const externalTaskPriorityEntry = entryFactory.textField({
     id: 'externalTaskPriority',
     label: translate('Task Priority'),
     modelProperty: 'taskPriority',
 
-    get: function(element, node) {
-      var bo = getBusinessObject(element);
+    get(element, node) {
+      const bo = getBusinessObject(element);
       return {
         taskPriority: bo.get('smart:taskPriority')
       };
     },
 
-    set: function(element, values) {
-      var bo = getBusinessObject(element);
+    set(element, values) {
+      const bo = getBusinessObject(element);
       return cmdHelper.updateBusinessObject(element, bo, {
         'smart:taskPriority': values.taskPriority || undefined
       });

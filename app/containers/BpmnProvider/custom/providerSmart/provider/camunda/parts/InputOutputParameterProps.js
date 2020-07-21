@@ -1,8 +1,8 @@
-'use strict';
 
-var inputOutputParameter = require('./implementation/InputOutputParameter');
 
-var assign = require('lodash/assign');
+const assign = require('lodash/assign');
+const inputOutputParameter = require('./implementation/InputOutputParameter');
+
 
 module.exports = function(group, element, bpmnFactory, options, translate) {
 

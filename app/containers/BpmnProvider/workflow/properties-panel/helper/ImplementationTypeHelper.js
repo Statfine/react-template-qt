@@ -1,13 +1,13 @@
-'use strict';
 
-var ModelUtil = require('bpmn-js/lib/util/ModelUtil'),
-    is = ModelUtil.is,
-    getBusinessObject = ModelUtil.getBusinessObject;
 
-var eventDefinitionHelper = require('./EventDefinitionHelper');
-var extensionsElementHelper = require('./ExtensionElementsHelper');
+const ModelUtil = require('bpmn-js/lib/util/ModelUtil');
+const is = ModelUtil.is;
+const getBusinessObject = ModelUtil.getBusinessObject;
 
-var ImplementationTypeHelper = {};
+const eventDefinitionHelper = require('./EventDefinitionHelper');
+const extensionsElementHelper = require('./ExtensionElementsHelper');
+
+const ImplementationTypeHelper = {};
 
 module.exports = ImplementationTypeHelper;
 
@@ -107,7 +107,7 @@ ImplementationTypeHelper.getServiceTaskLikeBusinessObject = function(element) {
     // the element is a message intermediate throw event or message end event
     // because the smart extensions (e.g. smart:class) are in the message
     // event definition tag and not in the intermediate throw event or end event tag
-    var messageEventDefinition = eventDefinitionHelper.getMessageEventDefinition(element);
+    const messageEventDefinition = eventDefinitionHelper.getMessageEventDefinition(element);
     if (messageEventDefinition) {
       element = messageEventDefinition;
     }
@@ -136,7 +136,7 @@ ImplementationTypeHelper.getServiceTaskLikeBusinessObject = function(element) {
  */
 ImplementationTypeHelper.getImplementationType = function(element) {
 
-  var bo = this.getServiceTaskLikeBusinessObject(element);
+  let bo = this.getServiceTaskLikeBusinessObject(element);
 
   if (!bo) {
     if (this.isListener(element)) {
@@ -147,43 +147,43 @@ ImplementationTypeHelper.getImplementationType = function(element) {
   }
 
   if (this.isDmnCapable(bo)) {
-    var decisionRef = bo.get('smart:decisionRef');
+    const decisionRef = bo.get('smart:decisionRef');
     if (typeof decisionRef !== 'undefined') {
       return 'dmn';
     }
   }
 
   if (this.isServiceTaskLike(bo)) {
-    var connectors = extensionsElementHelper.getExtensionElements(bo, 'smart:Connector');
+    const connectors = extensionsElementHelper.getExtensionElements(bo, 'smart:Connector');
     if (typeof connectors !== 'undefined') {
       return 'connector';
     }
   }
 
   if (this.isExternalCapable(bo)) {
-    var type = bo.get('smart:type');
+    const type = bo.get('smart:type');
     if (type === 'external') {
       return 'external';
     }
   }
 
-  var cls = bo.get('smart:class');
+  const cls = bo.get('smart:class');
   if (typeof cls !== 'undefined') {
     return 'class';
   }
 
-  var expression = bo.get('smart:expression');
+  const expression = bo.get('smart:expression');
   if (typeof expression !== 'undefined') {
     return 'expression';
   }
 
-  var delegateExpression = bo.get('smart:delegateExpression');
+  const delegateExpression = bo.get('smart:delegateExpression');
   if (typeof delegateExpression !== 'undefined') {
     return 'delegateExpression';
   }
 
   if (this.isListener(bo)) {
-    var script = bo.get('script');
+    const script = bo.get('script');
     if (typeof script !== 'undefined') {
       return 'script';
     }

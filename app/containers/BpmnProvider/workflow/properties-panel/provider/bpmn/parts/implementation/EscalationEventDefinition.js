@@ -1,10 +1,10 @@
-'use strict';
 
-var entryFactory = require('../../../../factory/EntryFactory'),
-    cmdHelper = require('../../../../helper/CmdHelper');
 
-var eventDefinitionReference = require('./EventDefinitionReference'),
-    elementReferenceProperty = require('./ElementReferenceProperty');
+const entryFactory = require('../../../../factory/EntryFactory');
+const cmdHelper = require('../../../../helper/CmdHelper');
+
+const eventDefinitionReference = require('./EventDefinitionReference');
+const elementReferenceProperty = require('./ElementReferenceProperty');
 
 
 module.exports = function(group, element, bpmnFactory, escalationEventDefinition, showEscalationCodeVariable, translate) {
@@ -41,14 +41,14 @@ module.exports = function(group, element, bpmnFactory, escalationEventDefinition
       label : translate('Escalation Code Variable'),
       modelProperty : 'escalationCodeVariable',
 
-      get: function(element) {
-        var codeVariable = escalationEventDefinition.get('camunda:escalationCodeVariable');
+      get(element) {
+        const codeVariable = escalationEventDefinition.get('camunda:escalationCodeVariable');
         return {
           escalationCodeVariable: codeVariable
         };
       },
 
-      set: function(element, values) {
+      set(element, values) {
         return cmdHelper.updateBusinessObject(element, escalationEventDefinition, {
           'camunda:escalationCodeVariable': values.escalationCodeVariable || undefined
         });

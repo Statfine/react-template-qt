@@ -1,14 +1,14 @@
-'use strict';
 
-var is = require('bpmn-js/lib/util/ModelUtil').is;
 
-var entryFactory = require('../../../../factory/EntryFactory');
+const is = require('bpmn-js/lib/util/ModelUtil').is;
 
-var asyncCapableHelper = require('../../../../helper/AsyncCapableHelper');
+const entryFactory = require('../../../../factory/EntryFactory');
 
-var elementHelper = require('../../../../helper/ElementHelper'),
-    eventDefinitionHelper = require('../../../../helper/EventDefinitionHelper'),
-    cmdHelper = require('../../../../helper/CmdHelper');
+const asyncCapableHelper = require('../../../../helper/AsyncCapableHelper');
+
+const elementHelper = require('../../../../helper/ElementHelper');
+const eventDefinitionHelper = require('../../../../helper/EventDefinitionHelper');
+const cmdHelper = require('../../../../helper/CmdHelper');
 
 function isAsyncBefore(bo) {
   return asyncCapableHelper.isAsyncBefore(bo);
@@ -36,43 +36,43 @@ function createFailedJobRetryTimeCycle(parent, bpmnFactory, cycle) {
 
 module.exports = function(element, bpmnFactory, options, translate) {
 
-  var getBusinessObject = options.getBusinessObject;
+  const getBusinessObject = options.getBusinessObject;
 
-  var idPrefix = options.idPrefix || '',
-      labelPrefix = options.labelPrefix || '';
+  const idPrefix = options.idPrefix || '';
+  const labelPrefix = options.labelPrefix || '';
 
-  var retryTimeCycleEntry = entryFactory.textField({
-    id: idPrefix + 'retryTimeCycle',
+  const retryTimeCycleEntry = entryFactory.textField({
+    id: `${idPrefix  }retryTimeCycle`,
     label: labelPrefix + translate('Retry Time Cycle'),
     modelProperty: 'cycle',
 
-    get: function(element, node) {
-      var retryTimeCycle = getFailedJobRetryTimeCycle(getBusinessObject(element));
-      var value = retryTimeCycle && retryTimeCycle.get('body');
+    get(element, node) {
+      const retryTimeCycle = getFailedJobRetryTimeCycle(getBusinessObject(element));
+      const value = retryTimeCycle && retryTimeCycle.get('body');
       return {
         cycle: value
       };
     },
 
-    set: function(element, values, node) {
-      var newCycle = values.cycle;
-      var bo = getBusinessObject(element);
+    set(element, values, node) {
+      const newCycle = values.cycle;
+      const bo = getBusinessObject(element);
 
       if (newCycle === '' || typeof newCycle === 'undefined') {
         // remove retry time cycle element(s)
         return removeFailedJobRetryTimeCycle(bo, element);
       }
 
-      var retryTimeCycle = getFailedJobRetryTimeCycle(bo);
+      let retryTimeCycle = getFailedJobRetryTimeCycle(bo);
 
       if (!retryTimeCycle) {
         // add new retry time cycle element
-        var commands = [];
+        const commands = [];
 
-        var extensionElements = bo.get('extensionElements');
+        let extensionElements = bo.get('extensionElements');
         if (!extensionElements) {
           extensionElements = createExtensionElements(bo, bpmnFactory);
-          commands.push(cmdHelper.updateBusinessObject(element, bo, { extensionElements: extensionElements }));
+          commands.push(cmdHelper.updateBusinessObject(element, bo, { extensionElements }));
         }
 
         retryTimeCycle = createFailedJobRetryTimeCycle(extensionElements, bpmnFactory, newCycle);
@@ -92,8 +92,8 @@ module.exports = function(element, bpmnFactory, options, translate) {
       return cmdHelper.updateBusinessObject(element, retryTimeCycle, { body: newCycle });
     },
 
-    hidden: function(element) {
-      var bo = getBusinessObject(element);
+    hidden(element) {
+      const bo = getBusinessObject(element);
 
       if (bo && (isAsyncBefore(bo) || isAsyncAfter(bo))) {
         return false;

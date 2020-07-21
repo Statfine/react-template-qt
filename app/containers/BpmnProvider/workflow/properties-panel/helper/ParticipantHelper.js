@@ -1,11 +1,11 @@
-'use strict';
-
-var is = require('bpmn-js/lib/util/ModelUtil').is,
-    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
-    cmdHelper = require('./CmdHelper');
 
 
-var ParticipantHelper = {};
+const is = require('bpmn-js/lib/util/ModelUtil').is;
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+const cmdHelper = require('./CmdHelper');
+
+
+const ParticipantHelper = {};
 
 module.exports = ParticipantHelper;
 
@@ -14,8 +14,8 @@ ParticipantHelper.modifyProcessBusinessObject = function(element, property, valu
     return {};
   }
 
-  var bo = getBusinessObject(element).get('processRef'),
-      properties = {};
+  const bo = getBusinessObject(element).get('processRef');
+  const properties = {};
 
   properties[property] = values[property];
 
@@ -27,8 +27,8 @@ ParticipantHelper.getProcessBusinessObject = function(element, propertyName) {
     return {};
   }
 
-  var bo = getBusinessObject(element).get('processRef'),
-      properties = {};
+  const bo = getBusinessObject(element).get('processRef');
+  const properties = {};
 
   properties[propertyName] = bo.get(propertyName);
 

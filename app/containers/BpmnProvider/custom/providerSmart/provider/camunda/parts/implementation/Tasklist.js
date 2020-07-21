@@ -1,29 +1,29 @@
-'use strict';
 
-var entryFactory = require('../../../../factory/EntryFactory');
 
-var cmdHelper = require('../../../../helper/CmdHelper');
+const entryFactory = require('../../../../factory/EntryFactory');
+
+const cmdHelper = require('../../../../helper/CmdHelper');
 
 module.exports = function(element, bpmnFactory, options, translate) {
 
-  var getBusinessObject = options.getBusinessObject;
+  const getBusinessObject = options.getBusinessObject;
 
-  var isStartableInTasklistEntry = entryFactory.checkbox({
+  const isStartableInTasklistEntry = entryFactory.checkbox({
     id: 'isStartableInTasklist',
     label: translate('Startable'),
     modelProperty: 'isStartableInTasklist',
 
-    get: function(element, node) {
-      var bo = getBusinessObject(element);
-      var isStartableInTasklist = bo.get('smart:isStartableInTasklist');
+    get(element, node) {
+      const bo = getBusinessObject(element);
+      const isStartableInTasklist = bo.get('smart:isStartableInTasklist');
 
       return {
-        isStartableInTasklist: isStartableInTasklist ? isStartableInTasklist : ''
+        isStartableInTasklist: isStartableInTasklist || ''
       };
     },
 
-    set: function(element, values) {
-      var bo = getBusinessObject(element);
+    set(element, values) {
+      const bo = getBusinessObject(element);
       return cmdHelper.updateBusinessObject(element, bo, {
         'smart:isStartableInTasklist': !!values.isStartableInTasklist
       });

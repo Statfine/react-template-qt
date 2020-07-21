@@ -1,6 +1,6 @@
-'use strict';
 
-var ElementHelper = {};
+
+const ElementHelper = {};
 module.exports = ElementHelper;
 
 /**
@@ -16,7 +16,7 @@ module.exports = ElementHelper;
  * @returns {djs.model.Base} element which is created
  */
 ElementHelper.createElement = function(elementType, properties, parent, factory) {
-  var element = factory.create(elementType, properties);
+  const element = factory.create(elementType, properties);
   element.$parent = parent;
 
   return element;

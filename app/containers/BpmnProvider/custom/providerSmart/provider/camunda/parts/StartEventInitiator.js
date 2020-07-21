@@ -1,13 +1,13 @@
-'use strict';
 
-var entryFactory = require('../../../factory/EntryFactory'),
-    is = require('bpmn-js/lib/util/ModelUtil').is,
-    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+
+const is = require('bpmn-js/lib/util/ModelUtil').is;
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+const entryFactory = require('../../../factory/EntryFactory');
 
 
 module.exports = function(group, element, translate) {
 
-  var bo = getBusinessObject(element);
+  const bo = getBusinessObject(element);
 
   if (!bo) {
     return;

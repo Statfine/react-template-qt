@@ -1,22 +1,22 @@
-'use strict';
 
-var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
-    is = require('bpmn-js/lib/util/ModelUtil').is;
 
-var multiInstanceLoopCharacteristics = require('./implementation/MultiInstanceLoopCharacteristics');
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+const is = require('bpmn-js/lib/util/ModelUtil').is;
 
-var jobRetryTimeCycle = require('./implementation/JobRetryTimeCycle'),
-    asyncContinuation = require('./implementation/AsyncContinuation');
+const multiInstanceLoopCharacteristics = require('./implementation/MultiInstanceLoopCharacteristics');
+
+const jobRetryTimeCycle = require('./implementation/JobRetryTimeCycle');
+const asyncContinuation = require('./implementation/AsyncContinuation');
 
 
 function getLoopCharacteristics(element) {
-  var bo = getBusinessObject(element);
+  const bo = getBusinessObject(element);
   return bo.loopCharacteristics;
 }
 
 
 function ensureMultiInstanceSupported(element) {
-  var loopCharacteristics = getLoopCharacteristics(element);
+  const loopCharacteristics = getLoopCharacteristics(element);
   return !!loopCharacteristics && is(loopCharacteristics, 'smart:Collectable');
 }
 

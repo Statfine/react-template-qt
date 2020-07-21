@@ -1,12 +1,12 @@
-'use strict';
 
-var assign = require('lodash/assign');
 
-var entryFactory = require('../../../../factory/EntryFactory');
+const assign = require('lodash/assign');
 
-var asyncCapableHelper = require('../../../../helper/AsyncCapableHelper'),
-    eventDefinitionHelper = require('../../../../helper/EventDefinitionHelper'),
-    cmdHelper = require('../../../../helper/CmdHelper');
+const entryFactory = require('../../../../factory/EntryFactory');
+
+const asyncCapableHelper = require('../../../../helper/AsyncCapableHelper');
+const eventDefinitionHelper = require('../../../../helper/EventDefinitionHelper');
+const cmdHelper = require('../../../../helper/CmdHelper');
 
 function isAsyncBefore(bo) {
   return asyncCapableHelper.isAsyncBefore(bo);
@@ -30,34 +30,34 @@ function canRemoveFailedJobRetryTimeCycle(element) {
 
 module.exports = function(element, bpmnFactory, options, translate) {
 
-  var getBusinessObject = options.getBusinessObject;
+  const getBusinessObject = options.getBusinessObject;
 
-  var idPrefix = options.idPrefix || '',
-      labelPrefix = options.labelPrefix || '';
+  const idPrefix = options.idPrefix || '';
+  const labelPrefix = options.labelPrefix || '';
 
 
-  var asyncBeforeEntry = entryFactory.checkbox({
-    id: idPrefix + 'asyncBefore',
+  const asyncBeforeEntry = entryFactory.checkbox({
+    id: `${idPrefix  }asyncBefore`,
     label: labelPrefix + translate('Asynchronous Before'),
     modelProperty: 'asyncBefore',
 
-    get: function(element, node) {
-      var bo = getBusinessObject(element);
+    get(element, node) {
+      const bo = getBusinessObject(element);
       return {
         asyncBefore: isAsyncBefore(bo)
       };
     },
 
-    set: function(element, values) {
-      var bo = getBusinessObject(element);
-      var asyncBefore = !!values.asyncBefore;
+    set(element, values) {
+      const bo = getBusinessObject(element);
+      const asyncBefore = !!values.asyncBefore;
 
-      var props = {
+      let props = {
         'smart:asyncBefore': asyncBefore,
         'smart:async': false
       };
 
-      var commands = [];
+      const commands = [];
       if (!isAsyncAfter(bo) && !asyncBefore) {
         props = assign({ 'smart:exclusive' : true }, props);
         if (canRemoveFailedJobRetryTimeCycle(element)) {
@@ -71,27 +71,27 @@ module.exports = function(element, bpmnFactory, options, translate) {
   });
 
 
-  var asyncAfterEntry = entryFactory.checkbox({
-    id: idPrefix + 'asyncAfter',
+  const asyncAfterEntry = entryFactory.checkbox({
+    id: `${idPrefix  }asyncAfter`,
     label: labelPrefix + translate('Asynchronous After'),
     modelProperty: 'asyncAfter',
 
-    get: function(element, node) {
-      var bo = getBusinessObject(element);
+    get(element, node) {
+      const bo = getBusinessObject(element);
       return {
         asyncAfter: isAsyncAfter(bo)
       };
     },
 
-    set: function(element, values) {
-      var bo = getBusinessObject(element);
-      var asyncAfter = !!values.asyncAfter;
+    set(element, values) {
+      const bo = getBusinessObject(element);
+      const asyncAfter = !!values.asyncAfter;
 
-      var props = {
+      let props = {
         'smart:asyncAfter': asyncAfter
       };
 
-      var commands = [];
+      const commands = [];
       if (!isAsyncBefore(bo) && !asyncAfter) {
         props = assign({ 'smart:exclusive' : true }, props);
         if (canRemoveFailedJobRetryTimeCycle(element)) {
@@ -105,23 +105,23 @@ module.exports = function(element, bpmnFactory, options, translate) {
   });
 
 
-  var exclusiveEntry = entryFactory.checkbox({
-    id: idPrefix + 'exclusive',
+  const exclusiveEntry = entryFactory.checkbox({
+    id: `${idPrefix  }exclusive`,
     label: labelPrefix + translate('Exclusive'),
     modelProperty: 'exclusive',
 
-    get: function(element, node) {
-      var bo = getBusinessObject(element);
+    get(element, node) {
+      const bo = getBusinessObject(element);
       return { exclusive: isExclusive(bo) };
     },
 
-    set: function(element, values) {
-      var bo = getBusinessObject(element);
+    set(element, values) {
+      const bo = getBusinessObject(element);
       return cmdHelper.updateBusinessObject(element, bo, { 'smart:exclusive': !!values.exclusive });
     },
 
-    hidden: function(element) {
-      var bo = getBusinessObject(element);
+    hidden(element) {
+      const bo = getBusinessObject(element);
       return bo && !isAsyncAfter(bo) && !isAsyncBefore(bo);
     }
   });

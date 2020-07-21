@@ -1,13 +1,13 @@
-'use strict';
 
-var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
-var elementHelper = require('../../../../helper/ElementHelper'),
-    extensionElementsHelper = require('../../../../helper/ExtensionElementsHelper'),
-    inputOutputHelper = require('../../../../helper/InputOutputHelper'),
-    cmdHelper = require('../../../../helper/CmdHelper');
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
-var extensionElementsEntry = require('./ExtensionElements');
+const elementHelper = require('../../../../helper/ElementHelper');
+const extensionElementsHelper = require('../../../../helper/ExtensionElementsHelper');
+const inputOutputHelper = require('../../../../helper/InputOutputHelper');
+const cmdHelper = require('../../../../helper/CmdHelper');
+
+const extensionElementsEntry = require('./ExtensionElements');
 
 
 function getInputOutput(element, insideConnector) {
@@ -58,7 +58,7 @@ function ensureOutparameterSupported(element, insideConnector) {
 
 module.exports = function(element, bpmnFactory, options, translate) {
 
-  var TYPE_LABEL = {
+  const TYPE_LABEL = {
     'smart:Map': translate('Map'),
     'smart:List': translate('List'),
     'smart:Script': translate('Script')
@@ -66,13 +66,13 @@ module.exports = function(element, bpmnFactory, options, translate) {
 
   options = options || {};
 
-  var insideConnector = !!options.insideConnector,
-      idPrefix = options.idPrefix || '';
+  const insideConnector = !!options.insideConnector;
+  const idPrefix = options.idPrefix || '';
 
-  var getSelected = function(element, node) {
-    var selection = (inputEntry && inputEntry.getSelected(element, node)) || { idx: -1 };
+  const getSelected = function(element, node) {
+    let selection = (inputEntry && inputEntry.getSelected(element, node)) || { idx: -1 };
 
-    var parameter = getInputParameter(element, insideConnector, selection.idx);
+    let parameter = getInputParameter(element, insideConnector, selection.idx);
     if (!parameter && outputEntry) {
       selection = outputEntry.getSelected(element, node);
       parameter = getOutputParameter(element, insideConnector, selection.idx);
@@ -80,24 +80,24 @@ module.exports = function(element, bpmnFactory, options, translate) {
     return parameter;
   };
 
-  var result = {
+  const result = {
     getSelectedParameter: getSelected
   };
 
-  var entries = result.entries = [];
+  const entries = result.entries = [];
 
   if (!ensureInputOutputSupported(element)) {
     return result;
   }
 
-  var newElement = function(type, prop, factory) {
+  const newElement = function(type, prop, factory) {
 
     return function(element, extensionElements, value) {
-      var commands = [];
+      const commands = [];
 
-      var inputOutput = getInputOutput(element, insideConnector);
+      let inputOutput = getInputOutput(element, insideConnector);
       if (!inputOutput) {
-        var parent = !insideConnector ? extensionElements : getConnector(element);
+        const parent = !insideConnector ? extensionElements : getConnector(element);
         inputOutput = createInputOutput(parent, bpmnFactory, {
           inputParameters: [],
           outputParameters: []
@@ -113,34 +113,34 @@ module.exports = function(element, bpmnFactory, options, translate) {
             []
           ));
         } else {
-          commands.push(cmdHelper.updateBusinessObject(element, parent, { inputOutput: inputOutput }));
+          commands.push(cmdHelper.updateBusinessObject(element, parent, { inputOutput }));
         }
       }
 
-      var newElem = createParameter(type, inputOutput, bpmnFactory, { name: value });
+      const newElem = createParameter(type, inputOutput, bpmnFactory, { name: value });
       commands.push(cmdHelper.addElementsTolist(element, inputOutput, prop, [ newElem ]));
 
       return commands;
     };
   };
 
-  var removeElement = function(getter, prop, otherProp) {
+  const removeElement = function(getter, prop, otherProp) {
     return function(element, extensionElements, value, idx) {
-      var inputOutput = getInputOutput(element, insideConnector);
-      var parameter = getter(element, insideConnector, idx);
+      const inputOutput = getInputOutput(element, insideConnector);
+      const parameter = getter(element, insideConnector, idx);
 
-      var commands = [];
+      const commands = [];
       commands.push(cmdHelper.removeElementsFromList(element, inputOutput, prop, null, [ parameter ]));
 
-      var firstLength = inputOutput.get(prop).length-1;
-      var secondLength = (inputOutput.get(otherProp) || []).length;
+      const firstLength = inputOutput.get(prop).length-1;
+      const secondLength = (inputOutput.get(otherProp) || []).length;
 
       if (!firstLength && !secondLength) {
 
         if (!insideConnector) {
           commands.push(extensionElementsHelper.removeEntry(getBusinessObject(element), element, inputOutput));
         } else {
-          var connector = getConnector(element);
+          const connector = getConnector(element);
           commands.push(cmdHelper.updateBusinessObject(element, connector, { inputOutput: undefined }));
         }
 
@@ -150,19 +150,19 @@ module.exports = function(element, bpmnFactory, options, translate) {
     };
   };
 
-  var setOptionLabelValue = function(getter) {
+  const setOptionLabelValue = function(getter) {
     return function(element, node, option, property, value, idx) {
-      var parameter = getter(element, insideConnector, idx);
+      const parameter = getter(element, insideConnector, idx);
 
-      var suffix = 'Text';
+      let suffix = 'Text';
 
-      var definition = parameter.get('definition');
+      const definition = parameter.get('definition');
       if (typeof definition !== 'undefined') {
-        var type = definition.$type;
+        const type = definition.$type;
         suffix = TYPE_LABEL[type];
       }
 
-      option.text = (value || '') + ' : ' + suffix;
+      option.text = `${value || ''  } : ${  suffix}`;
     };
   };
 
@@ -170,7 +170,7 @@ module.exports = function(element, bpmnFactory, options, translate) {
   // input parameters ///////////////////////////////////////////////////////////////
 
   var inputEntry = extensionElementsEntry(element, bpmnFactory, {
-    id: idPrefix + 'inputs',
+    id: `${idPrefix  }inputs`,
     label: translate('Input Parameters'),
     modelProperty: 'name',
     prefix: 'Input',
@@ -179,11 +179,11 @@ module.exports = function(element, bpmnFactory, options, translate) {
     createExtensionElement: newElement('smart:InputParameter', 'inputParameters'),
     removeExtensionElement: removeElement(getInputParameter, 'inputParameters', 'outputParameters'),
 
-    getExtensionElements: function(element) {
+    getExtensionElements(element) {
       return getInputParameters(element, insideConnector);
     },
 
-    onSelectionChange: function(element, node, event, scope) {
+    onSelectionChange(element, node, event, scope) {
       outputEntry && outputEntry.deselect(element, node);
     },
 
@@ -197,7 +197,7 @@ module.exports = function(element, bpmnFactory, options, translate) {
 
   if (ensureOutparameterSupported(element, insideConnector)) {
     var outputEntry = extensionElementsEntry(element, bpmnFactory, {
-      id: idPrefix + 'outputs',
+      id: `${idPrefix  }outputs`,
       label: translate('Output Parameters'),
       modelProperty: 'name',
       prefix: 'Output',
@@ -206,11 +206,11 @@ module.exports = function(element, bpmnFactory, options, translate) {
       createExtensionElement: newElement('smart:OutputParameter', 'outputParameters'),
       removeExtensionElement: removeElement(getOutputParameter, 'outputParameters', 'inputParameters'),
 
-      getExtensionElements: function(element) {
+      getExtensionElements(element) {
         return getOutputParameters(element, insideConnector);
       },
 
-      onSelectionChange: function(element, node, event, scope) {
+      onSelectionChange(element, node, event, scope) {
         inputEntry.deselect(element, node);
       },
 

@@ -1,6 +1,6 @@
-'use strict';
 
-var Validator = require('./Validator');
+
+const Validator = require('./Validator');
 
 /**
  * The guy responsible for template loading.
@@ -20,7 +20,7 @@ function ElementTemplatesLoader(loadTemplates, eventBus, elementTemplates) {
   this._eventBus = eventBus;
   this._elementTemplates = elementTemplates;
 
-  var self = this;
+  const self = this;
 
   eventBus.on('diagram.init', function() {
     self.reload();
@@ -38,9 +38,9 @@ ElementTemplatesLoader.$inject = [
 
 ElementTemplatesLoader.prototype.reload = function() {
 
-  var self = this;
+  const self = this;
 
-  var loadTemplates = this._loadTemplates;
+  const loadTemplates = this._loadTemplates;
 
   // no templates specified
   if (typeof loadTemplates === 'undefined') {
@@ -69,12 +69,12 @@ ElementTemplatesLoader.prototype.reload = function() {
 
 ElementTemplatesLoader.prototype.setTemplates = function(templates) {
 
-  var elementTemplates = this._elementTemplates;
+  const elementTemplates = this._elementTemplates;
 
-  var validator = new Validator().addAll(templates);
+  const validator = new Validator().addAll(templates);
 
-  var errors = validator.getErrors(),
-      validTemplates = validator.getValidTemplates();
+  const errors = validator.getErrors();
+  const validTemplates = validator.getValidTemplates();
 
   elementTemplates.set(validTemplates);
 
@@ -91,6 +91,6 @@ ElementTemplatesLoader.prototype.templatesChanged = function() {
 
 ElementTemplatesLoader.prototype.templateErrors = function(errors) {
   this._eventBus.fire('elementTemplates.errors', {
-    errors: errors
+    errors
   });
 };

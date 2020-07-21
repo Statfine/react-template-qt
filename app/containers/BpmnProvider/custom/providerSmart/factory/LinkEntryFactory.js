@@ -1,10 +1,10 @@
-'use strict';
 
-var escapeHTML = require('../Utils').escapeHTML;
 
-var entryFieldDescription = require('./EntryFieldDescription');
+const escapeHTML = require('../Utils').escapeHTML;
 
-var bind = require('lodash/bind');
+const entryFieldDescription = require('./EntryFieldDescription');
+
+const bind = require('lodash/bind');
 
 /**
  * An entry that renders a clickable link.
@@ -35,11 +35,11 @@ var bind = require('lodash/bind');
  */
 function link(options) {
 
-  var id = options.id,
-      label = options.label || id,
-      showLink = options.showLink,
-      handleClick = options.handleClick,
-      description = options.description;
+  const id = options.id;
+  const label = options.label || id;
+  const showLink = options.showLink;
+  const handleClick = options.handleClick;
+  const description = options.description;
 
   if (showLink && typeof showLink !== 'function') {
     throw new Error('options.showLink must be a function');
@@ -49,15 +49,15 @@ function link(options) {
     throw new Error('options.handleClick must be a function');
   }
 
-  var resource = {
-    id: id
+  const resource = {
+    id
   };
 
   resource.html =
-    '<a data-action="handleClick" ' +
-    (showLink ? 'data-show="showLink" ' : '') +
-    'class="bpp-entry-link' + (options.cssClasses ? ' ' + escapeHTML(options.cssClasses) : '') +
-    '">' + escapeHTML(label) + '</a>';
+    `<a data-action="handleClick" ${ 
+      showLink ? 'data-show="showLink" ' : '' 
+    }class="bpp-entry-link${  options.cssClasses ? ` ${  escapeHTML(options.cssClasses)}` : '' 
+    }">${  escapeHTML(label)  }</a>`;
 
   // add description below link entry field
   if (description) {

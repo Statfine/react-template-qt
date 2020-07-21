@@ -1,12 +1,12 @@
-'use strict';
 
-var CmdHelper = {};
+
+const CmdHelper = {};
 module.exports = CmdHelper;
 
 CmdHelper.updateProperties = function(element, properties) {
   return {
     cmd: 'element.updateProperties',
-    context: { element: element, properties: properties }
+    context: { element, properties }
   };
 };
 
@@ -14,8 +14,8 @@ CmdHelper.updateBusinessObject = function(element, businessObject, newProperties
   return {
     cmd: 'properties-panel.update-businessobject',
     context: {
-      element: element,
-      businessObject: businessObject,
+      element,
+      businessObject,
       properties: newProperties
     }
   };
@@ -25,10 +25,10 @@ CmdHelper.addElementsTolist = function(element, businessObject, listPropertyName
   return {
     cmd: 'properties-panel.update-businessobject-list',
     context: {
-      element: element,
+      element,
       currentObject: businessObject,
       propertyName: listPropertyName,
-      objectsToAdd: objectsToAdd
+      objectsToAdd
     }
   };
 };
@@ -38,11 +38,11 @@ CmdHelper.removeElementsFromList = function(element, businessObject, listPropert
   return {
     cmd: 'properties-panel.update-businessobject-list',
     context: {
-      element: element,
+      element,
       currentObject: businessObject,
       propertyName: listPropertyName,
-      referencePropertyName: referencePropertyName,
-      objectsToRemove: objectsToRemove
+      referencePropertyName,
+      objectsToRemove
     }
   };
 };
@@ -53,12 +53,12 @@ CmdHelper.addAndRemoveElementsFromList = function(element, businessObject, listP
   return {
     cmd: 'properties-panel.update-businessobject-list',
     context: {
-      element: element,
+      element,
       currentObject: businessObject,
       propertyName: listPropertyName,
-      referencePropertyName: referencePropertyName,
-      objectsToAdd: objectsToAdd,
-      objectsToRemove: objectsToRemove
+      referencePropertyName,
+      objectsToAdd,
+      objectsToRemove
     }
   };
 };
@@ -68,10 +68,10 @@ CmdHelper.setList = function(element, businessObject, listPropertyName, updatedO
   return {
     cmd: 'properties-panel.update-businessobject-list',
     context: {
-      element: element,
+      element,
       currentObject: businessObject,
       propertyName: listPropertyName,
-      updatedObjectList: updatedObjectList
+      updatedObjectList
     }
   };
 };

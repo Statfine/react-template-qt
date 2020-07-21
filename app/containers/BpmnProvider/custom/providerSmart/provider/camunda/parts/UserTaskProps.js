@@ -1,7 +1,7 @@
-'use strict';
 
-var is = require('bpmn-js/lib/util/ModelUtil').is,
-    entryFactory = require('../../../factory/EntryFactory');
+
+const is = require('bpmn-js/lib/util/ModelUtil').is;
+const entryFactory = require('../../../factory/EntryFactory');
 
 
 module.exports = function(group, element, translate) {

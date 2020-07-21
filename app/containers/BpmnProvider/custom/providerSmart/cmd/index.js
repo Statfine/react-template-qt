@@ -1,8 +1,8 @@
-'use strict';
 
-var forEach = require('lodash/forEach');
 
-var HANDLERS = {
+const forEach = require('lodash/forEach');
+
+const HANDLERS = {
   'properties-panel.update-businessobject': require('./UpdateBusinessObjectHandler'),
   'properties-panel.create-and-reference': require('./CreateAndReferenceHandler'),
   'properties-panel.create-businessobject-list': require('./CreateBusinessObjectListHandler'),

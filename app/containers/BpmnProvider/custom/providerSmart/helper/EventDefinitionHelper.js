@@ -1,17 +1,17 @@
-'use strict';
 
-var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
-    is = require('bpmn-js/lib/util/ModelUtil').is,
-    forEach = require('lodash/forEach');
 
-var EventDefinitionHelper = {};
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+const is = require('bpmn-js/lib/util/ModelUtil').is;
+const forEach = require('lodash/forEach');
+
+const EventDefinitionHelper = {};
 
 module.exports = EventDefinitionHelper;
 
 EventDefinitionHelper.getEventDefinition = function(element, eventType) {
 
-  var bo = getBusinessObject(element),
-      eventDefinition = null;
+  const bo = getBusinessObject(element);
+  let eventDefinition = null;
 
   if (bo.eventDefinitions) {
     forEach(bo.eventDefinitions, function(event) {

@@ -1,9 +1,9 @@
-'use strict';
 
-var domQuery = require('min-dom').query,
-    domClasses = require('min-dom').classes,
-    domify = require('min-dom').domify,
-    bind = require('lodash/bind');
+
+const domQuery = require('min-dom').query;
+const domClasses = require('min-dom').classes;
+const domify = require('min-dom').domify;
+const bind = require('lodash/bind');
 
 /**
  * @class
@@ -12,7 +12,7 @@ var domQuery = require('min-dom').query,
 function Popup(options) {
   options = options || {};
   this.template = options.template || this.template;
-  var el = this.el = domify(this.template);
+  const el = this.el = domify(this.template);
 
   this.header = domQuery('.popup-header', el);
   this.body = domQuery('.popup-body', el);
@@ -36,15 +36,15 @@ Popup.prototype.template = '<div class="bpp-properties-panel-popup">' +
 
 
 Popup.prototype._attachEvents = function() {
-  var self = this;
-  var events = this.events;
-  var el = this.el;
+  const self = this;
+  const events = this.events;
+  const el = this.el;
 
   Object.keys(events).forEach(function(instruction) {
-    var cb = bind(self[events[instruction]], self);
-    var parts = instruction.split(' ');
-    var evtName = parts.shift();
-    var target = parts.length ? parts.shift() : false;
+    const cb = bind(self[events[instruction]], self);
+    const parts = instruction.split(' ');
+    const evtName = parts.shift();
+    let target = parts.length ? parts.shift() : false;
     target = target ? domQuery(target, el) : el;
     if (!target) { return; }
     target.addEventListener(evtName, cb);
@@ -52,15 +52,15 @@ Popup.prototype._attachEvents = function() {
 };
 
 Popup.prototype._detachEvents = function() {
-  var self = this;
-  var events = this.events;
-  var el = this.el;
+  const self = this;
+  const events = this.events;
+  const el = this.el;
 
   Object.keys(events).forEach(function(instruction) {
-    var cb = bind(self[events[instruction]], self);
-    var parts = instruction.split(' ');
-    var evtName = parts.shift();
-    var target = parts.length ? parts.shift() : false;
+    const cb = bind(self[events[instruction]], self);
+    const parts = instruction.split(' ');
+    const evtName = parts.shift();
+    let target = parts.length ? parts.shift() : false;
     target = target ? domQuery(target, el) : el;
     if (!target) { return; }
     target.removeEventListener(evtName, cb);
@@ -94,7 +94,7 @@ Popup.prototype.remove = function() {
   }
 };
 
-var popup;
+let popup;
 module.exports = function() {
   if (!popup) {
     popup = new Popup();

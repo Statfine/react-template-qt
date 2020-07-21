@@ -1,19 +1,19 @@
-'use strict';
 
-var is = require('bpmn-js/lib/util/ModelUtil').is;
 
-var find = require('min-dash').find;
+const is = require('bpmn-js/lib/util/ModelUtil').is;
 
-var entryFactory = require('../../../factory/EntryFactory');
+const find = require('min-dash').find;
 
-var cmdHelper = require('../../../helper/CmdHelper'),
-    ImplementationTypeHelper = require('../../../helper/ImplementationTypeHelper'),
-    scriptImplementation = require('./implementation/Script'),
-    timerImplementation = require('../../bpmn/parts/implementation/TimerEventDefinition');
+const entryFactory = require('../../../factory/EntryFactory');
+
+const cmdHelper = require('../../../helper/CmdHelper');
+const ImplementationTypeHelper = require('../../../helper/ImplementationTypeHelper');
+const scriptImplementation = require('./implementation/Script');
+const timerImplementation = require('../../bpmn/parts/implementation/TimerEventDefinition');
 
 module.exports = function(group, element, bpmnFactory, options, translate) {
 
-  var LISTENER_TYPE_LABEL = {
+  const LISTENER_TYPE_LABEL = {
     class: translate('Java Class'),
     expression: translate('Expression'),
     delegateExpression: translate('Delegate Expression'),
@@ -22,21 +22,21 @@ module.exports = function(group, element, bpmnFactory, options, translate) {
 
   options = options || {};
 
-  var getSelectedListener = options.getSelectedListener;
+  const getSelectedListener = options.getSelectedListener;
 
-  var classProp = 'class',
-      expressionProp = 'expression',
-      delegateExpressionProp = 'delegateExpression',
-      scriptProp = 'script';
+  const classProp = 'class';
+  const expressionProp = 'expression';
+  const delegateExpressionProp = 'delegateExpression';
+  const scriptProp = 'script';
 
-  var executionListenerEventTypeOptions = ImplementationTypeHelper.isSequenceFlow(element) ? [
+  const executionListenerEventTypeOptions = ImplementationTypeHelper.isSequenceFlow(element) ? [
     { name: translate('take'), value: 'take' }
   ] : [
     { name: translate('start'), value: 'start' },
     { name: translate('end'), value: 'end' }
   ];
 
-  var taskListenerEventTypeOptions = [
+  const taskListenerEventTypeOptions = [
     { name: translate('create'), value: 'create' },
     { name: translate('assignment'), value: 'assignment' },
     { name: translate('complete'), value: 'complete' },
@@ -45,7 +45,7 @@ module.exports = function(group, element, bpmnFactory, options, translate) {
     { name: translate('timeout'), value: 'timeout' }
   ];
 
-  var isSelected = function(element, node) {
+  const isSelected = function(element, node) {
     return getSelectedListener(element, node);
   };
 
@@ -57,21 +57,21 @@ module.exports = function(group, element, bpmnFactory, options, translate) {
     modelProperty: 'eventType',
     emptyParameter: false,
 
-    get: function(element, node) {
+    get(element, node) {
 
-      var listener = getSelectedListener(element, node);
+      const listener = getSelectedListener(element, node);
 
-      var eventType = listener && listener.get('event');
+      const eventType = listener && listener.get('event');
 
       return {
-        eventType: eventType
+        eventType
       };
     },
 
-    set: function(element, values, node) {
-      var eventType = values.eventType,
-          listener = getSelectedListener(element, node),
-          eventDefinitions = listener && listener.eventDefinitions;
+    set(element, values, node) {
+      const eventType = values.eventType;
+      const listener = getSelectedListener(element, node);
+      let eventDefinitions = listener && listener.eventDefinitions;
 
       // ensure only timeout events can have timer event definitions
       if (eventDefinitions && eventType !== 'timeout') {
@@ -81,15 +81,15 @@ module.exports = function(group, element, bpmnFactory, options, translate) {
       return cmdHelper.updateBusinessObject(element, listener,
         {
           event: eventType,
-          eventDefinitions: eventDefinitions
+          eventDefinitions
         }
       );
     },
 
-    selectOptions: function(element, node) {
-      var eventTypeOptions;
+    selectOptions(element, node) {
+      let eventTypeOptions;
 
-      var selectedListener = getSelectedListener(element, node);
+      const selectedListener = getSelectedListener(element, node);
       if (ImplementationTypeHelper.isTaskListener(selectedListener)) {
         eventTypeOptions = taskListenerEventTypeOptions;
       } else if (ImplementationTypeHelper.isExecutionListener(selectedListener)) {
@@ -100,7 +100,7 @@ module.exports = function(group, element, bpmnFactory, options, translate) {
 
     },
 
-    hidden: function(element, node) {
+    hidden(element, node) {
       return !isSelected(element, node);
     }
 
@@ -113,34 +113,34 @@ module.exports = function(group, element, bpmnFactory, options, translate) {
     label: translate('Listener Id'),
     modelProperty: 'listenerId',
 
-    get: function(element, node) {
-      var value = {},
-          listener = getSelectedListener(element, node);
+    get(element, node) {
+      const value = {};
+      const listener = getSelectedListener(element, node);
 
       value.listenerId = (listener && listener.get('id')) || undefined;
 
       return value;
     },
 
-    set: function(element, values, node) {
-      var update = {},
-          listener = getSelectedListener(element, node);
+    set(element, values, node) {
+      const update = {};
+      const listener = getSelectedListener(element, node);
 
-      update['id'] = values.listenerId || '';
+      update.id = values.listenerId || '';
 
       return cmdHelper.updateBusinessObject(element, listener, update);
     },
 
-    hidden: function(element, node) {
-      var listener = getSelectedListener(element, node);
+    hidden(element, node) {
+      const listener = getSelectedListener(element, node);
 
       return !ImplementationTypeHelper.isTaskListener(listener);
     },
 
-    validate: function(element, values, node) {
-      var value = values.listenerId,
-          listener = getSelectedListener(element, node),
-          validate = {};
+    validate(element, values, node) {
+      const value = values.listenerId;
+      const listener = getSelectedListener(element, node);
+      const validate = {};
 
       if (!value && isTimeoutTaskListener(listener)) {
         validate.listenerId = translate('Must provide a value for timeout task listener');
@@ -165,17 +165,17 @@ module.exports = function(group, element, bpmnFactory, options, translate) {
     modelProperty: 'listenerType',
     emptyParameter: false,
 
-    get: function(element, node) {
-      var listener = getSelectedListener(element, node);
+    get(element, node) {
+      const listener = getSelectedListener(element, node);
       return {
         listenerType: ImplementationTypeHelper.getImplementationType(listener)
       };
     },
 
-    set: function(element, values, node) {
-      var listener = getSelectedListener(element, node),
-          listenerType = values.listenerType || undefined,
-          update = {};
+    set(element, values, node) {
+      const listener = getSelectedListener(element, node);
+      const listenerType = values.listenerType || undefined;
+      const update = {};
 
       update[classProp] = listenerType === classProp ? '' : undefined;
       update[expressionProp] = listenerType === expressionProp ? '' : undefined;
@@ -185,7 +185,7 @@ module.exports = function(group, element, bpmnFactory, options, translate) {
       return cmdHelper.updateBusinessObject(element, listener, update);
     },
 
-    hidden: function(element, node) {
+    hidden(element, node) {
       return !isSelected(element, node);
     }
 
@@ -198,10 +198,10 @@ module.exports = function(group, element, bpmnFactory, options, translate) {
     dataValueLabel: 'listenerValueLabel',
     modelProperty: 'listenerValue',
 
-    get: function(element, node) {
-      var value = {},
-          listener = getSelectedListener(element, node),
-          listenerType = ImplementationTypeHelper.getImplementationType(listener);
+    get(element, node) {
+      const value = {};
+      const listener = getSelectedListener(element, node);
+      const listenerType = ImplementationTypeHelper.getImplementationType(listener);
 
       value.listenerValueLabel = LISTENER_TYPE_LABEL[listenerType] || '';
       value.listenerValue = (listener && listener.get(listenerType)) || undefined;
@@ -209,24 +209,24 @@ module.exports = function(group, element, bpmnFactory, options, translate) {
       return value;
     },
 
-    set: function(element, values, node) {
-      var update = {},
-          listener = getSelectedListener(element, node),
-          listenerType = ImplementationTypeHelper.getImplementationType(listener);
+    set(element, values, node) {
+      const update = {};
+      const listener = getSelectedListener(element, node);
+      const listenerType = ImplementationTypeHelper.getImplementationType(listener);
 
       update[listenerType] = values.listenerValue || '';
 
       return cmdHelper.updateBusinessObject(element, listener, update);
     },
 
-    hidden: function(element, node) {
-      var listener = getSelectedListener(element, node);
+    hidden(element, node) {
+      const listener = getSelectedListener(element, node);
       return !listener || listener.script;
     },
 
-    validate: function(element, values) {
-      var value = values.listenerValue,
-          validate = {};
+    validate(element, values) {
+      const value = values.listenerValue;
+      const validate = {};
 
       if (!value) {
         validate.listenerValue = translate('Must provide a value');
@@ -239,49 +239,49 @@ module.exports = function(group, element, bpmnFactory, options, translate) {
 
 
   // script ////////////////////
-  var script = scriptImplementation('scriptFormat', 'value', true, translate);
+  const script = scriptImplementation('scriptFormat', 'value', true, translate);
 
   group.entries.push({
     id: 'listener-script-value',
-    html: '<div data-show="isScript">' +
-            script.template +
-          '</div>',
+    html: `<div data-show="isScript">${ 
+      script.template 
+    }</div>`,
 
-    get: function(element, node) {
-      var listener = getSelectedListener(element, node);
+    get(element, node) {
+      const listener = getSelectedListener(element, node);
       return listener && listener.script ? script.get(element, listener.script) : {};
     },
 
-    set: function(element, values, node) {
-      var listener = getSelectedListener(element, node);
-      var update = script.set(element, values, listener);
+    set(element, values, node) {
+      const listener = getSelectedListener(element, node);
+      const update = script.set(element, values, listener);
       return cmdHelper.updateBusinessObject(element, listener.script, update);
     },
 
-    validate: function(element, values, node) {
-      var listener = getSelectedListener(element, node);
+    validate(element, values, node) {
+      const listener = getSelectedListener(element, node);
       return listener && listener.script ? script.validate(element, values) : {};
     },
 
-    isScript: function(element, node) {
-      var listener = getSelectedListener(element, node);
+    isScript(element, node) {
+      const listener = getSelectedListener(element, node);
       return listener && listener.script;
     },
 
-    script: script
+    script
 
   });
 
 
   // timerEventDefinition //////
-  var timerEventDefinitionHandler = function(element, node) {
-    var listener = getSelectedListener(element, node);
+  const timerEventDefinitionHandler = function(element, node) {
+    const listener = getSelectedListener(element, node);
 
     if (!listener || !isTimeoutTaskListener(listener)) {
       return;
     }
 
-    var timerEventDefinition = getTimerEventDefinition(listener);
+    const timerEventDefinition = getTimerEventDefinition(listener);
 
     if (!timerEventDefinition) {
       return false;
@@ -292,14 +292,14 @@ module.exports = function(group, element, bpmnFactory, options, translate) {
 
   function createTimerEventDefinition(element, node) {
 
-    var listener = getSelectedListener(element, node);
+    const listener = getSelectedListener(element, node);
 
     if (!listener || !isTimeoutTaskListener(listener)) {
       return;
     }
 
-    var eventDefinitions = listener.get('eventDefinitions') || [],
-        timerEventDefinition = bpmnFactory.create('bpmn:TimerEventDefinition');
+    const eventDefinitions = listener.get('eventDefinitions') || [];
+    const timerEventDefinition = bpmnFactory.create('bpmn:TimerEventDefinition');
 
     eventDefinitions.push(timerEventDefinition);
 
@@ -308,9 +308,9 @@ module.exports = function(group, element, bpmnFactory, options, translate) {
     return timerEventDefinition;
   }
 
-  var timerOptions = {
+  const timerOptions = {
     idPrefix: 'listener-',
-    createTimerEventDefinition: createTimerEventDefinition
+    createTimerEventDefinition
   };
 
   timerImplementation(group, element, bpmnFactory, timerEventDefinitionHandler, translate, timerOptions);
@@ -321,12 +321,12 @@ module.exports = function(group, element, bpmnFactory, options, translate) {
 // helpers //////////////
 
 function isTimeoutTaskListener(listener) {
-  var eventType = listener && listener.event;
+  const eventType = listener && listener.event;
   return eventType === 'timeout';
 }
 
 function getTimerEventDefinition(bo) {
-  var eventDefinitions = bo.eventDefinitions || [];
+  const eventDefinitions = bo.eventDefinitions || [];
 
   return find(eventDefinitions, function(event) {
     return is(event, 'bpmn:TimerEventDefinition');

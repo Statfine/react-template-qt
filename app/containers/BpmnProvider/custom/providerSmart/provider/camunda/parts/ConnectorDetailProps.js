@@ -1,10 +1,10 @@
-'use strict';
 
-var ImplementationTypeHelper = require('../../../helper/ImplementationTypeHelper'),
-    InputOutputHelper = require('../../../helper/InputOutputHelper');
 
-var entryFactory = require('../../../factory/EntryFactory'),
-    cmdHelper = require('../../../helper/CmdHelper');
+const ImplementationTypeHelper = require('../../../helper/ImplementationTypeHelper');
+const InputOutputHelper = require('../../../helper/InputOutputHelper');
+
+const entryFactory = require('../../../factory/EntryFactory');
+const cmdHelper = require('../../../helper/CmdHelper');
 
 function getImplementationType(element) {
   return ImplementationTypeHelper.getImplementationType(element);
@@ -29,26 +29,26 @@ module.exports = function(group, element, bpmnFactory, translate) {
     label: translate('Connector Id'),
     modelProperty: 'connectorId',
 
-    get: function(element, node) {
-      var bo = getBusinessObject(element);
-      var connector = bo && getConnector(bo);
-      var value = connector && connector.get('connectorId');
+    get(element, node) {
+      const bo = getBusinessObject(element);
+      const connector = bo && getConnector(bo);
+      const value = connector && connector.get('connectorId');
       return { connectorId: value };
     },
 
-    set: function(element, values, node) {
-      var bo = getBusinessObject(element);
-      var connector = getConnector(bo);
+    set(element, values, node) {
+      const bo = getBusinessObject(element);
+      const connector = getConnector(bo);
       return cmdHelper.updateBusinessObject(element, connector, {
         connectorId: values.connectorId || undefined
       });
     },
 
-    validate: function(element, values, node) {
+    validate(element, values, node) {
       return isConnector(element) && !values.connectorId ? { connectorId: translate('Must provide a value') } : {};
     },
 
-    hidden: function(element, node) {
+    hidden(element, node) {
       return !isConnector(element);
     }
 

@@ -1,23 +1,23 @@
-'use strict';
 
-var ImplementationTypeHelper = require('../../../helper/ImplementationTypeHelper'),
-    InputOutputHelper = require('../../../helper/InputOutputHelper');
 
-var utils = require('../../../Utils'),
-    escapeHTML = utils.escapeHTML,
-    triggerClickEvent = utils.triggerClickEvent;
+const ImplementationTypeHelper = require('../../../helper/ImplementationTypeHelper');
+const InputOutputHelper = require('../../../helper/InputOutputHelper');
 
-var implementationType = require('./implementation/ImplementationType'),
-    delegate = require('./implementation/Delegate'),
-    external = require('./implementation/External'),
-    callable = require('./implementation/Callable'),
-    resultVariable = require('./implementation/ResultVariable');
+const utils = require('../../../Utils');
+const escapeHTML = utils.escapeHTML;
+const triggerClickEvent = utils.triggerClickEvent;
 
-var entryFactory = require('../../../factory/EntryFactory');
+const implementationType = require('./implementation/ImplementationType');
+const delegate = require('./implementation/Delegate');
+const external = require('./implementation/External');
+const callable = require('./implementation/Callable');
+const resultVariable = require('./implementation/ResultVariable');
 
-var domQuery = require('min-dom').query,
-    domClosest = require('min-dom').closest,
-    domClasses = require('min-dom').classes;
+const entryFactory = require('../../../factory/EntryFactory');
+
+const domQuery = require('min-dom').query;
+const domClosest = require('min-dom').closest;
+const domClasses = require('min-dom').classes;
 
 function getImplementationType(element) {
   return ImplementationTypeHelper.getImplementationType(element);
@@ -45,16 +45,16 @@ module.exports = function(group, element, bpmnFactory, translate) {
     return;
   }
 
-  var hasDmnSupport = isDmnCapable(element);
-  var hasExternalSupport = isExternalCapable(getBusinessObject(element));
+  const hasDmnSupport = isDmnCapable(element);
+  const hasExternalSupport = isExternalCapable(getBusinessObject(element));
 
   // implementation type ////////////////////////////////////
 
   group.entries = group.entries.concat(implementationType(element, bpmnFactory, {
-    getBusinessObject: getBusinessObject,
-    getImplementationType: getImplementationType,
-    hasDmnSupport: hasDmnSupport,
-    hasExternalSupport: hasExternalSupport,
+    getBusinessObject,
+    getImplementationType,
+    hasDmnSupport,
+    hasExternalSupport,
     hasServiceTaskLikeSupport: true
   }, translate));
 
@@ -62,17 +62,17 @@ module.exports = function(group, element, bpmnFactory, translate) {
   // delegate (class, expression, delegateExpression) //////////
 
   group.entries = group.entries.concat(delegate(element, bpmnFactory, {
-    getBusinessObject: getBusinessObject,
-    getImplementationType: getImplementationType
+    getBusinessObject,
+    getImplementationType
   }, translate));
 
 
   // result variable /////////////////////////////////////////
 
   group.entries = group.entries.concat(resultVariable(element, bpmnFactory, {
-    getBusinessObject: getBusinessObject,
-    getImplementationType: getImplementationType,
-    hideResultVariable: function(element, node) {
+    getBusinessObject,
+    getImplementationType,
+    hideResultVariable(element, node) {
       return getImplementationType(element) !== 'expression';
     }
   }, translate));
@@ -81,8 +81,8 @@ module.exports = function(group, element, bpmnFactory, translate) {
 
   if (hasExternalSupport) {
     group.entries = group.entries.concat(external(element, bpmnFactory, {
-      getBusinessObject: getBusinessObject,
-      getImplementationType: getImplementationType
+      getBusinessObject,
+      getImplementationType
     }, translate));
   }
 
@@ -98,16 +98,16 @@ module.exports = function(group, element, bpmnFactory, translate) {
 
   // connector ////////////////////////////////////////////////
 
-  var isConnector = function(element) {
+  const isConnector = function(element) {
     return getImplementationType(element) === 'connector';
   };
 
   group.entries.push(entryFactory.link({
     id: 'configureConnectorLink',
     label: translate('Configure Connector'),
-    handleClick: function(element, node, event) {
+    handleClick(element, node, event) {
 
-      var connectorTabEl = getTabNode(node, 'connector');
+      const connectorTabEl = getTabNode(node, 'connector');
 
       if (connectorTabEl) {
         triggerClickEvent(connectorTabEl);
@@ -116,18 +116,18 @@ module.exports = function(group, element, bpmnFactory, translate) {
       // suppress actual link click
       return false;
     },
-    showLink: function(element, node) {
-      var link = domQuery('a', node);
+    showLink(element, node) {
+      const link = domQuery('a', node);
       link.textContent = '';
 
       domClasses(link).remove('bpp-error-message');
 
       if (isConnector(element)) {
-        var connectorId = InputOutputHelper.getConnector(element).get('connectorId');
+        const connectorId = InputOutputHelper.getConnector(element).get('connectorId');
         if (connectorId) {
           link.textContent = translate('Configure Connector');
         } else {
-          link.innerHTML = '<span class="bpp-icon-warning"></span> ' + escapeHTML(translate('Must configure Connector'));
+          link.innerHTML = `<span class="bpp-icon-warning"></span> ${  escapeHTML(translate('Must configure Connector'))}`;
           domClasses(link).add('bpp-error-message');
         }
 
@@ -145,7 +145,7 @@ module.exports = function(group, element, bpmnFactory, translate) {
 // helpers ///////////////////////////
 
 function getTabNode(el, id) {
-  var containerEl = domClosest(el, '.bpp-properties-panel');
+  const containerEl = domClosest(el, '.bpp-properties-panel');
 
-  return domQuery('a[data-tab-target="' + id + '"]', containerEl);
+  return domQuery(`a[data-tab-target="${  id  }"]`, containerEl);
 }

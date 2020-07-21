@@ -1,18 +1,18 @@
-'use strict';
 
-var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
-    getExtensionElements = require('../../../helper/ExtensionElementsHelper').getExtensionElements,
-    removeEntry = require('../../../helper/ExtensionElementsHelper').removeEntry,
-    extensionElements = require('./implementation/ExtensionElements'),
-    properties = require('./implementation/Properties'),
-    entryFactory = require('../../../factory/EntryFactory'),
-    elementHelper = require('../../../helper/ElementHelper'),
-    cmdHelper = require('../../../helper/CmdHelper'),
-    formHelper = require('../../../helper/FormHelper'),
-    utils = require('../../../Utils'),
-    is = require('bpmn-js/lib/util/ModelUtil').is,
-    find = require('lodash/find'),
-    each = require('lodash/forEach');
+
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+const getExtensionElements = require('../../../helper/ExtensionElementsHelper').getExtensionElements;
+const removeEntry = require('../../../helper/ExtensionElementsHelper').removeEntry;
+const extensionElements = require('./implementation/ExtensionElements');
+const properties = require('./implementation/Properties');
+const entryFactory = require('../../../factory/EntryFactory');
+const elementHelper = require('../../../helper/ElementHelper');
+const cmdHelper = require('../../../helper/CmdHelper');
+const formHelper = require('../../../helper/FormHelper');
+const utils = require('../../../Utils');
+const is = require('bpmn-js/lib/util/ModelUtil').is;
+const find = require('lodash/find');
+const each = require('lodash/forEach');
 
 function generateValueId() {
   return utils.nextId('Value_');
@@ -30,37 +30,37 @@ function generateValueId() {
  */
 function formFieldTextField(options, getSelectedFormField) {
 
-  var id = options.id,
-      label = options.label,
-      modelProperty = options.modelProperty,
-      validate = options.validate;
+  const id = options.id;
+  const label = options.label;
+  const modelProperty = options.modelProperty;
+  const validate = options.validate;
 
   return entryFactory.textField({
-    id: id,
-    label: label,
-    modelProperty: modelProperty,
-    get: function(element, node) {
-      var selectedFormField = getSelectedFormField(element, node) || {},
-          values = {};
+    id,
+    label,
+    modelProperty,
+    get(element, node) {
+      const selectedFormField = getSelectedFormField(element, node) || {};
+      const values = {};
 
       values[modelProperty] = selectedFormField[modelProperty];
 
       return values;
     },
 
-    set: function(element, values, node) {
-      var commands = [];
+    set(element, values, node) {
+      const commands = [];
 
       if (typeof options.set === 'function') {
-        var cmd = options.set(element, values, node);
+        const cmd = options.set(element, values, node);
 
         if (cmd) {
           commands.push(cmd);
         }
       }
 
-      var formField = getSelectedFormField(element, node),
-          properties = {};
+      const formField = getSelectedFormField(element, node);
+      const properties = {};
 
       properties[modelProperty] = values[modelProperty] || undefined;
 
@@ -68,10 +68,10 @@ function formFieldTextField(options, getSelectedFormField) {
 
       return commands;
     },
-    hidden: function(element, node) {
+    hidden(element, node) {
       return !getSelectedFormField(element, node);
     },
-    validate: validate
+    validate
   });
 }
 
@@ -98,7 +98,7 @@ module.exports = function(group, element, bpmnFactory, translate) {
    * @return {ModdleElement} the currently selected form field
    */
   function getSelectedFormField(element, node) {
-    var selected = formFieldsEntry.getSelected(element, node.parentNode);
+    const selected = formFieldsEntry.getSelected(element, node.parentNode);
 
     if (selected.idx === -1) {
       return;
@@ -112,16 +112,16 @@ module.exports = function(group, element, bpmnFactory, translate) {
     id : 'form-key',
     label : translate('Form Key'),
     modelProperty: 'formKey',
-    get: function(element, node) {
-      var bo = getBusinessObject(element);
+    get(element, node) {
+      const bo = getBusinessObject(element);
 
       return {
         formKey: bo.get('smart:formKey')
       };
     },
-    set: function(element, values, node) {
-      var bo = getBusinessObject(element),
-          formKey = values.formKey || undefined;
+    set(element, values, node) {
+      const bo = getBusinessObject(element);
+      const formKey = values.formKey || undefined;
 
       return cmdHelper.updateBusinessObject(element, bo, { 'smart:formKey': formKey });
     }
@@ -133,14 +133,14 @@ module.exports = function(group, element, bpmnFactory, translate) {
     label: translate('Form Fields'),
     modelProperty: 'id',
     prefix: 'FormProperty',
-    createExtensionElement: function(element, extensionElements, value) {
-      var bo = getBusinessObject(element), commands = [];
+    createExtensionElement(element, extensionElements, value) {
+      const bo = getBusinessObject(element); const commands = [];
 
       if (!extensionElements) {
         extensionElements = elementHelper.createElement('bpmn:ExtensionElements', { values: [] }, bo, bpmnFactory);
-        commands.push(cmdHelper.updateProperties(element, { extensionElements: extensionElements }));
+        commands.push(cmdHelper.updateProperties(element, { extensionElements }));
       }
-     /* var formData = formHelper.getFormData(element);
+      /* var formData = formHelper.getFormData(element);
 
       if (!formData) {
         formData = elementHelper.createElement('smart:FormData', { fields: [] }, extensionElements, bpmnFactory);
@@ -152,38 +152,38 @@ module.exports = function(group, element, bpmnFactory, translate) {
           [formData],
           []
         ));
-      }*/
-      /**smart 是向 extensionElements 下追加元素，而不是 formData 下，*/
-      var field = elementHelper.createElement('smart:FormProperty', { id: value }, extensionElements, bpmnFactory);
+      } */
+      /** smart 是向 extensionElements 下追加元素，而不是 formData 下， */
+      const field = elementHelper.createElement('smart:FormProperty', { id: value }, extensionElements, bpmnFactory);
       if (typeof extensionElements.values !== 'undefined') {
         commands.push(cmdHelper.addElementsTolist(element, extensionElements, 'values', [ field ]));
       } else {
         commands.push(cmdHelper.updateBusinessObject(element, extensionElements, {
-            values: [ field ]
+          values: [ field ]
         }));
       }
       return commands;
     },
-    removeExtensionElement: function(element, extensionElements, value, idx) {
-      var fields = formHelper.getFormFields(element);
-      var entry = fields[idx],
-          commands = [];
+    removeExtensionElement(element, extensionElements, value, idx) {
+      const fields = formHelper.getFormFields(element);
+      const entry = fields[idx];
+      const commands = [];
 
       if (fields.length < 2) {
         commands.push(removeEntry(getBusinessObject(element), element, extensionElements));
       } else {
         commands.push(cmdHelper.removeElementsFromList(element, extensionElements, 'values', null, [entry]));
-       /* if (entry.id === formData.get('businessKey')) {
+        /* if (entry.id === formData.get('businessKey')) {
           commands.push(cmdHelper.updateBusinessObject(element, extensionElements, { 'businessKey': undefined }));
-        }*/
+        } */
       }
 
       return commands;
     },
-    getExtensionElements: function(element) {
+    getExtensionElements(element) {
       return formHelper.getFormFields(element);
     },
-    hideExtensionElements: function(element, node) {
+    hideExtensionElements(element, node) {
       return false;
     }
   });
@@ -194,7 +194,7 @@ module.exports = function(group, element, bpmnFactory, translate) {
   group.entries.push(entryFactory.label({
     id: 'form-field-header',
     labelText: translate('Form Field'),
-    showLabel: function(element, node) {
+    showLabel(element, node) {
       return !!getSelectedFormField(element, node);
     }
   }));
@@ -205,37 +205,37 @@ module.exports = function(group, element, bpmnFactory, translate) {
     label: translate('ID'),
     modelProperty: 'id',
 
-    getProperty: function(element, node) {
-      var selectedFormField = getSelectedFormField(element, node) || {};
+    getProperty(element, node) {
+      const selectedFormField = getSelectedFormField(element, node) || {};
 
       return selectedFormField.id;
     },
 
-    setProperty: function(element, properties, node) {
-      var formField = getSelectedFormField(element, node);
+    setProperty(element, properties, node) {
+      const formField = getSelectedFormField(element, node);
 
       return cmdHelper.updateBusinessObject(element, formField, properties);
     },
 
-    hidden: function(element, node) {
+    hidden(element, node) {
       return !getSelectedFormField(element, node);
     },
 
-    validate: function(element, values, node) {
+    validate(element, values, node) {
 
-      var formField = getSelectedFormField(element, node);
+      const formField = getSelectedFormField(element, node);
 
       if (formField) {
 
-        var idValue = values.id;
+        const idValue = values.id;
 
         if (!idValue || idValue.trim() === '') {
           return { id: 'Form field id must not be empty' };
         }
 
-        var formFields = formHelper.getFormFields(element);
+        const formFields = formHelper.getFormFields(element);
 
-        var existingFormField = find(formFields, function(f) {
+        const existingFormField = find(formFields, function(f) {
           return f !== formField && f.id === idValue;
         });
 
@@ -260,18 +260,18 @@ module.exports = function(group, element, bpmnFactory, translate) {
     modelProperty: 'type',
     emptyParameter: true,
 
-    get: function(element, node) {
-      var selectedFormField = getSelectedFormField(element, node);
+    get(element, node) {
+      const selectedFormField = getSelectedFormField(element, node);
 
       if (selectedFormField) {
         return { type: selectedFormField.type };
-      } else {
-        return {};
-      }
+      } 
+      return {};
+      
     },
-    set: function(element, values, node) {
-      var selectedFormField = getSelectedFormField(element, node),
-          commands = [];
+    set(element, values, node) {
+      const selectedFormField = getSelectedFormField(element, node);
+      const commands = [];
 
       if (selectedFormField.type === 'enum' && values.type !== 'enum') {
         // delete smart:value objects from formField.values when switching from type enum
@@ -281,7 +281,7 @@ module.exports = function(group, element, bpmnFactory, translate) {
 
       return commands;
     },
-    hidden: function(element, node) {
+    hidden(element, node) {
       return !getSelectedFormField(element, node);
     }
   }));
@@ -306,8 +306,8 @@ module.exports = function(group, element, bpmnFactory, translate) {
     id: 'form-field-enum-values-header',
     labelText: translate('Values'),
     divider: true,
-    showLabel: function(element, node) {
-      var selectedFormField = getSelectedFormField(element, node);
+    showLabel(element, node) {
+      const selectedFormField = getSelectedFormField(element, node);
 
       return selectedFormField && selectedFormField.type === 'enum';
     }
@@ -319,50 +319,50 @@ module.exports = function(group, element, bpmnFactory, translate) {
     labels: [ translate('Id'), translate('Name') ],
     modelProperties: [ 'id', 'name' ],
     addLabel:translate('Add Value'),
-    show: function(element, node) {
-      var selectedFormField = getSelectedFormField(element, node);
+    show(element, node) {
+      const selectedFormField = getSelectedFormField(element, node);
 
       return selectedFormField && selectedFormField.type === 'enum';
     },
-    getElements: function(element, node) {
-      var selectedFormField = getSelectedFormField(element, node);
+    getElements(element, node) {
+      const selectedFormField = getSelectedFormField(element, node);
 
       return formHelper.getEnumValues(selectedFormField);
     },
-    addElement: function(element, node) {
-      var selectedFormField = getSelectedFormField(element, node),
-          id = generateValueId();
+    addElement(element, node) {
+      const selectedFormField = getSelectedFormField(element, node);
+      const id = generateValueId();
 
-      var enumValue = elementHelper.createElement(
+      const enumValue = elementHelper.createElement(
         'smart:Value',
-        { id: id, name: undefined },
+        { id, name: undefined },
         getBusinessObject(element),
         bpmnFactory
       );
 
       return cmdHelper.addElementsTolist(element, selectedFormField, 'values', [enumValue]);
     },
-    removeElement: function(element, node, idx) {
-      var selectedFormField = getSelectedFormField(element, node),
-          enumValue = selectedFormField.values[idx];
+    removeElement(element, node, idx) {
+      const selectedFormField = getSelectedFormField(element, node);
+      const enumValue = selectedFormField.values[idx];
 
       return cmdHelper.removeElementsFromList(element, selectedFormField, 'values', null, [enumValue]);
     },
-    updateElement: function(element, value, node, idx) {
-      var selectedFormField = getSelectedFormField(element, node),
-          enumValue = selectedFormField.values[idx];
+    updateElement(element, value, node, idx) {
+      const selectedFormField = getSelectedFormField(element, node);
+      const enumValue = selectedFormField.values[idx];
 
       value.name = value.name || undefined;
       return cmdHelper.updateBusinessObject(element, enumValue, value);
     },
-    validate: function(element, value, node, idx) {
+    validate(element, value, node, idx) {
 
-      var selectedFormField = getSelectedFormField(element, node),
-          enumValue = selectedFormField.values[idx];
+      const selectedFormField = getSelectedFormField(element, node);
+      const enumValue = selectedFormField.values[idx];
 
       if (enumValue) {
         // check if id is valid
-        var validationError = utils.isIdValid(enumValue, value.id, translate);
+        const validationError = utils.isIdValid(enumValue, value.id, translate);
 
         if (validationError) {
           return { id: validationError };
@@ -376,7 +376,7 @@ module.exports = function(group, element, bpmnFactory, translate) {
     id: 'form-field-validation-header',
     labelText: translate('Validation'),
     divider: true,
-    showLabel: function(element, node) {
+    showLabel(element, node) {
       return !!getSelectedFormField(element, node);
     }
   }));
@@ -387,16 +387,16 @@ module.exports = function(group, element, bpmnFactory, translate) {
     modelProperties: [ 'name', 'config' ],
     labels: [ translate('Name'), translate('Config') ],
     addLabel: translate('Add Constraint'),
-    getElements: function(element, node) {
-      var formField = getSelectedFormField(element, node);
+    getElements(element, node) {
+      const formField = getSelectedFormField(element, node);
 
       return formHelper.getConstraints(formField);
     },
-    addElement: function(element, node) {
+    addElement(element, node) {
 
-      var commands = [],
-          formField = getSelectedFormField(element, node),
-          validation = formField.validation;
+      const commands = [];
+      const formField = getSelectedFormField(element, node);
+      let validation = formField.validation;
 
       if (!validation) {
         // create validation business object and add it to form data, if it doesn't exist
@@ -405,7 +405,7 @@ module.exports = function(group, element, bpmnFactory, translate) {
         commands.push(cmdHelper.updateBusinessObject(element, formField, { 'validation': validation }));
       }
 
-      var newConstraint = elementHelper.createElement(
+      const newConstraint = elementHelper.createElement(
         'smart:Constraint',
         { name: undefined, config: undefined },
         validation,
@@ -416,20 +416,20 @@ module.exports = function(group, element, bpmnFactory, translate) {
 
       return commands;
     },
-    updateElement: function(element, value, node, idx) {
-      var formField = getSelectedFormField(element, node),
-          constraint = formHelper.getConstraints(formField)[idx];
+    updateElement(element, value, node, idx) {
+      const formField = getSelectedFormField(element, node);
+      const constraint = formHelper.getConstraints(formField)[idx];
 
       value.name = value.name || undefined;
       value.config = value.config || undefined;
 
       return cmdHelper.updateBusinessObject(element, constraint, value);
     },
-    removeElement: function(element, node, idx) {
-      var commands = [],
-          formField = getSelectedFormField(element, node),
-          constraints = formHelper.getConstraints(formField),
-          currentConstraint = constraints[idx];
+    removeElement(element, node, idx) {
+      const commands = [];
+      const formField = getSelectedFormField(element, node);
+      const constraints = formHelper.getConstraints(formField);
+      const currentConstraint = constraints[idx];
 
       commands.push(cmdHelper.removeElementsFromList(
         element,
@@ -446,7 +446,7 @@ module.exports = function(group, element, bpmnFactory, translate) {
 
       return commands;
     },
-    show: function(element, node) {
+    show(element, node) {
       return !!getSelectedFormField(element, node);
     }
   }));
@@ -456,7 +456,7 @@ module.exports = function(group, element, bpmnFactory, translate) {
     id: 'form-field-properties-header',
     labelText: translate('Properties'),
     divider: true,
-    showLabel: function(element, node) {
+    showLabel(element, node) {
       return !!getSelectedFormField(element, node);
     }
   }));
@@ -466,10 +466,10 @@ module.exports = function(group, element, bpmnFactory, translate) {
     id: 'form-field-properties',
     modelProperties: [ 'id', 'value' ],
     labels: [ translate('Id'), translate('Value') ],
-    getParent: function(element, node) {
+    getParent(element, node) {
       return getSelectedFormField(element, node);
     },
-    show: function(element, node) {
+    show(element, node) {
       return !!getSelectedFormField(element, node);
     }
   }, translate));

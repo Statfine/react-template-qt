@@ -1,6 +1,6 @@
-'use strict';
 
-var Validator = require('../Validator');
+
+const Validator = require('../Validator');
 
 /**
  * Validate the given template descriptors and

@@ -1,24 +1,24 @@
-'use strict';
 
-var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
-    is = require('bpmn-js/lib/util/ModelUtil').is;
 
-var entryFactory = require('../../../factory/EntryFactory');
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+const is = require('bpmn-js/lib/util/ModelUtil').is;
 
-var callable = require('./implementation/Callable');
+const flattenDeep = require('lodash/flattenDeep');
+const assign = require('lodash/assign');
+const entryFactory = require('../../../factory/EntryFactory');
 
-var cmdHelper = require('../../../helper/CmdHelper');
+const callable = require('./implementation/Callable');
 
-var flattenDeep = require('lodash/flattenDeep');
-var assign = require('lodash/assign');
+const cmdHelper = require('../../../helper/CmdHelper');
+
 
 function getCallableType(element) {
-  var bo = getBusinessObject(element);
+  const bo = getBusinessObject(element);
 
-  var boCalledElement = bo.get('calledElement'),
-      boCaseRef = bo.get('smart:caseRef');
+  const boCalledElement = bo.get('calledElement');
+  const boCaseRef = bo.get('smart:caseRef');
 
-  var callActivityType = '';
+  let callActivityType = '';
   if (typeof boCalledElement !== 'undefined') {
     callActivityType = 'bpmn';
   } else
@@ -30,7 +30,7 @@ function getCallableType(element) {
   return callActivityType;
 }
 
-var DEFAULT_PROPS = {
+const DEFAULT_PROPS = {
   calledElement: undefined,
   'smart:calledElementBinding': 'latest',
   'smart:calledElementVersion': undefined,
@@ -59,16 +59,16 @@ module.exports = function(group, element, bpmnFactory, translate) {
     emptyParameter: true,
     modelProperty: 'callActivityType',
 
-    get: function(element, node) {
+    get(element, node) {
       return {
         callActivityType: getCallableType(element)
       };
     },
 
-    set: function(element, values, node) {
-      var type = values.callActivityType;
+    set(element, values, node) {
+      const type = values.callActivityType;
 
-      var props = assign({}, DEFAULT_PROPS);
+      const props = assign({}, DEFAULT_PROPS);
 
       if (type === 'bpmn') {
         props.calledElement = '';
@@ -83,7 +83,7 @@ module.exports = function(group, element, bpmnFactory, translate) {
   }));
 
   group.entries.push(callable(element, bpmnFactory, {
-    getCallableType: getCallableType
+    getCallableType
   }, translate));
 
   group.entries = flattenDeep(group.entries);

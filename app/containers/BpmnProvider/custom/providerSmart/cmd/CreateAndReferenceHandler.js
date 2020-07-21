@@ -1,6 +1,6 @@
-'use strict';
 
-var elementHelper = require('../helper/ElementHelper');
+
+const elementHelper = require('../helper/ElementHelper');
 
 /**
  * A handler capable of creating a new element under a provided parent
@@ -38,15 +38,15 @@ module.exports = CreateAndReferenceElementHandler;
  */
 CreateAndReferenceElementHandler.prototype.execute = function(context) {
 
-  var referencingObject = ensureNotNull(context.referencingObject, 'referencingObject'),
-      referenceProperty = ensureNotNull(context.referenceProperty, 'referenceProperty'),
-      newObject = ensureNotNull(context.newObject, 'newObject'),
-      newObjectContainer = ensureNotNull(context.newObjectContainer, 'newObjectContainer'),
-      newObjectParent = ensureNotNull(context.newObjectParent, 'newObjectParent'),
-      changed = [ context.element ]; // this will not change any diagram-js elements
+  const referencingObject = ensureNotNull(context.referencingObject, 'referencingObject');
+  const referenceProperty = ensureNotNull(context.referenceProperty, 'referenceProperty');
+  const newObject = ensureNotNull(context.newObject, 'newObject');
+  const newObjectContainer = ensureNotNull(context.newObjectContainer, 'newObjectContainer');
+  const newObjectParent = ensureNotNull(context.newObjectParent, 'newObjectParent');
+  const changed = [ context.element ]; // this will not change any diagram-js elements
 
   // create new object
-  var referencedObject = elementHelper
+  const referencedObject = elementHelper
     .createElement(newObject.type, newObject.properties, newObjectParent, this._bpmnFactory);
   context.referencedObject = referencedObject;
 
@@ -74,11 +74,11 @@ CreateAndReferenceElementHandler.prototype.execute = function(context) {
  */
 CreateAndReferenceElementHandler.prototype.revert = function(context) {
 
-  var referencingObject = context.referencingObject,
-      referenceProperty = context.referenceProperty,
-      previousReference = context.previousReference,
-      referencedObject = context.referencedObject,
-      newObjectContainer = context.newObjectContainer;
+  const referencingObject = context.referencingObject;
+  const referenceProperty = context.referenceProperty;
+  const previousReference = context.previousReference;
+  const referencedObject = context.referencedObject;
+  const newObjectContainer = context.newObjectContainer;
 
   // reset reference
   referencingObject.set(referenceProperty, previousReference);
@@ -95,7 +95,7 @@ CreateAndReferenceElementHandler.prototype.revert = function(context) {
 
 function ensureNotNull(prop, name) {
   if (!prop) {
-    throw new Error(name + ' required');
+    throw new Error(`${name  } required`);
   }
   return prop;
 }

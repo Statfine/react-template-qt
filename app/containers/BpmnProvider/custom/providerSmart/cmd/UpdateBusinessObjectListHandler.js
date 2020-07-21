@@ -1,6 +1,6 @@
-'use strict';
 
-var forEach = require('lodash/forEach');
+
+const forEach = require('lodash/forEach');
 
 /**
  * A handler that implements a BPMN 2.0 property update
@@ -28,7 +28,7 @@ module.exports = UpdateBusinessObjectListHandler;
 
 function ensureNotNull(prop, name) {
   if (!prop) {
-    throw new Error(name + 'required');
+    throw new Error(`${name  }required`);
   }
   return prop;
 }
@@ -40,26 +40,26 @@ function ensureNotNull(prop, name) {
  */
 UpdateBusinessObjectListHandler.prototype.execute = function(context) {
 
-  var currentObject = ensureNotNull(context.currentObject, 'currentObject'),
-      propertyName = ensureNotNull(context.propertyName, 'propertyName'),
-      updatedObjectList = context.updatedObjectList,
-      objectsToRemove = context.objectsToRemove || [],
-      objectsToAdd = context.objectsToAdd || [],
-      changed = [ context.element], // this will not change any diagram-js elements
-      referencePropertyName;
+  const currentObject = ensureNotNull(context.currentObject, 'currentObject');
+  const propertyName = ensureNotNull(context.propertyName, 'propertyName');
+  const updatedObjectList = context.updatedObjectList;
+  const objectsToRemove = context.objectsToRemove || [];
+  const objectsToAdd = context.objectsToAdd || [];
+  const changed = [ context.element]; // this will not change any diagram-js elements
+  let referencePropertyName;
 
   if (context.referencePropertyName) {
     referencePropertyName = context.referencePropertyName;
   }
 
-  var objectList = currentObject[propertyName];
+  const objectList = currentObject[propertyName];
   // adjust array reference in the parent business object
   context.previousList = currentObject[propertyName];
 
   if (updatedObjectList) {
     currentObject[propertyName] = updatedObjectList;
   } else {
-    var listCopy = [];
+    let listCopy = [];
     // remove all objects which should be removed
     forEach(objectList, function(object) {
       if (objectsToRemove.indexOf(object) == -1) {
@@ -77,7 +77,7 @@ UpdateBusinessObjectListHandler.prototype.execute = function(context) {
     } else if (referencePropertyName) {
 
       // remove the list when it is empty
-      var parentObject = currentObject.$parent;
+      const parentObject = currentObject.$parent;
       parentObject.set(referencePropertyName, undefined);
     }
   }
@@ -99,10 +99,10 @@ UpdateBusinessObjectListHandler.prototype.execute = function(context) {
  */
 UpdateBusinessObjectListHandler.prototype.revert = function(context) {
 
-  var currentObject = context.currentObject,
-      propertyName = context.propertyName,
-      previousList = context.previousList,
-      parentObject = currentObject.$parent;
+  const currentObject = context.currentObject;
+  const propertyName = context.propertyName;
+  const previousList = context.previousList;
+  const parentObject = currentObject.$parent;
 
   if (context.referencePropertyName) {
     parentObject.set(context.referencePropertyName, currentObject);

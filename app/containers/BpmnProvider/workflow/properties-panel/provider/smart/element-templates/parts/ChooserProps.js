@@ -1,13 +1,13 @@
-'use strict';
 
-var entryFactory = require('../../../../factory/EntryFactory'),
-    is = require('bpmn-js/lib/util/ModelUtil').is,
-    getTemplate = require('../Helper').getTemplate,
-    getTemplateId = require('../Helper').getTemplateId;
 
-var find = require('lodash/find');
+const entryFactory = require('../../../../factory/EntryFactory');
+const is = require('bpmn-js/lib/util/ModelUtil').is;
+const getTemplate = require('../Helper').getTemplate;
+const getTemplateId = require('../Helper').getTemplateId;
 
-var TEMPLATE_ATTR = require('../Helper').TEMPLATE_ATTR;
+const find = require('lodash/find');
+
+const TEMPLATE_ATTR = require('../Helper').TEMPLATE_ATTR;
 
 function isAny(element, types) {
   return types.reduce(function(result, type) {
@@ -18,7 +18,7 @@ function isAny(element, types) {
 
 module.exports = function(group, element, elementTemplates, translate) {
 
-  var options = getTemplateOptions(element, elementTemplates, translate);
+  const options = getTemplateOptions(element, elementTemplates, translate);
 
   if (options.length === 1 && !options[0].isDefault) {
     return;
@@ -30,11 +30,11 @@ module.exports = function(group, element, elementTemplates, translate) {
     label: translate('Element Template'),
     modelProperty: 'smart:modelerTemplate',
     selectOptions: options,
-    set: function(element, properties) {
+    set(element, properties) {
       return applyTemplate(element, properties[TEMPLATE_ATTR], elementTemplates);
     },
-    disabled: function() {
-      var template = getTemplate(element, elementTemplates);
+    disabled() {
+      const template = getTemplate(element, elementTemplates);
 
       return template && isDefaultTemplate(template);
     }
@@ -55,8 +55,8 @@ function applyTemplate(element, newTemplateId, elementTemplates) {
   // set input output mappings
   // apply changes to properties as defined in new template
 
-  var oldTemplate = getTemplate(element, elementTemplates),
-      newTemplate = elementTemplates.get(newTemplateId);
+  const oldTemplate = getTemplate(element, elementTemplates);
+  const newTemplate = elementTemplates.get(newTemplateId);
 
   if (oldTemplate === newTemplate) {
     return;
@@ -65,23 +65,23 @@ function applyTemplate(element, newTemplateId, elementTemplates) {
   return {
     cmd: 'propertiesPanel.smart.changeTemplate',
     context: {
-      element: element,
-      oldTemplate: oldTemplate,
-      newTemplate: newTemplate
+      element,
+      oldTemplate,
+      newTemplate
     }
   };
 }
 
 function getTemplateOptions(element, elementTemplates, translate) {
 
-  var currentTemplateId = getTemplateId(element);
+  const currentTemplateId = getTemplateId(element);
 
-  var emptyOption = {
+  const emptyOption = {
     name: '',
     value: ''
   };
 
-  var allOptions = elementTemplates.getAll().reduce(function(templates, t) {
+  const allOptions = elementTemplates.getAll().reduce(function(templates, t) {
     if (!isAny(element, t.appliesTo)) {
       return templates;
     }
@@ -94,11 +94,11 @@ function getTemplateOptions(element, elementTemplates, translate) {
   }, [ emptyOption ]);
 
 
-  var defaultOption = find(allOptions, function(option) {
+  const defaultOption = find(allOptions, function(option) {
     return isDefaultTemplate(option);
   });
 
-  var currentOption = find(allOptions, function(option) {
+  let currentOption = find(allOptions, function(option) {
     return option.value === currentTemplateId;
   });
 
@@ -118,7 +118,7 @@ function getTemplateOptions(element, elementTemplates, translate) {
   // special limited handling for
   // default options
 
-  var options = [];
+  const options = [];
 
   // current template not set
   if (!currentTemplateId) {
@@ -141,7 +141,7 @@ function getTemplateOptions(element, elementTemplates, translate) {
 
 function unknownTemplate(templateId, translate) {
   return {
-    name: translate('[unknown template: {templateId}]', { templateId: templateId }),
+    name: translate('[unknown template: {templateId}]', { templateId }),
     value: templateId
   };
 }

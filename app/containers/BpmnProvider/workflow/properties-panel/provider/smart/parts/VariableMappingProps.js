@@ -1,27 +1,27 @@
-'use strict';
 
-var is = require('bpmn-js/lib/util/ModelUtil').is,
-    isAny = require('bpmn-js/lib/features/modeling/util/ModelingUtil').isAny,
-    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
-var filter = require('lodash/filter');
+const is = require('bpmn-js/lib/util/ModelUtil').is;
+const isAny = require('bpmn-js/lib/features/modeling/util/ModelingUtil').isAny;
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
-var extensionElementsHelper = require('../../../helper/ExtensionElementsHelper'),
-    cmdHelper = require('../../../helper/CmdHelper'),
-    elementHelper = require('../../../helper/ElementHelper'),
-    eventDefinitionHelper = require('../../../helper/EventDefinitionHelper');
+const filter = require('lodash/filter');
 
-var extensionElementsEntry = require('./implementation/ExtensionElements');
+const extensionElementsHelper = require('../../../helper/ExtensionElementsHelper');
+const cmdHelper = require('../../../helper/CmdHelper');
+const elementHelper = require('../../../helper/ElementHelper');
+const eventDefinitionHelper = require('../../../helper/EventDefinitionHelper');
 
-var entryFactory = require('../../../factory/EntryFactory');
+const extensionElementsEntry = require('./implementation/ExtensionElements');
+
+const entryFactory = require('../../../factory/EntryFactory');
 
 /**
   * return depend on parameter 'type' smart:in or smart:out extension elements
   */
 function getSmartInOutMappings(element, type) {
-  var bo = getBusinessObject(element);
+  const bo = getBusinessObject(element);
 
-  var signalEventDefinition = eventDefinitionHelper.getSignalEventDefinition(bo);
+  const signalEventDefinition = eventDefinitionHelper.getSignalEventDefinition(bo);
 
   return extensionElementsHelper.getExtensionElements(signalEventDefinition || bo, type) || [];
 }
@@ -31,7 +31,7 @@ function getSmartInOutMappings(element, type) {
   * with source or sourceExpression attribute
   */
 function getVariableMappings(element, type) {
-  var smartMappings = getSmartInOutMappings(element, type);
+  const smartMappings = getSmartInOutMappings(element, type);
 
   return filter(smartMappings, function(mapping) {
     return !mapping.businessKey;
@@ -39,7 +39,7 @@ function getVariableMappings(element, type) {
 }
 
 function getInOutType(mapping) {
-  var inOutType = 'source';
+  let inOutType = 'source';
 
   if (mapping.variables === 'all') {
     inOutType = 'variables';
@@ -54,15 +54,15 @@ function getInOutType(mapping) {
   return inOutType;
 }
 
-var SMART_IN_EXTENSION_ELEMENT = 'smart:In',
-    SMART_OUT_EXTENSION_ELEMENT = 'smart:Out';
+const SMART_IN_EXTENSION_ELEMENT = 'smart:In';
+const SMART_OUT_EXTENSION_ELEMENT = 'smart:Out';
 
-var WHITESPACE_REGEX = /\s/;
+const WHITESPACE_REGEX = /\s/;
 
 
 module.exports = function(group, element, bpmnFactory, translate) {
 
-  var inOutTypeOptions = [
+  const inOutTypeOptions = [
     {
       name: translate('Source'),
       value: 'source'
@@ -77,7 +77,7 @@ module.exports = function(group, element, bpmnFactory, translate) {
     }
   ];
 
-  var signalEventDefinition = eventDefinitionHelper.getSignalEventDefinition(element);
+  const signalEventDefinition = eventDefinitionHelper.getSignalEventDefinition(element);
 
   if (!is(element, 'smart:CallActivity') && !signalEventDefinition) {
     return;
@@ -90,15 +90,15 @@ module.exports = function(group, element, bpmnFactory, translate) {
     return;
   }
 
-  var isSelected = function(element, node) {
+  const isSelected = function(element, node) {
     return !!getSelected(element, node);
   };
 
   var getSelected = function(element, node) {
-    var parentNode = node.parentNode;
-    var selection = inEntry.getSelected(element, parentNode);
+    const parentNode = node.parentNode;
+    let selection = inEntry.getSelected(element, parentNode);
 
-    var parameter = getVariableMappings(element, SMART_IN_EXTENSION_ELEMENT)[selection.idx];
+    let parameter = getVariableMappings(element, SMART_IN_EXTENSION_ELEMENT)[selection.idx];
 
     if (!parameter && outEntry) {
       selection = outEntry.getSelected(element, parentNode);
@@ -108,41 +108,41 @@ module.exports = function(group, element, bpmnFactory, translate) {
     return parameter;
   };
 
-  var setOptionLabelValue = function(type) {
+  const setOptionLabelValue = function(type) {
     return function(element, node, option, property, value, idx) {
-      var variableMappings = getVariableMappings(element, type);
-      var mappingValue = variableMappings[idx];
-      var label = (mappingValue.target || '<undefined>') + ' := ';
-      var mappingType = getInOutType(mappingValue);
+      const variableMappings = getVariableMappings(element, type);
+      const mappingValue = variableMappings[idx];
+      let label = `${mappingValue.target || '<undefined>'  } := `;
+      const mappingType = getInOutType(mappingValue);
 
       if (mappingType === 'variables') {
         label = 'all';
       }
       else if (mappingType === 'source') {
-        label = label + (mappingValue.source || '<empty>');
+        label += (mappingValue.source || '<empty>');
       }
       else if (mappingType === 'sourceExpression') {
-        label = label + (mappingValue.sourceExpression || '<empty>');
+        label += (mappingValue.sourceExpression || '<empty>');
       } else {
-        label = label + '<empty>';
+        label += '<empty>';
       }
 
       option.text = label;
     };
   };
 
-  var newElement = function(type) {
+  const newElement = function(type) {
     return function(element, extensionElements, value) {
-      var newElem = elementHelper.createElement(type, { source: '' }, extensionElements, bpmnFactory);
+      const newElem = elementHelper.createElement(type, { source: '' }, extensionElements, bpmnFactory);
 
       return cmdHelper.addElementsTolist(element, extensionElements, 'values', [ newElem ]);
     };
   };
 
-  var removeElement = function(type) {
+  const removeElement = function(type) {
     return function(element, extensionElements, value, idx) {
-      var variablesMappings= getVariableMappings(element, type);
-      var mapping = variablesMappings[idx];
+      const variablesMappings= getVariableMappings(element, type);
+      const mapping = variablesMappings[idx];
 
       if (mapping) {
         return extensionElementsHelper
@@ -165,11 +165,11 @@ module.exports = function(group, element, bpmnFactory, translate) {
     createExtensionElement: newElement(SMART_IN_EXTENSION_ELEMENT),
     removeExtensionElement: removeElement(SMART_IN_EXTENSION_ELEMENT),
 
-    getExtensionElements: function(element) {
+    getExtensionElements(element) {
       return getVariableMappings(element, SMART_IN_EXTENSION_ELEMENT);
     },
 
-    onSelectionChange: function(element, node, event, scope) {
+    onSelectionChange(element, node, event, scope) {
       outEntry && outEntry.deselect(element, node.parentNode);
     },
 
@@ -191,11 +191,11 @@ module.exports = function(group, element, bpmnFactory, translate) {
       createExtensionElement: newElement(SMART_OUT_EXTENSION_ELEMENT),
       removeExtensionElement: removeElement(SMART_OUT_EXTENSION_ELEMENT),
 
-      getExtensionElements: function(element) {
+      getExtensionElements(element) {
         return getVariableMappings(element, SMART_OUT_EXTENSION_ELEMENT);
       },
 
-      onSelectionChange: function(element, node, event, scope) {
+      onSelectionChange(element, node, event, scope) {
         inEntry.deselect(element, node.parentNode);
       },
 
@@ -208,10 +208,10 @@ module.exports = function(group, element, bpmnFactory, translate) {
 
   group.entries.push(entryFactory.label({
     id: 'variableMapping-typeLabel',
-    get: function(element, node) {
-      var mapping = getSelected(element, node);
+    get(element, node) {
+      const mapping = getSelected(element, node);
 
-      var value = '';
+      let value = '';
       if (is(mapping, SMART_IN_EXTENSION_ELEMENT)) {
         value = translate('In Mapping');
       }
@@ -224,7 +224,7 @@ module.exports = function(group, element, bpmnFactory, translate) {
       };
     },
 
-    showLabel: function(element, node) {
+    showLabel(element, node) {
       return isSelected(element, node);
     }
   }));
@@ -235,16 +235,16 @@ module.exports = function(group, element, bpmnFactory, translate) {
     label: translate('Type'),
     selectOptions: inOutTypeOptions,
     modelProperty: 'inOutType',
-    get: function(element, node) {
-      var mapping = getSelected(element, node) || {};
+    get(element, node) {
+      const mapping = getSelected(element, node) || {};
       return {
         inOutType: getInOutType(mapping)
       };
     },
-    set: function(element, values, node) {
-      var inOutType = values.inOutType;
+    set(element, values, node) {
+      const inOutType = values.inOutType;
 
-      var props = {
+      const props = {
         'source' : undefined,
         'sourceExpression' : undefined,
         'variables' : undefined
@@ -261,10 +261,10 @@ module.exports = function(group, element, bpmnFactory, translate) {
         props.target = undefined;
       }
 
-      var mapping = getSelected(element, node);
+      const mapping = getSelected(element, node);
       return cmdHelper.updateBusinessObject(element, mapping, props);
     },
-    hidden: function(element, node) {
+    hidden(element, node) {
       return !isSelected(element, node);
     }
 
@@ -275,11 +275,11 @@ module.exports = function(group, element, bpmnFactory, translate) {
     id: 'variableMapping-source',
     dataValueLabel: 'sourceLabel',
     modelProperty: 'source',
-    get: function(element, node) {
-      var mapping = getSelected(element, node) || {};
+    get(element, node) {
+      const mapping = getSelected(element, node) || {};
 
-      var label = '';
-      var inOutType = getInOutType(mapping);
+      let label = '';
+      const inOutType = getInOutType(mapping);
       if (inOutType === 'source') {
         label = translate('Source');
       }
@@ -292,13 +292,13 @@ module.exports = function(group, element, bpmnFactory, translate) {
         sourceLabel: label
       };
     },
-    set: function(element, values, node) {
+    set(element, values, node) {
       values.source = values.source || undefined;
 
-      var mapping = getSelected(element, node);
-      var inOutType = getInOutType(mapping);
+      const mapping = getSelected(element, node);
+      const inOutType = getInOutType(mapping);
 
-      var props = {};
+      const props = {};
       props[inOutType] = values.source || '';
 
       return cmdHelper.updateBusinessObject(element, mapping, props);
@@ -306,10 +306,10 @@ module.exports = function(group, element, bpmnFactory, translate) {
     // one of both (source or sourceExpression) must have a value to make
     // the configuration easier and more understandable
     // it is not engine conform
-    validate: function(element, values, node) {
-      var mapping = getSelected(element, node);
+    validate(element, values, node) {
+      const mapping = getSelected(element, node);
 
-      var validation = {};
+      const validation = {};
       if (mapping) {
         if (!values.source) {
           validation.source =
@@ -318,7 +318,7 @@ module.exports = function(group, element, bpmnFactory, translate) {
             translate('Mapping must have a value');
         }
 
-        var inOutType = getInOutType(mapping);
+        const inOutType = getInOutType(mapping);
 
         if (WHITESPACE_REGEX.test(values.source) && inOutType !== 'sourceExpression') {
           validation.source = translate('{label} must not contain whitespace', { label: values.sourceLabel });
@@ -327,8 +327,8 @@ module.exports = function(group, element, bpmnFactory, translate) {
 
       return validation;
     },
-    hidden: function(element, node) {
-      var selectedMapping = getSelected(element, node);
+    hidden(element, node) {
+      const selectedMapping = getSelected(element, node);
       return !selectedMapping || (selectedMapping && selectedMapping.variables);
     }
   }));
@@ -338,22 +338,22 @@ module.exports = function(group, element, bpmnFactory, translate) {
     id: 'variableMapping-target',
     label: translate('Target'),
     modelProperty: 'target',
-    get: function(element, node) {
+    get(element, node) {
       return {
         target: (getSelected(element, node) || {}).target
       };
     },
-    set: function(element, values, node) {
+    set(element, values, node) {
       values.target = values.target || undefined;
-      var mapping = getSelected(element, node);
+      const mapping = getSelected(element, node);
       return cmdHelper.updateBusinessObject(element, mapping, values);
     },
-    validate: function(element, values, node) {
-      var mapping = getSelected(element, node);
+    validate(element, values, node) {
+      const mapping = getSelected(element, node);
 
-      var validation = {};
+      const validation = {};
       if (mapping) {
-        var mappingType = getInOutType(mapping);
+        const mappingType = getInOutType(mapping);
 
         if (!values.target && mappingType !== 'variables') {
           validation.target = translate('Mapping must have a target');
@@ -368,8 +368,8 @@ module.exports = function(group, element, bpmnFactory, translate) {
 
       return validation;
     },
-    hidden: function(element, node) {
-      var selectedMapping = getSelected(element, node);
+    hidden(element, node) {
+      const selectedMapping = getSelected(element, node);
       return !selectedMapping || (selectedMapping && selectedMapping.variables);
     }
   }));
@@ -379,17 +379,17 @@ module.exports = function(group, element, bpmnFactory, translate) {
     id: 'variableMapping-local',
     label: translate('Local'),
     modelProperty: 'local',
-    get: function(element, node) {
+    get(element, node) {
       return {
         local: (getSelected(element, node) || {}).local
       };
     },
-    set: function(element, values, node) {
+    set(element, values, node) {
       values.local = values.local || false;
-      var mapping = getSelected(element, node);
+      const mapping = getSelected(element, node);
       return cmdHelper.updateBusinessObject(element, mapping, values);
     },
-    hidden: function(element, node) {
+    hidden(element, node) {
       return !isSelected(element, node);
     }
   }));

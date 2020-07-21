@@ -1,16 +1,16 @@
-'use strict';
 
-var is = require('bpmn-js/lib/util/ModelUtil').is,
-    entryFactory = require('../../../factory/EntryFactory'),
-    participantHelper = require('../../../helper/ParticipantHelper'),
-    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
-    nameEntryFactory = require('./implementation/Name'),
-    utils = require('../../../Utils');
+
+const is = require('bpmn-js/lib/util/ModelUtil').is;
+const entryFactory = require('../../../factory/EntryFactory');
+const participantHelper = require('../../../helper/ParticipantHelper');
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+const nameEntryFactory = require('./implementation/Name');
+const utils = require('../../../Utils');
 
 module.exports = function(group, element, translate, options) {
-  var businessObject = getBusinessObject(element);
+  const businessObject = getBusinessObject(element);
 
-  var processIdDescription = options && options.processIdDescription;
+  const processIdDescription = options && options.processIdDescription;
 
   if (is(element, 'bpmn:Process') || (is(element, 'bpmn:Participant') && businessObject.get('processRef'))) {
 
@@ -18,7 +18,7 @@ module.exports = function(group, element, translate, options) {
      * processId
      */
     if (is(element, 'bpmn:Participant')) {
-      var idEntry = entryFactory.validationAwareTextField({
+      const idEntry = entryFactory.validationAwareTextField({
         id: 'process-id',
         label: translate('Process Id'),
         description: processIdDescription && translate(processIdDescription),
@@ -27,7 +27,7 @@ module.exports = function(group, element, translate, options) {
 
       // in participants we have to change the default behavior of set and get
       idEntry.get = function(element) {
-        var properties = participantHelper.getProcessBusinessObject(element, 'id');
+        const properties = participantHelper.getProcessBusinessObject(element, 'id');
         return { processId: properties.id };
       };
 
@@ -36,11 +36,11 @@ module.exports = function(group, element, translate, options) {
       };
 
       idEntry.validate = function(element, values) {
-        var idValue = values.processId;
+        const idValue = values.processId;
 
-        var bo = getBusinessObject(element);
+        const bo = getBusinessObject(element);
 
-        var processIdError = utils.isIdValid(bo.processRef, idValue, translate);
+        const processIdError = utils.isIdValid(bo.processRef, idValue, translate);
 
         return processIdError ? { processId: processIdError } : {};
       };
@@ -51,7 +51,7 @@ module.exports = function(group, element, translate, options) {
       /**
        * process name
        */
-      var processNameEntry = nameEntryFactory(element, {
+      const processNameEntry = nameEntryFactory(element, {
         id: 'process-name',
         label: translate('Process Name')
       })[0];

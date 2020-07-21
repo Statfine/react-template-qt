@@ -1,52 +1,52 @@
-'use strict';
-
-var extensionElementsHelper = require('../../../../helper/ExtensionElementsHelper'),
-    elementHelper = require('../../../../helper/ElementHelper'),
-    cmdHelper = require('../../../../helper/CmdHelper');
-
-var utils = require('../../../../Utils');
-
-var entryFactory = require('../../../../factory/EntryFactory');
-
-var extensionElementsEntry = require('./ExtensionElements');
-
-var ModelUtil = require('bpmn-js/lib/util/ModelUtil'),
-    getBusinessObject = ModelUtil.getBusinessObject;
-
-var assign = require('lodash/assign');
 
 
-var DEFAULT_PROPS = {
+const ModelUtil = require('bpmn-js/lib/util/ModelUtil');
+const extensionElementsHelper = require('../../../../helper/ExtensionElementsHelper');
+const elementHelper = require('../../../../helper/ElementHelper');
+const cmdHelper = require('../../../../helper/CmdHelper');
+
+const utils = require('../../../../Utils');
+
+const entryFactory = require('../../../../factory/EntryFactory');
+
+const extensionElementsEntry = require('./ExtensionElements');
+
+const getBusinessObject = ModelUtil.getBusinessObject;
+
+const assign = require('lodash/assign');
+
+
+const DEFAULT_PROPS = {
   'stringValue': undefined,
   'string': undefined,
   'expression': undefined
 };
 
-var SMART_FIELD_EXTENSION_ELEMENT = 'smart:Field';
+const SMART_FIELD_EXTENSION_ELEMENT = 'smart:Field';
 
 module.exports = function(element, bpmnFactory, translate, options) {
 
   options = options || {};
 
-  var insideListener = !!options.insideListener,
-      idPrefix = options.idPrefix || '',
-      getSelectedListener = options.getSelectedListener,
-      businessObject = options.businessObject || getBusinessObject(element);
+  const insideListener = !!options.insideListener;
+  const idPrefix = options.idPrefix || '';
+  const getSelectedListener = options.getSelectedListener;
+  const businessObject = options.businessObject || getBusinessObject(element);
 
-  var entries = [];
+  const entries = [];
 
-  var isSelected = function(element, node) {
+  const isSelected = function(element, node) {
     return getSelectedField(element, node);
   };
 
   function getSelectedField(element, node) {
-    var selected = fieldEntry.getSelected(element, node.parentNode);
+    const selected = fieldEntry.getSelected(element, node.parentNode);
 
     if (selected.idx === -1) {
       return;
     }
 
-    var fields = getSmartFields(element, node);
+    const fields = getSmartFields(element, node);
 
     return fields[selected.idx];
   }
@@ -62,15 +62,15 @@ module.exports = function(element, bpmnFactory, translate, options) {
   }
 
   function getSmartListenerFields(element, node) {
-    var selectedListener = getSelectedListener(element, node);
+    const selectedListener = getSelectedListener(element, node);
     return selectedListener && selectedListener.fields || [];
   }
 
   function getFieldType(bo) {
-    var fieldType = 'string';
+    let fieldType = 'string';
 
-    var expressionValue = bo && bo.expression;
-    var stringValue = bo && (bo.string || bo.stringValue);
+    const expressionValue = bo && bo.expression;
+    const stringValue = bo && (bo.string || bo.stringValue);
 
     if (typeof stringValue !== 'undefined') {
       fieldType = 'string';
@@ -81,54 +81,54 @@ module.exports = function(element, bpmnFactory, translate, options) {
     return fieldType;
   }
 
-  var setOptionLabelValue = function() {
+  const setOptionLabelValue = function() {
     return function(element, node, option, property, value, idx) {
-      var smartFields = getSmartFields(element, node);
-      var field = smartFields[idx];
+      const smartFields = getSmartFields(element, node);
+      const field = smartFields[idx];
 
       value = (field.name) ? field.name : '<empty>';
 
-      var label = idx + ' : ' + value;
+      const label = `${idx  } : ${  value}`;
 
       option.text = label;
     };
   };
 
-  var newElement = function() {
+  const newElement = function() {
     return function(element, extensionElements, value, node) {
 
-      var props = {
+      const props = {
         name: '',
         string: ''
       };
 
-      var newFieldElem;
+      let newFieldElem;
 
       if (!insideListener) {
 
         newFieldElem = elementHelper.createElement(SMART_FIELD_EXTENSION_ELEMENT, props, extensionElements, bpmnFactory);
         return cmdHelper.addElementsTolist(element, extensionElements, 'values', [ newFieldElem ]);
 
-      } else {
+      } 
 
-        var selectedListener = getSelectedListener(element, node);
-        newFieldElem = elementHelper.createElement(SMART_FIELD_EXTENSION_ELEMENT, props, selectedListener, bpmnFactory);
-        return cmdHelper.addElementsTolist(element, selectedListener, 'fields', [ newFieldElem ]);
+      const selectedListener = getSelectedListener(element, node);
+      newFieldElem = elementHelper.createElement(SMART_FIELD_EXTENSION_ELEMENT, props, selectedListener, bpmnFactory);
+      return cmdHelper.addElementsTolist(element, selectedListener, 'fields', [ newFieldElem ]);
 
-      }
+      
 
     };
   };
 
-  var removeElement = function() {
+  const removeElement = function() {
     return function(element, extensionElements, value, idx, node) {
-      var smartFields= getSmartFields(element, node);
-      var field = smartFields[idx];
+      const smartFields= getSmartFields(element, node);
+      const field = smartFields[idx];
       if (field) {
         if (!insideListener) {
           return extensionElementsHelper.removeEntry(businessObject, element, field);
         }
-        var selectedListener = getSelectedListener(element, node);
+        const selectedListener = getSelectedListener(element, node);
         return cmdHelper.removeElementsFromList(element, selectedListener, 'fields', null, [ field ]);
       }
     };
@@ -136,17 +136,17 @@ module.exports = function(element, bpmnFactory, translate, options) {
 
 
   var fieldEntry = extensionElementsEntry(element, bpmnFactory, {
-    id : idPrefix + 'fields',
+    id : `${idPrefix  }fields`,
     label : translate('Fields'),
     modelProperty: 'fieldName',
     idGeneration: 'false',
 
-    businessObject: businessObject,
+    businessObject,
 
     createExtensionElement: newElement(),
     removeExtensionElement: removeElement(),
 
-    getExtensionElements: function(element, node) {
+    getExtensionElements(element, node) {
       return getSmartFields(element, node);
     },
 
@@ -157,25 +157,25 @@ module.exports = function(element, bpmnFactory, translate, options) {
 
 
   entries.push(entryFactory.validationAwareTextField({
-    id: idPrefix + 'field-name',
+    id: `${idPrefix  }field-name`,
     label: translate('Name'),
     modelProperty: 'fieldName',
 
-    getProperty: function(element, node) {
+    getProperty(element, node) {
       return (getSelectedField(element, node) || {}).name;
     },
 
-    setProperty: function(element, values, node) {
-      var selectedField = getSelectedField(element, node);
+    setProperty(element, values, node) {
+      const selectedField = getSelectedField(element, node);
       return cmdHelper.updateBusinessObject(element, selectedField, { name : values.fieldName });
     },
 
-    validate: function(element, values, node) {
-      var bo = getSelectedField(element, node);
+    validate(element, values, node) {
+      const bo = getSelectedField(element, node);
 
-      var validation = {};
+      const validation = {};
       if (bo) {
-        var nameValue = values.fieldName;
+        const nameValue = values.fieldName;
 
         if (nameValue) {
           if (utils.containsSpace(nameValue)) {
@@ -189,13 +189,13 @@ module.exports = function(element, bpmnFactory, translate, options) {
       return validation;
     },
 
-    hidden: function(element, node) {
+    hidden(element, node) {
       return !isSelected(element, node);
     }
 
   }));
 
-  var fieldTypeOptions = [
+  const fieldTypeOptions = [
     {
       name: translate('String'),
       value: 'string'
@@ -207,25 +207,25 @@ module.exports = function(element, bpmnFactory, translate, options) {
   ];
 
   entries.push(entryFactory.selectBox({
-    id: idPrefix + 'field-type',
+    id: `${idPrefix  }field-type`,
     label: translate('Type'),
     selectOptions: fieldTypeOptions,
     modelProperty: 'fieldType',
 
-    get: function(element, node) {
-      var bo = getSelectedField(element, node);
+    get(element, node) {
+      const bo = getSelectedField(element, node);
 
-      var fieldType = getFieldType(bo);
+      const fieldType = getFieldType(bo);
 
       return {
-        fieldType: fieldType
+        fieldType
       };
     },
 
-    set: function(element, values, node) {
-      var props = assign({}, DEFAULT_PROPS);
+    set(element, values, node) {
+      const props = assign({}, DEFAULT_PROPS);
 
-      var fieldType = values.fieldType;
+      const fieldType = values.fieldType;
 
       if (fieldType === 'string') {
         props.string = '';
@@ -237,7 +237,7 @@ module.exports = function(element, bpmnFactory, translate, options) {
       return cmdHelper.updateBusinessObject(element, getSelectedField(element, node), props);
     },
 
-    hidden: function(element, node) {
+    hidden(element, node) {
       return !isSelected(element, node);
     }
 
@@ -245,15 +245,15 @@ module.exports = function(element, bpmnFactory, translate, options) {
 
 
   entries.push(entryFactory.textBox({
-    id: idPrefix + 'field-value',
+    id: `${idPrefix  }field-value`,
     label: translate('Value'),
     modelProperty: 'fieldValue',
 
-    get: function(element, node) {
-      var bo = getSelectedField(element, node);
-      var fieldType = getFieldType(bo);
+    get(element, node) {
+      const bo = getSelectedField(element, node);
+      const fieldType = getFieldType(bo);
 
-      var fieldValue;
+      let fieldValue;
 
       if (fieldType === 'string') {
         fieldValue = bo && (bo.string || bo.stringValue);
@@ -263,17 +263,17 @@ module.exports = function(element, bpmnFactory, translate, options) {
       }
 
       return {
-        fieldValue: fieldValue
+        fieldValue
       };
     },
 
-    set: function(element, values, node) {
-      var bo = getSelectedField(element, node);
-      var fieldType = getFieldType(bo);
+    set(element, values, node) {
+      const bo = getSelectedField(element, node);
+      const fieldType = getFieldType(bo);
 
-      var props = assign({}, DEFAULT_PROPS);
+      const props = assign({}, DEFAULT_PROPS);
 
-      var fieldValue = values.fieldValue || undefined;
+      const fieldValue = values.fieldValue || undefined;
 
       if (fieldType === 'string') {
         props.string = fieldValue;
@@ -286,10 +286,10 @@ module.exports = function(element, bpmnFactory, translate, options) {
 
     },
 
-    validate: function(element, values, node) {
-      var bo = getSelectedField(element, node);
+    validate(element, values, node) {
+      const bo = getSelectedField(element, node);
 
-      var validation = {};
+      const validation = {};
       if (bo) {
         if (!values.fieldValue) {
           validation.fieldValue = translate('Must provide a value');
@@ -299,7 +299,7 @@ module.exports = function(element, bpmnFactory, translate, options) {
       return validation;
     },
 
-    show: function(element, node) {
+    show(element, node) {
       return isSelected(element, node);
     }
 

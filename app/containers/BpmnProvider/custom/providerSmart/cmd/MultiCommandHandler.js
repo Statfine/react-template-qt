@@ -1,6 +1,6 @@
-'use strict';
 
-var forEach = require('lodash/forEach');
+
+const forEach = require('lodash/forEach');
 
 /**
  * A handler that combines and executes multiple commands.
@@ -24,7 +24,7 @@ module.exports = MultiCommandHandler;
 
 MultiCommandHandler.prototype.preExecute = function(context) {
 
-  var commandStack = this._commandStack;
+  const commandStack = this._commandStack;
 
   forEach(context, function(command) {
     commandStack.execute(command.cmd, command.context);

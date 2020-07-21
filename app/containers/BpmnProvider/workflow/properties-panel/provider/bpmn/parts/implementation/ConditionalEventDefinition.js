@@ -1,28 +1,28 @@
-'use strict';
 
-var entryFactory = require('../../../../factory/EntryFactory'),
-    cmdHelper = require('../../../../helper/CmdHelper');
 
-var is = require('bpmn-js/lib/util/ModelUtil').is,
-    isEventSubProcess = require('bpmn-js/lib/util/DiUtil').isEventSubProcess;
+const entryFactory = require('../../../../factory/EntryFactory');
+const cmdHelper = require('../../../../helper/CmdHelper');
+
+const is = require('bpmn-js/lib/util/ModelUtil').is;
+const isEventSubProcess = require('bpmn-js/lib/util/DiUtil').isEventSubProcess;
 
 module.exports = function(group, element, bpmnFactory, conditionalEventDefinition, elementRegistry, translate) {
 
-  var getValue = function(modelProperty) {
+  const getValue = function(modelProperty) {
     return function(element) {
-      var modelPropertyValue = conditionalEventDefinition.get('camunda:' + modelProperty);
-      var value = {};
+      const modelPropertyValue = conditionalEventDefinition.get(`camunda:${  modelProperty}`);
+      const value = {};
 
       value[modelProperty] = modelPropertyValue;
       return value;
     };
   };
 
-  var setValue = function(modelProperty) {
+  const setValue = function(modelProperty) {
     return function(element, values) {
-      var props = {};
+      const props = {};
 
-      props['camunda:' + modelProperty] = values[modelProperty] || undefined;
+      props[`camunda:${  modelProperty}`] = values[modelProperty] || undefined;
 
       return cmdHelper.updateBusinessObject(element, conditionalEventDefinition, props);
     };
@@ -37,7 +37,7 @@ module.exports = function(group, element, bpmnFactory, conditionalEventDefinitio
     set: setValue('variableName')
   }));
 
-  var isConditionalStartEvent =
+  const isConditionalStartEvent =
     is(element, 'bpmn:StartEvent') && !isEventSubProcess(element.parent);
 
   if (!isConditionalStartEvent) {

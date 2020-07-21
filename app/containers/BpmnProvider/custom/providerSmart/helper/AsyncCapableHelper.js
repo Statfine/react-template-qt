@@ -1,8 +1,8 @@
-'use strict';
 
-var map = require('lodash/map');
 
-var extensionElementsHelper = require('./ExtensionElementsHelper');
+const map = require('lodash/map');
+
+const extensionElementsHelper = require('./ExtensionElementsHelper');
 
 /**
  * Returns true if the attribute 'camunda:asyncBefore' is set
@@ -67,7 +67,7 @@ module.exports.getFailedJobRetryTimeCycle = getFailedJobRetryTimeCycle;
  * @return {Array<ModdleElement>} a list of 'camunda:FailedJobRetryTimeCycle'
  */
 function removeFailedJobRetryTimeCycle(bo, element) {
-  var retryTimeCycles = extensionElementsHelper.getExtensionElements(bo, 'camunda:FailedJobRetryTimeCycle');
+  const retryTimeCycles = extensionElementsHelper.getExtensionElements(bo, 'camunda:FailedJobRetryTimeCycle');
   return map(retryTimeCycles, function(cycle) {
     return extensionElementsHelper.removeEntry(bo, element, cycle);
   });

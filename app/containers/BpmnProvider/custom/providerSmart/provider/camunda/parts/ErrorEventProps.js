@@ -1,15 +1,15 @@
-'use strict';
 
-var is = require('bpmn-js/lib/util/ModelUtil').is,
-    eventDefinitionHelper = require('../../../helper/EventDefinitionHelper'),
-    error = require('./implementation/ErrorEventDefinition');
 
-var forEach = require('lodash/forEach');
+const is = require('bpmn-js/lib/util/ModelUtil').is;
+const forEach = require('lodash/forEach');
+const eventDefinitionHelper = require('../../../helper/EventDefinitionHelper');
+const error = require('./implementation/ErrorEventDefinition');
+
 
 
 module.exports = function(group, element, bpmnFactory, translate) {
 
-  var errorEvents = [
+  const errorEvents = [
     'bpmn:StartEvent',
     'bpmn:BoundaryEvent',
     'bpmn:EndEvent'
@@ -18,13 +18,13 @@ module.exports = function(group, element, bpmnFactory, translate) {
   forEach(errorEvents, function(event) {
     if (is(element, event)) {
 
-      var errorEventDefinition = eventDefinitionHelper.getErrorEventDefinition(element);
+      const errorEventDefinition = eventDefinitionHelper.getErrorEventDefinition(element);
 
       if (errorEventDefinition) {
-        var isCatchingErrorEvent = is(element, 'bpmn:StartEvent') || is (element, 'bpmn:BoundaryEvent');
+        const isCatchingErrorEvent = is(element, 'bpmn:StartEvent') || is (element, 'bpmn:BoundaryEvent');
 
-        var showErrorCodeVariable = isCatchingErrorEvent,
-            showErrorMessageVariable = isCatchingErrorEvent;
+        const showErrorCodeVariable = isCatchingErrorEvent;
+        const showErrorMessageVariable = isCatchingErrorEvent;
 
         error(
           group,

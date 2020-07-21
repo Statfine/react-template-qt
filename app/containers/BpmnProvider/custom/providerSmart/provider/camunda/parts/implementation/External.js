@@ -1,39 +1,39 @@
-'use strict';
 
-var entryFactory = require('../../../../factory/EntryFactory'),
-    cmdHelper = require('../../../../helper/CmdHelper');
+
+const entryFactory = require('../../../../factory/EntryFactory');
+const cmdHelper = require('../../../../helper/CmdHelper');
 
 module.exports = function(element, bpmnFactory, options, translate) {
 
-  var getImplementationType = options.getImplementationType,
-      getBusinessObject = options.getBusinessObject;
+  const getImplementationType = options.getImplementationType;
+  const getBusinessObject = options.getBusinessObject;
 
   function isExternal(element) {
     return getImplementationType(element) === 'external';
   }
 
-  var topicEntry = entryFactory.textField({
+  const topicEntry = entryFactory.textField({
     id: 'externalTopic',
     label: translate('Topic'),
     modelProperty: 'externalTopic',
 
-    get: function(element, node) {
-      var bo = getBusinessObject(element);
+    get(element, node) {
+      const bo = getBusinessObject(element);
       return { externalTopic: bo.get('smart:topic') };
     },
 
-    set: function(element, values, node) {
-      var bo = getBusinessObject(element);
+    set(element, values, node) {
+      const bo = getBusinessObject(element);
       return cmdHelper.updateBusinessObject(element, bo, {
         'smart:topic': values.externalTopic
       });
     },
 
-    validate: function(element, values, node) {
+    validate(element, values, node) {
       return isExternal(element) && !values.externalTopic ? { externalTopic: translate('Must provide a value') } : {};
     },
 
-    hidden: function(element, node) {
+    hidden(element, node) {
       return !isExternal(element);
     }
 

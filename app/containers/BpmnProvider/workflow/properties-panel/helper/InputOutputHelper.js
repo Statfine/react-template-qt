@@ -1,23 +1,23 @@
-'use strict';
 
-var ModelUtil = require('bpmn-js/lib/util/ModelUtil'),
-    is = ModelUtil.is,
-    getBusinessObject = ModelUtil.getBusinessObject;
 
-var extensionElementsHelper = require('./ExtensionElementsHelper'),
-    implementationTypeHelper = require('./ImplementationTypeHelper');
+const ModelUtil = require('bpmn-js/lib/util/ModelUtil');
+const is = ModelUtil.is;
+const getBusinessObject = ModelUtil.getBusinessObject;
 
-var InputOutputHelper = {};
+const extensionElementsHelper = require('./ExtensionElementsHelper');
+const implementationTypeHelper = require('./ImplementationTypeHelper');
+
+const InputOutputHelper = {};
 
 module.exports = InputOutputHelper;
 
 function getElements(bo, type, prop) {
-  var elems = extensionElementsHelper.getExtensionElements(bo, type) || [];
+  const elems = extensionElementsHelper.getExtensionElements(bo, type) || [];
   return !prop ? elems : (elems[0] || {})[prop] || [];
 }
 
 function getParameters(element, prop, insideConnector) {
-  var inputOutput = InputOutputHelper.getInputOutput(element, insideConnector);
+  const inputOutput = InputOutputHelper.getInputOutput(element, insideConnector);
   return (inputOutput && inputOutput.get(prop)) || [];
 }
 
@@ -31,10 +31,10 @@ function getParameters(element, prop, insideConnector) {
  */
 InputOutputHelper.getInputOutput = function(element, insideConnector) {
   if (!insideConnector) {
-    var bo = getBusinessObject(element);
+    const bo = getBusinessObject(element);
     return (getElements(bo, 'smart:InputOutput') || [])[0];
   }
-  var connector = this.getConnector(element);
+  const connector = this.getConnector(element);
   return connector && connector.get('inputOutput');
 };
 
@@ -46,7 +46,7 @@ InputOutputHelper.getInputOutput = function(element, insideConnector) {
  * @return {ModdleElement} the connector object
  */
 InputOutputHelper.getConnector = function(element) {
-  var bo = implementationTypeHelper.getServiceTaskLikeBusinessObject(element);
+  const bo = implementationTypeHelper.getServiceTaskLikeBusinessObject(element);
   return bo && (getElements(bo, 'smart:Connector') || [])[0];
 };
 
@@ -116,7 +116,7 @@ InputOutputHelper.isInputOutputSupported = function(element, insideConnector) {
     return true;
   }
 
-  var bo = getBusinessObject(element);
+  const bo = getBusinessObject(element);
 
   return (
     is(bo, 'bpmn:FlowNode') && !(
@@ -139,6 +139,6 @@ InputOutputHelper.isInputOutputSupported = function(element, insideConnector) {
  * @return {boolean} a boolean value
  */
 InputOutputHelper.areOutputParametersSupported = function(element, insideConnector) {
-  var bo = getBusinessObject(element);
+  const bo = getBusinessObject(element);
   return insideConnector || (!is(bo, 'bpmn:EndEvent') && !bo.loopCharacteristics);
 };

@@ -1,7 +1,7 @@
-'use strict';
 
-var eventDefinitionReference = require('./EventDefinitionReference'),
-    elementReferenceProperty = require('./ElementReferenceProperty');
+
+const eventDefinitionReference = require('./EventDefinitionReference');
+const elementReferenceProperty = require('./ElementReferenceProperty');
 
 
 module.exports = function(group, element, bpmnFactory, signalEventDefinition, translate) {
