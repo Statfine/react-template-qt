@@ -1,0 +1,790 @@
+.smart-content {
+  background: #f8fbfd;
+  position: absolute;
+  right: 1px;
+  top: 1px;
+  width: 300px;
+  height: calc(100% - 2px);
+  overflow: auto;
+}
+
+.bpp-properties-panel input:focus, .bpp-properties-panel button:focus, .bpp-properties-panel textarea:focus, .bpp-properties-panel [contenteditable]:focus {
+  border-color: #40a9ff!important;
+  border-right-width: 1px!important;
+  outline: 0!important;
+  box-shadow: 0 0 0 2px rgba(24,144,255,.2)!important;
+}
+
+.bpp-properties-panel input:hover, .bpp-properties-panel button:hover, .bpp-properties-panel textarea:hover, .bpp-properties-panel [contenteditable]:hover {
+  border-color: #40a9ff!important;
+  border-right-width: 1px!important;
+}
+
+.bpp-properties-panel [type=text]:hover, .bpp-properties-panel [contenteditable]:hover, .bpp-properties-panel textarea:hover, .bpp-properties-panel select:hover {
+  border-color: #40a9ff!important;
+  border-right-width: 1px!important;
+}
+
+.bpp-table-row > input.bpp-table-row-columns-2:nth-child(2) {
+  border-left: 1px solid #ccc!important;
+}
+
+.bpp-table-row > input.bpp-table-row-columns-2:nth-child(2):hover {
+  border-left: 1px solid #40a9ff!important;
+}
+
+.bpp-table-row > button {
+  height: 29px!important;
+  border-left: 1px solid #ccc!important;
+}
+
+.bpp-table-row > label.bpp-table-row-columns-2.bpp-table-row-removable, .bpp-table-row > input.bpp-table-row-columns-2.bpp-table-row-removable {
+  width: calc(50% - 20px)!important;
+  margin-right: 6px;
+}
+
+
+/* line 16, styles/workflow/properties.less */
+.bpp-properties-panel {
+  background: #f8fbfd;
+  position: relative;
+}
+/* line 20, styles/workflow/properties.less */
+.bpp-properties-panel:empty {
+  display: none;
+}
+/* line 24, styles/workflow/properties.less */
+.bpp-properties-panel label,
+.bpp-properties-panel input {
+  vertical-align: middle;
+}
+/* line 29, styles/workflow/properties.less */
+.bpp-properties-panel input,
+.bpp-properties-panel button,
+.bpp-properties-panel textarea,
+.bpp-properties-panel [contenteditable] {
+  padding: 3px 6px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+}
+/* line 36, styles/workflow/properties.less */
+.bpp-properties-panel input:focus,
+.bpp-properties-panel button:focus,
+.bpp-properties-panel textarea:focus,
+.bpp-properties-panel [contenteditable]:focus {
+  outline: none;
+  border-color: #1890ff;
+  box-shadow: 0 0 1px 2px rgba(82, 180, 21, 0.2);
+}
+/* line 40, styles/workflow/properties.less */
+.bpp-properties-panel input.invalid,
+.bpp-properties-panel button.invalid,
+.bpp-properties-panel textarea.invalid,
+.bpp-properties-panel [contenteditable].invalid {
+  border-color: #cc3333;
+  background: #f0c2c2;
+}
+/* line 42, styles/workflow/properties.less */
+.bpp-properties-panel input.invalid:focus,
+.bpp-properties-panel button.invalid:focus,
+.bpp-properties-panel textarea.invalid:focus,
+.bpp-properties-panel [contenteditable].invalid:focus {
+  box-shadow: 0 0 1px 2px rgba(204, 51, 51, 0.2);
+}
+/* line 48, styles/workflow/properties.less */
+.bpp-properties-panel [type=text],
+.bpp-properties-panel [contenteditable],
+.bpp-properties-panel textarea,
+.bpp-properties-panel select {
+  width: 100%;
+}
+/* line 55, styles/workflow/properties.less */
+.bpp-properties-panel [contenteditable],
+.bpp-properties-panel textarea {
+  resize: vertical;
+}
+/* line 60, styles/workflow/properties.less */
+.bpp-properties-panel [contenteditable] {
+  outline: 0px solid transparent;
+  background-color: white;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  /* css-3 */
+  white-space: -moz-pre-wrap;
+  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;
+  /* Opera 4-6 */
+  white-space: -o-pre-wrap;
+  /* Opera 7 */
+  word-wrap: break-word;
+  /* Internet Explorer 5.5+ */
+}
+/* line 72, styles/workflow/properties.less */
+.bpp-properties-panel [contenteditable]:before {
+  content: "\feff";
+}
+/* line 77, styles/workflow/properties.less */
+.bpp-properties-panel [disabled] {
+  color: #808080;
+}
+/* line 81, styles/workflow/properties.less */
+.bpp-properties-panel label {
+  font-weight: bolder;
+  display: inline-block;
+  vertical-align: middle;
+  color: #666;
+  margin-bottom: 3px;
+}
+/* line 71, styles/workflow/_mixins.less */
+.bpp-properties-panel label[for] {
+  cursor: pointer;
+}
+/* line 74, styles/workflow/_mixins.less */
+.bpp-properties-panel label.bpp-hidden {
+  display: none;
+}
+/* line 87, styles/workflow/properties.less */
+.bpp-properties-panel .entry-label {
+  font-weight: bolder;
+  display: inline-block;
+  vertical-align: middle;
+  color: #666;
+  font-size: 120%;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  transition: margin 0.218s linear;
+  font-style: italic;
+}
+/* line 71, styles/workflow/_mixins.less */
+.bpp-properties-panel .entry-label[for] {
+  cursor: pointer;
+}
+/* line 74, styles/workflow/_mixins.less */
+.bpp-properties-panel .entry-label.bpp-hidden {
+  display: none;
+}
+/* line 95, styles/workflow/properties.less */
+.bpp-properties-panel .entry-label.divider {
+  border-top: 1px dotted #ccc;
+  padding-top: 8px;
+  margin-top: 16px;
+  width: 100%;
+}
+/* line 103, styles/workflow/properties.less */
+.bpp-properties-panel button {
+  position: absolute;
+  top: 0;
+  height: 23px;
+  width: 24px;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+}
+/* line 44, styles/workflow/_mixins.less */
+.bpp-properties-panel button > span {
+  display: none;
+}
+/* line 48, styles/workflow/_mixins.less */
+.bpp-properties-panel button:before {
+  font-family: "bpmn-js-pp";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+  display: inline-block;
+  text-decoration: inherit;
+  text-align: center;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+}
+/* line 53, styles/workflow/_mixins.less */
+.bpp-properties-panel button.add:before {
+  content: '\E803';
+}
+/* line 57, styles/workflow/_mixins.less */
+.bpp-properties-panel button.clear:before {
+  content: '\E802';
+}
+/* line 61, styles/workflow/_mixins.less */
+.bpp-properties-panel button:hover {
+  color: #1890ff;
+}
+/* line 109, styles/workflow/properties.less */
+.bpp-error-message,
+.bpp-error-message.bpp-entry-link {
+  margin-top: 5px;
+  color: #cc3333;
+}
+/* line 115, styles/workflow/properties.less */
+.bpp-row {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+/* line 118, styles/workflow/properties.less */
+.bpp-row:first-of-type {
+  margin-top: 0;
+}
+/* line 121, styles/workflow/properties.less */
+.bpp-row:last-of-type {
+  margin-bottom: 0;
+}
+/* line 126, styles/workflow/properties.less */
+.bpp-textfield,
+.bpp-textbox {
+  margin-bottom: 3px;
+}
+/* line 131, styles/workflow/properties.less */
+.bpp-radios-group {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 9px 0;
+}
+/* line 136, styles/workflow/properties.less */
+.bpp-radios-group .bpp-radio-wrapper {
+  margin: 6px 0;
+}
+/* line 140, styles/workflow/properties.less */
+.bpp-radios-group input,
+.bpp-radios-group label {
+  vertical-align: middle;
+}
+/* line 145, styles/workflow/properties.less */
+.bpp-radios-group input {
+  margin-top: 0;
+  margin-left: 0;
+}
+/* line 153, styles/workflow/properties.less */
+.bpp-radios-group input,
+.bpp-checkbox input {
+  margin-left: 0;
+}
+/* line 158, styles/workflow/properties.less */
+.bpp-radios-group label:after,
+.bpp-checkbox label:after {
+  display: none;
+}
+/* line 165, styles/workflow/properties.less */
+.bpp-textfield input {
+  padding-right: 28px;
+}
+/* line 169, styles/workflow/properties.less */
+.bpp-textfield .clear {
+  background: transparent;
+  border: none;
+  top: 0;
+  right: 0;
+}
+/* line 177, styles/workflow/properties.less */
+.bpp-combo-input {
+  margin-top: 7px;
+}
+/* line 182, styles/workflow/properties.less */
+.bpp-select select {
+  height: 23px;
+}
+/* line 185, styles/workflow/properties.less */
+.bpp-select button.add {
+  top: -22px;
+  right: 0;
+}
+/* line 195, styles/workflow/properties.less */
+.bpp-select button.add,
+.bpp-element-list button.add,
+.bpp-select button.clear,
+.bpp-element-list button.clear {
+  top: -23px;
+  border-bottom: none;
+}
+/* line 202, styles/workflow/properties.less */
+.bpp-select button.add,
+.bpp-element-list button.add {
+  right: 0px;
+}
+/* line 206, styles/workflow/properties.less */
+.bpp-select button.clear,
+.bpp-element-list button.clear {
+  right: 23px;
+}
+/* line 211, styles/workflow/properties.less */
+.bpp-properties-entry {
+  margin-bottom: 9px;
+}
+/* line 214, styles/workflow/properties.less */
+.bpp-properties-entry .bpp-field-wrapper {
+  position: relative;
+}
+/* line 217, styles/workflow/properties.less */
+.bpp-properties-entry .bpp-field-wrapper input[readonly] + .clear {
+  display: none;
+}
+/* line 221, styles/workflow/properties.less */
+.bpp-properties-entry .bpp-field-wrapper select {
+  resize: vertical;
+}
+/* line 227, styles/workflow/properties.less */
+.bpp-hidden {
+  display: none;
+}
+/* line 231, styles/workflow/properties.less */
+label.bpp-hidden {
+  display: none;
+}
+/* line 236, styles/workflow/properties.less */
+.bpp-table-add-row > button {
+  position: relative;
+  margin-left: 10px;
+}
+/* line 242, styles/workflow/properties.less */
+.bpp-table {
+  margin-top: 10px;
+}
+/* line 246, styles/workflow/properties.less */
+.bpp-table-row {
+  margin-bottom: 2px;
+  overflow: hidden;
+}
+/* line 250, styles/workflow/properties.less */
+.bpp-table-row > input,
+.bpp-table-row > button {
+  float: left;
+}
+/* line 255, styles/workflow/properties.less */
+.bpp-table-row > label {
+  padding-left: 5px;
+}
+/* line 262, styles/workflow/properties.less */
+.bpp-table-row > label.bpp-table-row-columns-1,
+.bpp-table-row > input.bpp-table-row-columns-1 {
+  width: 100%;
+}
+/* line 264, styles/workflow/properties.less */
+.bpp-table-row > label.bpp-table-row-columns-1.bpp-table-row-removable,
+.bpp-table-row > input.bpp-table-row-columns-1.bpp-table-row-removable {
+  width: calc(100% - 24px);
+}
+/* line 269, styles/workflow/properties.less */
+.bpp-table-row > label.bpp-table-row-columns-2,
+.bpp-table-row > input.bpp-table-row-columns-2 {
+  width: 50%;
+  box-sizing: border-box;
+}
+/* line 272, styles/workflow/properties.less */
+.bpp-table-row > label.bpp-table-row-columns-2.bpp-table-row-removable,
+.bpp-table-row > input.bpp-table-row-columns-2.bpp-table-row-removable {
+  width: calc(50% - 12px);
+}
+/* line 275, styles/workflow/properties.less */
+.bpp-table-row > label.bpp-table-row-columns-2:nth-child(2),
+.bpp-table-row > input.bpp-table-row-columns-2:nth-child(2) {
+  border-left: none;
+}
+/* line 281, styles/workflow/properties.less */
+.bpp-table-row > button {
+  border-left: none;
+  position: static;
+}
+/* line 287, styles/workflow/properties.less */
+.bpp-properties-static {
+  margin-bottom: 0;
+  margin-top: 0;
+  border: 1px solid #ccc;
+  background-color: white;
+  padding: 3px 6px;
+  font: 13.3333px Arial;
+  width: 100%;
+}
+/* line 297, styles/workflow/properties.less */
+.bpp-entry-link {
+  cursor: pointer;
+  color: #1890ff;
+}
+/* line 302, styles/workflow/properties.less */
+.bpp-icon-warning:before {
+  font-family: "bpmn-js-pp";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+  display: inline-block;
+  text-decoration: inherit;
+  text-align: center;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  content: '\E806';
+}
+/* line 307, styles/workflow/properties.less */
+.bpp-field-description {
+  margin-top: 5px;
+  color: #999;
+}
+/* line 311, styles/workflow/properties.less */
+.bpp-field-description a {
+  color: #1890ff;
+  text-decoration: none;
+}
+/* line 315, styles/workflow/properties.less */
+.bpp-field-description a:hover {
+  color: #1890ff;
+}
+/* line 1, styles/workflow/header.less */
+.bpp-properties-header {
+  padding: 15px;
+  padding-bottom: 5px;
+}
+/* line 5, styles/workflow/header.less */
+.bpp-properties-header > .label {
+  font-size: 120%;
+  font-weight: bolder;
+}
+/* line 10, styles/workflow/header.less */
+.bpp-properties-header > .search {
+  display: none;
+  margin-top: 5px;
+  position: relative;
+}
+/* line 15, styles/workflow/header.less */
+.bpp-properties-header > .search input {
+  position: relative;
+  border-radius: 15px;
+  width: 100%;
+  z-index: 1;
+}
+/* line 22, styles/workflow/header.less */
+.bpp-properties-header > .search button {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  border: none;
+  background-color: transparent;
+  z-index: 2;
+}
+/* line 30, styles/workflow/header.less */
+.bpp-properties-header > .search button:before {
+  content: '\E805';
+}
+/* line 1, styles/workflow/groups.less */
+.bpp-properties-group {
+  padding: 6px 15px 6px 15px;
+  position: relative;
+  overflow: hidden;
+  transition: max-height 0.218s ease-in-out, padding-top 0.218s ease-in-out, padding-bottom 0.218s ease-in-out;
+}
+/* line 9, styles/workflow/groups.less */
+.bpp-properties-group:empty {
+  display: none;
+}
+/* line 13, styles/workflow/groups.less */
+.bpp-properties-group > .group-toggle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 4px;
+  cursor: pointer;
+  transition: background-color 0.218s linear;
+}
+/* line 21, styles/workflow/groups.less */
+.bpp-properties-group > .group-toggle:hover {
+  background-color: #1890ff;
+}
+/* line 26, styles/workflow/groups.less */
+.bpp-properties-group > .group-label {
+  font-weight: bolder;
+  display: inline-block;
+  vertical-align: middle;
+  color: #666;
+  font-size: 120%;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  transition: margin 0.218s linear;
+  font-style: normal;
+}
+/* line 71, styles/workflow/_mixins.less */
+.bpp-properties-group > .group-label[for] {
+  cursor: pointer;
+}
+/* line 74, styles/workflow/_mixins.less */
+.bpp-properties-group > .group-label.bpp-hidden {
+  display: none;
+}
+/* line 35, styles/workflow/groups.less */
+.bpp-properties-group:hover > .group-toggle {
+  background-color: #ccc;
+}
+/* line 37, styles/workflow/groups.less */
+.bpp-properties-group:hover > .group-toggle:hover {
+  background-color: #1890ff;
+}
+/* line 42, styles/workflow/groups.less */
+.bpp-properties-group.group-closed {
+  max-height: 20px;
+  border-top: none;
+  cursor: pointer;
+  background-color: rgba(143, 192, 113, 0.2);
+  padding-top: 0;
+  padding-bottom: 0;
+}
+/* line 50, styles/workflow/groups.less */
+.bpp-properties-group.group-closed > div {
+  visibility: hidden;
+}
+/* line 54, styles/workflow/groups.less */
+.bpp-properties-group.group-closed > .group-label {
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+/* line 59, styles/workflow/groups.less */
+.bpp-properties-group.group-closed:hover > .group-label {
+  color: #1890ff;
+}
+/* line 64, styles/workflow/groups.less */
+.bpp-properties-group + .bpp-properties-group {
+  border-top: 1px dotted #ccc;
+}
+/* line 68, styles/workflow/groups.less */
+.bpp-properties-group:last-child {
+  padding-bottom: 9px;
+}
+/* line 2, styles/workflow/listeners.less */
+.cam-add-listener > button {
+  position: relative;
+  margin-left: 10px;
+}
+/* line 8, styles/workflow/listeners.less */
+[data-list-entry-container] > .bpp-listener-area {
+  border: 1px solid #ccc;
+  margin: 10px 1px;
+  padding: 10px;
+}
+/* line 14, styles/workflow/listeners.less */
+.bpp-listener-area {
+  position: relative;
+}
+/* line 16, styles/workflow/listeners.less */
+.bpp-listener-area > button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  border: none;
+  background: none;
+}
+/* line 25, styles/workflow/listeners.less */
+.bpp-listener-area + .bpp-listener-area {
+  margin-top: 20px;
+}
+/* line 1, styles/workflow/tabs.less */
+.bpp-properties-tab-bar {
+  border-bottom: 1px solid #ccc;
+  padding: 0 15px;
+}
+/* line 5, styles/workflow/tabs.less */
+.bpp-properties-tab-bar .scroll-tabs-button {
+  cursor: pointer;
+  font-size: 16px;
+  padding: 3px 4px 3px 4px;
+  color: #666;
+}
+/* line 11, styles/workflow/tabs.less */
+.bpp-properties-tab-bar .scroll-tabs-button:hover {
+  font-weight: bold;
+}
+/* line 15, styles/workflow/tabs.less */
+.bpp-properties-tab-bar .scroll-tabs-button.scroll-tabs-left {
+  float: left;
+  margin-left: -15px;
+}
+/* line 20, styles/workflow/tabs.less */
+.bpp-properties-tab-bar .scroll-tabs-button.scroll-tabs-right {
+  float: right;
+  margin-right: -15px;
+}
+/* line 27, styles/workflow/tabs.less */
+.bpp-properties-tab-bar:not(.scroll-tabs-overflow) .scroll-tabs-button {
+  display: none;
+}
+/* line 33, styles/workflow/tabs.less */
+ul.bpp-properties-tabs-links {
+  margin: 5px 0 -1px 0;
+  padding: 0;
+  white-space: nowrap;
+  overflow: hidden;
+}
+/* line 39, styles/workflow/tabs.less */
+ul.bpp-properties-tabs-links > li {
+  display: inline-block;
+  margin: 0;
+}
+/* line 43, styles/workflow/tabs.less */
+ul.bpp-properties-tabs-links > li.bpp-hidden {
+  display: none;
+}
+/* line 47, styles/workflow/tabs.less */
+ul.bpp-properties-tabs-links > li > a {
+  display: inline-block;
+  font-size: 12px;
+  padding: 4px 7px;
+  border: none;
+  border-radius: 3px 3px 0 0;
+  border-bottom: transparent;
+  background-color: #f8fbfd;
+  color: #666;
+  text-decoration: none;
+}
+/* line 62, styles/workflow/tabs.less */
+ul.bpp-properties-tabs-links > li > a:hover {
+  color: #4d4d4d;
+}
+/* line 68, styles/workflow/tabs.less */
+ul.bpp-properties-tabs-links > li + li {
+  margin-left: 4px;
+}
+/* line 74, styles/workflow/tabs.less */
+ul.bpp-properties-tabs-links > li.bpp-active a {
+  padding-bottom: 5px;
+  border-bottom: 2px solid #1890ff;
+  color: #1890ff;
+  border-top: none;
+}
+/* line 83, styles/workflow/tabs.less */
+.bpp-properties-tab,
+.bpp-properties-tab.bpp-hidden {
+  display: none;
+}
+/* line 88, styles/workflow/tabs.less */
+.bpp-properties-tab.bpp-active {
+  display: block;
+}
+/* line 3, styles/app.less */
+* {
+  box-sizing: border-box;
+}
+/* line 7, styles/app.less */
+body,
+html {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  height: 100%;
+  max-height: 100%;
+  padding: 0;
+  margin: 0;
+}
+/* line 20, styles/app.less */
+a:link {
+  text-decoration: none;
+}
+/* line 24, styles/app.less */
+.content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+/* line 29, styles/app.less */
+.content > .message {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  display: table;
+  font-size: 16px;
+  color: #111;
+}
+/* line 38, styles/app.less */
+.content > .message .note {
+  vertical-align: middle;
+  text-align: center;
+  display: table-cell;
+}
+/* line 45, styles/app.less */
+.content > .message.error .details {
+  max-width: 500px;
+  font-size: 12px;
+  margin: 20px auto;
+  text-align: left;
+  color: #BD2828;
+}
+/* line 53, styles/app.less */
+.content > .message.error pre {
+  border: solid 1px #BD2828;
+  background: #fefafa;
+  padding: 10px;
+  color: #BD2828;
+}
+/* line 61, styles/app.less */
+.content:not(.with-error) .error,
+.content.with-error .intro,
+.content.with-diagram .intro {
+  display: none;
+}
+/* line 67, styles/app.less */
+.content .canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+/* line 75, styles/app.less */
+.content .canvas,
+.content .properties-panel-parent {
+  display: none;
+}
+/* line 81, styles/app.less */
+.content.with-diagram .canvas,
+.content.with-diagram .properties-panel-parent {
+  display: block;
+}
+/* line 89, styles/app.less */
+.buttons {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+/* line 98, styles/app.less */
+.buttons > li {
+  display: inline-block;
+  margin-right: 10px;
+}
+/* line 102, styles/app.less */
+.buttons > li > a {
+  background: #DDD;
+  border: solid 1px #666;
+  display: inline-block;
+  padding: 5px;
+}
+/* line 110, styles/app.less */
+.buttons a {
+  opacity: 0.3;
+}
+/* line 114, styles/app.less */
+.buttons a.active {
+  opacity: 1;
+}
+/* line 119, styles/app.less */
+.properties-panel-parent {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 260px;
+  z-index: 10;
+  border-left: 1px solid #ccc;
+  overflow: auto;
+}
+/* line 128, styles/app.less */
+.properties-panel-parent:empty {
+  display: none;
+}
+/* line 131, styles/app.less */
+.properties-panel-parent > .djs-properties-panel {
+  padding-bottom: 70px;
+  min-height: 100%;
+}

@@ -25,6 +25,7 @@ import AntdTable from 'containers/AntdTable';
 import AntdResizTable from 'containers/AntdTable/ResizableTable';
 import ProTable from 'containers/ProTable';
 import BpmnPage from 'containers/Bpmn';
+import BpmnProvider from 'containers/BpmnProvider';
 
 import { useInjectReducer, useInjectSaga } from 'redux-injectors';
 
@@ -72,6 +73,7 @@ function App() {
         <Route path="/resizetable" component={AntdResizTable} />
         <Route path="/protable" component={ProTable} />
         <Route path="/bpmn" component={BpmnPage} />
+        <Route path="/bpmnP" component={BpmnProvider} />
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalStyle />

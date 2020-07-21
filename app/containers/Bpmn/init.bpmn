@@ -15,20 +15,14 @@
   </bpmndi:BPMNDiagram>
 </bpmn:definitions> -->
 
-<!-- <?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn">
   <bpmn:process id="Process_1" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>Flow_0bngvff</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="Flow_0bngvff" sourceRef="StartEvent_1" targetRef="Activity_0igoslw" />
-    <bpmn:serviceTask id="Activity_0igoslw" name="买家下单" camunda:type="external" camunda:topic="ex&#39;">
-      <bpmn:extensionElements>
-        <camunda:properties>
-          <camunda:property name="key" value="value" />
-        </camunda:properties>
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_0bngvff</bpmn:incoming>
+    <bpmn:serviceTask id="Activity_0igoslw" name="买家下单">
     </bpmn:serviceTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -45,9 +39,9 @@
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
-</bpmn:definitions> -->
+</bpmn:definitions>
 
-<?xml version="1.0" encoding="UTF-8"?>
+<!-- <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:qa="http://some-company/schema/bpmn/qa" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn">
   <bpmn:process id="Process_1" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1">
@@ -80,4 +74,4 @@
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
-</bpmn:definitions>
+</bpmn:definitions> -->

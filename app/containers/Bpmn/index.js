@@ -6,7 +6,7 @@ import BpmnModeler from 'bpmn-js/lib/Modeler';
 import elementHelper from 'bpmn-js-properties-panel/lib/helper/ElementHelper';
 import propertiesPanelModule from 'bpmn-js-properties-panel';   // 这里引入的是右侧属性栏这个框
 import propertiesProviderModule from 'bpmn-js-properties-panel/lib/provider/camunda'; // 而这个引入的是右侧属性栏里的内容
-// import camundaModdleDescriptor from 'camunda-bpmn-moddle/resources/camunda.json'; // 如果要在属性面板中维护camunda：XXX属性，则需要此 
+import camundaModdleDescriptor from 'camunda-bpmn-moddle/resources/camunda.json'; // 如果要在属性面板中维护camunda：XXX属性，则需要此 
 import 'bpmn-js/dist/assets/diagram-js.css' // 左边工具栏以及编辑节点的样式
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css'
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css'
@@ -25,7 +25,7 @@ import customTranslate from './customTranslate/customTranslate';
 
 import JsonToString from './utils/bpmnString';
 import qaPackage from './utils/qaPackage.json';
-import smartPackage from './utils/smart.json';
+// import smartPackage from './utils/smart.json';
 
 const customTranslateModule = {
   translate: [ 'value', customTranslate ]
@@ -123,7 +123,7 @@ export default class BpmnPage extends PureComponent {
         customTranslateModule,
       ],
       moddleExtensions: {
-        smart: smartPackage,
+        camunda: camundaModdleDescriptor,
         qa: qaPackage
       }
     });

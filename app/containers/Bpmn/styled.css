@@ -52,6 +52,7 @@
 /* palette 左侧图标颜色 */
 .djs-popup, .djs-palette {
   border: solid 1px #DBECFF!important;
+  background: #f8fbfd;
 }
 .djs-palette .entry:before {
   vertical-align: text-bottom;
