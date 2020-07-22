@@ -223,7 +223,7 @@ export default class BpmnPage extends PureComponent {
           <Button  onClick={this.handleDownloadSvg}>下载 SVG</Button>
           <Button  onClick={this.handleDownloadXml}>下载 XML</Button>
         </div>
-        <div style={{ width: '100%', height: '400px', border: '1px solid #4885ed', overflow: 'scroll' }} id="js-canvas">
+        <div style={{ width: '100%', height: '400px', border: '1px solid #DBECFF', overflow: 'scroll' }} id="js-canvas">
         </div>
         <div className="smart-content" id="js-properties-panel"></div>
       </div>
