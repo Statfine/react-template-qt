@@ -6,6 +6,7 @@
   width: 300px;
   height: calc(100% - 2px);
   overflow: auto;
+  box-shadow: -10px 0 16px -8px rgba(0,0,0,.08), -9px 0 28px 0 rgba(0,0,0,.05), -12px 0 48px 16px rgba(0,0,0,.03);
 }
 
 .bpp-properties-panel input:focus, .bpp-properties-panel button:focus, .bpp-properties-panel textarea:focus, .bpp-properties-panel [contenteditable]:focus {

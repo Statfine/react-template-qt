@@ -15,7 +15,6 @@ import propertiesProviderModule from './workflow/properties-panel/provider/smart
 import smartPackage from '../Bpmn/utils/smart.json';  // 如果要在属性面板中维护smart：XXX属性，则需要此 
 
 
-import xmlData from '../Bpmn/data.bpmn';
 import xmlInit from '../Bpmn/init.bpmn';
 import '../Bpmn/styled.css';
 import './css/app.css';
@@ -57,7 +56,7 @@ export default class BpmnPage extends PureComponent {
         smart: smartPackage,
       }
     });
-    this.initDiagram(xmlData);
+    this.initDiagram(xmlInit);
   }
 
   // '<?xml version="1.0" encoding="UTF-8"?><bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" id="Definitions_06armuw" targetNamespace="http://bpmn.io/schema/bpmn" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="7.0.0"><bpmn:collaboration id="Collaboration_0jiv3ag"><bpmn:participant id="Participant_16bft7w" processRef="Process_1" /></bpmn:collaboration><bpmn:process id="Process_1" /><bpmndi:BPMNDiagram id="BPMNDiagram_1"><bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0jiv3ag"><bpmndi:BPMNShape id="Participant_16bft7w_di" bpmnElement="Participant_16bft7w" isHorizontal="true"><dc:Bounds x="250" y="30" width="410" height="140" /></bpmndi:BPMNShape></bpmndi:BPMNPlane></bpmndi:BPMNDiagram></bpmn:definitions>'
