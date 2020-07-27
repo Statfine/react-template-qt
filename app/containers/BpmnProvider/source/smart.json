@@ -1,6 +1,6 @@
 {
   "name": "smart",
-  "uri": "http://smart.org/schema/1.0/bpmn",
+  "uri": "http://smartengine.org/schema/process",
   "prefix": "smart",
   "xml": {
     "tagAlias": "lowerCase"

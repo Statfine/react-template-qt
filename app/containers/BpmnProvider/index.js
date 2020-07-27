@@ -12,7 +12,8 @@ import 'bpmn-js-properties-panel/dist/assets/bpmn-js-properties-panel.css';
 import $ from 'jquery';
 
 import propertiesProviderModule from './workflow/properties-panel/provider/smart'; // 而这个引入的是右侧属性栏里的内容
-import smartPackage from '../Bpmn/utils/smart.json';  // 如果要在属性面板中维护smart：XXX属性，则需要此 
+// import propertiesProviderModule from 'hiforce-bpmn-js-properties-panel/lib/provider/smart'; // 而这个引入的是右侧属性栏里的内容
+import smartPackage from './source/smart.json';  // 如果要在属性面板中维护smart：XXX属性，则需要此 
 
 
 import xmlInit from '../Bpmn/init.bpmn';
@@ -21,12 +22,10 @@ import './css/app.css';
 import StyleUtil from '../Bpmn/utils/StyleUtil';
 import customTranslate from './workflow/customTranslate/customTranslate';
 
+import { getQueryString } from '../../utility/commonly';
+
 const NEED_RELEVANCY_STYEL = { stroke: '#666', fill: '#666' };
 const RELEVANCY_STYEL = { stroke: 'black', fill: 'white' };
-
-const customTranslateModule = {
-  translate: [ 'value', customTranslate ]
-};
 
 export default class BpmnPage extends PureComponent {
 
@@ -36,6 +35,12 @@ export default class BpmnPage extends PureComponent {
   bpmnModeler;
 
   componentDidMount() {
+    const language = getQueryString('language')
+    let customTranslateModule = {
+      translate: [ 'value', customTranslate ]
+    };
+    if (language === 'en') customTranslateModule = {};
+
     this.bpmnModeler = new BpmnModeler({
       container: '#js-canvas',
       propertiesPanel: {
@@ -146,6 +151,24 @@ export default class BpmnPage extends PureComponent {
     return element.businessObject.extensionElements.values.filter((e) => e.$instanceOf(type))[0];
   }
 
+  // 打开文件
+  handleOpen = () => {
+    this.file.click();
+  };
+
+  // 导入 xml 文件
+  handleOpenFile = e => {
+    const that = this;
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    let data = '';
+    reader.readAsText(file);
+    reader.onload = (event) => {
+      data = event.target.result;
+      that.initDiagram(data, false);
+    };
+  };
+
   // 前进
   handleRedo = () => {
     this.bpmnModeler.get('commandStack').redo();
@@ -168,9 +191,9 @@ export default class BpmnPage extends PureComponent {
     this.bpmnModeler.saveXML({format: true}, (err, xml) => {
       console.log(xml);
     });
-    this.bpmnModeler.saveSVG({format: true}, (err, data) => {
-      console.log(data);
-    });
+    // this.bpmnModeler.saveSVG({format: true}, (err, data) => {
+    //   console.log(data);
+    // });
   };
 
   // 下载 SVG 格式
@@ -220,7 +243,16 @@ export default class BpmnPage extends PureComponent {
         <div style={{ position: 'absolute', bottom: '-40px' }}>
           <Button  onClick={this.handleClear}>清空</Button>
           <Button  onClick={this.handleSave}>保存</Button>
-          <Button  onClick={this.handleDownloadSvg}>下载 SVG</Button>
+          <input
+            ref={file => {
+              this.file = file;
+            }}
+            style={{ display: "none" }}
+            type="file"
+            onChange={this.handleOpenFile}
+          />
+          <Button  onClick={this.handleOpen}>打开BPMN文件</Button>
+          {/* <Button  onClick={this.handleDownloadSvg}>下载 SVG</Button> */}
           <Button  onClick={this.handleDownloadXml}>下载 XML</Button>
         </div>
         <div style={{ width: '100%', height: '400px', border: '1px solid #DBECFF', overflow: 'scroll' }} id="js-canvas">

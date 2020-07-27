@@ -123,8 +123,8 @@ export default class BpmnPage extends PureComponent {
         customTranslateModule,
       ],
       moddleExtensions: {
-        camunda: camundaModdleDescriptor,
-        qa: qaPackage
+        camunda: camundaModdleDescriptor, // 官方自定义
+        qa: qaPackage // 自定义节点
       }
     });
     this.initDiagram(xmlData);

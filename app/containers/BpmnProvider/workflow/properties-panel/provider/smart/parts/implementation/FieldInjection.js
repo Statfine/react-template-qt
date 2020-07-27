@@ -22,7 +22,7 @@ const DEFAULT_PROPS = {
   'expression': undefined
 };
 
-const SMART_FIELD_EXTENSION_ELEMENT = 'smart:FormProperty';
+const SMART_FIELD_EXTENSION_ELEMENT = 'smart:Field';
 
 module.exports = function(element, bpmnFactory, translate, options) {
 
