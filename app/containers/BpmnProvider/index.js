@@ -34,6 +34,11 @@ export default class BpmnPage extends PureComponent {
 
   bpmnModeler;
 
+  // eslint-disable-next-line react/no-deprecated
+  componentWillMount() {
+    window.hiBpmn = { exteralClass: 'com.quadtalent.bpmn.smartengine.CallServiceDelegation' };
+  }
+
   componentDidMount() {
     const language = getQueryString('language')
     let customTranslateModule = {
@@ -72,6 +77,7 @@ export default class BpmnPage extends PureComponent {
       this.setNodeColor();
       this.changeClassName();
       StyleUtil.changeArrows();
+      this.addEventBusListener();
     } catch (error) {
       console.error(error);
     }
@@ -236,6 +242,17 @@ export default class BpmnPage extends PureComponent {
     a.click();
     document.body.removeChild(a);
   };
+
+  addEventBusListener = () => {
+    // 监听 element
+    const eventBus = this.bpmnModeler.get('eventBus')
+    const eventTypes = ['element.click', 'element.dblclick', 'element.changed', 'element.updateLabel', 'shape.added', 'shape.removed']
+    eventTypes.forEach((eventType) => {
+      eventBus.on(eventType, (e) => {
+        console.log(eventType, e.element.type, e)
+      })
+    })
+  }
 
   render() {
     return (

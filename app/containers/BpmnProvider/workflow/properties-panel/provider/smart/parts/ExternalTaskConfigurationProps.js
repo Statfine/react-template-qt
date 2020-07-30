@@ -26,6 +26,7 @@ module.exports = function(group, element, bpmnFactory, translate) {
   if (!bo) {
     return;
   }
+  // if (bo.$type === 'bpmn:Process') return;
 
   if (is(bo, 'smart:TaskPriorized') || (is(bo, 'bpmn:Participant')) && bo.get('processRef')) {
     group.entries = group.entries.concat(externalTaskPriority(element, bpmnFactory, {

@@ -125,6 +125,9 @@ module.exports = function(element, bpmnFactory, options, translate) {
         if (newType === 'external') {
           props['smart:type'] = 'external';
           props['smart:topic'] = '';
+          if (window.hiBpmn && window.hiBpmn.exteralClass) {
+            props['smart:class'] = window.hiBpmn.exteralClass;
+          }
         }
       }
 

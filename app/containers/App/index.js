@@ -26,6 +26,7 @@ import AntdResizTable from 'containers/AntdTable/ResizableTable';
 import ProTable from 'containers/ProTable';
 import BpmnPage from 'containers/Bpmn';
 import BpmnProvider from 'containers/BpmnProvider';
+import BaiduMap from 'containers/BaiduMap';
 
 import { useInjectReducer, useInjectSaga } from 'redux-injectors';
 
@@ -74,6 +75,7 @@ function App() {
         <Route path="/protable" component={ProTable} />
         <Route path="/bpmn" component={BpmnPage} />
         <Route path="/bpmnP" component={BpmnProvider} />
+        <Route path="/baidu" component={BaiduMap} />
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalStyle />

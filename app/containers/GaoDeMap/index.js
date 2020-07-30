@@ -5,20 +5,31 @@ export default class GaoDeMap extends PureComponent {
 
   componentDidMount() {
     const url = 'https://webapi.amap.com/maps?v=1.4.15&key=97617fb9aa9d9c9d0bc1177a1a8ec396&plugin=AMap.DistrictSearch,AMap.Walking,AMap.Driving,AMap.Autocomplete';
+    // const url = 'https://webapi.amap.com/maps?v=1.4.3&key=57cb86bf9a638d62199828d9c4f3c0de';
     const jsapi = document.createElement('script');
     jsapi.charset = 'utf-8';
     jsapi.src = url;
     document.head.appendChild(jsapi);
+    // jsapi.onload = () => this.initLbs();
     jsapi.onload = () => this.init();
   }
 
   map;
+
+  initLbs = () => {
+    this.map = new AMap.Map('container', {
+      zoom: 13, // 级别
+      center: [-112.334238, 37.00708, 22.543673], // 中心点坐标
+      vectorMapForeign:'Local',
+    });
+  }
 
   init = () => {
     this.map = new AMap.Map('container', {
       zoom: 13, // 级别
       center: [114.059614, 22.543673], // 中心点坐标
       viewMode:'3D', // 使用3D视图
+      lang:'en',
     });
     this.map.on('click', this.handleMapClick);
     this.handleAddDefaultMark();
@@ -28,6 +39,10 @@ export default class GaoDeMap extends PureComponent {
 
     this.handleWalkPlan();
 
+    AMap.plugin('AMap.ToolBar',() => { // 异步加载插件
+      const toolbar = new AMap.ToolBar();
+      this.map.addControl(toolbar);
+    });
   }
 
   // 绑定事件
