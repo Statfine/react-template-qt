@@ -29,8 +29,10 @@ module.exports = function(group, element, bpmnFactory, options, translate) {
   const executionListenerEventTypeOptions = ImplementationTypeHelper.isSequenceFlow(element) ? [
     { name: translate('take'), value: 'take' }
   ] : [
-    { name: translate('start'), value: 'start' },
-    { name: translate('end'), value: 'end' }
+    // { name: translate('start'), value: 'start' },
+    // { name: translate('end'), value: 'end' },
+    { name: translate('ACTIVITY_START'), value: 'ACTIVITY_START' },
+    { name: translate('ACTIVITY_END'), value: 'ACTIVITY_END' },
   ];
 
   const taskListenerEventTypeOptions = [

@@ -29,7 +29,7 @@ export default class GaoDeMap extends PureComponent {
       zoom: 13, // 级别
       center: [114.059614, 22.543673], // 中心点坐标
       viewMode:'3D', // 使用3D视图
-      lang:'en',
+      // lang:'en',
     });
     this.map.on('click', this.handleMapClick);
     this.handleAddDefaultMark();
@@ -42,6 +42,53 @@ export default class GaoDeMap extends PureComponent {
     AMap.plugin('AMap.ToolBar',() => { // 异步加载插件
       const toolbar = new AMap.ToolBar();
       this.map.addControl(toolbar);
+    });
+  }
+
+  // 只显示特定区域
+  handleShowPointAre = () => {
+    new AMap.DistrictSearch({
+      extensions:'all',
+      subdistrict:0
+    }).search('福田区',(status,result) => {
+      console.log(status, result)
+      const outer = [
+        new AMap.LngLat(-360,90,true),
+        new AMap.LngLat(-360,-90,true),
+        new AMap.LngLat(360,-90,true),
+        new AMap.LngLat(360,90,true),
+      ];
+      const holes = result.districtList[0].boundaries
+
+      const pathArray = [
+        outer
+      ];
+      // eslint-disable-next-line prefer-spread
+      pathArray.push.apply(pathArray, holes);
+      const polygon = new AMap.Polygon( {
+        pathL:pathArray,
+        // 线条颜色，使用16进制颜色代码赋值。默认值为#006600
+        strokeColor: 'rgb(20,164,173)',
+        strokeWeight: 4,
+        // 轮廓线透明度，取值范围[0,1]，0表示完全透明，1表示不透明。默认为0.9
+        strokeOpacity:0.5,
+        // 多边形填充颜色，使用16进制颜色代码赋值，如：#FFAA00
+        fillColor: 'rgba(255, 255, 255)',
+        // 多边形填充透明度，取值范围[0,1]，0表示完全透明，1表示不透明。默认为0.9
+        fillOpacity: 1,
+        // 轮廓线样式，实线:solid，虚线:dashed
+        strokeStyle:'solid',
+        /* 勾勒形状轮廓的虚线和间隙的样式，此属性在strokeStyle 为dashed 时有效， 此属性在    
+          ie9+浏览器有效 取值： 
+          实线：[0,0,0] 
+          虚线：[10,10] ，[10,10] 表示10个像素的实线和10个像素的空白（如此反复）组成的虚线
+          点画线：[10,2,10]， [10,2,10] 表示10个像素的实线和2个像素的空白 + 10个像素的实 
+          线和10个像素的空白 （如此反复）组成的虚线
+        */
+        strokeDasharray:[10,2,10]
+      });
+      polygon.setPath(pathArray);
+      this.map.add(polygon);
     });
   }
 

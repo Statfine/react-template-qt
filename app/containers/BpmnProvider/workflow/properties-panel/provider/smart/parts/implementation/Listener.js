@@ -103,7 +103,7 @@ module.exports = function(element, bpmnFactory, options, translate) {
         idGeneration: 'false',
         reference: 'processRef',
 
-        createExtensionElement: newElement(element, SMART_EXECUTION_LISTENER_ELEMENT, (isSequenceFlow) ? 'take' : 'start'),
+        createExtensionElement: newElement(element, SMART_EXECUTION_LISTENER_ELEMENT, (isSequenceFlow) ? 'take' : 'ACTIVITY_START'),
         removeExtensionElement: removeElement(element, SMART_EXECUTION_LISTENER_ELEMENT),
 
         getExtensionElements(element) {
