@@ -27,6 +27,8 @@ import ProTable from 'containers/ProTable';
 import BpmnPage from 'containers/Bpmn';
 import BpmnProvider from 'containers/BpmnProvider';
 import BaiduMap from 'containers/BaiduMap';
+import BpmnCustomOne from 'containers/BpmnCustom/propertiesPanelExtension';
+import BpmnCustomTwo from 'containers/BpmnCustom/customPropertiesPanel';
 
 import { useInjectReducer, useInjectSaga } from 'redux-injectors';
 
@@ -76,6 +78,8 @@ function App() {
         <Route path="/bpmn" component={BpmnPage} />
         <Route path="/bpmnP" component={BpmnProvider} />
         <Route path="/baidu" component={BaiduMap} />
+        <Route path="/bpmnOne" component={BpmnCustomOne} />
+        <Route path="/bpmnTwo" component={BpmnCustomTwo} />
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalStyle />

@@ -277,7 +277,7 @@ export default class BpmnPage extends PureComponent {
 
           const bpmnFactory = this.bpmnModeler.get('bpmnFactory');
           const elCom = elementHelper.createElement("qa:Comment", { text: 'hwoolo', author: "sj" }, parent, bpmnFactory)
-          const el = elementHelper.createElement("qa:AnalysisDetails", { name: 'haha', body: 'helo', comments: [elCom]  }, parent, bpmnFactory)
+          const el = elementHelper.createElement("qa:AnalysisDetails", { name: 'haha', body: 'helo', lastChecked: 'lastChecked', comments: [elCom]  }, parent, bpmnFactory)
           // const elele = this.bpmnModeler.get('bpmnFactory').create("qa:AnalyzedNode")
           if (!parent.businessObject.extensionElements) {
             // parent.businessObject.extensionElements.values = []
