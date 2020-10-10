@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, Modal, Input, Select, Form } from 'antd';
 
 import BpmnModeler from 'bpmn-js/lib/Modeler';
-import elementHelper from 'bpmn-js-properties-panel/lib/helper/ElementHelper';
+// import elementHelper from 'bpmn-js-properties-panel/lib/helper/ElementHelper';
 import propertiesPanelModule from 'bpmn-js-properties-panel';   // 这里引入的是右侧属性栏这个框
 import propertiesProviderModule from 'bpmn-js-properties-panel/lib/provider/camunda'; // 而这个引入的是右侧属性栏里的内容
 import camundaModdleDescriptor from 'camunda-bpmn-moddle/resources/camunda.json'; // 如果要在属性面板中维护camunda：XXX属性，则需要此 
@@ -12,6 +12,7 @@ import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css'
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css'
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css'
 import 'bpmn-js-properties-panel/dist/assets/bpmn-js-properties-panel.css';
+// import { merge } from 'lodash';
 
 import $ from 'jquery';
 
@@ -222,9 +223,21 @@ export default class BpmnPage extends PureComponent {
         if (!e || e.element.type === 'bpmn:Process') return
         if (eventType === 'shape.added') {
           if (e.element.type === 'bpmn:Task') {
-            if ((!e.element.businessObject || !e.element.businessObject.$attrs.link_id)) { // 回退新增，新增触发
-              this.setState({ modalVisible: true, choosedEl: e.element  });
-            }
+            // if ((!e.element.businessObject || !e.element.businessObject.$attrs.link_id)) { // 回退新增，新增触发
+            //   this.setState({ modalVisible: true, choosedEl: e.element  });
+            // }
+            // const newElementDataTask = {
+            //   type: 'bpmn:ServiceTask'
+            // };
+            // // debugger;
+            // this.bpmnModeler.get('replace').replaceElement(e.element, newElementDataTask);
+            setTimeout(() => {
+              const newElementDataTask = {
+                type: 'bpmn:ServiceTask'
+              };
+              // debugger;
+              this.bpmnModeler.get('replace').replaceElement(e.element, newElementDataTask);
+            }, 20)
           }
           return;
         }
@@ -237,14 +250,31 @@ export default class BpmnPage extends PureComponent {
             // this.setState({ modalVisible: true, choosedEl: e.element  });
           }
         } else if (eventType === 'element.click') {
-          console.log('点击了element', e)
+          // debugger;
+          // console.log('点击了element', e)
           // if (e.element.type === 'bpmn:Task') {
           //   console.log(e.element.businessObject)
           // const modeling = this.bpmnModeler.get('modeling');
-          //   modeling.updateProperties(e.element, {
-          //     name: '我是修改后的Task名称',
-          //     link_id: 'task'
-          //   });
+          if (true) {
+            // const modeling = this.bpmnModeler.get('modeling');
+            // // modeling.updateProperties(e.element, {
+            // //   name: '我是修改后的Task名称',
+            // //   link_id: 'task'
+            // // });
+            // modeling.updateProperties(e.element, {
+            //   type: 'bpmn:ServiceTask',
+            // });
+            // const newElementData = merge({}, e.element, {
+            //   type: 'bpmn:ServiceTask'
+            // });
+            // const newElementDataTask = {
+            //   type: 'bpmn:ServiceTask'
+            // };
+            // // debugger;
+            // this.bpmnModeler.get('replace').replaceElement(e.element, newElementDataTask);
+            // return;
+          }
+            
           // modeling.setColor(e.element, {
           //   stroke: 'yellow',
           //   fill: 'blue',
@@ -266,7 +296,7 @@ export default class BpmnPage extends PureComponent {
           // });
           // const elementRegistry = this.bpmnModeler.get('elementRegistry');
           // const parent = elementRegistry.get('Activity_0igoslw')
-          const parent = e.element
+          // const parent = e.element
           // const extensionElements = this.bpmnModeler.get('bpmnFactory').create("bpmn:ExtensionElements")
           // parent.businessObject.extensionElements = extensionElements;
 
@@ -275,28 +305,28 @@ export default class BpmnPage extends PureComponent {
           //   body: "${ value > 100 }"
           // });
 
-          const bpmnFactory = this.bpmnModeler.get('bpmnFactory');
-          const elCom = elementHelper.createElement("qa:Comment", { text: 'hwoolo', author: "sj" }, parent, bpmnFactory)
-          const el = elementHelper.createElement("qa:AnalysisDetails", { name: 'haha', body: 'helo', lastChecked: 'lastChecked', comments: [elCom]  }, parent, bpmnFactory)
-          // const elele = this.bpmnModeler.get('bpmnFactory').create("qa:AnalyzedNode")
-          if (!parent.businessObject.extensionElements) {
-            // parent.businessObject.extensionElements.values = []
-            const modeling = this.bpmnModeler.get('modeling');
-            const extensionElements = this.bpmnModeler.get('moddle').create('bpmn:ExtensionElements', {
-              // eslint-disable-next-line no-template-curly-in-string
-              body: "${ value > 100 }"
-            });
-            // 设置更新
-            modeling.updateProperties(e.element, {
-              extensionElements
-            });
-          }
-          parent.businessObject.extensionElements.values.push(el);
-          // console.log(el, elele)
-          // const son = elementHelper.createElement("qa:AnalysisDetails", { name: 'son', id: 'qa_son', body: 'helo son' }, el, this.bpmnModeler.get('bpmnFactory'))
-          // el.businessObject.documentation.push(son);
-          // console.log('son', son)
-          console.log('getExtension', this.getExtension(e.element, 'qa:AnalysisDetails'))
+          // const bpmnFactory = this.bpmnModeler.get('bpmnFactory');
+          // const elCom = elementHelper.createElement("qa:Comment", { text: 'hwoolo', author: "sj" }, parent, bpmnFactory)
+          // const el = elementHelper.createElement("qa:AnalysisDetails", { name: 'haha', body: 'helo', lastChecked: 'lastChecked', comments: [elCom]  }, parent, bpmnFactory)
+          // // const elele = this.bpmnModeler.get('bpmnFactory').create("qa:AnalyzedNode")
+          // if (!parent.businessObject.extensionElements) {
+          //   // parent.businessObject.extensionElements.values = []
+          //   const modeling = this.bpmnModeler.get('modeling');
+          //   const extensionElements = this.bpmnModeler.get('moddle').create('bpmn:ExtensionElements', {
+          //     // eslint-disable-next-line no-template-curly-in-string
+          //     body: "${ value > 100 }"
+          //   });
+          //   // 设置更新
+          //   modeling.updateProperties(e.element, {
+          //     extensionElements
+          //   });
+          // }
+          // parent.businessObject.extensionElements.values.push(el);
+          // // console.log(el, elele)
+          // // const son = elementHelper.createElement("qa:AnalysisDetails", { name: 'son', id: 'qa_son', body: 'helo son' }, el, this.bpmnModeler.get('bpmnFactory'))
+          // // el.businessObject.documentation.push(son);
+          // // console.log('son', son)
+          // console.log('getExtension', this.getExtension(e.element, 'qa:AnalysisDetails'))
         } else if (eventType === 'element.dblclick' && e.element.type === 'bpmn:Task') {
           this.setState({ modalVisible: true, choosedEl: e.element });
         } else if (eventType === 'element.updateLabel') {

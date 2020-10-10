@@ -16,6 +16,7 @@ import { PropertiesView } from './custom-properties-panel';
 
 import xmlInit from './utils/init.bpmn';
 import StyleUtil from './utils/StyleUtil';
+import smartPackage from '../BpmnProvider/source/smart.json';  // 如果要在属性面板中维护smart：XXX属性，则需要此
 
 export default class BpmnCustomExtension extends PureComponent {
 
@@ -28,6 +29,9 @@ export default class BpmnCustomExtension extends PureComponent {
   componentDidMount() {
     this.bpmnModeler = new BpmnModeler({
       container: '#js-canvas',
+      moddleExtensions: {
+        smart: smartPackage,
+      }
     });
     this.setState({ moder: this.bpmnModeler });
     this.initDiagram(xmlInit);

@@ -194,8 +194,10 @@ export default class GaoDeMap extends PureComponent {
     // }); 
     // walking.search([[121.549792,29.868388],[121.549792,29.468388]], (status, result) => {
     driving.search([
-      {keyword: '华强北(地铁站)',city:'深圳'},
-      {keyword: '华新(地铁站)',city:'深圳'}
+      // {keyword: '华强北(地铁站)',city:'深圳'},
+      // {keyword: '华新(地铁站)',city:'深圳'}
+      {keyword: '水湾(地铁站)',city:'深圳'},
+      {keyword: '蛇口大厦',city:'深圳'}
     ], (status, result) => {
       // result即是对应的步行路线数据信息，相关数据结构文档请参考  https://lbs.amap.com/api/javascript-api/reference/route-search#m_WalkingResult
       if (status === 'complete') {
