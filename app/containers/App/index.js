@@ -29,6 +29,9 @@ import BpmnProvider from 'containers/BpmnProvider';
 import BaiduMap from 'containers/BaiduMap';
 import BpmnCustomOne from 'containers/BpmnCustom/propertiesPanelExtension';
 import BpmnCustomTwo from 'containers/BpmnCustom/customPropertiesPanel';
+import EchartPage from 'containers/EchartPage';
+import WordPage from 'containers/EchartPage/finalMap';
+import WisdomPage from 'containers/EchartPage/wisdom';
 
 import { useInjectReducer, useInjectSaga } from 'redux-injectors';
 
@@ -80,6 +83,9 @@ function App() {
         <Route path="/baidu" component={BaiduMap} />
         <Route path="/bpmnOne" component={BpmnCustomOne} />
         <Route path="/bpmnTwo" component={BpmnCustomTwo} />
+        <Route path="/echart" component={EchartPage} />
+        <Route path="/word" component={WordPage} />
+        <Route path="/wisdom" component={WisdomPage} />
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalStyle />

@@ -70,6 +70,7 @@
     "compression": "1.7.4",
     "connected-react-router": "6.6.0",
     "cross-env": "6.0.3",
+    "echarts": "4.9.0",
     "express": "4.17.1",
     "fontfaceobserver": "2.1.0",
     "hiforce-bpmn-js-properties-panel": "0.0.2",
