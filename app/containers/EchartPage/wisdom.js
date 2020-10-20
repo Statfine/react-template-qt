@@ -253,10 +253,11 @@ export default class EchartPage extends PureComponent {
       },
       series,
     };
+    this.myChart.current.clear()
     this.myChart.setOption(option);
-    window.onresize = () => {
-      this.myChart.resize();
-    };
+    // window.onresize = () => {
+    //   this.myChart.resize();
+    // };
   };
 
   handleFullScreen = () => {

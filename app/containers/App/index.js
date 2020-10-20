@@ -32,6 +32,7 @@ import BpmnCustomTwo from 'containers/BpmnCustom/customPropertiesPanel';
 import EchartPage from 'containers/EchartPage';
 import WordPage from 'containers/EchartPage/finalMap';
 import WisdomPage from 'containers/EchartPage/wisdom';
+import ProvincePage from 'containers/EchartPage/province';
 
 import { useInjectReducer, useInjectSaga } from 'redux-injectors';
 
@@ -86,6 +87,7 @@ function App() {
         <Route path="/echart" component={EchartPage} />
         <Route path="/word" component={WordPage} />
         <Route path="/wisdom" component={WisdomPage} />
+        <Route path="/province" component={ProvincePage} />
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalStyle />
