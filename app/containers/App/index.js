@@ -33,6 +33,8 @@ import EchartPage from 'containers/EchartPage';
 import WordPage from 'containers/EchartPage/finalMap';
 import WisdomPage from 'containers/EchartPage/wisdom';
 import ProvincePage from 'containers/EchartPage/province';
+import GGEditPage from 'containers/GGEditPage';
+import LifePage from 'containers/LifePage';
 
 import { useInjectReducer, useInjectSaga } from 'redux-injectors';
 
@@ -88,6 +90,8 @@ function App() {
         <Route path="/word" component={WordPage} />
         <Route path="/wisdom" component={WisdomPage} />
         <Route path="/province" component={ProvincePage} />
+        <Route path="/gg" component={GGEditPage} />
+        <Route path="/life" component={LifePage} />
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalStyle />
