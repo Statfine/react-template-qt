@@ -36,6 +36,7 @@ import ProvincePage from 'containers/EchartPage/province';
 import GGEditPage from 'containers/GGEditPage';
 import LifePage from 'containers/LifePage';
 import StylePage from 'containers/StylePage';
+import EditorPage from 'containers/EditorPage';
 
 import { useInjectReducer, useInjectSaga } from 'redux-injectors';
 
@@ -94,6 +95,7 @@ function App() {
         <Route path="/gg" component={GGEditPage} />
         <Route path="/life" component={LifePage} />
         <Route path="/style" component={StylePage} />
+        <Route path="/editor" component={EditorPage} />
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalStyle />
