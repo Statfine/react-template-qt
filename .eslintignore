@@ -1,2 +1,3 @@
 app/containers/BpmnProvider/workflow/*
+app/containers/DesignMode/*
 
