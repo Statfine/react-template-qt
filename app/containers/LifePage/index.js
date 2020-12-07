@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { SayName } from 'easub-ui/lib';
+
 import SonPage from './son';
 import FFunc from './FFunc';
 
@@ -28,6 +30,7 @@ export default class LifePage extends React.PureComponent {
         <div onClick={this.handleChangeName}>Change</div>
         <SonPage />
         <FFunc />
+        <SayName />
       </div>
     )
   }
