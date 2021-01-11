@@ -39,6 +39,7 @@ import StylePage from 'containers/StylePage';
 import EditorPage from 'containers/EditorPage';
 import SharePage from 'containers/SharePage';
 import NpmPage from 'containers/NpmPage';
+// import AntdPage from 'containers/AntdPage';
 
 import { useInjectReducer, useInjectSaga } from 'redux-injectors';
 
