@@ -64,7 +64,7 @@ function link(options) {
   resource.handleClick = bind(handleClick, resource);
 
   if (typeof showLink === 'function') {
-    resource.showLink = function() {
+    resource.showLink = function () {
       return showLink.apply(resource, arguments);
     };
   }

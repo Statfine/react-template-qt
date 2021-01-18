@@ -4,7 +4,7 @@ const cmdHelper = require('../../../../helper/CmdHelper');
 const is = require('bpmn-js/lib/util/ModelUtil').is;
 const isEventSubProcess = require('bpmn-js/lib/util/DiUtil').isEventSubProcess;
 
-module.exports = function(
+module.exports = function (
   group,
   element,
   bpmnFactory,
@@ -12,8 +12,8 @@ module.exports = function(
   elementRegistry,
   translate,
 ) {
-  const getValue = function(modelProperty) {
-    return function(element) {
+  const getValue = function (modelProperty) {
+    return function (element) {
       const modelPropertyValue = conditionalEventDefinition.get(
         `camunda:${modelProperty}`,
       );
@@ -24,8 +24,8 @@ module.exports = function(
     };
   };
 
-  const setValue = function(modelProperty) {
-    return function(element, values) {
+  const setValue = function (modelProperty) {
+    return function (element, values) {
       const props = {};
 
       props[`camunda:${modelProperty}`] = values[modelProperty] || undefined;

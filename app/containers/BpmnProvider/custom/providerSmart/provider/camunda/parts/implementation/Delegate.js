@@ -17,7 +17,7 @@ function getAttribute(type) {
   return PROPERTIES[type];
 }
 
-module.exports = function(element, bpmnFactory, options, translate) {
+module.exports = function (element, bpmnFactory, options, translate) {
   const getImplementationType = options.getImplementationType;
   const getBusinessObject = options.getBusinessObject;
 

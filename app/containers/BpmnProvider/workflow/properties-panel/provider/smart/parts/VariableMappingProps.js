@@ -39,7 +39,7 @@ function getSmartInOutMappings(element, type) {
 function getVariableMappings(element, type) {
   const smartMappings = getSmartInOutMappings(element, type);
 
-  return filter(smartMappings, function(mapping) {
+  return filter(smartMappings, function (mapping) {
     return !mapping.businessKey;
   });
 }
@@ -63,7 +63,7 @@ const SMART_OUT_EXTENSION_ELEMENT = 'smart:Out';
 
 const WHITESPACE_REGEX = /\s/;
 
-module.exports = function(group, element, bpmnFactory, translate) {
+module.exports = function (group, element, bpmnFactory, translate) {
   const inOutTypeOptions = [
     {
       name: translate('Source'),
@@ -94,11 +94,11 @@ module.exports = function(group, element, bpmnFactory, translate) {
     return;
   }
 
-  const isSelected = function(element, node) {
+  const isSelected = function (element, node) {
     return !!getSelected(element, node);
   };
 
-  var getSelected = function(element, node) {
+  var getSelected = function (element, node) {
     const parentNode = node.parentNode;
     let selection = inEntry.getSelected(element, parentNode);
 
@@ -116,8 +116,8 @@ module.exports = function(group, element, bpmnFactory, translate) {
     return parameter;
   };
 
-  const setOptionLabelValue = function(type) {
-    return function(element, node, option, property, value, idx) {
+  const setOptionLabelValue = function (type) {
+    return function (element, node, option, property, value, idx) {
       const variableMappings = getVariableMappings(element, type);
       const mappingValue = variableMappings[idx];
       let label = `${mappingValue.target || '<undefined>'} := `;
@@ -137,8 +137,8 @@ module.exports = function(group, element, bpmnFactory, translate) {
     };
   };
 
-  const newElement = function(type) {
-    return function(element, extensionElements, value) {
+  const newElement = function (type) {
+    return function (element, extensionElements, value) {
       const newElem = elementHelper.createElement(
         type,
         { source: '' },
@@ -152,8 +152,8 @@ module.exports = function(group, element, bpmnFactory, translate) {
     };
   };
 
-  const removeElement = function(type) {
-    return function(element, extensionElements, value, idx) {
+  const removeElement = function (type) {
+    return function (element, extensionElements, value, idx) {
       const variablesMappings = getVariableMappings(element, type);
       const mapping = variablesMappings[idx];
 

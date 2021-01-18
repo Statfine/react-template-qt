@@ -20,7 +20,7 @@ function ElementTemplatesLoader(loadTemplates, eventBus, elementTemplates) {
 
   const self = this;
 
-  eventBus.on('diagram.init', function() {
+  eventBus.on('diagram.init', function () {
     self.reload();
   });
 }
@@ -33,7 +33,7 @@ ElementTemplatesLoader.$inject = [
   'elementTemplates',
 ];
 
-ElementTemplatesLoader.prototype.reload = function() {
+ElementTemplatesLoader.prototype.reload = function () {
   const self = this;
 
   const loadTemplates = this._loadTemplates;
@@ -45,7 +45,7 @@ ElementTemplatesLoader.prototype.reload = function() {
 
   // template loader function specified
   if (typeof loadTemplates === 'function') {
-    return loadTemplates(function(err, templates) {
+    return loadTemplates(function (err, templates) {
       if (err) {
         return self.templateErrors([err]);
       }
@@ -60,7 +60,7 @@ ElementTemplatesLoader.prototype.reload = function() {
   }
 };
 
-ElementTemplatesLoader.prototype.setTemplates = function(templates) {
+ElementTemplatesLoader.prototype.setTemplates = function (templates) {
   const elementTemplates = this._elementTemplates;
 
   const validator = new Validator().addAll(templates);
@@ -77,11 +77,11 @@ ElementTemplatesLoader.prototype.setTemplates = function(templates) {
   this.templatesChanged();
 };
 
-ElementTemplatesLoader.prototype.templatesChanged = function() {
+ElementTemplatesLoader.prototype.templatesChanged = function () {
   this._eventBus.fire('elementTemplates.changed');
 };
 
-ElementTemplatesLoader.prototype.templateErrors = function(errors) {
+ElementTemplatesLoader.prototype.templateErrors = function (errors) {
   this._eventBus.fire('elementTemplates.errors', {
     errors,
   });

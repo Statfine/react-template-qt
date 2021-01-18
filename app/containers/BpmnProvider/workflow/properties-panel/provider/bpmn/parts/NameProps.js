@@ -5,7 +5,7 @@ const is = require('bpmn-js/lib/util/ModelUtil').is;
 const getBusinessObject = require('bpmn-js/lib/util/ModelUtil')
   .getBusinessObject;
 
-module.exports = function(group, element, bpmnFactory, canvas, translate) {
+module.exports = function (group, element, bpmnFactory, canvas, translate) {
   function initializeCategory(semantic) {
     const rootElement = canvas.getRootElement();
     const definitions = getBusinessObject(rootElement).$parent;

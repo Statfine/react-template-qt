@@ -74,7 +74,7 @@ const implementationTypeHelper = require('../../helper/ImplementationTypeHelper'
 
 // helpers ////////////////////////////////////////
 
-const isExternalTaskPriorityEnabled = function(element) {
+const isExternalTaskPriorityEnabled = function (element) {
   const businessObject = getBusinessObject(element);
 
   // show only if element is a process, a participant ...
@@ -97,7 +97,7 @@ const isExternalTaskPriorityEnabled = function(element) {
   );
 };
 
-const isJobConfigEnabled = function(element) {
+const isJobConfigEnabled = function (element) {
   const businessObject = getBusinessObject(element);
 
   if (
@@ -124,7 +124,7 @@ const isJobConfigEnabled = function(element) {
   return false;
 };
 
-const getInputOutputParameterLabel = function(param, translate) {
+const getInputOutputParameterLabel = function (param, translate) {
   if (is(param, 'smart:InputParameter')) {
     return translate('Input Parameter');
   }
@@ -136,7 +136,7 @@ const getInputOutputParameterLabel = function(param, translate) {
   return '';
 };
 
-const getListenerLabel = function(param, translate) {
+const getListenerLabel = function (param, translate) {
   if (is(param, 'smart:ExecutionListener')) {
     return translate('Execution Listener');
   }
@@ -277,7 +277,7 @@ function createGeneralTabGroups(
 
   const groups = [];
   groups.push(generalGroup);
-  customFieldsGroups.forEach(function(group) {
+  customFieldsGroups.forEach(function (group) {
     groups.push(group);
   });
   groups.push(detailsGroup);
@@ -529,7 +529,7 @@ function smartPropertiesProvider(
 ) {
   PropertiesActivator.call(this, eventBus);
 
-  this.getTabs = function(element) {
+  this.getTabs = function (element) {
     const generalTab = {
       id: 'general',
       label: translate('General'),

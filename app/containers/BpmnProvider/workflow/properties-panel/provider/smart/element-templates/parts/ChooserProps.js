@@ -8,12 +8,12 @@ const find = require('lodash/find');
 const TEMPLATE_ATTR = require('../Helper').TEMPLATE_ATTR;
 
 function isAny(element, types) {
-  return types.reduce(function(result, type) {
+  return types.reduce(function (result, type) {
     return result || is(element, type);
   }, false);
 }
 
-module.exports = function(group, element, elementTemplates, translate) {
+module.exports = function (group, element, elementTemplates, translate) {
   const options = getTemplateOptions(element, elementTemplates, translate);
 
   if (options.length === 1 && !options[0].isDefault) {
@@ -80,7 +80,7 @@ function getTemplateOptions(element, elementTemplates, translate) {
   };
 
   const allOptions = elementTemplates.getAll().reduce(
-    function(templates, t) {
+    function (templates, t) {
       if (!isAny(element, t.appliesTo)) {
         return templates;
       }
@@ -94,11 +94,11 @@ function getTemplateOptions(element, elementTemplates, translate) {
     [emptyOption],
   );
 
-  const defaultOption = find(allOptions, function(option) {
+  const defaultOption = find(allOptions, function (option) {
     return isDefaultTemplate(option);
   });
 
-  let currentOption = find(allOptions, function(option) {
+  let currentOption = find(allOptions, function (option) {
     return option.value === currentTemplateId;
   });
 

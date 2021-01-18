@@ -6,7 +6,7 @@ const entryFactory = require('../../../factory/EntryFactory');
 
 const participantHelper = require('../../../helper/ParticipantHelper');
 
-module.exports = function(group, element, translate) {
+module.exports = function (group, element, translate) {
   const bo = getBusinessObject(element);
 
   if (!bo) {
@@ -25,14 +25,14 @@ module.exports = function(group, element, translate) {
 
     // in participants we have to change the default behavior of set and get
     if (is(element, 'bpmn:Participant')) {
-      executableEntry.get = function(element) {
+      executableEntry.get = function (element) {
         return participantHelper.getProcessBusinessObject(
           element,
           'isExecutable',
         );
       };
 
-      executableEntry.set = function(element, values) {
+      executableEntry.set = function (element, values) {
         return participantHelper.modifyProcessBusinessObject(
           element,
           'isExecutable',

@@ -16,7 +16,7 @@ module.exports = ImplementationTypeHelper;
  *
  * @return {boolean} a boolean value
  */
-ImplementationTypeHelper.isServiceTaskLike = function(element) {
+ImplementationTypeHelper.isServiceTaskLike = function (element) {
   return is(element, 'camunda:ServiceTaskLike');
 };
 
@@ -27,7 +27,7 @@ ImplementationTypeHelper.isServiceTaskLike = function(element) {
  *
  * @return {boolean} a boolean value
  */
-ImplementationTypeHelper.isDmnCapable = function(element) {
+ImplementationTypeHelper.isDmnCapable = function (element) {
   return is(element, 'camunda:DmnCapable');
 };
 
@@ -38,7 +38,7 @@ ImplementationTypeHelper.isDmnCapable = function(element) {
  *
  * @return {boolean} a boolean value
  */
-ImplementationTypeHelper.isExternalCapable = function(element) {
+ImplementationTypeHelper.isExternalCapable = function (element) {
   return is(element, 'camunda:ExternalCapable');
 };
 
@@ -49,7 +49,7 @@ ImplementationTypeHelper.isExternalCapable = function(element) {
  *
  * @return {boolean} a boolean value
  */
-ImplementationTypeHelper.isTaskListener = function(element) {
+ImplementationTypeHelper.isTaskListener = function (element) {
   return is(element, 'camunda:TaskListener');
 };
 
@@ -60,7 +60,7 @@ ImplementationTypeHelper.isTaskListener = function(element) {
  *
  * @return {boolean} a boolean value
  */
-ImplementationTypeHelper.isExecutionListener = function(element) {
+ImplementationTypeHelper.isExecutionListener = function (element) {
   return is(element, 'camunda:ExecutionListener');
 };
 
@@ -72,7 +72,7 @@ ImplementationTypeHelper.isExecutionListener = function(element) {
  *
  * @return {boolean} a boolean value
  */
-ImplementationTypeHelper.isListener = function(element) {
+ImplementationTypeHelper.isListener = function (element) {
   return this.isTaskListener(element) || this.isExecutionListener(element);
 };
 
@@ -83,7 +83,7 @@ ImplementationTypeHelper.isListener = function(element) {
  *
  * @return {boolean} a boolean value
  */
-ImplementationTypeHelper.isSequenceFlow = function(element) {
+ImplementationTypeHelper.isSequenceFlow = function (element) {
   return is(element, 'bpmn:SequenceFlow');
 };
 
@@ -97,7 +97,7 @@ ImplementationTypeHelper.isSequenceFlow = function(element) {
  *
  * @return {ModdleElement} the 'camunda:ServiceTaskLike' business object
  */
-ImplementationTypeHelper.getServiceTaskLikeBusinessObject = function(element) {
+ImplementationTypeHelper.getServiceTaskLikeBusinessObject = function (element) {
   if (
     is(element, 'bpmn:IntermediateThrowEvent') ||
     is(element, 'bpmn:EndEvent')
@@ -134,7 +134,7 @@ ImplementationTypeHelper.getServiceTaskLikeBusinessObject = function(element) {
  *
  * @return {String} the implementation type
  */
-ImplementationTypeHelper.getImplementationType = function(element) {
+ImplementationTypeHelper.getImplementationType = function (element) {
   let bo = this.getServiceTaskLikeBusinessObject(element);
 
   if (!bo) {

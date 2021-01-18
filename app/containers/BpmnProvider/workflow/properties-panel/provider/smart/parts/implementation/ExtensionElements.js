@@ -35,7 +35,7 @@ function generateElementId(prefix) {
 const CREATE_EXTENSION_ELEMENT_ACTION = 'create-extension-element';
 const REMOVE_EXTENSION_ELEMENT_ACTION = 'remove-extension-element';
 
-module.exports = function(element, bpmnFactory, options, translate) {
+module.exports = function (element, bpmnFactory, options, translate) {
   const id = options.id;
   const prefix = options.prefix || 'elem';
   const label = options.label || id;
@@ -65,13 +65,13 @@ module.exports = function(element, bpmnFactory, options, translate) {
 
   const reference = options.reference || undefined;
 
-  const selectionChanged = function(element, node, event, scope) {
+  const selectionChanged = function (element, node, event, scope) {
     if (typeof onSelectionChange === 'function') {
       return onSelectionChange(element, node, event, scope);
     }
   };
 
-  const createOption = function(value) {
+  const createOption = function (value) {
     return `<option value="${escapeHTML(
       value,
     )}" data-value data-name="extensionElementValue">${escapeHTML(
@@ -79,7 +79,7 @@ module.exports = function(element, bpmnFactory, options, translate) {
     )}</option>`;
   };
 
-  const initSelectionSize = function(selectBox, optionsLength) {
+  const initSelectionSize = function (selectBox, optionsLength) {
     if (resizable) {
       selectBox.size =
         optionsLength > defaultSize ? optionsLength : defaultSize;
@@ -103,16 +103,18 @@ module.exports = function(element, bpmnFactory, options, translate) {
       `data-on-change="selectElement">` +
       `</select>${
         canCreate
-          ? `${'<button class="add" ' +
-              'id="cam-extensionElements-create-'}${escapeHTML(id)}" ` +
+          ? `${
+              '<button class="add" ' + 'id="cam-extensionElements-create-'
+            }${escapeHTML(id)}" ` +
             `data-action="createElement">` +
             `<span>+</span>` +
             `</button>`
           : ''
       }${
         canRemove
-          ? `${'<button class="clear" ' +
-              'id="cam-extensionElements-remove-'}${escapeHTML(id)}" ` +
+          ? `${
+              '<button class="clear" ' + 'id="cam-extensionElements-remove-'
+            }${escapeHTML(id)}" ` +
             `data-action="removeElement" ` +
             `data-disable="disableRemove">` +
             `<span>-</span>` +
@@ -125,7 +127,7 @@ module.exports = function(element, bpmnFactory, options, translate) {
       const elements = getElements(element, node);
 
       const result = [];
-      forEach(elements, function(elem) {
+      forEach(elements, function (elem) {
         result.push({
           extensionElementValue: elem.get(modelProperty),
         });

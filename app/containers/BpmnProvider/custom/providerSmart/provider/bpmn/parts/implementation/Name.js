@@ -11,7 +11,7 @@ const entryFactory = require('../../../../factory/EntryFactory');
  * @return {Array<Object>} return an array containing
  *                         the entry to modify the name
  */
-module.exports = function(element, options, translate) {
+module.exports = function (element, options, translate) {
   options = options || {};
   const id = options.id || 'name';
   const label = options.label || translate('Name');

@@ -32,7 +32,7 @@ function getSelectBox(node) {
  */
 function findElementById(eventDefinition, type, id) {
   const elements = utils.findRootElementsByType(eventDefinition, type);
-  return find(elements, function(element) {
+  return find(elements, function (element) {
     return element.id === id;
   });
 }
@@ -54,7 +54,7 @@ function findElementById(eventDefinition, type, id) {
  *
  * @return {Array<Object>} return an array containing the entries
  */
-module.exports = function(element, definition, bpmnFactory, options) {
+module.exports = function (element, definition, bpmnFactory, options) {
   const elementName = options.elementName || '';
   const elementType = options.elementType;
   const referenceProperty = options.referenceProperty;
@@ -70,10 +70,9 @@ module.exports = function(element, definition, bpmnFactory, options) {
     id: `event-definitions-${elementName}`,
     description,
     html:
-      `${'<div class="bpp-row bpp-select">' +
-        '<label for="camunda-'}${escapeHTML(elementName)}">${escapeHTML(
-        label,
-      )}</label>` +
+      `${
+        '<div class="bpp-row bpp-select">' + '<label for="camunda-'
+      }${escapeHTML(elementName)}">${escapeHTML(label)}</label>` +
       `<div class="bpp-field-wrapper">` +
       `<select id="camunda-${escapeHTML(
         elementName,
@@ -148,7 +147,7 @@ module.exports = function(element, definition, bpmnFactory, options) {
       selectBox.insertBefore(optionTemplate, selectBox.firstChild);
 
       // select new element in the select box
-      forEach(selectBox, function(option) {
+      forEach(selectBox, function (option) {
         if (option.value === id) {
           domAttr(option, 'selected', 'selected');
         } else {

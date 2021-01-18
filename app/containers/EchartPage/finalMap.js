@@ -176,7 +176,7 @@ export default class EchartPage extends PureComponent {
             color: color[0],
           },
         },
-        data: mapData.provider.map(function(dataItem) {
+        data: mapData.provider.map(function (dataItem) {
           return {
             // 用于提及显示
             name: dataItem.name,
@@ -227,7 +227,7 @@ export default class EchartPage extends PureComponent {
             color: color[1],
           },
         },
-        data: mapData.rdf.map(function(dataItem) {
+        data: mapData.rdf.map(function (dataItem) {
           return {
             // 用于提及显示
             name: dataItem.name,
@@ -277,7 +277,7 @@ export default class EchartPage extends PureComponent {
             color: color[2],
           },
         },
-        data: mapData.fdc.map(function(dataItem) {
+        data: mapData.fdc.map(function (dataItem) {
           return {
             // 用于提及显示
             name: dataItem.name,

@@ -17,7 +17,7 @@ function ensureMultiInstanceSupported(element) {
   return !!loopCharacteristics && is(loopCharacteristics, 'smart:Collectable');
 }
 
-module.exports = function(group, element, bpmnFactory, translate) {
+module.exports = function (group, element, bpmnFactory, translate) {
   if (!ensureMultiInstanceSupported(element)) {
     return;
   }

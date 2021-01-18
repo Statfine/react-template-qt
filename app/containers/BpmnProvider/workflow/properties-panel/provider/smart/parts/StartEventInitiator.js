@@ -3,7 +3,7 @@ const getBusinessObject = require('bpmn-js/lib/util/ModelUtil')
   .getBusinessObject;
 const entryFactory = require('../../../factory/EntryFactory');
 
-module.exports = function(group, element, translate) {
+module.exports = function (group, element, translate) {
   const bo = getBusinessObject(element);
 
   if (!bo) {

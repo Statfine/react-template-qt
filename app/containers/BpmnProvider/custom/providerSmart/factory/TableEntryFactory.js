@@ -32,7 +32,7 @@ function createInputRowTemplate(properties, canRemove) {
 function createInputTemplate(properties, canRemove) {
   const columns = properties.length;
   let template = '';
-  forEach(properties, function(prop) {
+  forEach(properties, function (prop) {
     template +=
       `<input class="bpp-table-row-columns-${columns} ${
         canRemove ? 'bpp-table-row-removable' : ''
@@ -55,7 +55,7 @@ function createLabelRowTemplate(labels) {
 function createLabelTemplate(labels) {
   const columns = labels.length;
   let template = '';
-  forEach(labels, function(label) {
+  forEach(labels, function (label) {
     template += `<label class="bpp-table-row-columns-${columns}">${escapeHTML(
       label,
     )}</label>`;
@@ -64,9 +64,9 @@ function createLabelTemplate(labels) {
 }
 
 function pick(elements, properties) {
-  return (elements || []).map(function(elem) {
+  return (elements || []).map(function (elem) {
     const newElement = {};
-    forEach(properties, function(prop) {
+    forEach(properties, function (prop) {
       newElement[prop] = elem[prop] || '';
     });
     return newElement;
@@ -74,7 +74,7 @@ function pick(elements, properties) {
 }
 
 function diff(element, node, values, oldValues, editable) {
-  return filter(values, function(value, idx) {
+  return filter(values, function (value, idx) {
     return !valueEqual(element, node, value, oldValues[idx], editable, idx);
   });
 }
@@ -85,7 +85,7 @@ function valueEqual(element, node, value, oldValue, editable, idx) {
   }
   const allKeys = keys(value).concat(keys(oldValue));
 
-  return allKeys.every(function(key) {
+  return allKeys.every(function (key) {
     const n = value[key] || undefined;
     const o = oldValue[key] || undefined;
     return !editable(element, node, key, idx) || n === o;
@@ -128,7 +128,7 @@ function setSelection(node, selection) {
  *
  * @return {Object}
  */
-module.exports = function(options) {
+module.exports = function (options) {
   const id = options.id;
   const modelProperties = options.modelProperties;
   const labels = options.labels;
@@ -150,7 +150,7 @@ module.exports = function(options) {
 
   const editable =
     options.editable ||
-    function() {
+    function () {
       return true;
     };
   const setControlValue = options.setControlValue;
@@ -158,7 +158,7 @@ module.exports = function(options) {
   const show = options.show;
   const canBeShown = typeof show === 'function';
 
-  const elements = function(element, node) {
+  const elements = function (element, node) {
     return pick(getElements(element, node), modelProperties);
   };
 
@@ -190,10 +190,10 @@ module.exports = function(options) {
 
       delete this.__invalidValues;
 
-      forEach(invalidValues, function(value, idx) {
+      forEach(invalidValues, function (value, idx) {
         const element = boElements[idx];
 
-        forEach(modelProperties, function(prop) {
+        forEach(modelProperties, function (prop) {
           element[prop] = value[prop];
         });
       });
@@ -227,7 +227,7 @@ module.exports = function(options) {
 
         const self = this;
 
-        forEach(valuesToValidate, function(value) {
+        forEach(valuesToValidate, function (value) {
           let validationError;
           const idx = values.indexOf(value);
 
@@ -318,7 +318,7 @@ module.exports = function(options) {
   // Update/set the selection on the correct position.
   // It's the same code like for an input value in the PropertiesPanel.js.
   if (setControlValue) {
-    factory.setControlValue = function(
+    factory.setControlValue = function (
       element,
       rowNode,
       input,

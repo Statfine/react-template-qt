@@ -85,7 +85,7 @@ function ensureFormKeyAndDataSupported(element) {
   );
 }
 
-module.exports = function(group, element, bpmnFactory, translate) {
+module.exports = function (group, element, bpmnFactory, translate) {
   if (!ensureFormKeyAndDataSupported(element)) {
     return;
   }
@@ -270,7 +270,7 @@ module.exports = function(group, element, bpmnFactory, translate) {
 
           const formFields = formHelper.getFormFields(element);
 
-          const existingFormField = find(formFields, function(f) {
+          const existingFormField = find(formFields, function (f) {
             return f !== formField && f.id === idValue;
           });
 

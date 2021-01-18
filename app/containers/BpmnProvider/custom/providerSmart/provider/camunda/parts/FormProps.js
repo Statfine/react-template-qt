@@ -85,7 +85,7 @@ function ensureFormKeyAndDataSupported(element) {
   );
 }
 
-module.exports = function(group, element, bpmnFactory, translate) {
+module.exports = function (group, element, bpmnFactory, translate) {
   if (!ensureFormKeyAndDataSupported(element)) {
     return;
   }
@@ -242,7 +242,7 @@ module.exports = function(group, element, bpmnFactory, translate) {
     selectOptions(element, inputNode) {
       const selectOptions = [{ name: '', value: '' }];
       const formFields = formHelper.getFormFields(element);
-      each(formFields, function(field) {
+      each(formFields, function (field) {
         if (field.type !== 'boolean') {
           selectOptions.push({ name: field.id, value: field.id });
         }
@@ -322,7 +322,7 @@ module.exports = function(group, element, bpmnFactory, translate) {
 
           const formFields = formHelper.getFormFields(element);
 
-          const existingFormField = find(formFields, function(f) {
+          const existingFormField = find(formFields, function (f) {
             return f !== formField && f.id === idValue;
           });
 

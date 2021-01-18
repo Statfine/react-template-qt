@@ -40,7 +40,7 @@ function getRoot(businessObject) {
 function getProperties(businessObject, propertyNames) {
   return reduce(
     propertyNames,
-    function(result, key) {
+    function (result, key) {
       result[key] = businessObject.get(key);
       return result;
     },
@@ -49,7 +49,7 @@ function getProperties(businessObject, propertyNames) {
 }
 
 function setProperties(businessObject, properties) {
-  forEach(properties, function(value, key) {
+  forEach(properties, function (value, key) {
     businessObject.set(key, value);
   });
 }
@@ -68,7 +68,7 @@ function setProperties(businessObject, properties) {
  *
  * @return {Array<djs.mode.Base>} the updated element
  */
-UpdateBusinessObjectHandler.prototype.execute = function(context) {
+UpdateBusinessObjectHandler.prototype.execute = function (context) {
   const element = context.element;
   const businessObject = context.businessObject;
   const rootElements = getRoot(businessObject).rootElements;
@@ -93,7 +93,7 @@ UpdateBusinessObjectHandler.prototype.execute = function(context) {
     typeof referenceType !== 'undefined' &&
     typeof referenceProperty !== 'undefined'
   ) {
-    forEach(rootElements, function(rootElement) {
+    forEach(rootElements, function (rootElement) {
       if (is(rootElement, referenceType)) {
         if (rootElement.id === properties[referenceProperty]) {
           properties[referenceProperty] = rootElement;
@@ -122,7 +122,7 @@ UpdateBusinessObjectHandler.prototype.execute = function(context) {
  *
  * @return {djs.mode.Base} the updated element
  */
-UpdateBusinessObjectHandler.prototype.revert = function(context) {
+UpdateBusinessObjectHandler.prototype.revert = function (context) {
   const oldProperties = context.oldProperties;
   const businessObject = context.businessObject;
 

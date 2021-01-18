@@ -31,9 +31,9 @@ function ensureNotNull(prop) {
  * @returns {{id: *, description: (*|string), get: (*|Function), set: (*|Function),
  *            validate: (*|Function), html: string}}
  */
-const setDefaultParameters = function(options) {
+const setDefaultParameters = function (options) {
   // default method to fetch the current value of the input field
-  const defaultGet = function(element) {
+  const defaultGet = function (element) {
     const bo = getBusinessObject(element);
     const res = {};
     const prop = ensureNotNull(options.modelProperty);
@@ -43,7 +43,7 @@ const setDefaultParameters = function(options) {
   };
 
   // default method to set a new value to the input field
-  const defaultSet = function(element, values) {
+  const defaultSet = function (element, values) {
     const res = {};
     const prop = ensureNotNull(options.modelProperty);
     if (values[prop] !== '') {
@@ -56,7 +56,7 @@ const setDefaultParameters = function(options) {
   };
 
   // default validation method
-  const defaultValidate = function() {
+  const defaultValidate = function () {
     return {};
   };
 
@@ -100,11 +100,11 @@ function EntryFactory() {}
  * @param options
  * @returns the propertyPanel entry resource object
  */
-EntryFactory.textField = function(options) {
+EntryFactory.textField = function (options) {
   return textInputField(options, setDefaultParameters(options));
 };
 
-EntryFactory.validationAwareTextField = function(options) {
+EntryFactory.validationAwareTextField = function (options) {
   return validationAwareTextInputField(options, setDefaultParameters(options));
 };
 
@@ -128,31 +128,31 @@ EntryFactory.validationAwareTextField = function(options) {
  * @param options
  * @returns the propertyPanel entry resource object
  */
-EntryFactory.checkbox = function(options) {
+EntryFactory.checkbox = function (options) {
   return checkboxField(options, setDefaultParameters(options));
 };
 
-EntryFactory.textBox = function(options) {
+EntryFactory.textBox = function (options) {
   return textBoxField(options, setDefaultParameters(options));
 };
 
-EntryFactory.selectBox = function(options) {
+EntryFactory.selectBox = function (options) {
   return selectBoxField(options, setDefaultParameters(options));
 };
 
-EntryFactory.comboBox = function(options) {
+EntryFactory.comboBox = function (options) {
   return comboBoxField(options);
 };
 
-EntryFactory.table = function(options) {
+EntryFactory.table = function (options) {
   return tableField(options);
 };
 
-EntryFactory.label = function(options) {
+EntryFactory.label = function (options) {
   return labelEntry(options);
 };
 
-EntryFactory.link = function(options) {
+EntryFactory.link = function (options) {
   return link(options);
 };
 

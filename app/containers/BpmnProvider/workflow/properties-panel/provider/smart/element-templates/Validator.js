@@ -43,7 +43,7 @@ function Validator() {
    *
    * @return {Validator} self
    */
-  this.addAll = function(templates) {
+  this.addAll = function (templates) {
     if (!isArray(templates)) {
       this._logError('templates must be []');
     } else {
@@ -60,7 +60,7 @@ function Validator() {
    *
    * @return {Validator} self
    */
-  this.add = function(template) {
+  this.add = function (template) {
     const err = this._validateTemplate(template);
 
     if (!err) {
@@ -79,7 +79,7 @@ function Validator() {
    *
    * @return {Error} validation error, if any
    */
-  this._validateTemplate = function(template) {
+  this._validateTemplate = function (template) {
     let err;
     const id = template.id;
     const appliesTo = template.appliesTo;
@@ -111,7 +111,7 @@ function Validator() {
     return err;
   };
 
-  this._validateScopes = function(template, scopes) {
+  this._validateScopes = function (template, scopes) {
     let err;
     let scope;
     let scopeName;
@@ -147,7 +147,7 @@ function Validator() {
    *
    * @return {Boolean} true if all properties are valid
    */
-  this._validateProperties = function(properties) {
+  this._validateProperties = function (properties) {
     const validProperties = properties.filter(this._validateProperty, this);
 
     return properties.length === validProperties.length;
@@ -161,7 +161,7 @@ function Validator() {
    *
    * @return {Boolean} true if property is valid
    */
-  this._validateProperty = function(property) {
+  this._validateProperty = function (property) {
     const type = property.type;
     const binding = property.binding;
 
@@ -247,7 +247,7 @@ function Validator() {
     return !err;
   };
 
-  this._logError = function(err, template) {
+  this._logError = function (err, template) {
     if (typeof err === 'string') {
       if (template) {
         err = `template(id: ${template.id}) ${err}`;
@@ -261,11 +261,11 @@ function Validator() {
     return err;
   };
 
-  this.getErrors = function() {
+  this.getErrors = function () {
     return this._errors;
   };
 
-  this.getValidTemplates = function() {
+  this.getValidTemplates = function () {
     return this._validTemplates;
   };
 }

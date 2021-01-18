@@ -11,14 +11,15 @@
  * @param  {Function} [options.showLabel]
  * @param  {Boolean} [options.divider] adds a divider at the top of the label if true; default: false
  */
-const label = function(options) {
+const label = function (options) {
   return {
     id: options.id,
     html:
-      `${'<label data-value="label" ' +
+      `${
+        '<label data-value="label" ' +
         'data-show="showLabel" ' +
-        'class="entry-label'}${options.divider ? ' divider' : ''}">` +
-      `</label>`,
+        'class="entry-label'
+      }${options.divider ? ' divider' : ''}">` + `</label>`,
     get(element, node) {
       if (typeof options.get === 'function') {
         return options.get(element, node);

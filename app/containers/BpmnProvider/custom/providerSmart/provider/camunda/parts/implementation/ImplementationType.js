@@ -27,7 +27,7 @@ const EXTERNAL_CAPABLE_PROPS = {
   'smart:topic': undefined,
 };
 
-module.exports = function(element, bpmnFactory, options, translate) {
+module.exports = function (element, bpmnFactory, options, translate) {
   const DEFAULT_OPTIONS = [
     { value: 'class', name: translate('Java Class') },
     { value: 'expression', name: translate('Expression') },
@@ -139,7 +139,7 @@ module.exports = function(element, bpmnFactory, options, translate) {
             'smart:Connector',
           );
           commands.push(
-            map(connectors, function(connector) {
+            map(connectors, function (connector) {
               return extensionElementsHelper.removeEntry(
                 bo,
                 element,

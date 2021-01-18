@@ -18,7 +18,7 @@ function getServiceTaskLikeBusinessObject(element) {
   return bo;
 }
 
-module.exports = function(group, element, bpmnFactory, translate) {
+module.exports = function (group, element, bpmnFactory, translate) {
   const bo = getServiceTaskLikeBusinessObject(element);
 
   if (!bo) {

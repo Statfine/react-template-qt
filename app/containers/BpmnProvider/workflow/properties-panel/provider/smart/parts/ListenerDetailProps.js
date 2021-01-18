@@ -5,7 +5,7 @@ const ImplementationTypeHelper = require('../../../helper/ImplementationTypeHelp
 
 const scriptImplementation = require('./implementation/Script');
 
-module.exports = function(group, element, bpmnFactory, options, translate) {
+module.exports = function (group, element, bpmnFactory, options, translate) {
   const LISTENER_TYPE_LABEL = {
     class: translate('Java Class'),
     expression: translate('Expression'),
@@ -40,7 +40,7 @@ module.exports = function(group, element, bpmnFactory, options, translate) {
     { name: translate('delete'), value: 'delete' },
   ];
 
-  const isSelected = function(element, node) {
+  const isSelected = function (element, node) {
     return getSelectedListener(element, node);
   };
 

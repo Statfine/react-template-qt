@@ -5,10 +5,10 @@ const textField = require('./TextInputEntryFactory');
  * It adds functionality to cache an invalid value entered in the
  * text input, instead of setting it on the business object.
  */
-const validationAwareTextField = function(options, defaultParameters) {
+const validationAwareTextField = function (options, defaultParameters) {
   const modelProperty = options.modelProperty;
 
-  defaultParameters.get = function(element, node) {
+  defaultParameters.get = function (element, node) {
     const value = this.__lastInvalidValue;
 
     delete this.__lastInvalidValue;
@@ -21,7 +21,7 @@ const validationAwareTextField = function(options, defaultParameters) {
     return properties;
   };
 
-  defaultParameters.set = function(element, values, node) {
+  defaultParameters.set = function (element, values, node) {
     const validationErrors = validate.apply(this, [element, values, node]);
     const propertyValue = values[modelProperty];
 
@@ -38,7 +38,11 @@ const validationAwareTextField = function(options, defaultParameters) {
     return options.setProperty(element, properties, node);
   };
 
-  var validate = (defaultParameters.validate = function(element, values, node) {
+  var validate = (defaultParameters.validate = function (
+    element,
+    values,
+    node,
+  ) {
     const value = values[modelProperty] || this.__lastInvalidValue;
 
     const property = {};

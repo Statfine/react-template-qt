@@ -33,7 +33,7 @@ module.exports = CreateAndReferenceElementHandler;
  *
  * @returns {Array<djs.mode.Base>} the updated element
  */
-CreateAndReferenceElementHandler.prototype.execute = function(context) {
+CreateAndReferenceElementHandler.prototype.execute = function (context) {
   const referencingObject = ensureNotNull(
     context.referencingObject,
     'referencingObject',
@@ -84,7 +84,7 @@ CreateAndReferenceElementHandler.prototype.execute = function(context) {
  *
  * @returns {djs.mode.Base} the updated element
  */
-CreateAndReferenceElementHandler.prototype.revert = function(context) {
+CreateAndReferenceElementHandler.prototype.revert = function (context) {
   const referencingObject = context.referencingObject;
   const referenceProperty = context.referenceProperty;
   const previousReference = context.previousReference;

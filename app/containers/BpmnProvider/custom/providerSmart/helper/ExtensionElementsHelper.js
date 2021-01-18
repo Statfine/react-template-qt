@@ -5,16 +5,16 @@ const is = require('bpmn-js/lib/util/ModelUtil').is;
 
 const ExtensionElementsHelper = {};
 
-const getExtensionElements = function(bo) {
+const getExtensionElements = function (bo) {
   return bo.get('extensionElements');
 };
 
-ExtensionElementsHelper.getExtensionElements = function(bo, type) {
+ExtensionElementsHelper.getExtensionElements = function (bo, type) {
   const extensionElements = getExtensionElements(bo);
   if (typeof extensionElements !== 'undefined') {
     const extensionValues = extensionElements.get('values');
     if (typeof extensionValues !== 'undefined') {
-      const elements = extensionValues.filter(function(value) {
+      const elements = extensionValues.filter(function (value) {
         return is(value, type);
       });
       if (elements.length) {
@@ -24,7 +24,7 @@ ExtensionElementsHelper.getExtensionElements = function(bo, type) {
   }
 };
 
-ExtensionElementsHelper.addEntry = function(bo, element, entry, bpmnFactory) {
+ExtensionElementsHelper.addEntry = function (bo, element, entry, bpmnFactory) {
   let extensionElements = bo.get('extensionElements');
 
   // if there is no extensionElements list, create one
@@ -44,7 +44,7 @@ ExtensionElementsHelper.addEntry = function(bo, element, entry, bpmnFactory) {
   ]);
 };
 
-ExtensionElementsHelper.removeEntry = function(bo, element, entry) {
+ExtensionElementsHelper.removeEntry = function (bo, element, entry) {
   const extensionElements = bo.get('extensionElements');
 
   if (!extensionElements) {

@@ -14,7 +14,7 @@ module.exports = FormHelper;
  *
  * @return {ModdleElement|undefined} formData
  */
-FormHelper.getFormData = function(element) {
+FormHelper.getFormData = function (element) {
   const bo = getBusinessObject(element);
 
   const formData = getExtensionElements(bo, 'camunda:FormData');
@@ -32,7 +32,7 @@ FormHelper.getFormData = function(element) {
  *
  * @return {Array} a list of form field objects
  */
-FormHelper.getFormFields = function(element) {
+FormHelper.getFormFields = function (element) {
   const formData = this.getFormData(element);
 
   if (typeof formData === 'undefined') {
@@ -50,7 +50,7 @@ FormHelper.getFormFields = function(element) {
  *
  * @return {ModdleElement} the form field
  */
-FormHelper.getFormField = function(element, idx) {
+FormHelper.getFormField = function (element, idx) {
   const formFields = this.getFormFields(element);
 
   return formFields[idx];
@@ -63,7 +63,7 @@ FormHelper.getFormField = function(element, idx) {
  *
  * @return {Array<ModdleElement>} a list of constraint objects
  */
-FormHelper.getConstraints = function(formField) {
+FormHelper.getConstraints = function (formField) {
   if (formField && formField.validation && formField.validation.constraints) {
     return formField.validation.constraints;
   }
@@ -77,7 +77,7 @@ FormHelper.getConstraints = function(formField) {
  *
  * @return {Array<ModdleElement>} a list of camunda:value objects
  */
-FormHelper.getEnumValues = function(formField) {
+FormHelper.getEnumValues = function (formField) {
   if (formField && formField.values) {
     return formField.values;
   }

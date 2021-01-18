@@ -76,9 +76,7 @@ export function requestNoSnack(url, options) {
   }
 
   const mergeOptions = _.merge({}, defaultOptions, options);
-  return fetch(url, mergeOptions)
-    .then(parseJSON)
-    .then(parseData);
+  return fetch(url, mergeOptions).then(parseJSON).then(parseData);
 }
 
 /**

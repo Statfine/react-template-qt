@@ -20,11 +20,11 @@ function PropertiesActivator(eventBus, priority) {
 
   priority = priority || DEFAULT_PRIORITY;
 
-  eventBus.on('propertiesPanel.isEntryVisible', priority, function(e) {
+  eventBus.on('propertiesPanel.isEntryVisible', priority, function (e) {
     return self.isEntryVisible(e.entry, e.element);
   });
 
-  eventBus.on('propertiesPanel.isPropertyEditable', priority, function(e) {
+  eventBus.on('propertiesPanel.isPropertyEditable', priority, function (e) {
     return self.isPropertyEditable(e.entry, e.propertyName, e.element);
   });
 }
@@ -43,7 +43,7 @@ module.exports = PropertiesActivator;
  *
  * @returns {Boolean}
  */
-PropertiesActivator.prototype.isEntryVisible = function(entry, element) {
+PropertiesActivator.prototype.isEntryVisible = function (entry, element) {
   return true;
 };
 
@@ -58,7 +58,7 @@ PropertiesActivator.prototype.isEntryVisible = function(entry, element) {
  *
  * @returns {Boolean}
  */
-PropertiesActivator.prototype.isPropertyEditable = function(
+PropertiesActivator.prototype.isPropertyEditable = function (
   entry,
   propertyName,
   element,

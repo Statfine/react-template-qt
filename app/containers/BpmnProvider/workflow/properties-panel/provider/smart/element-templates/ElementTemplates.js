@@ -17,10 +17,10 @@ function ElementTemplates() {
    *
    * @return {ElementTemplates}
    */
-  this.set = function(descriptors) {
+  this.set = function (descriptors) {
     const templates = (this._templates = {});
 
-    descriptors.forEach(function(descriptor) {
+    descriptors.forEach(function (descriptor) {
       templates[descriptor.id] = descriptor;
     });
 
@@ -34,7 +34,7 @@ function ElementTemplates() {
    *
    * @return {TemplateDescriptor}
    */
-  this.get = function(id) {
+  this.get = function (id) {
     return this._templates[id];
   };
 
@@ -43,7 +43,7 @@ function ElementTemplates() {
    *
    * @return {Array<TemplateDescriptor>}
    */
-  this.getAll = function() {
+  this.getAll = function () {
     return values(this._templates);
   };
 }

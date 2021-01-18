@@ -2,7 +2,7 @@ const entryFactory = require('../../../../factory/EntryFactory');
 
 const cmdHelper = require('../../../../helper/CmdHelper');
 
-module.exports = function(element, bpmnFactory, options, translate) {
+module.exports = function (element, bpmnFactory, options, translate) {
   const getBusinessObject = options.getBusinessObject;
 
   const historyTimeToLiveEntry = entryFactory.textField({

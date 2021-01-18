@@ -9,7 +9,7 @@ const ImplementationTypeHelper = require('../../../helper/ImplementationTypeHelp
 const scriptImplementation = require('./implementation/Script');
 const timerImplementation = require('../../bpmn/parts/implementation/TimerEventDefinition');
 
-module.exports = function(group, element, bpmnFactory, options, translate) {
+module.exports = function (group, element, bpmnFactory, options, translate) {
   const LISTENER_TYPE_LABEL = {
     class: translate('Java Class'),
     expression: translate('Expression'),
@@ -44,7 +44,7 @@ module.exports = function(group, element, bpmnFactory, options, translate) {
     { name: translate('timeout'), value: 'timeout' },
   ];
 
-  const isSelected = function(element, node) {
+  const isSelected = function (element, node) {
     return getSelectedListener(element, node);
   };
 
@@ -287,7 +287,7 @@ module.exports = function(group, element, bpmnFactory, options, translate) {
   });
 
   // timerEventDefinition //////
-  const timerEventDefinitionHandler = function(element, node) {
+  const timerEventDefinitionHandler = function (element, node) {
     const listener = getSelectedListener(element, node);
 
     if (!listener || !isTimeoutTaskListener(listener)) {
@@ -347,7 +347,7 @@ function isTimeoutTaskListener(listener) {
 function getTimerEventDefinition(bo) {
   const eventDefinitions = bo.eventDefinitions || [];
 
-  return find(eventDefinitions, function(event) {
+  return find(eventDefinitions, function (event) {
     return is(event, 'bpmn:TimerEventDefinition');
   });
 }

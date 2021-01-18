@@ -13,7 +13,7 @@ const timer = require('./implementation/TimerEventDefinition');
 const compensation = require('./implementation/CompensateEventDefinition');
 const condition = require('./implementation/ConditionalEventDefinition');
 
-module.exports = function(
+module.exports = function (
   group,
   element,
   bpmnFactory,
@@ -29,7 +29,7 @@ module.exports = function(
   ];
 
   // Message and Signal Event Definition
-  forEach(events, function(event) {
+  forEach(events, function (event) {
     if (is(element, event)) {
       const messageEventDefinition = eventDefinitionHelper.getMessageEventDefinition(
         element,
@@ -60,7 +60,7 @@ module.exports = function(
     'bpmn:EndEvent',
   ];
 
-  forEach(errorEvents, function(event) {
+  forEach(errorEvents, function (event) {
     if (is(element, event)) {
       const errorEventDefinition = eventDefinitionHelper.getErrorEventDefinition(
         element,
@@ -80,7 +80,7 @@ module.exports = function(
     'bpmn:EndEvent',
   ];
 
-  forEach(escalationEvents, function(event) {
+  forEach(escalationEvents, function (event) {
     if (is(element, event)) {
       const showEscalationCodeVariable =
         is(element, 'bpmn:StartEvent') || is(element, 'bpmn:BoundaryEvent');
@@ -110,7 +110,7 @@ module.exports = function(
     'bpmn:IntermediateCatchEvent',
   ];
 
-  forEach(timerEvents, function(event) {
+  forEach(timerEvents, function (event) {
     if (is(element, event)) {
       // get business object
       const timerEventDefinition = eventDefinitionHelper.getTimerEventDefinition(
@@ -126,7 +126,7 @@ module.exports = function(
   // Compensate Event Definition
   const compensationEvents = ['bpmn:EndEvent', 'bpmn:IntermediateThrowEvent'];
 
-  forEach(compensationEvents, function(event) {
+  forEach(compensationEvents, function (event) {
     if (is(element, event)) {
       // get business object
       const compensateEventDefinition = eventDefinitionHelper.getCompensateEventDefinition(

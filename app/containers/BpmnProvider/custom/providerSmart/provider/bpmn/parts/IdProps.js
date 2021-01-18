@@ -4,7 +4,7 @@ const getBusinessObject = require('bpmn-js/lib/util/ModelUtil')
 const utils = require('../../../Utils');
 const cmdHelper = require('../../../helper/CmdHelper');
 
-module.exports = function(group, element, translate, options) {
+module.exports = function (group, element, translate, options) {
   const description = options && options.description;
 
   // Id

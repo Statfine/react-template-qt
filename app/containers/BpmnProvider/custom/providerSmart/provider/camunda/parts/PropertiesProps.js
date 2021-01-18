@@ -2,7 +2,7 @@ const properties = require('./implementation/Properties');
 const elementHelper = require('../../../helper/ElementHelper');
 const cmdHelper = require('../../../helper/CmdHelper');
 
-module.exports = function(group, element, bpmnFactory, translate) {
+module.exports = function (group, element, bpmnFactory, translate) {
   const propertiesEntry = properties(
     element,
     bpmnFactory,

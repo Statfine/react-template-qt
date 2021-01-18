@@ -176,15 +176,16 @@ function updateFormalExpression(element, propertyName, newValue, bpmnFactory) {
   });
 }
 
-module.exports = function(element, bpmnFactory, translate) {
+module.exports = function (element, bpmnFactory, translate) {
   const entries = [];
 
   // error message /////////////////////////////////////////////////////////////////
 
   entries.push({
     id: 'multiInstance-errorMessage',
-    html: `${'<div data-show="isValid">' +
-      '<span class="bpp-icon-warning"></span> '}${escapeHTML(
+    html: `${
+      '<div data-show="isValid">' + '<span class="bpp-icon-warning"></span> '
+    }${escapeHTML(
       translate('Must provide either loop cardinality or collection'),
     )}</div>`,
 

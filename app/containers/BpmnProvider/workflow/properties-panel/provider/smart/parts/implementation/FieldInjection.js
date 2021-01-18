@@ -21,7 +21,7 @@ const DEFAULT_PROPS = {
 
 const SMART_FIELD_EXTENSION_ELEMENT = 'smart:Field';
 
-module.exports = function(element, bpmnFactory, translate, options) {
+module.exports = function (element, bpmnFactory, translate, options) {
   options = options || {};
 
   const insideListener = !!options.insideListener;
@@ -31,7 +31,7 @@ module.exports = function(element, bpmnFactory, translate, options) {
 
   const entries = [];
 
-  const isSelected = function(element, node) {
+  const isSelected = function (element, node) {
     return getSelectedField(element, node);
   };
 
@@ -81,8 +81,8 @@ module.exports = function(element, bpmnFactory, translate, options) {
     return fieldType;
   }
 
-  const setOptionLabelValue = function() {
-    return function(element, node, option, property, value, idx) {
+  const setOptionLabelValue = function () {
+    return function (element, node, option, property, value, idx) {
       const smartFields = getSmartFields(element, node);
       const field = smartFields[idx];
 
@@ -94,8 +94,8 @@ module.exports = function(element, bpmnFactory, translate, options) {
     };
   };
 
-  const newElement = function() {
-    return function(element, extensionElements, value, node) {
+  const newElement = function () {
+    return function (element, extensionElements, value, node) {
       const props = {
         name: '',
         string: '',
@@ -131,8 +131,8 @@ module.exports = function(element, bpmnFactory, translate, options) {
     };
   };
 
-  const removeElement = function() {
-    return function(element, extensionElements, value, idx, node) {
+  const removeElement = function () {
+    return function (element, extensionElements, value, idx, node) {
       const smartFields = getSmartFields(element, node);
       const field = smartFields[idx];
       if (field) {

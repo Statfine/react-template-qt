@@ -4,7 +4,7 @@ const getBusinessObject = require('bpmn-js/lib/util/ModelUtil')
 
 const candidateStarter = require('./implementation/CandidateStarter');
 
-module.exports = function(group, element, bpmnFactory, translate) {
+module.exports = function (group, element, bpmnFactory, translate) {
   const businessObject = getBusinessObject(element);
 
   if (

@@ -72,7 +72,7 @@ function removeFailedJobRetryTimeCycle(bo, element) {
     bo,
     'camunda:FailedJobRetryTimeCycle',
   );
-  return map(retryTimeCycles, function(cycle) {
+  return map(retryTimeCycles, function (cycle) {
     return extensionElementsHelper.removeEntry(bo, element, cycle);
   });
 }

@@ -30,7 +30,7 @@ function getParameters(element, prop, insideConnector) {
  *
  * @return {ModdleElement} the inputOutput object
  */
-InputOutputHelper.getInputOutput = function(element, insideConnector) {
+InputOutputHelper.getInputOutput = function (element, insideConnector) {
   if (!insideConnector) {
     const bo = getBusinessObject(element);
     return (getElements(bo, 'smart:InputOutput') || [])[0];
@@ -46,7 +46,7 @@ InputOutputHelper.getInputOutput = function(element, insideConnector) {
  *
  * @return {ModdleElement} the connector object
  */
-InputOutputHelper.getConnector = function(element) {
+InputOutputHelper.getConnector = function (element) {
   const bo = implementationTypeHelper.getServiceTaskLikeBusinessObject(element);
   return bo && (getElements(bo, 'smart:Connector') || [])[0];
 };
@@ -60,7 +60,7 @@ InputOutputHelper.getConnector = function(element) {
  *
  * @return {Array} a list of input parameter objects
  */
-InputOutputHelper.getInputParameters = function(element, insideConnector) {
+InputOutputHelper.getInputParameters = function (element, insideConnector) {
   return getParameters.apply(this, [
     element,
     'inputParameters',
@@ -77,7 +77,7 @@ InputOutputHelper.getInputParameters = function(element, insideConnector) {
  *
  * @return {Array} a list of output parameter objects
  */
-InputOutputHelper.getOutputParameters = function(element, insideConnector) {
+InputOutputHelper.getOutputParameters = function (element, insideConnector) {
   return getParameters.apply(this, [
     element,
     'outputParameters',
@@ -94,7 +94,7 @@ InputOutputHelper.getOutputParameters = function(element, insideConnector) {
  *
  * @return {ModdleElement} input parameter
  */
-InputOutputHelper.getInputParameter = function(element, insideConnector, idx) {
+InputOutputHelper.getInputParameter = function (element, insideConnector, idx) {
   return this.getInputParameters(element, insideConnector)[idx];
 };
 
@@ -107,7 +107,11 @@ InputOutputHelper.getInputParameter = function(element, insideConnector, idx) {
  *
  * @return {ModdleElement} output parameter
  */
-InputOutputHelper.getOutputParameter = function(element, insideConnector, idx) {
+InputOutputHelper.getOutputParameter = function (
+  element,
+  insideConnector,
+  idx,
+) {
   return this.getOutputParameters(element, insideConnector)[idx];
 };
 
@@ -119,7 +123,7 @@ InputOutputHelper.getOutputParameter = function(element, insideConnector, idx) {
  *
  * @return {boolean} a boolean value
  */
-InputOutputHelper.isInputOutputSupported = function(element, insideConnector) {
+InputOutputHelper.isInputOutputSupported = function (element, insideConnector) {
   if (insideConnector) {
     return true;
   }
@@ -145,7 +149,7 @@ InputOutputHelper.isInputOutputSupported = function(element, insideConnector) {
  *
  * @return {boolean} a boolean value
  */
-InputOutputHelper.areOutputParametersSupported = function(
+InputOutputHelper.areOutputParametersSupported = function (
   element,
   insideConnector,
 ) {

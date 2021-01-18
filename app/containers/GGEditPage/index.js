@@ -52,7 +52,7 @@ function GGedit() {
   const editorRef = useRef();
 
   React.useEffect(() => {
-    document.onselectstart = function() {
+    document.onselectstart = function () {
       return false;
     };
     setTimeout(() => {

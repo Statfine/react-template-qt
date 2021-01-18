@@ -32,12 +32,12 @@ Popup.prototype.template =
   '</div>' +
   '</div>';
 
-Popup.prototype._attachEvents = function() {
+Popup.prototype._attachEvents = function () {
   const self = this;
   const events = this.events;
   const el = this.el;
 
-  Object.keys(events).forEach(function(instruction) {
+  Object.keys(events).forEach(function (instruction) {
     const cb = bind(self[events[instruction]], self);
     const parts = instruction.split(' ');
     const evtName = parts.shift();
@@ -50,12 +50,12 @@ Popup.prototype._attachEvents = function() {
   });
 };
 
-Popup.prototype._detachEvents = function() {
+Popup.prototype._detachEvents = function () {
   const self = this;
   const events = this.events;
   const el = this.el;
 
-  Object.keys(events).forEach(function(instruction) {
+  Object.keys(events).forEach(function (instruction) {
     const cb = bind(self[events[instruction]], self);
     const parts = instruction.split(' ');
     const evtName = parts.shift();
@@ -74,19 +74,19 @@ Popup.prototype.events = {
   'click .popup-close': '_handleClose',
 };
 
-Popup.prototype._handleClose = function(evt) {
+Popup.prototype._handleClose = function (evt) {
   this.close();
 };
 
-Popup.prototype.open = function(content) {
+Popup.prototype.open = function (content) {
   domClasses(this.el).add('open');
 };
 
-Popup.prototype.close = function() {
+Popup.prototype.close = function () {
   domClasses(this.el).remove('open');
 };
 
-Popup.prototype.remove = function() {
+Popup.prototype.remove = function () {
   this._detachEvents();
   if (document.body.contains(this.el)) {
     document.body.removeChild(this.el);
@@ -94,7 +94,7 @@ Popup.prototype.remove = function() {
 };
 
 let popup;
-module.exports = function() {
+module.exports = function () {
   if (!popup) {
     popup = new Popup();
   }

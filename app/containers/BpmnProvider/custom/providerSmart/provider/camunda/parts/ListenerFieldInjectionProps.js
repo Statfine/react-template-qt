@@ -2,7 +2,7 @@ const assign = require('lodash/assign');
 
 const fieldInjection = require('./implementation/FieldInjection');
 
-module.exports = function(group, element, bpmnFactory, options, translate) {
+module.exports = function (group, element, bpmnFactory, options, translate) {
   options = assign(
     {
       idPrefix: 'listener-',

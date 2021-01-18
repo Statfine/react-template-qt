@@ -1,7 +1,7 @@
 const is = require('bpmn-js/lib/util/ModelUtil').is;
 const entryFactory = require('../../../factory/EntryFactory');
 
-module.exports = function(group, element, translate) {
+module.exports = function (group, element, translate) {
   if (is(element, 'smart:Assignable')) {
     // Assignee
     group.entries.push(

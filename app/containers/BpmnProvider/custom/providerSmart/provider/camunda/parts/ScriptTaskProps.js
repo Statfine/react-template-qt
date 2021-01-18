@@ -5,7 +5,7 @@ const entryFactory = require('../../../factory/EntryFactory');
 const cmdHelper = require('../../../helper/CmdHelper');
 const scriptImplementation = require('./implementation/Script');
 
-module.exports = function(group, element, bpmnFactory, translate) {
+module.exports = function (group, element, bpmnFactory, translate) {
   let bo;
 
   if (is(element, 'bpmn:ScriptTask')) {

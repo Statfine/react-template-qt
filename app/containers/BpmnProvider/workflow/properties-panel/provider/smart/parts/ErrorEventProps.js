@@ -3,14 +3,14 @@ const forEach = require('lodash/forEach');
 const eventDefinitionHelper = require('../../../helper/EventDefinitionHelper');
 const error = require('./implementation/ErrorEventDefinition');
 
-module.exports = function(group, element, bpmnFactory, translate) {
+module.exports = function (group, element, bpmnFactory, translate) {
   const errorEvents = [
     'bpmn:StartEvent',
     'bpmn:BoundaryEvent',
     'bpmn:EndEvent',
   ];
 
-  forEach(errorEvents, function(event) {
+  forEach(errorEvents, function (event) {
     if (is(element, event)) {
       const errorEventDefinition = eventDefinitionHelper.getErrorEventDefinition(
         element,

@@ -7,12 +7,12 @@ const EventDefinitionHelper = {};
 
 module.exports = EventDefinitionHelper;
 
-EventDefinitionHelper.getEventDefinition = function(element, eventType) {
+EventDefinitionHelper.getEventDefinition = function (element, eventType) {
   const bo = getBusinessObject(element);
   let eventDefinition = null;
 
   if (bo.eventDefinitions) {
-    forEach(bo.eventDefinitions, function(event) {
+    forEach(bo.eventDefinitions, function (event) {
       if (is(event, eventType)) {
         eventDefinition = event;
       }
@@ -22,34 +22,34 @@ EventDefinitionHelper.getEventDefinition = function(element, eventType) {
   return eventDefinition;
 };
 
-EventDefinitionHelper.getTimerEventDefinition = function(element) {
+EventDefinitionHelper.getTimerEventDefinition = function (element) {
   return this.getEventDefinition(element, 'bpmn:TimerEventDefinition');
 };
 
-EventDefinitionHelper.getMessageEventDefinition = function(element) {
+EventDefinitionHelper.getMessageEventDefinition = function (element) {
   return this.getEventDefinition(element, 'bpmn:MessageEventDefinition');
 };
 
-EventDefinitionHelper.getSignalEventDefinition = function(element) {
+EventDefinitionHelper.getSignalEventDefinition = function (element) {
   return this.getEventDefinition(element, 'bpmn:SignalEventDefinition');
 };
 
-EventDefinitionHelper.getErrorEventDefinition = function(element) {
+EventDefinitionHelper.getErrorEventDefinition = function (element) {
   return this.getEventDefinition(element, 'bpmn:ErrorEventDefinition');
 };
 
-EventDefinitionHelper.getEscalationEventDefinition = function(element) {
+EventDefinitionHelper.getEscalationEventDefinition = function (element) {
   return this.getEventDefinition(element, 'bpmn:EscalationEventDefinition');
 };
 
-EventDefinitionHelper.getCompensateEventDefinition = function(element) {
+EventDefinitionHelper.getCompensateEventDefinition = function (element) {
   return this.getEventDefinition(element, 'bpmn:CompensateEventDefinition');
 };
 
-EventDefinitionHelper.getLinkEventDefinition = function(element) {
+EventDefinitionHelper.getLinkEventDefinition = function (element) {
   return this.getEventDefinition(element, 'bpmn:LinkEventDefinition');
 };
 
-EventDefinitionHelper.getConditionalEventDefinition = function(element) {
+EventDefinitionHelper.getConditionalEventDefinition = function (element) {
   return this.getEventDefinition(element, 'bpmn:ConditionalEventDefinition');
 };

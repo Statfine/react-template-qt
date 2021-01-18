@@ -4,9 +4,9 @@ const domQuery = require('min-dom').query;
 
 const entryFieldDescription = require('./EntryFieldDescription');
 
-const textField = function(options, defaultParameters) {
+const textField = function (options, defaultParameters) {
   // Default action for the button next to the input-field
-  const defaultButtonAction = function(element, inputNode) {
+  const defaultButtonAction = function (element, inputNode) {
     const input = domQuery(`input[name="${options.modelProperty}"]`, inputNode);
     input.value = '';
 
@@ -14,7 +14,7 @@ const textField = function(options, defaultParameters) {
   };
 
   // default method to determine if the button should be visible
-  const defaultButtonShow = function(element, inputNode) {
+  const defaultButtonShow = function (element, inputNode) {
     const input = domQuery(`input[name="${options.modelProperty}"]`, inputNode);
 
     return input.value !== '';
@@ -77,13 +77,13 @@ const textField = function(options, defaultParameters) {
   resource[showName] = showMethod;
 
   if (canBeDisabled) {
-    resource.isDisabled = function() {
+    resource.isDisabled = function () {
       return options.disabled.apply(resource, arguments);
     };
   }
 
   if (canBeHidden) {
-    resource.isHidden = function() {
+    resource.isHidden = function () {
       return !options.hidden.apply(resource, arguments);
     };
   }

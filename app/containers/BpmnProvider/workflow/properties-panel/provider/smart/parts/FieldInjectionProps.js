@@ -2,7 +2,7 @@ const ImplementationTypeHelper = require('../../../helper/ImplementationTypeHelp
 
 const fieldInjection = require('./implementation/FieldInjection');
 
-module.exports = function(group, element, bpmnFactory, translate) {
+module.exports = function (group, element, bpmnFactory, translate) {
   const bo = ImplementationTypeHelper.getServiceTaskLikeBusinessObject(element);
 
   if (!bo) {

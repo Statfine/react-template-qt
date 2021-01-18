@@ -5,15 +5,15 @@ const escapeHTML = require('../Utils').escapeHTML;
 
 const entryFieldDescription = require('./EntryFieldDescription');
 
-const isList = function(list) {
+const isList = function (list) {
   return !(!list || Object.prototype.toString.call(list) !== '[object Array]');
 };
 
-const addEmptyParameter = function(list) {
+const addEmptyParameter = function (list) {
   return list.concat([{ name: '', value: '' }]);
 };
 
-const createOption = function(option) {
+const createOption = function (option) {
   return `<option value="${option.value}">${option.name}</option>`;
 };
 
@@ -30,7 +30,7 @@ const createOption = function(option) {
  *
  * @return {Object}
  */
-const selectbox = function(options, defaultParameters) {
+const selectbox = function (options, defaultParameters) {
   const resource = defaultParameters;
   const label = options.label || resource.id;
   let selectOptions = options.selectOptions || [{ name: '', value: '' }];
@@ -58,7 +58,7 @@ const selectbox = function(options, defaultParameters) {
     } data-value>`;
 
   if (isList(selectOptions)) {
-    forEach(selectOptions, function(option) {
+    forEach(selectOptions, function (option) {
       resource.html += `<option value="${escapeHTML(option.value)}">${
         option.name ? escapeHTML(option.name) : ''
       }</option>`;
@@ -84,7 +84,7 @@ const selectbox = function(options, defaultParameters) {
    * @param {Object} inputName
    * @param {Object} newValue
    */
-  resource.setControlValue = function(
+  resource.setControlValue = function (
     element,
     entryNode,
     inputNode,
@@ -101,7 +101,7 @@ const selectbox = function(options, defaultParameters) {
         }
 
         // add options
-        forEach(options, function(option) {
+        forEach(options, function (option) {
           const template = domify(createOption(option));
 
           inputNode.appendChild(template);
@@ -116,13 +116,13 @@ const selectbox = function(options, defaultParameters) {
   };
 
   if (canBeDisabled) {
-    resource.isDisabled = function() {
+    resource.isDisabled = function () {
       return options.disabled.apply(resource, arguments);
     };
   }
 
   if (canBeHidden) {
-    resource.isHidden = function() {
+    resource.isHidden = function () {
       return !options.hidden.apply(resource, arguments);
     };
   }

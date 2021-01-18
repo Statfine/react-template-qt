@@ -6,7 +6,7 @@ function getScriptType(node) {
   return utils.selectedType('select[name=scriptType]', node.parentElement);
 }
 
-module.exports = function(
+module.exports = function (
   scriptLanguagePropName,
   scriptValuePropName,
   isFormatRequired,
@@ -14,10 +14,10 @@ module.exports = function(
 ) {
   return {
     template:
-      `${'<div class="bpp-row bpp-textfield">' +
-        '<label for="cam-script-format">'}${escapeHTML(
-        translate('Script Format'),
-      )}</label>` +
+      `${
+        '<div class="bpp-row bpp-textfield">' +
+        '<label for="cam-script-format">'
+      }${escapeHTML(translate('Script Format'))}</label>` +
       `<div class="bpp-field-wrapper">` +
       `<input id="cam-script-format" type="text" name="scriptFormat" />` +
       `<button class="clear" data-action="script.clearScriptFormat" data-show="script.canClearScriptFormat">` +

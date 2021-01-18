@@ -15,20 +15,21 @@ function registerHandlers(
   );
 
   // apply default element templates on shape creation
-  eventBus.on(['commandStack.shape.create.postExecuted'], function(context) {
+  eventBus.on(['commandStack.shape.create.postExecuted'], function (context) {
     applyDefaultTemplate(context.context.shape, elementTemplates, commandStack);
   });
 
   // apply default element templates on connection creation
-  eventBus.on(['commandStack.connection.create.postExecuted'], function(
-    context,
-  ) {
-    applyDefaultTemplate(
-      context.context.connection,
-      elementTemplates,
-      commandStack,
-    );
-  });
+  eventBus.on(
+    ['commandStack.connection.create.postExecuted'],
+    function (context) {
+      applyDefaultTemplate(
+        context.context.connection,
+        elementTemplates,
+        commandStack,
+      );
+    },
+  );
 }
 
 registerHandlers.$inject = [

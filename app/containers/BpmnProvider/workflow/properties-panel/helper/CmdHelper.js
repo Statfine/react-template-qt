@@ -1,14 +1,14 @@
 const CmdHelper = {};
 module.exports = CmdHelper;
 
-CmdHelper.updateProperties = function(element, properties) {
+CmdHelper.updateProperties = function (element, properties) {
   return {
     cmd: 'element.updateProperties',
     context: { element, properties },
   };
 };
 
-CmdHelper.updateBusinessObject = function(
+CmdHelper.updateBusinessObject = function (
   element,
   businessObject,
   newProperties,
@@ -23,7 +23,7 @@ CmdHelper.updateBusinessObject = function(
   };
 };
 
-CmdHelper.addElementsTolist = function(
+CmdHelper.addElementsTolist = function (
   element,
   businessObject,
   listPropertyName,
@@ -40,7 +40,7 @@ CmdHelper.addElementsTolist = function(
   };
 };
 
-CmdHelper.removeElementsFromList = function(
+CmdHelper.removeElementsFromList = function (
   element,
   businessObject,
   listPropertyName,
@@ -59,7 +59,7 @@ CmdHelper.removeElementsFromList = function(
   };
 };
 
-CmdHelper.addAndRemoveElementsFromList = function(
+CmdHelper.addAndRemoveElementsFromList = function (
   element,
   businessObject,
   listPropertyName,
@@ -80,7 +80,7 @@ CmdHelper.addAndRemoveElementsFromList = function(
   };
 };
 
-CmdHelper.setList = function(
+CmdHelper.setList = function (
   element,
   businessObject,
   listPropertyName,

@@ -24,7 +24,7 @@ function getFlowElements(element, type) {
 
 function isCompensationEventAttachedToActivity(activity, boundaryEvents) {
   const activityId = activity.id;
-  const boundaryEvent = find(boundaryEvents, function(boundaryEvent) {
+  const boundaryEvent = find(boundaryEvents, function (boundaryEvent) {
     const compensateEventDefinition = eventDefinitionHelper.getCompensateEventDefinition(
       boundaryEvent,
     );
@@ -51,7 +51,7 @@ function canActivityBeCompensated(activity, boundaryEvents) {
 
 function getSmartesForCompensation(element) {
   const boundaryEvents = getContainedBoundaryEvents(element);
-  return filter(getContainedSmartes(element), function(activity) {
+  return filter(getContainedSmartes(element), function (activity) {
     return canActivityBeCompensated(activity, boundaryEvents);
   });
 }
@@ -80,7 +80,7 @@ function createActivityRefOptions(element) {
   const options = [{ value: '' }];
 
   const smartes = getSmartesForActivityRef(element);
-  forEach(smartes, function(activity) {
+  forEach(smartes, function (activity) {
     const activityId = activity.id;
     const name = `${
       activity.name ? `${activity.name} ` : ''
@@ -91,7 +91,7 @@ function createActivityRefOptions(element) {
   return options;
 }
 
-module.exports = function(
+module.exports = function (
   group,
   element,
   bpmnFactory,

@@ -42,7 +42,7 @@ function createFailedJobRetryTimeCycle(parent, bpmnFactory, cycle) {
   );
 }
 
-module.exports = function(element, bpmnFactory, options, translate) {
+module.exports = function (element, bpmnFactory, options, translate) {
   const getBusinessObject = options.getBusinessObject;
 
   const idPrefix = options.idPrefix || '';

@@ -59,7 +59,7 @@ module.exports.getTemplate = getTemplate;
  */
 function getDefaultTemplate(element, elementTemplates) {
   // return first default template, if any exists
-  return elementTemplates.getAll().filter(function(t) {
+  return elementTemplates.getAll().filter(function (t) {
     return isAny(element, t.appliesTo) && t.isDefault;
   })[0];
 }
@@ -90,7 +90,7 @@ function findExtension(element, type) {
     return null;
   }
 
-  return find(extensionElements.get('values'), function(e) {
+  return find(extensionElements.get('values'), function (e) {
     return is(e, type);
   });
 }
@@ -104,7 +104,7 @@ function findExtensions(element, types) {
     return [];
   }
 
-  return extensionElements.get('values').filter(function(e) {
+  return extensionElements.get('values').filter(function (e) {
     return isAny(e, types);
   });
 }
@@ -121,15 +121,15 @@ function findSmartInOut(element, binding) {
   let matcher;
 
   if (binding.type === 'smart:in') {
-    matcher = function(e) {
+    matcher = function (e) {
       return is(e, 'smart:In') && isInOut(e, binding);
     };
   } else if (binding.type === 'smart:out') {
-    matcher = function(e) {
+    matcher = function (e) {
       return is(e, 'smart:Out') && isInOut(e, binding);
     };
   } else if (binding.type === 'smart:in:businessKey') {
-    matcher = function(e) {
+    matcher = function (e) {
       return is(e, 'smart:In') && 'businessKey' in e;
     };
   }
@@ -140,7 +140,7 @@ function findSmartInOut(element, binding) {
 module.exports.findSmartInOut = findSmartInOut;
 
 function findSmartProperty(smartProperties, binding) {
-  return find(smartProperties.get('values'), function(p) {
+  return find(smartProperties.get('values'), function (p) {
     return p.name === binding.name;
   });
 }
@@ -150,7 +150,7 @@ module.exports.findSmartProperty = findSmartProperty;
 function findInputParameter(inputOutput, binding) {
   const parameters = inputOutput.get('inputParameters');
 
-  return find(parameters, function(p) {
+  return find(parameters, function (p) {
     return p.name === binding.name;
   });
 }
@@ -160,7 +160,7 @@ module.exports.findInputParameter = findInputParameter;
 function findOutputParameter(inputOutput, binding) {
   const parameters = inputOutput.get('outputParameters');
 
-  return find(parameters, function(p) {
+  return find(parameters, function (p) {
     const value = p.value;
 
     if (!binding.scriptFormat) {

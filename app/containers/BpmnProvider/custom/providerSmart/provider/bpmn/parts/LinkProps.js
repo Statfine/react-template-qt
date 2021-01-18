@@ -10,7 +10,7 @@ function getLinkEventDefinition(element) {
 
   let linkEventDefinition = null;
   if (bo.eventDefinitions) {
-    forEach(bo.eventDefinitions, function(eventDefinition) {
+    forEach(bo.eventDefinitions, function (eventDefinition) {
       if (is(eventDefinition, 'bpmn:LinkEventDefinition')) {
         linkEventDefinition = eventDefinition;
       }
@@ -20,13 +20,13 @@ function getLinkEventDefinition(element) {
   return linkEventDefinition;
 }
 
-module.exports = function(group, element, translate) {
+module.exports = function (group, element, translate) {
   const linkEvents = [
     'bpmn:IntermediateThrowEvent',
     'bpmn:IntermediateCatchEvent',
   ];
 
-  forEach(linkEvents, function(event) {
+  forEach(linkEvents, function (event) {
     if (is(element, event)) {
       const linkEventDefinition = getLinkEventDefinition(element);
 
@@ -37,11 +37,11 @@ module.exports = function(group, element, translate) {
           modelProperty: 'link-name',
         });
 
-        entry.get = function() {
+        entry.get = function () {
           return { 'link-name': linkEventDefinition.get('name') };
         };
 
-        entry.set = function(element, values) {
+        entry.set = function (element, values) {
           const newProperties = {
             name: values['link-name'],
           };

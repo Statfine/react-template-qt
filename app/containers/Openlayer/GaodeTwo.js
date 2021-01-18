@@ -60,7 +60,7 @@ export default class Gaode extends PureComponent {
       autoPan: true,
     });
 
-    map.on('click', function(e) {
+    map.on('click', function (e) {
       const pixel = map.getEventPixel(e.originalEvent);
       const { coordinate } = e; // 获取到的为默认3857
       const clickPosition = olProj.transform(
@@ -86,7 +86,7 @@ export default class Gaode extends PureComponent {
       });
     });
 
-    popupCloser.addEventListener('click', function() {
+    popupCloser.addEventListener('click', function () {
       overlay.setPosition(undefined);
     });
   };
@@ -137,9 +137,9 @@ export default class Gaode extends PureComponent {
     });
     map.addOverlay(popup);
 
-    map.on('click', function(evt) {
+    map.on('click', function (evt) {
       const { coordinate } = evt; // 获取到的为默认3857
-      const featureMap = map.forEachFeatureAtPixel(evt.pixel, function(f) {
+      const featureMap = map.forEachFeatureAtPixel(evt.pixel, function (f) {
         return f;
       });
       // let iconName = featureMap.get('name');

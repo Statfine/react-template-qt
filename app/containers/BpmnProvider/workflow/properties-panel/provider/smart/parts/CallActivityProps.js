@@ -39,7 +39,7 @@ const DEFAULT_PROPS = {
   'smart:caseTenantId': undefined,
 };
 
-module.exports = function(group, element, bpmnFactory, translate) {
+module.exports = function (group, element, bpmnFactory, translate) {
   if (!is(element, 'smart:CallActivity')) {
     return;
   }

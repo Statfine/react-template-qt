@@ -36,7 +36,7 @@ function ensureNotNull(prop, name) {
 /**
  * Updates a element under a provided parent.
  */
-UpdateBusinessObjectListHandler.prototype.execute = function(context) {
+UpdateBusinessObjectListHandler.prototype.execute = function (context) {
   const currentObject = ensureNotNull(context.currentObject, 'currentObject');
   const propertyName = ensureNotNull(context.propertyName, 'propertyName');
   const updatedObjectList = context.updatedObjectList;
@@ -58,7 +58,7 @@ UpdateBusinessObjectListHandler.prototype.execute = function(context) {
   } else {
     let listCopy = [];
     // remove all objects which should be removed
-    forEach(objectList, function(object) {
+    forEach(objectList, function (object) {
       if (objectsToRemove.indexOf(object) == -1) {
         listCopy.push(object);
       }
@@ -92,7 +92,7 @@ UpdateBusinessObjectListHandler.prototype.execute = function(context) {
  *
  * @return {djs.mode.Base} the updated element
  */
-UpdateBusinessObjectListHandler.prototype.revert = function(context) {
+UpdateBusinessObjectListHandler.prototype.revert = function (context) {
   const currentObject = context.currentObject;
   const propertyName = context.propertyName;
   const previousList = context.previousList;

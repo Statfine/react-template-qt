@@ -37,7 +37,7 @@ function isServiceTaskLike(element) {
   return ImplementationTypeHelper.isServiceTaskLike(element);
 }
 
-module.exports = function(group, element, bpmnFactory, translate) {
+module.exports = function (group, element, bpmnFactory, translate) {
   if (!isServiceTaskLike(getBusinessObject(element))) {
     return;
   }
@@ -126,7 +126,7 @@ module.exports = function(group, element, bpmnFactory, translate) {
 
   // connector ////////////////////////////////////////////////
 
-  const isConnector = function(element) {
+  const isConnector = function (element) {
     return getImplementationType(element) === 'connector';
   };
 

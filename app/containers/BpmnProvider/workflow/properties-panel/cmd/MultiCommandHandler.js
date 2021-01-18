@@ -20,10 +20,10 @@ MultiCommandHandler.$inject = ['commandStack'];
 
 module.exports = MultiCommandHandler;
 
-MultiCommandHandler.prototype.preExecute = function(context) {
+MultiCommandHandler.prototype.preExecute = function (context) {
   const commandStack = this._commandStack;
 
-  forEach(context, function(command) {
+  forEach(context, function (command) {
     commandStack.execute(command.cmd, command.context);
   });
 };

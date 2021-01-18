@@ -56,7 +56,7 @@ function ensureList(prop, name) {
  *
  * @return {Array<djs.mode.Base>} the updated element
  */
-CreateBusinessObjectListHandler.prototype.execute = function(context) {
+CreateBusinessObjectListHandler.prototype.execute = function (context) {
   const currentObject = ensureNotNull(context.currentObject, 'currentObject');
   const propertyName = ensureNotNull(context.propertyName, 'propertyName');
   const newObjects = ensureList(context.newObjects, 'newObjects');
@@ -66,7 +66,7 @@ CreateBusinessObjectListHandler.prototype.execute = function(context) {
   const self = this;
 
   // create new array of business objects
-  forEach(newObjects, function(obj) {
+  forEach(newObjects, function (obj) {
     const element = elementHelper.createElement(
       obj.type,
       obj.properties,
@@ -97,7 +97,7 @@ CreateBusinessObjectListHandler.prototype.execute = function(context) {
  *
  * @return {djs.mode.Base} the updated element
  */
-CreateBusinessObjectListHandler.prototype.revert = function(context) {
+CreateBusinessObjectListHandler.prototype.revert = function (context) {
   const currentObject = context.currentObject;
   const propertyName = context.propertyName;
   const previousChilds = context.previousChilds;

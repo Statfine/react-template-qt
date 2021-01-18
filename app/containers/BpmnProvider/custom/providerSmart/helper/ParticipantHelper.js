@@ -7,7 +7,7 @@ const ParticipantHelper = {};
 
 module.exports = ParticipantHelper;
 
-ParticipantHelper.modifyProcessBusinessObject = function(
+ParticipantHelper.modifyProcessBusinessObject = function (
   element,
   property,
   values,
@@ -24,7 +24,7 @@ ParticipantHelper.modifyProcessBusinessObject = function(
   return cmdHelper.updateBusinessObject(element, bo, properties);
 };
 
-ParticipantHelper.getProcessBusinessObject = function(element, propertyName) {
+ParticipantHelper.getProcessBusinessObject = function (element, propertyName) {
   if (!is(element, 'bpmn:Participant')) {
     return {};
   }

@@ -5,7 +5,7 @@ const escapeHTML = require('../Utils').escapeHTML;
 
 const entryFieldDescription = require('./EntryFieldDescription');
 
-const checkbox = function(options, defaultParameters) {
+const checkbox = function (options, defaultParameters) {
   const resource = defaultParameters;
   const id = resource.id;
   const label = options.label || id;
@@ -29,7 +29,7 @@ const checkbox = function(options, defaultParameters) {
     resource.html += entryFieldDescription(description);
   }
 
-  resource.get = function(element) {
+  resource.get = function (element) {
     const bo = getBusinessObject(element);
     const res = {};
 
@@ -38,7 +38,7 @@ const checkbox = function(options, defaultParameters) {
     return res;
   };
 
-  resource.set = function(element, values) {
+  resource.set = function (element, values) {
     const res = {};
 
     res[options.modelProperty] = !!values[options.modelProperty];
@@ -55,13 +55,13 @@ const checkbox = function(options, defaultParameters) {
   }
 
   if (canBeDisabled) {
-    resource.isDisabled = function() {
+    resource.isDisabled = function () {
       return options.disabled.apply(resource, arguments);
     };
   }
 
   if (canBeHidden) {
-    resource.isHidden = function() {
+    resource.isHidden = function () {
       return !options.hidden.apply(resource, arguments);
     };
   }

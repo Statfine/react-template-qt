@@ -64,14 +64,14 @@ const IN_OUT_BINDING_TYPES = [
  * @param {BpmnFactory} bpmnFactory
  * @param {Function} translate
  */
-module.exports = function(element, elementTemplates, bpmnFactory, translate) {
+module.exports = function (element, elementTemplates, bpmnFactory, translate) {
   const template = getTemplate(element, elementTemplates);
 
   if (!template) {
     return [];
   }
 
-  const renderCustomField = function(id, p, idx) {
+  const renderCustomField = function (id, p, idx) {
     const propertyType = p.type;
 
     const entryOptions = {
@@ -116,7 +116,7 @@ module.exports = function(element, elementTemplates, bpmnFactory, translate) {
     label: translate('Custom Fields'),
     entries: [],
   };
-  template.properties.forEach(function(p, idx) {
+  template.properties.forEach(function (p, idx) {
     id = `custom-${template.id}-${idx}`;
 
     entry = renderCustomField(id, p, idx);
@@ -139,7 +139,7 @@ module.exports = function(element, elementTemplates, bpmnFactory, translate) {
         entries: [],
       };
 
-      scope.properties.forEach(function(p, idx) {
+      scope.properties.forEach(function (p, idx) {
         const propertyId = `custom-${template.id}-${idScopeName}-${idx}`;
 
         const scopedProperty = propertyWithScope(p, scopeName);
@@ -361,7 +361,7 @@ function getPropertyValue(element, property) {
   let fieldInjection;
   if (SMART_FIELD === bindingType) {
     const fieldInjections = findExtensions(bo, ['smart:Field']);
-    fieldInjections.forEach(function(item) {
+    fieldInjections.forEach(function (item) {
       if (item.name === binding.name) {
         fieldInjection = item;
       }
@@ -646,7 +646,7 @@ function setPropertyValue(element, property, value, bpmnFactory) {
     const newFieldInjections = [];
 
     if (existingFieldInjections.length > 0) {
-      existingFieldInjections.forEach(function(item) {
+      existingFieldInjections.forEach(function (item) {
         if (item.name === binding.name) {
           newFieldInjections.push(
             createSmartFieldInjection(binding, value, bpmnFactory),

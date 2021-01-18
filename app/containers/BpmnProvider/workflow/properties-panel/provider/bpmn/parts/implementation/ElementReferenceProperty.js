@@ -18,7 +18,7 @@ const cmdHelper = require('../../../../helper/CmdHelper');
  *
  * @return {Array<Object>} return an array containing the entries
  */
-module.exports = function(element, definition, bpmnFactory, options) {
+module.exports = function (element, definition, bpmnFactory, options) {
   const id = options.id || 'element-property';
   const label = options.label;
   const referenceProperty = options.referenceProperty;
@@ -50,7 +50,7 @@ module.exports = function(element, definition, bpmnFactory, options) {
   });
 
   if (shouldValidate) {
-    entry.validate = function(element, values, node) {
+    entry.validate = function (element, values, node) {
       const reference = definition.get(referenceProperty);
       if (reference && !values[modelProperty]) {
         const validationErrors = {};

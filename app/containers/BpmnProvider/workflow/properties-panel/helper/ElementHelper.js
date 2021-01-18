@@ -13,7 +13,7 @@ module.exports = ElementHelper;
  *
  * @returns {djs.model.Base} element which is created
  */
-ElementHelper.createElement = function(
+ElementHelper.createElement = function (
   elementType,
   properties,
   parent,

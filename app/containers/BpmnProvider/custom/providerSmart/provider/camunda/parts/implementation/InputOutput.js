@@ -55,7 +55,7 @@ function ensureOutparameterSupported(element, insideConnector) {
   );
 }
 
-module.exports = function(element, bpmnFactory, options, translate) {
+module.exports = function (element, bpmnFactory, options, translate) {
   const TYPE_LABEL = {
     'smart:Map': translate('Map'),
     'smart:List': translate('List'),
@@ -67,7 +67,7 @@ module.exports = function(element, bpmnFactory, options, translate) {
   const insideConnector = !!options.insideConnector;
   const idPrefix = options.idPrefix || '';
 
-  const getSelected = function(element, node) {
+  const getSelected = function (element, node) {
     let selection = (inputEntry && inputEntry.getSelected(element, node)) || {
       idx: -1,
     };
@@ -90,8 +90,8 @@ module.exports = function(element, bpmnFactory, options, translate) {
     return result;
   }
 
-  const newElement = function(type, prop, factory) {
-    return function(element, extensionElements, value) {
+  const newElement = function (type, prop, factory) {
+    return function (element, extensionElements, value) {
       const commands = [];
 
       let inputOutput = getInputOutput(element, insideConnector);
@@ -133,8 +133,8 @@ module.exports = function(element, bpmnFactory, options, translate) {
     };
   };
 
-  const removeElement = function(getter, prop, otherProp) {
-    return function(element, extensionElements, value, idx) {
+  const removeElement = function (getter, prop, otherProp) {
+    return function (element, extensionElements, value, idx) {
       const inputOutput = getInputOutput(element, insideConnector);
       const parameter = getter(element, insideConnector, idx);
 
@@ -171,8 +171,8 @@ module.exports = function(element, bpmnFactory, options, translate) {
     };
   };
 
-  const setOptionLabelValue = function(getter) {
-    return function(element, node, option, property, value, idx) {
+  const setOptionLabelValue = function (getter) {
+    return function (element, node, option, property, value, idx) {
       const parameter = getter(element, insideConnector, idx);
 
       let suffix = 'Text';

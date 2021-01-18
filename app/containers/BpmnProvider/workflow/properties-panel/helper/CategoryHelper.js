@@ -14,7 +14,7 @@ module.exports = CategoryHelper;
  *
  * @return {ModdleElement} categoryValue.
  */
-CategoryHelper.createCategoryValue = function(definitions, bpmnFactory) {
+CategoryHelper.createCategoryValue = function (definitions, bpmnFactory) {
   const categoryValue = bpmnFactory.create('bpmn:CategoryValue');
   const category = bpmnFactory.create('bpmn:Category', {
     categoryValue: [categoryValue],

@@ -54,7 +54,7 @@ function getPropertiesElement(element) {
  * @return {ModdleElement} a smart:Properties object
  */
 function getPropertiesElementInsideExtensionElements(extensionElements) {
-  return find(extensionElements.values, function(elem) {
+  return find(extensionElements.values, function (elem) {
     return is(elem, 'smart:Properties');
   });
 }
@@ -82,7 +82,7 @@ function isExtensionElements(element) {
  * @param  {function} options.getParent Gets the parent business object
  * @param  {function} options.show Indicate when the entry will be shown, should return boolean
  */
-module.exports = function(element, bpmnFactory, options, translate) {
+module.exports = function (element, bpmnFactory, options, translate) {
   const getParent = options.getParent;
 
   const modelProperties = options.modelProperties;
@@ -144,7 +144,7 @@ module.exports = function(element, bpmnFactory, options, translate) {
       }
 
       const propertyProps = {};
-      forEach(modelProperties, function(prop) {
+      forEach(modelProperties, function (prop) {
         propertyProps[prop] = undefined;
       });
 
@@ -169,7 +169,7 @@ module.exports = function(element, bpmnFactory, options, translate) {
       const parent = getParent(element, node, bo);
       const property = getPropertyValues(parent)[idx];
 
-      forEach(modelProperties, function(prop) {
+      forEach(modelProperties, function (prop) {
         value[prop] = value[prop] || undefined;
       });
 
@@ -218,7 +218,7 @@ module.exports = function(element, bpmnFactory, options, translate) {
             }),
           );
         } else {
-          forEach(parent.values, function(value) {
+          forEach(parent.values, function (value) {
             if (is(value, 'smart:Properties')) {
               commands.push(
                 extensionElementsHelper.removeEntry(bo, element, value),

@@ -1,7 +1,7 @@
 const entryFactory = require('../../../../factory/EntryFactory');
 const cmdHelper = require('../../../../helper/CmdHelper');
 
-module.exports = function(element, bpmnFactory, options, translate) {
+module.exports = function (element, bpmnFactory, options, translate) {
   const getImplementationType = options.getImplementationType;
   const getBusinessObject = options.getBusinessObject;
 

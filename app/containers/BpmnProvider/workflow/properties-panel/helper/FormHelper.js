@@ -17,7 +17,7 @@ module.exports = FormHelper;
  * 此方法废弃
  *
  */
-FormHelper.getFormData = function(element) {
+FormHelper.getFormData = function (element) {
   /* var bo = getBusinessObject(element);
 
   var formFields = getExtensionElements(bo, 'smart:FormProperty');
@@ -38,7 +38,7 @@ FormHelper.getFormData = function(element) {
  *
  * @return {Array} a list of form field objects
  */
-FormHelper.getFormFields = function(element) {
+FormHelper.getFormFields = function (element) {
   /** 直接获取 ExtensionElements的 smart:FormProperty元素 */
   const bo = getBusinessObject(element);
 
@@ -55,7 +55,7 @@ FormHelper.getFormFields = function(element) {
  *
  * @return {ModdleElement} the form field
  */
-FormHelper.getFormField = function(element, idx) {
+FormHelper.getFormField = function (element, idx) {
   const formFields = this.getFormFields(element);
 
   return formFields[idx];
@@ -68,7 +68,7 @@ FormHelper.getFormField = function(element, idx) {
  *
  * @return {Array<ModdleElement>} a list of constraint objects
  */
-FormHelper.getConstraints = function(formField) {
+FormHelper.getConstraints = function (formField) {
   if (formField && formField.validation && formField.validation.constraints) {
     return formField.validation.constraints;
   }
@@ -82,7 +82,7 @@ FormHelper.getConstraints = function(formField) {
  *
  * @return {Array<ModdleElement>} a list of smart:value objects
  */
-FormHelper.getEnumValues = function(formField) {
+FormHelper.getEnumValues = function (formField) {
   if (formField && formField.values) {
     return formField.values;
   }

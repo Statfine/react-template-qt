@@ -262,7 +262,7 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
    * @param {Object} context.oldTemplate
    * @param {Object} context.newTemplate
    */
-  this.preExecute = function(context) {
+  this.preExecute = function (context) {
     const element = context.element;
     const newTemplate = context.newTemplate;
 
@@ -289,7 +289,7 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
       updateExecutionListener(element, newTemplate);
 
       // loop on scopes properties
-      forEach(newTemplate.scopes, function(scopeDefinition, scopeName) {
+      forEach(newTemplate.scopes, function (scopeDefinition, scopeName) {
         updateScopeElements(element, scopeName, scopeDefinition);
       });
     }
@@ -309,7 +309,7 @@ module.exports = ChangeElementTemplateHandler;
 function createBpmnPropertyUpdates(template, bpmnFactory) {
   const propertyUpdates = {};
 
-  template.properties.forEach(function(p) {
+  template.properties.forEach(function (p) {
     const binding = p.binding;
     const bindingTarget = binding.name;
     let propertyValue;
@@ -332,7 +332,7 @@ function createBpmnPropertyUpdates(template, bpmnFactory) {
       // when applying a smart:class template onto a preconfigured
       // smart:delegateExpression element
       if (SMART_SERVICE_TASK_LIKE.indexOf(bindingTarget) !== -1) {
-        SMART_SERVICE_TASK_LIKE.forEach(function(prop) {
+        SMART_SERVICE_TASK_LIKE.forEach(function (prop) {
           if (prop !== bindingTarget) {
             propertyUpdates[prop] = undefined;
           }
@@ -347,7 +347,7 @@ function createBpmnPropertyUpdates(template, bpmnFactory) {
 function createSmartFieldInjections(template, bpmnFactory) {
   const injections = [];
 
-  template.properties.forEach(function(p) {
+  template.properties.forEach(function (p) {
     const binding = p.binding;
     const bindingType = binding.type;
     if (bindingType === 'smart:field') {
@@ -363,7 +363,7 @@ function createSmartFieldInjections(template, bpmnFactory) {
 function createSmartProperties(template, bpmnFactory) {
   const properties = [];
 
-  template.properties.forEach(function(p) {
+  template.properties.forEach(function (p) {
     const binding = p.binding;
     const bindingType = binding.type;
 
@@ -383,7 +383,7 @@ function createInputOutputMappings(template, bpmnFactory) {
   const inputParameters = [];
   const outputParameters = [];
 
-  template.properties.forEach(function(p) {
+  template.properties.forEach(function (p) {
     const binding = p.binding;
     const bindingType = binding.type;
 
@@ -410,7 +410,7 @@ function createInputOutputMappings(template, bpmnFactory) {
 function createSmartInOut(template, bpmnFactory) {
   const inOuts = [];
 
-  template.properties.forEach(function(p) {
+  template.properties.forEach(function (p) {
     const binding = p.binding;
     const bindingType = binding.type;
 
@@ -429,7 +429,7 @@ function createSmartInOut(template, bpmnFactory) {
 function createSmartExecutionListeners(template, bpmnFactory) {
   const executionListener = [];
 
-  template.properties.forEach(function(p) {
+  template.properties.forEach(function (p) {
     const binding = p.binding;
     const bindingType = binding.type;
 

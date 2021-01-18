@@ -68,7 +68,7 @@ function getFormControls(node, all) {
   }
 
   if (!all) {
-    controls = filter(controls, function(node) {
+    controls = filter(controls, function (node) {
       return !domClosest(node, `.${HIDE_CLASS}`);
     });
   }
@@ -81,7 +81,7 @@ function getFormControlValuesInScope(entryNode) {
 
   const controlNodes = getFormControls(entryNode);
 
-  forEach(controlNodes, function(controlNode) {
+  forEach(controlNodes, function (controlNode) {
     let value = controlNode.value;
 
     const name =
@@ -126,7 +126,7 @@ function getFormControlValues(entryNode) {
   if (listContainer) {
     values = [];
     const listNodes = listContainer.children || [];
-    forEach(listNodes, function(listNode) {
+    forEach(listNodes, function (listNode) {
       values.push(getFormControlValuesInScope(listNode));
     });
   } else {
@@ -151,7 +151,7 @@ function valueEqual(value, oldValue) {
 
   const allKeys = keys(value).concat(keys(oldValue));
 
-  return allKeys.every(function(key) {
+  return allKeys.every(function (key) {
     return value[key] === oldValue[key];
   });
 }
@@ -170,7 +170,7 @@ function valuesEqual(values, oldValues) {
       return false;
     }
 
-    return values.every(function(v, idx) {
+    return values.every(function (v, idx) {
       return valueEqual(v, oldValues[idx]);
     });
   }
@@ -248,7 +248,7 @@ PropertiesPanel.$inject = [
 
 module.exports = PropertiesPanel;
 
-PropertiesPanel.prototype._init = function(config) {
+PropertiesPanel.prototype._init = function (config) {
   const canvas = this._canvas;
   const eventBus = this._eventBus;
 
@@ -257,7 +257,7 @@ PropertiesPanel.prototype._init = function(config) {
   /**
    * Select the root element once it is added to the canvas
    */
-  eventBus.on('root.added', function(e) {
+  eventBus.on('root.added', function (e) {
     const element = e.element;
 
     if (isImplicitRoot(element)) {
@@ -267,7 +267,7 @@ PropertiesPanel.prototype._init = function(config) {
     self.update(element);
   });
 
-  eventBus.on('selection.changed', function(e) {
+  eventBus.on('selection.changed', function (e) {
     const newElement = e.newSelection[0];
 
     const rootElement = canvas.getRootElement();
@@ -280,45 +280,49 @@ PropertiesPanel.prototype._init = function(config) {
   });
 
   // add / update tab-bar scrolling
-  eventBus.on(['propertiesPanel.changed', 'propertiesPanel.resized'], function(
-    event,
-  ) {
-    const tabBarNode = domQuery('.bpp-properties-tab-bar', self._container);
+  eventBus.on(
+    ['propertiesPanel.changed', 'propertiesPanel.resized'],
+    function (event) {
+      const tabBarNode = domQuery('.bpp-properties-tab-bar', self._container);
 
-    if (!tabBarNode) {
-      return;
-    }
+      if (!tabBarNode) {
+        return;
+      }
 
-    let scroller = scrollTabs.get(tabBarNode);
+      let scroller = scrollTabs.get(tabBarNode);
 
-    if (!scroller) {
-      // we did not initialize yet, do that
-      // now and make sure we select the active
-      // tab on scroll update
-      scroller = scrollTabs(tabBarNode, {
-        selectors: {
-          tabsContainer: '.bpp-properties-tabs-links',
-          tab: '.bpp-properties-tabs-links li',
-          ignore: '.bpp-hidden',
-          active: '.bpp-active',
-        },
-      });
+      if (!scroller) {
+        // we did not initialize yet, do that
+        // now and make sure we select the active
+        // tab on scroll update
+        scroller = scrollTabs(tabBarNode, {
+          selectors: {
+            tabsContainer: '.bpp-properties-tabs-links',
+            tab: '.bpp-properties-tabs-links li',
+            ignore: '.bpp-hidden',
+            active: '.bpp-active',
+          },
+        });
 
-      scroller.on('scroll', function(newActiveNode, oldActiveNode, direction) {
-        const linkNode = domQuery('[data-tab-target]', newActiveNode);
+        scroller.on(
+          'scroll',
+          function (newActiveNode, oldActiveNode, direction) {
+            const linkNode = domQuery('[data-tab-target]', newActiveNode);
 
-        const tabId = domAttr(linkNode, 'data-tab-target');
+            const tabId = domAttr(linkNode, 'data-tab-target');
 
-        self.activateTab(tabId);
-      });
-    }
+            self.activateTab(tabId);
+          },
+        );
+      }
 
-    // react on tab changes and or tabContainer resize
-    // and make sure the active tab is shown completely
-    scroller.update();
-  });
+      // react on tab changes and or tabContainer resize
+      // and make sure the active tab is shown completely
+      scroller.update();
+    },
+  );
 
-  eventBus.on('elements.changed', function(e) {
+  eventBus.on('elements.changed', function (e) {
     const current = self._current;
     const element = current && current.element;
 
@@ -329,7 +333,7 @@ PropertiesPanel.prototype._init = function(config) {
     }
   });
 
-  eventBus.on('elementTemplates.changed', function() {
+  eventBus.on('elementTemplates.changed', function () {
     const current = self._current;
     const element = current && current.element;
 
@@ -338,7 +342,7 @@ PropertiesPanel.prototype._init = function(config) {
     }
   });
 
-  eventBus.on('diagram.destroy', function() {
+  eventBus.on('diagram.destroy', function () {
     self.detach();
   });
 
@@ -351,7 +355,7 @@ PropertiesPanel.prototype._init = function(config) {
   }
 };
 
-PropertiesPanel.prototype.attachTo = function(parentNode) {
+PropertiesPanel.prototype.attachTo = function (parentNode) {
   if (!parentNode) {
     throw new Error('parentNode required');
   }
@@ -376,7 +380,7 @@ PropertiesPanel.prototype.attachTo = function(parentNode) {
   this._emit('attach');
 };
 
-PropertiesPanel.prototype.detach = function() {
+PropertiesPanel.prototype.detach = function () {
   const container = this._container;
   const parentNode = container.parentNode;
 
@@ -394,7 +398,7 @@ PropertiesPanel.prototype.detach = function() {
  *
  * @param {Object|String} tab
  */
-PropertiesPanel.prototype.activateTab = function(tab) {
+PropertiesPanel.prototype.activateTab = function (tab) {
   const tabId = typeof tab === 'string' ? tab : tab.id;
 
   const current = this._current;
@@ -404,13 +408,13 @@ PropertiesPanel.prototype.activateTab = function(tab) {
   const allTabNodes = domQueryAll('.bpp-properties-tab', panelNode);
   const allTabLinkNodes = domQueryAll('.bpp-properties-tab-link', panelNode);
 
-  forEach(allTabNodes, function(tabNode) {
+  forEach(allTabNodes, function (tabNode) {
     const currentTabId = domAttr(tabNode, 'data-tab');
 
     domClasses(tabNode).toggle('bpp-active', tabId === currentTabId);
   });
 
-  forEach(allTabLinkNodes, function(tabLinkNode) {
+  forEach(allTabLinkNodes, function (tabLinkNode) {
     const tabLink = domQuery('[data-tab-target]', tabLinkNode);
     const currentTabId = domAttr(tabLink, 'data-tab-target');
 
@@ -421,7 +425,7 @@ PropertiesPanel.prototype.activateTab = function(tab) {
 /**
  * Update the DOM representation of the properties panel
  */
-PropertiesPanel.prototype.update = function(element) {
+PropertiesPanel.prototype.update = function (element) {
   const current = this._current;
 
   // no actual selection change
@@ -480,21 +484,21 @@ PropertiesPanel.prototype.update = function(element) {
  * @param  {Object} newTabs
  * @return {Boolean}
  */
-PropertiesPanel.prototype._entriesChanged = function(current, newTabs) {
+PropertiesPanel.prototype._entriesChanged = function (current, newTabs) {
   const oldEntryIds = keys(current.entries);
   const newEntryIds = keys(extractEntries(newTabs));
 
   return !isEmpty(xor(oldEntryIds, newEntryIds));
 };
 
-PropertiesPanel.prototype._emit = function(event) {
+PropertiesPanel.prototype._emit = function (event) {
   this._eventBus.fire(`propertiesPanel.${event}`, {
     panel: this,
     current: this._current,
   });
 };
 
-PropertiesPanel.prototype._bindListeners = function(container) {
+PropertiesPanel.prototype._bindListeners = function (container) {
   const self = this;
 
   // handles a change for a given event
@@ -567,7 +571,7 @@ PropertiesPanel.prototype._bindListeners = function(container) {
   }
 
   // handle key events
-  domDelegate.bind(container, 'select', 'keydown', function(e) {
+  domDelegate.bind(container, 'select', 'keydown', function (e) {
     // DEL
     if (e.keyCode === 46) {
       e.stopPropagation();
@@ -575,28 +579,36 @@ PropertiesPanel.prototype._bindListeners = function(container) {
     }
   });
 
-  domDelegate.bind(container, '[data-action]', 'click', function onClick(
-    event,
-  ) {
-    // triggers on all inputs
-    const inputNode = event.delegateTarget;
-    const entryNode = domClosest(inputNode, '[data-entry]');
+  domDelegate.bind(
+    container,
+    '[data-action]',
+    'click',
+    function onClick(event) {
+      // triggers on all inputs
+      const inputNode = event.delegateTarget;
+      const entryNode = domClosest(inputNode, '[data-entry]');
 
-    const actionId = domAttr(inputNode, 'data-action');
-    const entryId = domAttr(entryNode, 'data-entry');
+      const actionId = domAttr(inputNode, 'data-action');
+      const entryId = domAttr(entryNode, 'data-entry');
 
-    const entry = self.getEntry(entryId);
+      const entry = self.getEntry(entryId);
 
-    const isEntryDirty = self.executeAction(entry, entryNode, actionId, event);
+      const isEntryDirty = self.executeAction(
+        entry,
+        entryNode,
+        actionId,
+        event,
+      );
 
-    if (isEntryDirty) {
-      const values = getFormControlValues(entryNode);
+      if (isEntryDirty) {
+        const values = getFormControlValues(entryNode);
 
-      self.applyChanges(entry, values, entryNode);
-    }
+        self.applyChanges(entry, values, entryNode);
+      }
 
-    self.updateState(entry, entryNode);
-  });
+      self.updateState(entry, entryNode);
+    },
+  );
 
   function handleInput(event, element) {
     // triggers on all inputs
@@ -637,7 +649,7 @@ PropertiesPanel.prototype._bindListeners = function(container) {
     container,
     '.bpp-properties-tabs-links [data-tab-target]',
     'click',
-    function(event) {
+    function (event) {
       event.preventDefault();
 
       const delegateTarget = event.delegateTarget;
@@ -650,7 +662,7 @@ PropertiesPanel.prototype._bindListeners = function(container) {
   );
 };
 
-PropertiesPanel.prototype.updateState = function(entry, entryNode) {
+PropertiesPanel.prototype.updateState = function (entry, entryNode) {
   this.updateShow(entry, entryNode);
   this.updateDisable(entry, entryNode);
 };
@@ -658,7 +670,7 @@ PropertiesPanel.prototype.updateState = function(entry, entryNode) {
 /**
  * Update the visibility of the entry node in the DOM
  */
-PropertiesPanel.prototype.updateShow = function(entry, node) {
+PropertiesPanel.prototype.updateShow = function (entry, node) {
   const current = this._current;
 
   if (!current) {
@@ -667,7 +679,7 @@ PropertiesPanel.prototype.updateShow = function(entry, node) {
 
   const showNodes = domQueryAll('[data-show]', node) || [];
 
-  forEach(showNodes, function(showNode) {
+  forEach(showNodes, function (showNode) {
     const expr = domAttr(showNode, 'data-show');
     const fn = get(entry, expr);
     if (fn) {
@@ -686,7 +698,7 @@ PropertiesPanel.prototype.updateShow = function(entry, node) {
  * Evaluates a given function. If it returns true, then the
  * node is marked as "disabled".
  */
-PropertiesPanel.prototype.updateDisable = function(entry, node) {
+PropertiesPanel.prototype.updateDisable = function (entry, node) {
   const current = this._current;
 
   if (!current) {
@@ -695,7 +707,7 @@ PropertiesPanel.prototype.updateDisable = function(entry, node) {
 
   const nodes = domQueryAll('[data-disable]', node) || [];
 
-  forEach(nodes, function(currentNode) {
+  forEach(nodes, function (currentNode) {
     const expr = domAttr(currentNode, 'data-disable');
     const fn = get(entry, expr);
     if (fn) {
@@ -707,7 +719,7 @@ PropertiesPanel.prototype.updateDisable = function(entry, node) {
   });
 };
 
-PropertiesPanel.prototype.executeAction = function(
+PropertiesPanel.prototype.executeAction = function (
   entry,
   entryNode,
   actionId,
@@ -729,7 +741,7 @@ PropertiesPanel.prototype.executeAction = function(
 /**
  * Apply changes to the business object by executing a command
  */
-PropertiesPanel.prototype.applyChanges = function(
+PropertiesPanel.prototype.applyChanges = function (
   entry,
   values,
   containerElement,
@@ -769,7 +781,7 @@ PropertiesPanel.prototype.applyChanges = function(
 /**
  * apply validation errors in the DOM and show or remove an error message near the entry node.
  */
-PropertiesPanel.prototype.applyValidationErrors = function(
+PropertiesPanel.prototype.applyValidationErrors = function (
   validationErrors,
   entryNode,
 ) {
@@ -777,7 +789,7 @@ PropertiesPanel.prototype.applyValidationErrors = function(
 
   const controlNodes = getFormControls(entryNode, true);
 
-  forEach(controlNodes, function(controlNode) {
+  forEach(controlNodes, function (controlNode) {
     const name =
       domAttr(controlNode, 'name') || domAttr(controlNode, 'data-name');
 
@@ -821,7 +833,7 @@ PropertiesPanel.prototype.applyValidationErrors = function(
 /**
  * Check if the entry contains valid input
  */
-PropertiesPanel.prototype.validate = function(entry, values, entryNode) {
+PropertiesPanel.prototype.validate = function (entry, values, entryNode) {
   const self = this;
 
   const current = this._current;
@@ -862,7 +874,7 @@ PropertiesPanel.prototype.validate = function(entry, values, entryNode) {
   return valid;
 };
 
-PropertiesPanel.prototype.getEntry = function(id) {
+PropertiesPanel.prototype.getEntry = function (id) {
   return this._current && this._current.entries[id];
 };
 
@@ -871,7 +883,7 @@ var keyBy = require('lodash/keyBy');
 var map = require('lodash/map');
 const escapeHTML = require('./Utils').escapeHTML;
 
-PropertiesPanel.prototype._create = function(element, tabs) {
+PropertiesPanel.prototype._create = function (element, tabs) {
   if (!element) {
     return null;
   }
@@ -903,7 +915,7 @@ PropertiesPanel.prototype._create = function(element, tabs) {
  * @param {HTMLElement} entryNode
  * @param {Number} idx
  */
-PropertiesPanel.prototype._bindTemplate = function(
+PropertiesPanel.prototype._bindTemplate = function (
   element,
   entry,
   values,
@@ -922,7 +934,7 @@ PropertiesPanel.prototype._bindTemplate = function(
 
   const inputNodes = getPropertyPlaceholders(entryNode);
 
-  forEach(inputNodes, function(node) {
+  forEach(inputNodes, function (node) {
     let name;
     let newValue;
     let editable;
@@ -974,7 +986,7 @@ PropertiesPanel.prototype._bindTemplate = function(
 };
 
 // TODO(nikku): WTF freaking name? Change / clarify.
-PropertiesPanel.prototype._updateActivation = function(current) {
+PropertiesPanel.prototype._updateActivation = function (current) {
   const self = this;
 
   const eventBus = this._eventBus;
@@ -1027,19 +1039,19 @@ PropertiesPanel.prototype._updateActivation = function(current) {
 
   const panelNode = current.panel;
 
-  forEach(current.tabs, function(tab) {
+  forEach(current.tabs, function (tab) {
     const tabNode = domQuery(`[data-tab=${tab.id}]`, panelNode);
     const tabLinkNode = domQuery(`[data-tab-target=${tab.id}]`, panelNode)
       .parentNode;
 
     let tabVisible = false;
 
-    forEach(tab.groups, function(group) {
+    forEach(tab.groups, function (group) {
       let groupVisible = false;
 
       const groupNode = domQuery(`[data-group=${group.id}]`, tabNode);
 
-      forEach(group.entries, function(entry) {
+      forEach(group.entries, function (entry) {
         const entryNode = domQuery(`[data-entry="${entry.id}"]`, groupNode);
 
         const entryVisible = isEntryVisible(entry);
@@ -1116,7 +1128,7 @@ PropertiesPanel.prototype._updateActivation = function(current) {
   );
 };
 
-PropertiesPanel.prototype._createPanel = function(element, tabs) {
+PropertiesPanel.prototype._createPanel = function (element, tabs) {
   const self = this;
 
   const panelNode = domify('<div class="bpp-properties"></div>');
@@ -1137,7 +1149,7 @@ PropertiesPanel.prototype._createPanel = function(element, tabs) {
 
   panelNode.appendChild(headerNode);
 
-  forEach(tabs, function(tab, tabIndex) {
+  forEach(tabs, function (tab, tabIndex) {
     if (!tab.id) {
       throw new Error('tab must have an id');
     }
@@ -1146,15 +1158,14 @@ PropertiesPanel.prototype._createPanel = function(element, tabs) {
       `<div class="bpp-properties-tab" data-tab="${escapeHTML(tab.id)}"></div>`,
     );
     const tabLinkNode = domify(
-      `${'<li class="bpp-properties-tab-link">' +
-        '<a href data-tab-target="'}${escapeHTML(tab.id)}">${escapeHTML(
-        tab.label,
-      )}</a>` + `</li>`,
+      `${
+        '<li class="bpp-properties-tab-link">' + '<a href data-tab-target="'
+      }${escapeHTML(tab.id)}">${escapeHTML(tab.label)}</a>` + `</li>`,
     );
 
     const groups = tab.groups;
 
-    forEach(groups, function(group) {
+    forEach(groups, function (group) {
       if (!group.id) {
         throw new Error('group must have an id');
       }
@@ -1171,12 +1182,12 @@ PropertiesPanel.prototype._createPanel = function(element, tabs) {
       // TODO(nre): use event delegation to handle that...
       groupNode
         .querySelector('.group-toggle')
-        .addEventListener('click', function(evt) {
+        .addEventListener('click', function (evt) {
           domClasses(groupNode).toggle('group-closed');
           evt.preventDefault();
           evt.stopPropagation();
         });
-      groupNode.addEventListener('click', function(evt) {
+      groupNode.addEventListener('click', function (evt) {
         if (
           !evt.defaultPrevented &&
           domClasses(groupNode).has('group-closed')
@@ -1185,7 +1196,7 @@ PropertiesPanel.prototype._createPanel = function(element, tabs) {
         }
       });
 
-      forEach(group.entries, function(entry) {
+      forEach(group.entries, function (entry) {
         if (!entry.id) {
           throw new Error('entry must have an id');
         }
@@ -1207,7 +1218,7 @@ PropertiesPanel.prototype._createPanel = function(element, tabs) {
           )}"></div>`,
         );
 
-        forEach(entry.cssClasses || [], function(cssClass) {
+        forEach(entry.cssClasses || [], function (cssClass) {
           domClasses(entryNode).add(cssClass);
         });
 

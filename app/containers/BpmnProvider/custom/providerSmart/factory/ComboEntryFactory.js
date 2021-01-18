@@ -25,7 +25,7 @@ const entryFieldDescription = require('./EntryFieldDescription');
  *
  * @return {Object}
  */
-const comboBox = function(options) {
+const comboBox = function (options) {
   const selectOptions = options.selectOptions;
   const modelProperty = options.modelProperty;
   const customValue = options.customValue || 'custom';
@@ -33,12 +33,12 @@ const comboBox = function(options) {
   const description = options.description;
 
   // check if a value is not a built in value
-  const isCustomValue = function(value) {
+  const isCustomValue = function (value) {
     if (typeof value[modelProperty] === 'undefined') {
       return false;
     }
 
-    const isCustom = !find(selectOptions, function(option) {
+    const isCustom = !find(selectOptions, function (option) {
       return value[modelProperty] === option.value;
     });
 
@@ -48,7 +48,7 @@ const comboBox = function(options) {
   const comboOptions = assign({}, options);
 
   // true if the selected value in the select box is customValue
-  comboOptions.showCustomInput = function(element, node) {
+  comboOptions.showCustomInput = function (element, node) {
     const selectBox = domQuery(
       `[data-entry="${options.id}"] select`,
       node.parentNode,
@@ -61,7 +61,7 @@ const comboBox = function(options) {
     return false;
   };
 
-  comboOptions.get = function(element, node) {
+  comboOptions.get = function (element, node) {
     const value = options.get(element, node);
 
     const modifiedValues = {};
@@ -78,7 +78,7 @@ const comboBox = function(options) {
     return modifiedValues;
   };
 
-  comboOptions.set = function(element, values, node) {
+  comboOptions.set = function (element, values, node) {
     const modifiedValues = {};
 
     // if the custom select option has been selected
@@ -101,12 +101,14 @@ const comboBox = function(options) {
   );
 
   comboBoxEntry.html +=
-    `${'<div class="bpp-field-wrapper bpp-combo-input" ' +
+    `${
+      '<div class="bpp-field-wrapper bpp-combo-input" ' +
       'data-show="showCustomInput"' +
       '>' +
-      '<input id="camunda-'}${escapeHTML(
-      options.id,
-    )}-input" type="text" name="custom-${escapeHTML(modelProperty)}" ` +
+      '<input id="camunda-'
+    }${escapeHTML(options.id)}-input" type="text" name="custom-${escapeHTML(
+      modelProperty,
+    )}" ` +
     ` />` +
     `</div>`;
 

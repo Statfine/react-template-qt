@@ -4,7 +4,7 @@ const is = require('bpmn-js/lib/util/ModelUtil').is;
 const getBusinessObject = require('bpmn-js/lib/util/ModelUtil')
   .getBusinessObject;
 
-module.exports = function(group, element, translate) {
+module.exports = function (group, element, translate) {
   const bo = getBusinessObject(element);
 
   if (!bo) {
@@ -23,7 +23,7 @@ module.exports = function(group, element, translate) {
 
     // in participants we have to change the default behavior of set and get
     if (is(element, 'bpmn:Participant')) {
-      versionTagEntry.get = function(element) {
+      versionTagEntry.get = function (element) {
         const processBo = bo.get('processRef');
 
         return {
@@ -31,7 +31,7 @@ module.exports = function(group, element, translate) {
         };
       };
 
-      versionTagEntry.set = function(element, values) {
+      versionTagEntry.set = function (element, values) {
         const processBo = bo.get('processRef');
 
         return cmdHelper.updateBusinessObject(element, processBo, {

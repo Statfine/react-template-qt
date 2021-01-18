@@ -61,7 +61,7 @@ module.exports.getRoot = getRoot;
 function filterElementsByType(objectList, type) {
   const list = objectList || [];
   const result = [];
-  forEach(list, function(obj) {
+  forEach(list, function (obj) {
     if (is(obj, type)) {
       result.push(obj);
     }
@@ -105,7 +105,7 @@ function refreshOptionsModel(businessObject, referencedType) {
     businessObject,
     referencedType,
   );
-  forEach(referableObjects, function(obj) {
+  forEach(referableObjects, function (obj) {
     model.push({
       label: `${obj.name || ''} (id=${obj.id})`,
       value: obj.id,
@@ -131,7 +131,7 @@ function updateOptionsDropDown(
   const selectBox = domQuery(domSelector, entryNode);
   domClear(selectBox);
 
-  forEach(options, function(option) {
+  forEach(options, function (option) {
     const optionEntry = domify(
       `<option value="${escapeHTML(option.value)}">${escapeHTML(
         option.label,
@@ -242,7 +242,7 @@ function escapeHTML(str) {
 
   return (
     str &&
-    str.replace(/[&<>"']/g, function(match) {
+    str.replace(/[&<>"']/g, function (match) {
       return HTML_ESCAPE_MAP[match];
     })
   );

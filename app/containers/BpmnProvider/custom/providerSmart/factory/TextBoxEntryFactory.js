@@ -2,7 +2,7 @@ const escapeHTML = require('../Utils').escapeHTML;
 
 const entryFieldDescription = require('./EntryFieldDescription');
 
-const textBox = function(options, defaultParameters) {
+const textBox = function (options, defaultParameters) {
   const resource = defaultParameters;
   const label = options.label || resource.id;
   const canBeShown = !!options.show && typeof options.show === 'function';
@@ -25,7 +25,7 @@ const textBox = function(options, defaultParameters) {
   }
 
   if (canBeShown) {
-    resource.isShown = function() {
+    resource.isShown = function () {
       return options.show.apply(resource, arguments);
     };
   }

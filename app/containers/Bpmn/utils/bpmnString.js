@@ -41,9 +41,9 @@ function JsonToString() {
 function defaultBpmnString(participantList, BPMNPlaneList, processList) {
   console.log(BPMNPlaneList.join(''));
   return `<?xml version="1.0" encoding="UTF-8"?><bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" id="Definitions_06armuw" targetNamespace="http://bpmn.io/schema/bpmn" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="7.0.0">
-    <bpmn:collaboration id="Collaboration_1">${participantList.join(
-    '',
-  )}</bpmn:collaboration>
+    <bpmn:collaboration id="Collaboration_1">
+      ${participantList.join('')}
+    </bpmn:collaboration>
     ${processList.join('')}
     <bpmndi:BPMNDiagram id="BPMNDiagram_1">
       <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1">

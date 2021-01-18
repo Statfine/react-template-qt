@@ -15,7 +15,7 @@ function getListeners(bo, type) {
 const SMART_EXECUTION_LISTENER_ELEMENT = 'smart:ExecutionListener';
 const SMART_TASK_LISTENER_ELEMENT = 'smart:TaskListener';
 
-module.exports = function(element, bpmnFactory, options, translate) {
+module.exports = function (element, bpmnFactory, options, translate) {
   const LISTENER_TYPE_LABEL = {
     class: translate('Java Class'),
     expression: translate('Expression'),
@@ -47,8 +47,8 @@ module.exports = function(element, bpmnFactory, options, translate) {
     return listener;
   }
 
-  const setOptionLabelValue = function(type) {
-    return function(element, node, option, property, value, idx) {
+  const setOptionLabelValue = function (type) {
+    return function (element, node, option, property, value, idx) {
       const listeners = getListeners(bo, type);
       const listener = listeners[idx];
       const listenerType = ImplementationTypeHelper.getImplementationType(
@@ -57,15 +57,16 @@ module.exports = function(element, bpmnFactory, options, translate) {
 
       const event = listener.get('event') ? listener.get('event') : '<empty>';
 
-      const label = `${event || '*'} : ${LISTENER_TYPE_LABEL[listenerType] ||
-        ''}`;
+      const label = `${event || '*'} : ${
+        LISTENER_TYPE_LABEL[listenerType] || ''
+      }`;
 
       option.text = label;
     };
   };
 
-  const newElement = function(element, type, initialEvent) {
-    return function(element, extensionElements, value) {
+  const newElement = function (element, type, initialEvent) {
+    return function (element, extensionElements, value) {
       const props = {
         event: initialEvent,
         class: '',
@@ -84,8 +85,8 @@ module.exports = function(element, bpmnFactory, options, translate) {
     };
   };
 
-  const removeElement = function(element, type) {
-    return function(element, extensionElements, value, idx) {
+  const removeElement = function (element, type) {
+    return function (element, extensionElements, value, idx) {
       const listeners = getListeners(bo, type);
       const listener = listeners[idx];
       if (listener) {

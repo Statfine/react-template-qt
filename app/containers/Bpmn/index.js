@@ -396,12 +396,7 @@ export default class BpmnPage extends PureComponent {
   // 流程图放大缩小
   handleZoom = radio => {
     const { scale } = this.state;
-    const newScale = !radio
-      ? 1.0 // 不输入radio则还原
-      : scale + radio <= 0.2 // 最小缩小倍数
-        ? 0.2
-        : scale + radio;
-
+    const newScale = !radio ? 1.0 : scale + radio <= 0.2 ? 0.2 : scale + radio;
     this.bpmnModeler.get('canvas').zoom(newScale);
     this.setState({
       scale: newScale,

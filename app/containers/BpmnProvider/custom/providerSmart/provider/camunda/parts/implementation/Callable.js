@@ -75,7 +75,7 @@ function getSmartInWithBusinessKey(element) {
     'smart:In',
   );
   if (smartInParams) {
-    forEach(smartInParams, function(param) {
+    forEach(smartInParams, function (param) {
       if (param.businessKey !== undefined) {
         smartIn.push(param);
       }
@@ -134,7 +134,7 @@ function setBusinessKey(element, text, bpmnFactory) {
 function deleteBusinessKey(element) {
   const smartInExtensions = getSmartInWithBusinessKey(element);
   const commands = [];
-  forEach(smartInExtensions, function(elem) {
+  forEach(smartInExtensions, function (elem) {
     commands.push(
       extensionElementsHelper.removeEntry(
         getBusinessObject(element),
@@ -150,7 +150,7 @@ function isSupportedCallableType(type) {
   return ['bpmn', 'cmmn', 'dmn'].indexOf(type) !== -1;
 }
 
-module.exports = function(element, bpmnFactory, options, translate) {
+module.exports = function (element, bpmnFactory, options, translate) {
   const bindingOptions = [
     {
       name: translate('latest'),
@@ -268,7 +268,7 @@ module.exports = function(element, bpmnFactory, options, translate) {
         let options;
 
         if (type === 'cmmn') {
-          options = bindingOptions.filter(function(bindingOption) {
+          options = bindingOptions.filter(function (bindingOption) {
             return bindingOption.value !== 'versionTag';
           });
         } else {

@@ -9,7 +9,7 @@ const elementHelper = require('../../../helper/ElementHelper');
 const eventDefinitionHelper = require('../../../helper/EventDefinitionHelper');
 const scriptImplementation = require('./implementation/Script');
 
-module.exports = function(group, element, bpmnFactory, translate) {
+module.exports = function (group, element, bpmnFactory, translate) {
   const bo = getBusinessObject(element);
 
   if (!bo) {
@@ -34,10 +34,9 @@ module.exports = function(group, element, bpmnFactory, translate) {
     id: 'condition',
     label: translate('Condition'),
     html:
-      `${'<div class="bpp-row">' +
-        '<label for="cam-condition-type">'}${escapeHTML(
-        translate('Condition Type'),
-      )}</label>` +
+      `${
+        '<div class="bpp-row">' + '<label for="cam-condition-type">'
+      }${escapeHTML(translate('Condition Type'))}</label>` +
       `<div class="bpp-field-wrapper">` +
       `<select id="cam-condition-type" name="conditionType" data-value>` +
       `<option value="expression">${escapeHTML(

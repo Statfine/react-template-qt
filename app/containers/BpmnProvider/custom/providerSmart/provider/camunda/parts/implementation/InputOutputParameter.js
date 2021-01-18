@@ -28,7 +28,7 @@ function ensureInputOutputSupported(element, insideConnector) {
   return inputOutputHelper.isInputOutputSupported(element, insideConnector);
 }
 
-module.exports = function(element, bpmnFactory, options, translate) {
+module.exports = function (element, bpmnFactory, options, translate) {
   const typeInfo = {
     'smart:Map': {
       value: 'map',
@@ -57,7 +57,7 @@ module.exports = function(element, bpmnFactory, options, translate) {
 
   const entries = [];
 
-  const isSelected = function(element, node) {
+  const isSelected = function (element, node) {
     return getSelected(element, node);
   };
 
@@ -145,7 +145,7 @@ module.exports = function(element, bpmnFactory, options, translate) {
           definition: undefined,
         };
 
-        const createParameterTypeElem = function(type) {
+        const createParameterTypeElem = function (type) {
           return createElement(type, bo, bpmnFactory);
         };
 

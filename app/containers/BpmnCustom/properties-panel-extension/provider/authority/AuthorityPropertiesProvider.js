@@ -70,7 +70,7 @@ export default function AuthorityPropertiesProvider(
 ) {
   PropertiesActivator.call(this, eventBus);
 
-  this.getTabs = function(element) {
+  this.getTabs = function (element) {
     const generalTab = {
       id: 'general',
       label: 'General',

@@ -26,7 +26,7 @@ function canRemoveFailedJobRetryTimeCycle(element) {
   return !eventDefinitionHelper.getTimerEventDefinition(element);
 }
 
-module.exports = function(element, bpmnFactory, options, translate) {
+module.exports = function (element, bpmnFactory, options, translate) {
   const getBusinessObject = options.getBusinessObject;
 
   const idPrefix = options.idPrefix || '';

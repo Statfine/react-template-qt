@@ -2,7 +2,7 @@ const entryFactory = require('../../../../factory/EntryFactory');
 const cmdHelper = require('../../../../helper/CmdHelper');
 const elementReferenceProperty = require('../../../bpmn/parts/implementation/ElementReferenceProperty');
 
-module.exports = function(
+module.exports = function (
   group,
   element,
   bpmnFactory,
@@ -11,8 +11,8 @@ module.exports = function(
   showErrorMessageVariable,
   translate,
 ) {
-  const getValue = function(modelProperty) {
-    return function(element) {
+  const getValue = function (modelProperty) {
+    return function (element) {
       const modelPropertyValue = errorEventDefinition.get(
         `smart:${modelProperty}`,
       );
@@ -23,8 +23,8 @@ module.exports = function(
     };
   };
 
-  const setValue = function(modelProperty) {
-    return function(element, values) {
+  const setValue = function (modelProperty) {
+    return function (element, values) {
       const props = {};
 
       props[`smart:${modelProperty}`] = values[modelProperty] || undefined;

@@ -1,7 +1,7 @@
 const eventDefinitionReference = require('./EventDefinitionReference');
 const elementReferenceProperty = require('./ElementReferenceProperty');
 
-module.exports = function(
+module.exports = function (
   group,
   element,
   bpmnFactory,

@@ -6,7 +6,7 @@ const getBusinessObject = require('bpmn-js/lib/util/ModelUtil')
 const nameEntryFactory = require('./implementation/Name');
 const utils = require('../../../Utils');
 
-module.exports = function(group, element, translate, options) {
+module.exports = function (group, element, translate, options) {
   const businessObject = getBusinessObject(element);
 
   const processIdDescription = options && options.processIdDescription;
@@ -27,7 +27,7 @@ module.exports = function(group, element, translate, options) {
       });
 
       // in participants we have to change the default behavior of set and get
-      idEntry.get = function(element) {
+      idEntry.get = function (element) {
         const properties = participantHelper.getProcessBusinessObject(
           element,
           'id',
@@ -35,13 +35,13 @@ module.exports = function(group, element, translate, options) {
         return { processId: properties.id };
       };
 
-      idEntry.set = function(element, values) {
+      idEntry.set = function (element, values) {
         return participantHelper.modifyProcessBusinessObject(element, 'id', {
           id: values.processId,
         });
       };
 
-      idEntry.validate = function(element, values) {
+      idEntry.validate = function (element, values) {
         const idValue = values.processId;
 
         const bo = getBusinessObject(element);
@@ -66,11 +66,11 @@ module.exports = function(group, element, translate, options) {
       })[0];
 
       // in participants we have to change the default behavior of set and get
-      processNameEntry.get = function(element) {
+      processNameEntry.get = function (element) {
         return participantHelper.getProcessBusinessObject(element, 'name');
       };
 
-      processNameEntry.set = function(element, values) {
+      processNameEntry.set = function (element, values) {
         return participantHelper.modifyProcessBusinessObject(
           element,
           'name',

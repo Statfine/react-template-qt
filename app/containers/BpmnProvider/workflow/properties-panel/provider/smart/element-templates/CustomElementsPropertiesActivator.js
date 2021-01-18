@@ -25,7 +25,7 @@ const HIGHER_PRIORITY = 1100;
 function CustomElementsPropertiesActivator(eventBus, elementTemplates) {
   PropertiesActivator.call(this, eventBus, HIGHER_PRIORITY);
 
-  this.isEntryVisible = function(entry, element) {
+  this.isEntryVisible = function (entry, element) {
     const template = getTemplate(element, elementTemplates);
 
     if (template && !isEntryVisible(entry, template)) {
@@ -33,7 +33,7 @@ function CustomElementsPropertiesActivator(eventBus, elementTemplates) {
     }
   };
 
-  this.isPropertyEditable = function(entry, propertyName, element) {
+  this.isPropertyEditable = function (entry, propertyName, element) {
     const template = getTemplate(element, elementTemplates);
 
     if (template && !isEntryEditable(entry, template)) {

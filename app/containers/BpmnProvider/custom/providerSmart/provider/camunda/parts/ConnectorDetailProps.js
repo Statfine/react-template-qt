@@ -20,7 +20,7 @@ function isConnector(element) {
   return getImplementationType(element) === 'connector';
 }
 
-module.exports = function(group, element, bpmnFactory, translate) {
+module.exports = function (group, element, bpmnFactory, translate) {
   group.entries.push(
     entryFactory.textField({
       id: 'connectorId',

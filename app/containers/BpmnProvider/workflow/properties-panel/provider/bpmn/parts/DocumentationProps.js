@@ -5,9 +5,9 @@ const cmdHelper = require('../../../helper/CmdHelper');
 const is = ModelUtil.is;
 const getBusinessObject = ModelUtil.getBusinessObject;
 
-module.exports = function(group, element, bpmnFactory, translate) {
-  const getValue = function(businessObject) {
-    return function(element) {
+module.exports = function (group, element, bpmnFactory, translate) {
+  const getValue = function (businessObject) {
+    return function (element) {
       const documentations =
         businessObject && businessObject.get('documentation');
       const text =
@@ -19,8 +19,8 @@ module.exports = function(group, element, bpmnFactory, translate) {
     };
   };
 
-  const setValue = function(businessObject) {
-    return function(element, values) {
+  const setValue = function (businessObject) {
+    return function (element, values) {
       const newObjectList = [];
 
       if (

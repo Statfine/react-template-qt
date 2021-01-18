@@ -228,7 +228,7 @@ function createSmartInOutAttrs(binding, value) {
   else {
     properties.target = value;
 
-    ['source', 'sourceExpression'].forEach(function(k) {
+    ['source', 'sourceExpression'].forEach(function (k) {
       if (binding[k]) {
         properties[k] = binding[k];
       }

@@ -188,7 +188,7 @@ export default class EchartPage extends PureComponent {
 
   initData = () => {
     const series = [];
-    [[KMData]].forEach(function(item, i) {
+    [[KMData]].forEach(function (item, i) {
       series.push(
         // 线
         {
@@ -235,7 +235,7 @@ export default class EchartPage extends PureComponent {
               color: color[i],
             },
           },
-          data: item[0].map(function(dataItem) {
+          data: item[0].map(function (dataItem) {
             return {
               // 用于提及显示
               name: dataItem[1].name,

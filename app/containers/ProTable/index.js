@@ -2,7 +2,7 @@
 import React from 'react';
 import { Table } from 'antd';
 
-export default function() {
+export default function () {
   const columns = geneColumn();
   const data = geneData();
   // group

@@ -165,14 +165,8 @@ const Tool = {
     if (len <= 3) return b;
     const r = len % 3;
     return r > 0
-      ? `${b.slice(0, r)},${b
-        .slice(r, len)
-        .match(/\d{3}/g)
-        .join(',')}`
-      : b
-        .slice(r, len)
-        .match(/\d{3}/g)
-        .join(',');
+      ? `${b.slice(0, r)},${b.slice(r, len).match(/\d{3}/g).join(',')}`
+      : b.slice(r, len).match(/\d{3}/g).join(',');
   },
 
   getLength(q, gg) {
