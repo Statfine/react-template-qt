@@ -7,12 +7,13 @@ import Demo from './demo';
 import GaodeTwo from './GaodeTwo';
 
 export default class OpenLayer extends PureComponent {
-  componentDidMount() {
-  }
+  componentDidMount() {}
 
   render() {
-    return <>
-      <GaodeTwo />
-    </>;
+    return (
+      <>
+        <GaodeTwo />
+      </>
+    );
   }
 }

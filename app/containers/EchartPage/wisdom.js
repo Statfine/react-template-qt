@@ -253,7 +253,7 @@ export default class EchartPage extends PureComponent {
       },
       series,
     };
-    this.myChart.current.clear()
+    this.myChart.current.clear();
     this.myChart.setOption(option);
     // window.onresize = () => {
     //   this.myChart.resize();
@@ -278,25 +278,25 @@ export default class EchartPage extends PureComponent {
   };
 
   exitFullscreen = () => {
-    if(document.exitFullScreen) {
+    if (document.exitFullScreen) {
       document.exitFullScreen();
-    } else if(document.mozCancelFullScreen) {
+    } else if (document.mozCancelFullScreen) {
       document.mozCancelFullScreen();
-    } else if(document.webkitExitFullscreen) {
+    } else if (document.webkitExitFullscreen) {
       document.webkitExitFullscreen();
-    } else if(document.msExitFullscreen) {
+    } else if (document.msExitFullscreen) {
       document.msExitFullscreen();
     }
     setTimeout(() => {
       this.myChart.resize();
     }, 200);
-  }
+  };
 
   handleRestore = () => {
     this.myChart.dispatchAction({
-      type: 'restore'
-    })
-  }
+      type: 'restore',
+    });
+  };
 
   render() {
     return (

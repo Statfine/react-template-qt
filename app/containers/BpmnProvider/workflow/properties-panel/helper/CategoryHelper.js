@@ -1,7 +1,6 @@
-
-
 const collectionAdd = require('diagram-js/lib/util/Collections').add;
-const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil')
+  .getBusinessObject;
 
 const CategoryHelper = {};
 
@@ -18,7 +17,7 @@ module.exports = CategoryHelper;
 CategoryHelper.createCategoryValue = function(definitions, bpmnFactory) {
   const categoryValue = bpmnFactory.create('bpmn:CategoryValue');
   const category = bpmnFactory.create('bpmn:Category', {
-    categoryValue: [ categoryValue ]
+    categoryValue: [categoryValue],
   });
 
   // add to correct place
@@ -27,5 +26,4 @@ CategoryHelper.createCategoryValue = function(definitions, bpmnFactory) {
   getBusinessObject(categoryValue).$parent = category;
 
   return categoryValue;
-
 };

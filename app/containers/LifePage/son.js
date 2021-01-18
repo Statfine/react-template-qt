@@ -1,8 +1,8 @@
 import React from 'react';
 
 export default class SonPage extends React.PureComponent {
-
-  UNSAFE_componentWillMount() { // eslint-disable-line
+  // eslint-disable-next-line
+  UNSAFE_componentWillMount() {
     console.log('S componentWillMount');
   }
 
@@ -12,10 +12,6 @@ export default class SonPage extends React.PureComponent {
 
   render() {
     console.log('S render');
-    return (
-      <div>
-        son
-      </div>
-    )
+    return <div>son</div>;
   }
 }

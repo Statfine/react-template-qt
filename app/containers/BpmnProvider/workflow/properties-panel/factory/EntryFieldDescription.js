@@ -1,5 +1,3 @@
-
-
 const escapeHTML = require('../Utils').escapeHTML;
 
 /**
@@ -11,7 +9,6 @@ const escapeHTML = require('../Utils').escapeHTML;
  * @param {String} description
  */
 module.exports = function entryFieldDescription(description) {
-
   // we tokenize the description to extract text, HTML and markdown links
   // text and links are handled seperately
 
@@ -22,10 +19,10 @@ module.exports = function entryFieldDescription(description) {
 
   let index = 0;
   let match;
-  let link; let text;
+  let link;
+  let text;
 
   while ((match = pattern.exec(description))) {
-
     // escape + insert text before match
     if (match.index > index) {
       escaped.push(escapeHTML(description.substring(index, match.index)));
@@ -35,7 +32,7 @@ module.exports = function entryFieldDescription(description) {
     text = match[1] || match[4];
 
     // insert safe link
-    escaped.push(`<a href="${  link  }" target="_blank">${  escapeHTML(text)  }</a>`);
+    escaped.push(`<a href="${link}" target="_blank">${escapeHTML(text)}</a>`);
 
     index = match.index + match[0].length;
   }
@@ -45,5 +42,5 @@ module.exports = function entryFieldDescription(description) {
     escaped.push(escapeHTML(description.substring(index)));
   }
 
-  return `<div class="bpp-field-description">${  escaped.join('')  }</div>`;
+  return `<div class="bpp-field-description">${escaped.join('')}</div>`;
 };

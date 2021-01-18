@@ -1,5 +1,3 @@
-
-
 const Validator = require('./Validator');
 
 /**
@@ -32,12 +30,10 @@ module.exports = ElementTemplatesLoader;
 ElementTemplatesLoader.$inject = [
   'config.elementTemplates',
   'eventBus',
-  'elementTemplates'
+  'elementTemplates',
 ];
 
-
 ElementTemplatesLoader.prototype.reload = function() {
-
   const self = this;
 
   const loadTemplates = this._loadTemplates;
@@ -49,11 +45,9 @@ ElementTemplatesLoader.prototype.reload = function() {
 
   // template loader function specified
   if (typeof loadTemplates === 'function') {
-
     return loadTemplates(function(err, templates) {
-
       if (err) {
-        return self.templateErrors([ err ]);
+        return self.templateErrors([err]);
       }
 
       self.setTemplates(templates);
@@ -64,11 +58,9 @@ ElementTemplatesLoader.prototype.reload = function() {
   if (loadTemplates.length) {
     return this.setTemplates(loadTemplates);
   }
-
 };
 
 ElementTemplatesLoader.prototype.setTemplates = function(templates) {
-
   const elementTemplates = this._elementTemplates;
 
   const validator = new Validator().addAll(templates);
@@ -91,6 +83,6 @@ ElementTemplatesLoader.prototype.templatesChanged = function() {
 
 ElementTemplatesLoader.prototype.templateErrors = function(errors) {
   this._eventBus.fire('elementTemplates.errors', {
-    errors
+    errors,
   });
 };

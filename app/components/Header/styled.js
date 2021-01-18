@@ -22,19 +22,19 @@ export const Part = styled.div`
   cursor: pointer;
   &:after {
     content: '';
-    width:1px;
-    height:14px;
+    width: 1px;
+    height: 14px;
     background: #e9e9e9;
-    position:absolute;
-    left:0px;
-    top:23px;
+    position: absolute;
+    left: 0px;
+    top: 23px;
   }
 `;
 
 export const JumpP = styled.p`
   cursor: pointer;
   font-size: 14px;
-  color: rgba(0,0,0,0.65);
+  color: rgba(0, 0, 0, 0.65);
   // &:hover {
   //   color: #108EE9;
   // }
@@ -52,6 +52,6 @@ export const JumpP = styled.p`
 export const Title = styled.p`
   margin-right: 20px;
   font-size: 14px;
-  color: rgba(0,0,0,0.65);
+  color: rgba(0, 0, 0, 0.65);
   line-height: 21px;
 `;

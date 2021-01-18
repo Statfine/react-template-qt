@@ -53,9 +53,9 @@ const AntdPage = props => {
         console.log('Received values of form: ', values);
         return true;
       }
-      return false
+      return false;
     });
-  }
+  };
 
   const checkPassword = (rule, value, callback) => {
     console.log(rule, value, callback);
@@ -73,9 +73,7 @@ const AntdPage = props => {
 
   return (
     <div>
-      <Form
-        {...formItemLayout}
-      >
+      <Form {...formItemLayout}>
         <Form.Item label="E-mail">
           {getFieldDecorator('email', {
             rules: [

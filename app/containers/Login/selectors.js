@@ -17,7 +17,7 @@ const selectLoginDomain = state => state.login || initialState;
 
 const makeSelectLogin = () =>
   createSelector(selectLoginDomain, substate => substate);
-  
+
 const makeSelectParams = () =>
   createSelector(selectLoginDomain, substate => substate.params);
 const makeSelectIsRequesting = () =>

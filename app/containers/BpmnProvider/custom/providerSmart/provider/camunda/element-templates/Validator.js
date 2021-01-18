@@ -1,11 +1,9 @@
-
-
 const isArray = require('lodash/isArray');
 const isObject = require('lodash/isObject');
 
 const DROPDOWN_TYPE = 'Dropdown';
 
-const VALID_TYPES = [ 'String', 'Text', 'Boolean', 'Hidden', DROPDOWN_TYPE ];
+const VALID_TYPES = ['String', 'Text', 'Boolean', 'Hidden', DROPDOWN_TYPE];
 
 const PROPERTY_TYPE = 'property';
 const SMART_PROPERTY_TYPE = 'smart:property';
@@ -26,20 +24,17 @@ const VALID_BINDING_TYPES = [
   SMART_OUT_TYPE,
   SMART_IN_BUSINESS_KEY_TYPE,
   SMART_EXECUTION_LISTENER,
-  SMART_FIELD
+  SMART_FIELD,
 ];
-
 
 /**
  * A element template validator.
  */
 function Validator() {
-
   this._templatesById = {};
 
   this._validTemplates = [];
   this._errors = [];
-
 
   /**
    * Adds the templates.
@@ -49,7 +44,6 @@ function Validator() {
    * @return {Validator} self
    */
   this.addAll = function(templates) {
-
     if (!isArray(templates)) {
       this._logError('templates must be []');
     } else {
@@ -67,7 +61,6 @@ function Validator() {
    * @return {Validator} self
    */
   this.add = function(template) {
-
     const err = this._validateTemplate(template);
 
     if (!err) {
@@ -87,7 +80,6 @@ function Validator() {
    * @return {Error} validation error, if any
    */
   this._validateTemplate = function(template) {
-
     let err;
     const id = template.id;
     const appliesTo = template.appliesTo;
@@ -99,7 +91,7 @@ function Validator() {
     }
 
     if (id in this._templatesById) {
-      return this._logError(`template id <${  id  }> already used`);
+      return this._logError(`template id <${id}> already used`);
     }
 
     if (!isArray(appliesTo)) {
@@ -120,7 +112,6 @@ function Validator() {
   };
 
   this._validateScopes = function(template, scopes) {
-
     let err;
     let scope;
     let scopeName;
@@ -138,10 +129,11 @@ function Validator() {
 
       if (!isArray(scope.properties)) {
         err = this._logError(
-          `missing properties=[] in scope <${  scopeName  }>`, template
+          `missing properties=[] in scope <${scopeName}>`,
+          template,
         );
       } else if (!this._validateProperties(scope.properties)) {
-        err = new Error(`invalid properties in scope <${  scopeName  }>`);
+        err = new Error(`invalid properties in scope <${scopeName}>`);
       }
     }
 
@@ -170,7 +162,6 @@ function Validator() {
    * @return {Boolean} true if property is valid
    */
   this._validateProperty = function(property) {
-
     const type = property.type;
     const binding = property.binding;
 
@@ -180,22 +171,19 @@ function Validator() {
 
     if (VALID_TYPES.indexOf(type) === -1) {
       err = this._logError(
-        `invalid property type <${  type  }>; ` +
-        `must be any of { ${  VALID_TYPES.join(', ')  } }`
+        `invalid property type <${type}>; ` +
+          `must be any of { ${VALID_TYPES.join(', ')} }`,
       );
     }
 
     if (type === DROPDOWN_TYPE && bindingType !== SMART_EXECUTION_LISTENER) {
       if (!isArray(property.choices)) {
         err = this._logError(
-          `must provide choices=[] with ${  DROPDOWN_TYPE  } type`
+          `must provide choices=[] with ${DROPDOWN_TYPE} type`,
         );
-      } else
-
-      if (!property.choices.every(isDropdownChoiceValid)) {
+      } else if (!property.choices.every(isDropdownChoiceValid)) {
         err = this._logError(
-          `{ name, value } must be specified for ${ 
-            DROPDOWN_TYPE  } choices`
+          `{ name, value } must be specified for ${DROPDOWN_TYPE} choices`,
         );
       }
     }
@@ -206,57 +194,52 @@ function Validator() {
 
     if (VALID_BINDING_TYPES.indexOf(bindingType) === -1) {
       err = this._logError(
-        `invalid property.binding type <${  bindingType  }>; ` +
-        `must be any of { ${  VALID_BINDING_TYPES.join(', ')  } }`
+        `invalid property.binding type <${bindingType}>; ` +
+          `must be any of { ${VALID_BINDING_TYPES.join(', ')} }`,
       );
     }
 
-    if (bindingType === PROPERTY_TYPE ||
-        bindingType === SMART_PROPERTY_TYPE ||
-        bindingType === SMART_INPUT_PARAMETER_TYPE ||
-        bindingType === SMART_FIELD) {
-
+    if (
+      bindingType === PROPERTY_TYPE ||
+      bindingType === SMART_PROPERTY_TYPE ||
+      bindingType === SMART_INPUT_PARAMETER_TYPE ||
+      bindingType === SMART_FIELD
+    ) {
       if (!binding.name) {
-        err = this._logError(
-          `property.binding <${  bindingType  }> requires name`
-        );
+        err = this._logError(`property.binding <${bindingType}> requires name`);
       }
     }
 
     if (bindingType === SMART_OUTPUT_PARAMETER_TYPE) {
       if (!binding.source) {
         err = this._logError(
-          `property.binding <${  bindingType  }> requires source`
+          `property.binding <${bindingType}> requires source`,
         );
       }
     }
 
     if (bindingType === SMART_IN_TYPE) {
-
       if (!binding.variables && !binding.target) {
         err = this._logError(
-          `property.binding <${  bindingType  }> requires ` +
-          `variables or target`
+          `property.binding <${bindingType}> requires ` + `variables or target`,
         );
       }
     }
 
     if (bindingType === SMART_OUT_TYPE) {
-
       if (!binding.variables && !binding.source && !binding.sourceExpression) {
         err = this._logError(
-          `property.binding <${  bindingType  }> requires ` +
-          `variables, sourceExpression or source`
+          `property.binding <${bindingType}> requires ` +
+            `variables, sourceExpression or source`,
         );
       }
     }
 
     if (bindingType === SMART_EXECUTION_LISTENER) {
-
       if (type !== 'Hidden') {
         err = this._logError(
-          `invalid property type <${  type  }> for ${  SMART_EXECUTION_LISTENER  }; ` +
-          `must be <Hidden>`
+          `invalid property type <${type}> for ${SMART_EXECUTION_LISTENER}; ` +
+            `must be <Hidden>`,
         );
       }
     }
@@ -264,12 +247,10 @@ function Validator() {
     return !err;
   };
 
-
   this._logError = function(err, template) {
-
     if (typeof err === 'string') {
       if (template) {
-        err = `template(id: ${  template.id  }) ${  err}`;
+        err = `template(id: ${template.id}) ${err}`;
       }
 
       err = new Error(err);
@@ -290,7 +271,6 @@ function Validator() {
 }
 
 module.exports = Validator;
-
 
 // helpers ///////////////////////////////////
 

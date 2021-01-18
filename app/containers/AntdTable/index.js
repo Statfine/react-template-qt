@@ -5,8 +5,8 @@ import { Table, Space } from 'antd';
 
 export default class AntdTable extends PureComponent {
   state = {
-    selectedRowKeys: []
-  }
+    selectedRowKeys: [],
+  };
 
   render() {
     const dataSource = [
@@ -22,28 +22,32 @@ export default class AntdTable extends PureComponent {
         name: 'Disabled User',
         age: 42,
         gender: '男',
-        address: '西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号',
+        address:
+          '西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号',
       },
       {
         key: '3',
         name: 'Disabled User3',
         age: 42,
         gender: '男',
-        address: '西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号',
+        address:
+          '西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号',
       },
       {
         key: '4',
         name: 'Disabled User4',
         age: 42,
         gender: '女',
-        address: '西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号',
+        address:
+          '西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号',
       },
       {
         key: '5',
         name: 'Disabled User5',
         age: 42,
         gender: '女',
-        address: '西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号',
+        address:
+          '西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号西湖区湖底公园1号',
       },
     ];
     const columns = [
@@ -55,15 +59,23 @@ export default class AntdTable extends PureComponent {
         render: (name, data, index) => {
           // colSpan行单元 小于4的行列正常显示，第四行占据4个单元，对应第四行其他单元应该设置成0不显示
           if (index < 4) {
-            return <div>{index},{name},{data.name}</div>;
+            return (
+              <div>
+                {index},{name},{data.name}
+              </div>
+            );
           }
           return {
-            children: <div>{index},{name},{data.name}</div>,
+            children: (
+              <div>
+                {index},{name},{data.name}
+              </div>
+            ),
             props: {
               colSpan: 4,
             },
           };
-        }
+        },
       },
       {
         title: '信息',
@@ -101,7 +113,7 @@ export default class AntdTable extends PureComponent {
                       colSpan: 0,
                     },
                   };
-                }
+                },
               },
               {
                 title: ' 性别',
@@ -127,9 +139,9 @@ export default class AntdTable extends PureComponent {
                   return {
                     children: <div>{gender}</div>,
                   };
-                }
-              }
-            ]
+                },
+              },
+            ],
           },
           {
             title: '住址',
@@ -163,9 +175,9 @@ export default class AntdTable extends PureComponent {
                   colSpan: 0,
                 },
               };
-            }
-          }
-        ]
+            },
+          },
+        ],
       },
       {
         title: '操作',
@@ -177,19 +189,27 @@ export default class AntdTable extends PureComponent {
         // )
         render: (text, record, index) => {
           if (index < 4) {
-            return <Space size="middle">
-              <p>Invite {record.name},{index}</p>
-            </Space>;
+            return (
+              <Space size="middle">
+                <p>
+                  Invite {record.name},{index}
+                </p>
+              </Space>
+            );
           }
           return {
-            children: <Space size="middle">
-              <p>Invite {record.name},{index}</p>
-            </Space>,
+            children: (
+              <Space size="middle">
+                <p>
+                  Invite {record.name},{index}
+                </p>
+              </Space>
+            ),
             props: {
               colSpan: 0,
             },
           };
-        }
+        },
       },
     ];
     const { selectedRowKeys } = this.state;
@@ -197,26 +217,35 @@ export default class AntdTable extends PureComponent {
       <>
         <Table
           rowSelection={{
-            type: "checkbox",
-            onChange: (selectedRowKey, selectedRows) => { // 事件
-              console.log(`selectedRowKeys: ${selectedRowKey}`, 'selectedRows: ', selectedRows);
+            type: 'checkbox',
+            onChange: (selectedRowKey, selectedRows) => {
+              // 事件
+              console.log(
+                `selectedRowKeys: ${selectedRowKey}`,
+                'selectedRows: ',
+                selectedRows,
+              );
               this.setState({ selectedRowKeys: selectedRowKey });
             },
             selectedRowKeys,
-            getCheckboxProps: record => ({ // 属性设置
+            getCheckboxProps: record => ({
+              // 属性设置
               disabled: record.name === 'Disabled User',
               name: record.name,
             }),
           }}
           dataSource={dataSource}
           columns={columns}
-          expandable={{ // 展开
-            expandedRowRender: record => <p style={{ margin: 0 }}>{record.address}</p>,
+          expandable={{
+            // 展开
+            expandedRowRender: record => (
+              <p style={{ margin: 0 }}>{record.address}</p>
+            ),
             rowExpandable: record => record.name !== '胡彦斌',
           }}
           bordered
         />
       </>
-    )
+    );
   }
 }

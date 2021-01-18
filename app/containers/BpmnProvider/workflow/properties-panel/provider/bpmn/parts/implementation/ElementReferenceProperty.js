@@ -1,5 +1,3 @@
-
-
 const entryFactory = require('../../../../factory/EntryFactory');
 
 const cmdHelper = require('../../../../helper/CmdHelper');
@@ -21,7 +19,6 @@ const cmdHelper = require('../../../../helper/CmdHelper');
  * @return {Array<Object>} return an array containing the entries
  */
 module.exports = function(element, definition, bpmnFactory, options) {
-
   const id = options.id || 'element-property';
   const label = options.label;
   const referenceProperty = options.referenceProperty;
@@ -49,7 +46,7 @@ module.exports = function(element, definition, bpmnFactory, options) {
 
     hidden(element, node) {
       return !definition.get(referenceProperty);
-    }
+    },
   });
 
   if (shouldValidate) {
@@ -63,5 +60,5 @@ module.exports = function(element, definition, bpmnFactory, options) {
     };
   }
 
-  return [ entry ];
+  return [entry];
 };

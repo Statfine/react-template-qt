@@ -1,18 +1,12 @@
-
-
 const entryFactory = require('../../../../factory/EntryFactory');
 const cmdHelper = require('../../../../helper/CmdHelper');
 
-const DELEGATE_TYPES = [
-  'class',
-  'expression',
-  'delegateExpression'
-];
+const DELEGATE_TYPES = ['class', 'expression', 'delegateExpression'];
 
 const PROPERTIES = {
   class: 'smart:class',
   expression: 'smart:expression',
-  delegateExpression: 'smart:delegateExpression'
+  delegateExpression: 'smart:delegateExpression',
 };
 
 function isDelegate(type) {
@@ -23,9 +17,7 @@ function getAttribute(type) {
   return PROPERTIES[type];
 }
 
-
 module.exports = function(element, bpmnFactory, options, translate) {
-
   const getImplementationType = options.getImplementationType;
   const getBusinessObject = options.getBusinessObject;
 
@@ -55,7 +47,7 @@ module.exports = function(element, bpmnFactory, options, translate) {
       const label = getDelegationLabel(type);
       return {
         delegate: bo.get(attr),
-        delegationLabel: label
+        delegationLabel: label,
       };
     },
 
@@ -69,15 +61,15 @@ module.exports = function(element, bpmnFactory, options, translate) {
     },
 
     validate(element, values, node) {
-      return isDelegate(getImplementationType(element)) && !values.delegate ? { delegate: translate('Must provide a value') } : {};
+      return isDelegate(getImplementationType(element)) && !values.delegate
+        ? { delegate: translate('Must provide a value') }
+        : {};
     },
 
     hidden(element, node) {
       return !isDelegate(getImplementationType(element));
-    }
-
+    },
   });
 
-  return [ delegateEntry ];
-
+  return [delegateEntry];
 };

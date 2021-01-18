@@ -17,23 +17,12 @@ const selectApp = state => state.app || initialState;
  */
 
 const makeSelectLocation = () =>
-  createSelector(
-    selectRouter,
-    routerState => routerState.location,
-  );
+  createSelector(selectRouter, routerState => routerState.location);
 
 const makeSelectLogined = () =>
-  createSelector(selectApp, appState =>
-    appState.logined,
-  );
+  createSelector(selectApp, appState => appState.logined);
 
 const makeSelectUserInfo = () =>
-  createSelector(selectApp, appState =>
-    appState.userInfo,
-  );
+  createSelector(selectApp, appState => appState.userInfo);
 
-export {
-  makeSelectLocation,
-  makeSelectLogined,
-  makeSelectUserInfo,
-}
+export { makeSelectLocation, makeSelectLogined, makeSelectUserInfo };

@@ -1,5 +1,3 @@
-
-
 /**
  * The label factory provides a label entry. For the label text
  * it expects either a string provided by the options.labelText
@@ -16,10 +14,11 @@
 const label = function(options) {
   return {
     id: options.id,
-    html: `${'<label data-value="label" ' +
-            'data-show="showLabel" ' +
-            'class="entry-label'}${  options.divider ? ' divider' : ''  }">` +
-          `</label>`,
+    html:
+      `${'<label data-value="label" ' +
+        'data-show="showLabel" ' +
+        'class="entry-label'}${options.divider ? ' divider' : ''}">` +
+      `</label>`,
     get(element, node) {
       if (typeof options.get === 'function') {
         return options.get(element, node);
@@ -31,7 +30,7 @@ const label = function(options) {
         return options.showLabel(element, node);
       }
       return true;
-    }
+    },
   };
 };
 

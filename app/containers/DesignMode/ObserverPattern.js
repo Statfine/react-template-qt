@@ -1,7 +1,7 @@
 /* eslint-disable */
 /**
  * 观察者模式
-*/
+ */
 
 class Subject {
   // 构造函数
@@ -16,7 +16,9 @@ class Subject {
 
   // 移除观察者
   unRegisterObserver(observer) {
-    const observerIndex = this.observerCollection.findIndex((o) => o.name === observer.name);
+    const observerIndex = this.observerCollection.findIndex(
+      o => o.name === observer.name,
+    );
     this.observerCollection.splice(observerIndex, 1);
   }
 
@@ -35,7 +37,7 @@ class Subject {
 // 观察者
 class Observer {
   update() {
-    console.log('Observer')
+    console.log('Observer');
   }
 }
 
@@ -51,7 +53,7 @@ class Todo extends Subject {
   }
 
   removeItem(item) {
-    const itemIndex = this.items.findIndex((v) => v === item);
+    const itemIndex = this.items.findIndex(v => v === item);
     this.items.splice(itemIndex, 1);
     super.notifyObserver(this);
   }
@@ -66,7 +68,7 @@ class ListObserver extends Observer {
   update(todo) {
     super.update();
     const items = todo.items;
-    for(let item of items) {
+    for (let item of items) {
       console.log('ListObserver', item);
     }
   }

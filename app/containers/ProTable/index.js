@@ -35,15 +35,11 @@ export default function() {
       }
     }
     const tobeConfigColumn = columns.find(
-      (column) => column.dataIndex === config.groupKey,
+      column => column.dataIndex === config.groupKey,
     );
     if (tobeConfigColumn) {
-      tobeConfigColumn.render = (
-        value,
-        record,
-        currentIndex,
-      ) => {
-        const exist = result.find((item) => item.start === currentIndex);
+      tobeConfigColumn.render = (value, record, currentIndex) => {
+        const exist = result.find(item => item.start === currentIndex);
         return {
           children: value,
           props: {

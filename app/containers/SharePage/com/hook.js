@@ -26,7 +26,6 @@ function AppendApi() {
   const twoRef = createRef();
   const [text, setText] = useState('hello');
 
-  
   useEffect(() => {
     setText('word');
   }, []);

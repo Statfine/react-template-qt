@@ -5,7 +5,8 @@ const { localStorage, location } = window;
 export function setLocal(key, val) {
   const setting = arguments[0]; // eslint-disable-line
   if (Object.prototype.toString.call(setting).slice(8, -1) === 'Object') {
-    for (const i in setting) { // eslint-disable-line
+    for (const i in setting) {
+      // eslint-disable-line
       localStorage.setItem(i, setting[i]);
     }
   } else {
@@ -16,7 +17,12 @@ export function setLocal(key, val) {
 // 获取localStorage
 export function getLocal(key) {
   try {
-    if (key && localStorage.getItem(key) && localStorage.getItem(key) !== 'undefined') return localStorage.getItem(key)
+    if (
+      key &&
+      localStorage.getItem(key) &&
+      localStorage.getItem(key) !== 'undefined'
+    )
+      return localStorage.getItem(key);
     return null;
   } catch (error) {
     return null;
@@ -47,7 +53,9 @@ export function setCookie(name, value, expiredays = 7) {
   const expire = new Date();
   expire.setDate(expire.getDate() + expiredays);
   const domian = location.hostname;
-  document.cookie = `${name}=${escape(value)};expires=${expire.toGMTString()};path=/;domain=${domian}`;
+  document.cookie = `${name}=${escape(
+    value,
+  )};expires=${expire.toGMTString()};path=/;domain=${domian}`;
 }
 
 // 获取cookie
@@ -83,6 +91,8 @@ export function clearCookie() {
   const domian = location.hostname;
   for (let i = 0; i < dataArray.length; i += 1) {
     const varName = dataArray[i].split('=');
-    document.cookie = `${varName[0]}=;expires=${expire.toGMTString()};path=/;domain=${domian}`;
+    document.cookie = `${
+      varName[0]
+    }=;expires=${expire.toGMTString()};path=/;domain=${domian}`;
   }
 }

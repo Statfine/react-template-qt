@@ -1,6 +1,5 @@
-
-
-const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil')
+  .getBusinessObject;
 const is = require('bpmn-js/lib/util/ModelUtil').is;
 const forEach = require('lodash/forEach');
 
@@ -9,7 +8,6 @@ const EventDefinitionHelper = {};
 module.exports = EventDefinitionHelper;
 
 EventDefinitionHelper.getEventDefinition = function(element, eventType) {
-
   const bo = getBusinessObject(element);
   let eventDefinition = null;
 

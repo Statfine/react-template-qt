@@ -6,12 +6,12 @@ import SonPage from './son';
 import FFunc from './FFunc';
 
 export default class LifePage extends React.PureComponent {
-
   state = {
-    name: "hello word"
-  }
+    name: 'hello word',
+  };
 
-  UNSAFE_componentWillMount() { // eslint-disable-line
+  // eslint-disable-next-line
+  UNSAFE_componentWillMount() {
     console.log('F componentWillMount');
   }
 
@@ -19,7 +19,7 @@ export default class LifePage extends React.PureComponent {
     console.log('F componentDidMount');
   }
 
-  handleChangeName = () => this.setState({ name: "Hello" });
+  handleChangeName = () => this.setState({ name: 'Hello' });
 
   render() {
     const { name } = this.state;
@@ -32,6 +32,6 @@ export default class LifePage extends React.PureComponent {
         <FFunc />
         <SayName />
       </div>
-    )
+    );
   }
 }

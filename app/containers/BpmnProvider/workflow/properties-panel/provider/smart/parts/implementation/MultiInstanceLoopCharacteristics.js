@@ -1,8 +1,6 @@
-
-
-const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil')
+  .getBusinessObject;
 const escapeHTML = require('../../../../Utils').escapeHTML;
-
 
 const entryFactory = require('../../../../factory/EntryFactory');
 
@@ -34,7 +32,6 @@ function getProperty(element, propertyName) {
 function getBody(expression) {
   return expression && expression.get('body');
 }
-
 
 /**
  * Get the loop characteristics of an element.
@@ -116,7 +113,6 @@ function getElementVariable(element) {
   return getProperty(element, 'smart:elementVariable');
 }
 
-
 /**
  * Creates 'bpmn:FormalExpression' element.
  *
@@ -127,7 +123,12 @@ function getElementVariable(element) {
  * @result {ModdleElement<bpmn:FormalExpression>} a formal expression
  */
 function createFormalExpression(parent, body, bpmnFactory) {
-  return elementHelper.createElement('bpmn:FormalExpression', { body }, parent, bpmnFactory);
+  return elementHelper.createElement(
+    'bpmn:FormalExpression',
+    { body },
+    parent,
+    bpmnFactory,
+  );
 }
 
 /**
@@ -146,26 +147,36 @@ function updateFormalExpression(element, propertyName, newValue, bpmnFactory) {
   if (!newValue) {
     // remove formal expression
     expressionProps[propertyName] = undefined;
-    return cmdHelper.updateBusinessObject(element, loopCharacteristics, expressionProps);
+    return cmdHelper.updateBusinessObject(
+      element,
+      loopCharacteristics,
+      expressionProps,
+    );
   }
 
   const existingExpression = loopCharacteristics.get(propertyName);
 
   if (!existingExpression) {
     // add formal expression
-    expressionProps[propertyName] = createFormalExpression(loopCharacteristics, newValue, bpmnFactory);
-    return cmdHelper.updateBusinessObject(element, loopCharacteristics, expressionProps);
+    expressionProps[propertyName] = createFormalExpression(
+      loopCharacteristics,
+      newValue,
+      bpmnFactory,
+    );
+    return cmdHelper.updateBusinessObject(
+      element,
+      loopCharacteristics,
+      expressionProps,
+    );
   }
 
   // edit existing formal expression
   return cmdHelper.updateBusinessObject(element, existingExpression, {
-    body: newValue
+    body: newValue,
   });
 }
 
-
 module.exports = function(element, bpmnFactory, translate) {
-
   const entries = [];
 
   // error message /////////////////////////////////////////////////////////////////
@@ -173,9 +184,9 @@ module.exports = function(element, bpmnFactory, translate) {
   entries.push({
     id: 'multiInstance-errorMessage',
     html: `${'<div data-show="isValid">' +
-             '<span class="bpp-icon-warning"></span> '}${ 
-      escapeHTML(translate('Must provide either loop cardinality or collection')) 
-    }</div>`,
+      '<span class="bpp-icon-warning"></span> '}${escapeHTML(
+      translate('Must provide either loop cardinality or collection'),
+    )}</div>`,
 
     isValid(element, node, notification, scope) {
       const loopCharacteristics = getLoopCharacteristics(element);
@@ -192,99 +203,113 @@ module.exports = function(element, bpmnFactory, translate) {
       domClasses(notification).toggle('bpp-error-message', isValid);
 
       return isValid;
-    }
+    },
   });
 
   // loop cardinality //////////////////////////////////////////////////////////////
 
-  entries.push(entryFactory.textField({
-    id: 'multiInstance-loopCardinality',
-    label: translate('Loop Cardinality'),
-    modelProperty: 'loopCardinality',
+  entries.push(
+    entryFactory.textField({
+      id: 'multiInstance-loopCardinality',
+      label: translate('Loop Cardinality'),
+      modelProperty: 'loopCardinality',
 
-    get(element, node) {
-      return {
-        loopCardinality: getLoopCardinalityValue(element)
-      };
-    },
+      get(element, node) {
+        return {
+          loopCardinality: getLoopCardinalityValue(element),
+        };
+      },
 
-    set(element, values) {
-      return updateFormalExpression(element, 'loopCardinality', values.loopCardinality, bpmnFactory);
-    }
-  }));
-
+      set(element, values) {
+        return updateFormalExpression(
+          element,
+          'loopCardinality',
+          values.loopCardinality,
+          bpmnFactory,
+        );
+      },
+    }),
+  );
 
   // collection //////////////////////////////////////////////////////////////////
 
-  entries.push(entryFactory.textField({
-    id: 'multiInstance-collection',
-    label: translate('Collection'),
-    modelProperty: 'collection',
+  entries.push(
+    entryFactory.textField({
+      id: 'multiInstance-collection',
+      label: translate('Collection'),
+      modelProperty: 'collection',
 
-    get(element, node) {
-      return {
-        collection: getCollection(element)
-      };
-    },
+      get(element, node) {
+        return {
+          collection: getCollection(element),
+        };
+      },
 
-    set(element, values) {
-      const loopCharacteristics = getLoopCharacteristics(element);
-      return cmdHelper.updateBusinessObject(element, loopCharacteristics, {
-        'smart:collection': values.collection || undefined
-      });
-    },
+      set(element, values) {
+        const loopCharacteristics = getLoopCharacteristics(element);
+        return cmdHelper.updateBusinessObject(element, loopCharacteristics, {
+          'smart:collection': values.collection || undefined,
+        });
+      },
 
-    validate(element, values, node) {
-      const collection = getCollection(element);
-      const elementVariable = getElementVariable(element);
+      validate(element, values, node) {
+        const collection = getCollection(element);
+        const elementVariable = getElementVariable(element);
 
-      if (!collection && elementVariable) {
-        return { collection : 'Must provide a value' };
-      }
-    }
-  }));
-
+        if (!collection && elementVariable) {
+          return { collection: 'Must provide a value' };
+        }
+      },
+    }),
+  );
 
   // element variable ////////////////////////////////////////////////////////////
 
-  entries.push(entryFactory.textField({
-    id: 'multiInstance-elementVariable',
-    label: translate('Element Variable'),
-    modelProperty: 'elementVariable',
+  entries.push(
+    entryFactory.textField({
+      id: 'multiInstance-elementVariable',
+      label: translate('Element Variable'),
+      modelProperty: 'elementVariable',
 
-    get(element, node) {
-      return {
-        elementVariable: getElementVariable(element)
-      };
-    },
+      get(element, node) {
+        return {
+          elementVariable: getElementVariable(element),
+        };
+      },
 
-    set(element, values) {
-      const loopCharacteristics = getLoopCharacteristics(element);
-      return cmdHelper.updateBusinessObject(element, loopCharacteristics, {
-        'smart:elementVariable': values.elementVariable || undefined
-      });
-    }
-  }));
-
+      set(element, values) {
+        const loopCharacteristics = getLoopCharacteristics(element);
+        return cmdHelper.updateBusinessObject(element, loopCharacteristics, {
+          'smart:elementVariable': values.elementVariable || undefined,
+        });
+      },
+    }),
+  );
 
   // Completion Condition //////////////////////////////////////////////////////
 
-  entries.push(entryFactory.textField({
-    id: 'multiInstance-completionCondition',
-    label: translate('Completion Condition'),
-    modelProperty: 'completionCondition',
+  entries.push(
+    entryFactory.textField({
+      id: 'multiInstance-completionCondition',
+      label: translate('Completion Condition'),
+      modelProperty: 'completionCondition',
 
-    get(element) {
-      return {
-        completionCondition: getCompletionConditionValue(element)
-      };
-    },
+      get(element) {
+        return {
+          completionCondition: getCompletionConditionValue(element),
+        };
+      },
 
-    set(element, values) {
-      return updateFormalExpression(element, 'completionCondition', values.completionCondition, bpmnFactory);
-    }
-  }));
+      set(element, values) {
+        return updateFormalExpression(
+          element,
+          'completionCondition',
+          values.completionCondition,
+          bpmnFactory,
+        );
+      },
+    }),
+  );
 
   return entries;
-
 };

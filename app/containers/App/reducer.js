@@ -11,10 +11,12 @@ import * as cons from './constants';
 
 /*
  * logined Auth用户验证
-*/
+ */
 // 验证用户有效的条件是 必须有access_token 同时有效期大于当前
 function isLogined() {
-  return !!getLocal('access_token') && Date.now() < Number(getLocal('expires_in'));
+  return (
+    !!getLocal('access_token') && Date.now() < Number(getLocal('expires_in'))
+  );
 }
 
 /**

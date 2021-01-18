@@ -1,5 +1,13 @@
-import { fork, call, takeLatest, put, select /* , take, all */ } from 'redux-saga/effects';
-import { clearLocal /* ,, setLocal, removeLocal */ } from 'utility/localStorageCookie';
+import {
+  fork,
+  call,
+  takeLatest,
+  put,
+  select /* , take, all */,
+} from 'redux-saga/effects';
+import {
+  clearLocal /* ,, setLocal, removeLocal */,
+} from 'utility/localStorageCookie';
 // import { LOCATION_CHANGE } from 'connected-react-router/immutable';
 import { LOGIN_CHANGE, LOGIN_OUT } from './constants';
 
@@ -69,11 +77,11 @@ function* loginOutWatcher() {
  * tokenSagaWatcher token刷新
  * fetchUserInfoWatcher 获取用户信息
  * loginOutWatcher 退出
- * 
+ *
  * 用户打开页面执行
  * 1. 判断是否需要刷新token(tokenSagaWatcher) 同时判断 是否需要加载用户信息fetchUserInfoWatcher
  * 2. 如果刷新token成功，则再次去获取用户信息
- * 
+ *
  * 用户退出 清空localStorage， 修改logined状态
  */
 export default function* defaultSaga() {

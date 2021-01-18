@@ -1,5 +1,3 @@
-
-
 const assign = require('lodash/assign');
 
 const entryFactory = require('../../../../factory/EntryFactory');
@@ -29,22 +27,20 @@ function canRemoveFailedJobRetryTimeCycle(element) {
 }
 
 module.exports = function(element, bpmnFactory, options, translate) {
-
   const getBusinessObject = options.getBusinessObject;
 
   const idPrefix = options.idPrefix || '';
   const labelPrefix = options.labelPrefix || '';
 
-
   const asyncBeforeEntry = entryFactory.checkbox({
-    id: `${idPrefix  }asyncBefore`,
+    id: `${idPrefix}asyncBefore`,
     label: labelPrefix + translate('Asynchronous Before'),
     modelProperty: 'asyncBefore',
 
     get(element, node) {
       const bo = getBusinessObject(element);
       return {
-        asyncBefore: isAsyncBefore(bo)
+        asyncBefore: isAsyncBefore(bo),
       };
     },
 
@@ -54,12 +50,12 @@ module.exports = function(element, bpmnFactory, options, translate) {
 
       let props = {
         'smart:asyncBefore': asyncBefore,
-        'smart:async': false
+        'smart:async': false,
       };
 
       const commands = [];
       if (!isAsyncAfter(bo) && !asyncBefore) {
-        props = assign({ 'smart:exclusive' : true }, props);
+        props = assign({ 'smart:exclusive': true }, props);
         if (canRemoveFailedJobRetryTimeCycle(element)) {
           commands.push(removeFailedJobRetryTimeCycle(bo, element));
         }
@@ -67,19 +63,18 @@ module.exports = function(element, bpmnFactory, options, translate) {
 
       commands.push(cmdHelper.updateBusinessObject(element, bo, props));
       return commands;
-    }
+    },
   });
 
-
   const asyncAfterEntry = entryFactory.checkbox({
-    id: `${idPrefix  }asyncAfter`,
+    id: `${idPrefix}asyncAfter`,
     label: labelPrefix + translate('Asynchronous After'),
     modelProperty: 'asyncAfter',
 
     get(element, node) {
       const bo = getBusinessObject(element);
       return {
-        asyncAfter: isAsyncAfter(bo)
+        asyncAfter: isAsyncAfter(bo),
       };
     },
 
@@ -88,12 +83,12 @@ module.exports = function(element, bpmnFactory, options, translate) {
       const asyncAfter = !!values.asyncAfter;
 
       let props = {
-        'smart:asyncAfter': asyncAfter
+        'smart:asyncAfter': asyncAfter,
       };
 
       const commands = [];
       if (!isAsyncBefore(bo) && !asyncAfter) {
-        props = assign({ 'smart:exclusive' : true }, props);
+        props = assign({ 'smart:exclusive': true }, props);
         if (canRemoveFailedJobRetryTimeCycle(element)) {
           commands.push(removeFailedJobRetryTimeCycle(bo, element));
         }
@@ -101,12 +96,11 @@ module.exports = function(element, bpmnFactory, options, translate) {
 
       commands.push(cmdHelper.updateBusinessObject(element, bo, props));
       return commands;
-    }
+    },
   });
 
-
   const exclusiveEntry = entryFactory.checkbox({
-    id: `${idPrefix  }exclusive`,
+    id: `${idPrefix}exclusive`,
     label: labelPrefix + translate('Exclusive'),
     modelProperty: 'exclusive',
 
@@ -117,14 +111,16 @@ module.exports = function(element, bpmnFactory, options, translate) {
 
     set(element, values) {
       const bo = getBusinessObject(element);
-      return cmdHelper.updateBusinessObject(element, bo, { 'smart:exclusive': !!values.exclusive });
+      return cmdHelper.updateBusinessObject(element, bo, {
+        'smart:exclusive': !!values.exclusive,
+      });
     },
 
     hidden(element) {
       const bo = getBusinessObject(element);
       return bo && !isAsyncAfter(bo) && !isAsyncBefore(bo);
-    }
+    },
   });
 
-  return [ asyncBeforeEntry, asyncAfterEntry, exclusiveEntry ];
+  return [asyncBeforeEntry, asyncAfterEntry, exclusiveEntry];
 };

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import 'ol/ol.css';
-import {Map, View} from 'ol';
- 
+import { Map, View } from 'ol';
+
 import TileLayer from 'ol/layer/Tile';
 import XYZ from 'ol/source/XYZ';
 
@@ -45,7 +45,7 @@ export default class TianMap extends PureComponent {
    */
 
   initData = () => {
-    const key = "0f5cb733f04223ac733dc4d36063f44f";
+    const key = '0f5cb733f04223ac733dc4d36063f44f';
     // const permission = "SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={x}&TILECOL={y}&tk=";
     // let permission2="SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&FORMAT=tiles&TILEMATRIXSET=w&STYLE=default&LAYER=vec&TILEMATRIX={level}&TILEROW={row}&TILECOL={col}&tk=";
     // 矢量底图http://t2.tianditu.com/DataServer
@@ -61,17 +61,18 @@ export default class TianMap extends PureComponent {
     // const vectorUrl2 = "http://t2.tianditu.com/DataServer?T=cva_c&x={x}&y={y}&l={z}&tk=";
     // // 球面墨卡托投影
     // 矢量底图
-    const vectorUrl3="http://t2.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}&tk=";
+    const vectorUrl3 =
+      'http://t2.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}&tk=';
     // 矢量注记
-    const vectorUrl4="http://t2.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}&tk=";
- 
+    const vectorUrl4 =
+      'http://t2.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}&tk=';
+
     // //经纬度投影 地形晕渲
     // let mapReder1="http://t2.tianditu.com/DataServer?T=ter_c&x={x}&y={y}&l={z}&tk=";
     // //影像底图
     // let img1="http://t2.tianditu.com/DataServer?T=img_c&x={x}&y={y}&l={z}&tk=";
     // let img2="http://t2.tianditu.com/DataServer?T=cia_c&x={x}&y={y}&l={z}&tk=";
- 
- 
+
     // eslint-disable-next-line no-unused-vars
     const map = new Map({
       // controls: defaultControls().extend([
@@ -97,23 +98,23 @@ export default class TianMap extends PureComponent {
         //     wrapX: false
         //   })
         // }),
- 
+
         // 球面墨卡托
         new TileLayer({
-          title: "天地图矢量图层",
+          title: '天地图矢量图层',
           source: new XYZ({
             // url:vectorUrl1+permission+key,
             url: vectorUrl3 + key,
-            wrapX: false
-          })
+            wrapX: false,
+          }),
         }),
         new TileLayer({
-          title: "天地图矢量图层注记",
+          title: '天地图矢量图层注记',
           source: new XYZ({
             // url:vectorUrl1+permission+key,
             url: vectorUrl4 + key,
-            wrapX: false
-          })
+            wrapX: false,
+          }),
         }),
         // new TileLayer({
         //   title: "天地图影像图层",
@@ -147,7 +148,7 @@ export default class TianMap extends PureComponent {
         //     wrapX: false
         //   })
         // })
- 
+
         // new TileLayer({
         //   source: new OSM(),
         //   projection: 'EPSG:4326', //HERE IS THE DATA SOURCE PROJECTION
@@ -163,15 +164,16 @@ export default class TianMap extends PureComponent {
         // 地图初始显示级别
         zoom: 3,
         // 参考系设置
-        projection: "EPSG:4326"
+        projection: 'EPSG:4326',
       }),
- 
     });
-  } 
+  };
 
   render() {
-    return <>
-      <div style={{width:"600px", height:"600px"}} id="map" />
-    </>;
+    return (
+      <>
+        <div style={{ width: '600px', height: '600px' }} id="map" />
+      </>
+    );
   }
 }

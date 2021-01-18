@@ -1,6 +1,5 @@
-
-
-const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil')
+  .getBusinessObject;
 
 // input entities
 const textInputField = require('./TextInputEntryFactory');
@@ -19,7 +18,7 @@ const cmdHelper = require('../helper/CmdHelper');
 
 function ensureNotNull(prop) {
   if (!prop) {
-    throw new Error(`${prop  } must be set.`);
+    throw new Error(`${prop} must be set.`);
   }
 
   return prop;
@@ -33,7 +32,6 @@ function ensureNotNull(prop) {
  *            validate: (*|Function), html: string}}
  */
 const setDefaultParameters = function(options) {
-
   // default method to fetch the current value of the input field
   const defaultGet = function(element) {
     const bo = getBusinessObject(element);
@@ -63,18 +61,16 @@ const setDefaultParameters = function(options) {
   };
 
   return {
-    id : options.id,
-    description : (options.description || ''),
-    get : (options.get || defaultGet),
-    set : (options.set || defaultSet),
-    validate : (options.validate || defaultValidate),
-    html: ''
+    id: options.id,
+    description: options.description || '',
+    get: options.get || defaultGet,
+    set: options.set || defaultSet,
+    validate: options.validate || defaultValidate,
+    html: '',
   };
 };
 
-function EntryFactory() {
-
-}
+function EntryFactory() {}
 
 /**
  * Generates an text input entry object for a property panel.

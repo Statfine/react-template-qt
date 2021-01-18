@@ -1,9 +1,8 @@
-
-
 const is = require('bpmn-js/lib/util/ModelUtil').is;
 const entryFactory = require('../../../factory/EntryFactory');
 const participantHelper = require('../../../helper/ParticipantHelper');
-const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil')
+  .getBusinessObject;
 const nameEntryFactory = require('./implementation/Name');
 const utils = require('../../../Utils');
 
@@ -12,8 +11,10 @@ module.exports = function(group, element, translate, options) {
 
   const processIdDescription = options && options.processIdDescription;
 
-  if (is(element, 'bpmn:Process') || (is(element, 'bpmn:Participant') && businessObject.get('processRef'))) {
-
+  if (
+    is(element, 'bpmn:Process') ||
+    (is(element, 'bpmn:Participant') && businessObject.get('processRef'))
+  ) {
     /**
      * processId
      */
@@ -22,17 +23,22 @@ module.exports = function(group, element, translate, options) {
         id: 'process-id',
         label: translate('Process Id'),
         description: processIdDescription && translate(processIdDescription),
-        modelProperty: 'processId'
+        modelProperty: 'processId',
       });
 
       // in participants we have to change the default behavior of set and get
       idEntry.get = function(element) {
-        const properties = participantHelper.getProcessBusinessObject(element, 'id');
+        const properties = participantHelper.getProcessBusinessObject(
+          element,
+          'id',
+        );
         return { processId: properties.id };
       };
 
       idEntry.set = function(element, values) {
-        return participantHelper.modifyProcessBusinessObject(element, 'id', { id: values.processId });
+        return participantHelper.modifyProcessBusinessObject(element, 'id', {
+          id: values.processId,
+        });
       };
 
       idEntry.validate = function(element, values) {
@@ -40,20 +46,23 @@ module.exports = function(group, element, translate, options) {
 
         const bo = getBusinessObject(element);
 
-        const processIdError = utils.isIdValid(bo.processRef, idValue, translate);
+        const processIdError = utils.isIdValid(
+          bo.processRef,
+          idValue,
+          translate,
+        );
 
         return processIdError ? { processId: processIdError } : {};
       };
 
       group.entries.push(idEntry);
 
-
       /**
        * process name
        */
       const processNameEntry = nameEntryFactory(element, {
         id: 'process-name',
-        label: translate('Process Name')
+        label: translate('Process Name'),
       })[0];
 
       // in participants we have to change the default behavior of set and get
@@ -62,7 +71,11 @@ module.exports = function(group, element, translate, options) {
       };
 
       processNameEntry.set = function(element, values) {
-        return participantHelper.modifyProcessBusinessObject(element, 'name', values);
+        return participantHelper.modifyProcessBusinessObject(
+          element,
+          'name',
+          values,
+        );
       };
 
       group.entries.push(processNameEntry);

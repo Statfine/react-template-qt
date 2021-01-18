@@ -1,5 +1,3 @@
-
-
 const ModelUtil = require('bpmn-js/lib/util/ModelUtil');
 const is = ModelUtil.is;
 const getBusinessObject = ModelUtil.getBusinessObject;
@@ -100,21 +98,23 @@ ImplementationTypeHelper.isSequenceFlow = function(element) {
  * @return {ModdleElement} the 'smart:ServiceTaskLike' business object
  */
 ImplementationTypeHelper.getServiceTaskLikeBusinessObject = function(element) {
-
-  if (is(element, 'bpmn:IntermediateThrowEvent') || is(element, 'bpmn:EndEvent')) {
-
+  if (
+    is(element, 'bpmn:IntermediateThrowEvent') ||
+    is(element, 'bpmn:EndEvent')
+  ) {
     // change business object to 'messageEventDefinition' when
     // the element is a message intermediate throw event or message end event
     // because the smart extensions (e.g. smart:class) are in the message
     // event definition tag and not in the intermediate throw event or end event tag
-    const messageEventDefinition = eventDefinitionHelper.getMessageEventDefinition(element);
+    const messageEventDefinition = eventDefinitionHelper.getMessageEventDefinition(
+      element,
+    );
     if (messageEventDefinition) {
       element = messageEventDefinition;
     }
   }
 
   return this.isServiceTaskLike(element) && getBusinessObject(element);
-
 };
 
 /**
@@ -135,7 +135,6 @@ ImplementationTypeHelper.getServiceTaskLikeBusinessObject = function(element) {
  * @return {String} the implementation type
  */
 ImplementationTypeHelper.getImplementationType = function(element) {
-
   let bo = this.getServiceTaskLikeBusinessObject(element);
 
   if (!bo) {
@@ -154,7 +153,10 @@ ImplementationTypeHelper.getImplementationType = function(element) {
   }
 
   if (this.isServiceTaskLike(bo)) {
-    const connectors = extensionsElementHelper.getExtensionElements(bo, 'smart:Connector');
+    const connectors = extensionsElementHelper.getExtensionElements(
+      bo,
+      'smart:Connector',
+    );
     if (typeof connectors !== 'undefined') {
       return 'connector';
     }
@@ -188,5 +190,4 @@ ImplementationTypeHelper.getImplementationType = function(element) {
       return 'script';
     }
   }
-
 };

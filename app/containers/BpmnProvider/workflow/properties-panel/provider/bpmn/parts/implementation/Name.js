@@ -1,5 +1,3 @@
-
-
 const entryFactory = require('../../../../factory/EntryFactory');
 
 /**
@@ -14,7 +12,6 @@ const entryFactory = require('../../../../factory/EntryFactory');
  *                         the entry to modify the name
  */
 module.exports = function(element, options, translate) {
-
   options = options || {};
   const id = options.id || 'name';
   const label = options.label || translate('Name');
@@ -25,9 +22,8 @@ module.exports = function(element, options, translate) {
     label,
     modelProperty,
     get: options.get,
-    set: options.set
+    set: options.set,
   });
 
-  return [ nameEntry ];
-
+  return [nameEntry];
 };

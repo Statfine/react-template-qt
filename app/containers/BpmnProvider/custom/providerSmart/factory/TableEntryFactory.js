@@ -1,7 +1,3 @@
-
-
-
-
 const domQuery = require('min-dom').query;
 const domAttr = require('min-dom').attr;
 const domClosest = require('min-dom').closest;
@@ -19,9 +15,10 @@ const cmdHelper = require('../helper/CmdHelper');
 const escapeHTML = require('../Utils').escapeHTML;
 
 const TABLE_ROW_DIV_SNIPPET = '<div class="bpp-field-wrapper bpp-table-row">';
-const DELETE_ROW_BUTTON_SNIPPET = '<button class="clear" data-action="deleteElement">' +
-                                  '<span>X</span>' +
-                                '</button>';
+const DELETE_ROW_BUTTON_SNIPPET =
+  '<button class="clear" data-action="deleteElement">' +
+  '<span>X</span>' +
+  '</button>';
 
 function createInputRowTemplate(properties, canRemove) {
   let template = TABLE_ROW_DIV_SNIPPET;
@@ -36,11 +33,13 @@ function createInputTemplate(properties, canRemove) {
   const columns = properties.length;
   let template = '';
   forEach(properties, function(prop) {
-    template += `<input class="bpp-table-row-columns-${  columns  } ${ 
-      canRemove ? 'bpp-table-row-removable' : ''  }" ` +
-                       `id="camunda-table-row-cell-input-value" ` +
-                       `type="text" ` +
-                       `name="${  escapeHTML(prop)  }" />`;
+    template +=
+      `<input class="bpp-table-row-columns-${columns} ${
+        canRemove ? 'bpp-table-row-removable' : ''
+      }" ` +
+      `id="camunda-table-row-cell-input-value" ` +
+      `type="text" ` +
+      `name="${escapeHTML(prop)}" />`;
   });
   return template;
 }
@@ -57,7 +56,9 @@ function createLabelTemplate(labels) {
   const columns = labels.length;
   let template = '';
   forEach(labels, function(label) {
-    template += `<label class="bpp-table-row-columns-${  columns  }">${  escapeHTML(label)  }</label>`;
+    template += `<label class="bpp-table-row-columns-${columns}">${escapeHTML(
+      label,
+    )}</label>`;
   });
   return template;
 }
@@ -102,7 +103,7 @@ function getContainer(node) {
 function getSelection(node) {
   return {
     start: node.selectionStart,
-    end: node.selectionEnd
+    end: node.selectionEnd,
   };
 }
 
@@ -128,7 +129,6 @@ function setSelection(node, selection) {
  * @return {Object}
  */
 module.exports = function(options) {
-
   const id = options.id;
   const modelProperties = options.modelProperties;
   const labels = options.labels;
@@ -148,7 +148,11 @@ module.exports = function(options) {
   const updateElement = options.updateElement;
   const canUpdate = typeof updateElement === 'function';
 
-  const editable = options.editable || function() { return true; };
+  const editable =
+    options.editable ||
+    function() {
+      return true;
+    };
   const setControlValue = options.setControlValue;
 
   const show = options.show;
@@ -160,21 +164,24 @@ module.exports = function(options) {
 
   const factory = {
     id,
-    html: `${canAdd ?
-      `<div class="bpp-table-add-row" ${  canBeShown ? 'data-show="show"' : ''  }>` +
-            `<label>${  escapeHTML(addLabel)  }</label>` +
+    html:
+      `${
+        canAdd
+          ? `<div class="bpp-table-add-row" ${
+              canBeShown ? 'data-show="show"' : ''
+            }>` +
+            `<label>${escapeHTML(addLabel)}</label>` +
             `<button class="add" data-action="addElement"><span>+</span></button>` +
-          `</div>` : '' 
-    }<div class="bpp-table" data-show="showTable">` +
-            `<div class="bpp-field-wrapper bpp-table-row">${ 
-              labelRow 
-            }</div>` +
-            `<div data-list-entry-container>` +
-            `</div>` +
-          `</div>${ 
-
-            // add description below table entry field
-            description ? entryFieldDescription(description) : ''}`,
+            `</div>`
+          : ''
+      }<div class="bpp-table" data-show="showTable">` +
+      `<div class="bpp-field-wrapper bpp-table-row">${labelRow}</div>` +
+      `<div data-list-entry-container>` +
+      `</div>` +
+      `</div>${
+        // add description below table entry field
+        description ? entryFieldDescription(description) : ''
+      }`,
 
     get(element, node) {
       const boElements = elements(element, node, this.__invalidValues);
@@ -209,7 +216,13 @@ module.exports = function(options) {
         let valuesToValidate = values;
 
         if (typeof options.validate !== 'function') {
-          valuesToValidate = diff(element, node, values, elements(element, node), editable);
+          valuesToValidate = diff(
+            element,
+            node,
+            values,
+            elements(element, node),
+            editable,
+          );
         }
 
         const self = this;
@@ -246,13 +259,15 @@ module.exports = function(options) {
     },
 
     addElement(element, node, event, scopeNode) {
-      const template = domify(createInputRowTemplate(modelProperties, canRemove));
+      const template = domify(
+        createInputRowTemplate(modelProperties, canRemove),
+      );
 
       const container = getContainer(node);
       container.appendChild(template);
 
       this.__action = {
-        id: 'add-element'
+        id: 'add-element',
       };
 
       return true;
@@ -267,7 +282,7 @@ module.exports = function(options) {
 
       this.__action = {
         id: 'delete-element',
-        idx
+        idx,
       };
 
       return true;
@@ -286,21 +301,31 @@ module.exports = function(options) {
     showTable(element, entryNode, node, scopeNode) {
       entryNode = getEntryNode(entryNode);
       const elems = elements(element, entryNode);
-      return elems && elems.length && (!canBeShown || show(element, entryNode, node, scopeNode));
+      return (
+        elems &&
+        elems.length &&
+        (!canBeShown || show(element, entryNode, node, scopeNode))
+      );
     },
 
     validateListItem(element, value, node, idx) {
       if (typeof options.validate === 'function') {
         return options.validate(element, value, node, idx);
       }
-    }
-
+    },
   };
 
   // Update/set the selection on the correct position.
   // It's the same code like for an input value in the PropertiesPanel.js.
   if (setControlValue) {
-    factory.setControlValue = function(element, rowNode, input, prop, value, idx) {
+    factory.setControlValue = function(
+      element,
+      rowNode,
+      input,
+      prop,
+      value,
+      idx,
+    ) {
       const entryNode = getEntryNode(rowNode);
 
       const isReadOnly = domAttr(input, 'readonly');
@@ -329,10 +354,8 @@ module.exports = function(options) {
       if (selection) {
         setSelection(input, selection);
       }
-
     };
   }
 
   return factory;
-
 };

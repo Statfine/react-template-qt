@@ -1,5 +1,3 @@
-
-
 const elementHelper = require('../../../../helper/ElementHelper');
 const cmdHelper = require('../../../../helper/CmdHelper');
 
@@ -13,7 +11,6 @@ const entryFactory = require('../../../../factory/EntryFactory');
  * @return {string|undefined} the timer definition type
  */
 function getTimerDefinitionType(timer) {
-
   if (!timer) {
     return;
   }
@@ -63,124 +60,167 @@ function getTimerDefinition(timerOrFunction, element, node) {
  */
 function createFormalExpression(parent, body, bpmnFactory) {
   body = body || undefined;
-  return elementHelper.createElement('bpmn:FormalExpression', { body }, parent, bpmnFactory);
+  return elementHelper.createElement(
+    'bpmn:FormalExpression',
+    { body },
+    parent,
+    bpmnFactory,
+  );
 }
 
-function TimerEventDefinition(group, element, bpmnFactory, timerEventDefinition, translate, options) {
-
+function TimerEventDefinition(
+  group,
+  element,
+  bpmnFactory,
+  timerEventDefinition,
+  translate,
+  options,
+) {
   const selectOptions = [
     { value: 'timeDate', name: translate('Date') },
     { value: 'timeDuration', name: translate('Duration') },
-    { value: 'timeCycle', name: translate('Cycle') }
+    { value: 'timeCycle', name: translate('Cycle') },
   ];
 
   const prefix = options && options.idPrefix;
-  const createTimerEventDefinition = options && options.createTimerEventDefinition;
+  const createTimerEventDefinition =
+    options && options.createTimerEventDefinition;
 
+  group.entries.push(
+    entryFactory.selectBox({
+      id: `${prefix}timer-event-definition-type`,
+      label: translate('Timer Definition Type'),
+      selectOptions,
+      emptyParameter: true,
+      modelProperty: 'timerDefinitionType',
 
-  group.entries.push(entryFactory.selectBox({
-    id: `${prefix  }timer-event-definition-type`,
-    label: translate('Timer Definition Type'),
-    selectOptions,
-    emptyParameter: true,
-    modelProperty: 'timerDefinitionType',
+      get(element, node) {
+        const timerDefinition = getTimerDefinition(
+          timerEventDefinition,
+          element,
+          node,
+        );
 
-    get(element, node) {
-      const timerDefinition = getTimerDefinition(timerEventDefinition, element, node);
+        return {
+          timerDefinitionType: getTimerDefinitionType(timerDefinition) || '',
+        };
+      },
 
-      return {
-        timerDefinitionType: getTimerDefinitionType(timerDefinition) || ''
-      };
-    },
+      set(element, values, node) {
+        const props = {
+          timeDuration: undefined,
+          timeDate: undefined,
+          timeCycle: undefined,
+        };
 
-    set(element, values, node) {
-      const props = {
-        timeDuration: undefined,
-        timeDate: undefined,
-        timeCycle: undefined
-      };
+        let timerDefinition = getTimerDefinition(
+          timerEventDefinition,
+          element,
+          node,
+        );
+        const newType = values.timerDefinitionType;
 
-
-      let timerDefinition = getTimerDefinition(timerEventDefinition, element, node);
-      const newType = values.timerDefinitionType;
-
-      if (!timerDefinition && typeof createTimerEventDefinition === 'function') {
-        timerDefinition = createTimerEventDefinition(element, node);
-      }
-
-      if (values.timerDefinitionType) {
-        const oldType = getTimerDefinitionType(timerDefinition);
-
-        let value;
-        if (oldType) {
-          const definition = timerDefinition.get(oldType);
-          value = definition.get('body');
+        if (
+          !timerDefinition &&
+          typeof createTimerEventDefinition === 'function'
+        ) {
+          timerDefinition = createTimerEventDefinition(element, node);
         }
 
-        props[newType] = createFormalExpression(timerDefinition, value, bpmnFactory);
-      }
+        if (values.timerDefinitionType) {
+          const oldType = getTimerDefinitionType(timerDefinition);
 
-      return cmdHelper.updateBusinessObject(element, timerDefinition, props);
-    },
+          let value;
+          if (oldType) {
+            const definition = timerDefinition.get(oldType);
+            value = definition.get('body');
+          }
 
-    hidden(element, node) {
-      return getTimerDefinition(timerEventDefinition, element, node) === undefined;
-    }
-
-  }));
-
-
-  group.entries.push(entryFactory.textField({
-    id: `${prefix  }timer-event-definition`,
-    label: translate('Timer Definition'),
-    modelProperty: 'timerDefinition',
-
-    get(element, node) {
-      const timerDefinition = getTimerDefinition(timerEventDefinition, element, node);
-      const type = getTimerDefinitionType(timerDefinition);
-      const definition = type && timerDefinition.get(type);
-      const value = definition && definition.get('body');
-
-      return {
-        timerDefinition: value
-      };
-    },
-
-    set(element, values, node) {
-      const timerDefinition = getTimerDefinition(timerEventDefinition, element, node);
-      const type = getTimerDefinitionType(timerDefinition);
-      const definition = type && timerDefinition.get(type);
-
-      if (definition) {
-        return cmdHelper.updateBusinessObject(element, definition, {
-          body: values.timerDefinition || undefined
-        });
-      }
-    },
-
-    validate(element, node) {
-      const timerDefinition = getTimerDefinition(timerEventDefinition, element, node);
-      const type = getTimerDefinitionType(timerDefinition);
-      const definition = type && timerDefinition.get(type);
-
-      if (definition) {
-        const value = definition.get('body');
-        if (!value) {
-          return {
-            timerDefinition: translate('Must provide a value')
-          };
+          props[newType] = createFormalExpression(
+            timerDefinition,
+            value,
+            bpmnFactory,
+          );
         }
-      }
-    },
 
-    hidden(element, node) {
-      const timerDefinition = getTimerDefinition(timerEventDefinition, element, node);
+        return cmdHelper.updateBusinessObject(element, timerDefinition, props);
+      },
 
-      return !getTimerDefinitionType(timerDefinition);
-    }
+      hidden(element, node) {
+        return (
+          getTimerDefinition(timerEventDefinition, element, node) === undefined
+        );
+      },
+    }),
+  );
 
-  }));
+  group.entries.push(
+    entryFactory.textField({
+      id: `${prefix}timer-event-definition`,
+      label: translate('Timer Definition'),
+      modelProperty: 'timerDefinition',
 
+      get(element, node) {
+        const timerDefinition = getTimerDefinition(
+          timerEventDefinition,
+          element,
+          node,
+        );
+        const type = getTimerDefinitionType(timerDefinition);
+        const definition = type && timerDefinition.get(type);
+        const value = definition && definition.get('body');
+
+        return {
+          timerDefinition: value,
+        };
+      },
+
+      set(element, values, node) {
+        const timerDefinition = getTimerDefinition(
+          timerEventDefinition,
+          element,
+          node,
+        );
+        const type = getTimerDefinitionType(timerDefinition);
+        const definition = type && timerDefinition.get(type);
+
+        if (definition) {
+          return cmdHelper.updateBusinessObject(element, definition, {
+            body: values.timerDefinition || undefined,
+          });
+        }
+      },
+
+      validate(element, node) {
+        const timerDefinition = getTimerDefinition(
+          timerEventDefinition,
+          element,
+          node,
+        );
+        const type = getTimerDefinitionType(timerDefinition);
+        const definition = type && timerDefinition.get(type);
+
+        if (definition) {
+          const value = definition.get('body');
+          if (!value) {
+            return {
+              timerDefinition: translate('Must provide a value'),
+            };
+          }
+        }
+      },
+
+      hidden(element, node) {
+        const timerDefinition = getTimerDefinition(
+          timerEventDefinition,
+          element,
+          node,
+        );
+
+        return !getTimerDefinitionType(timerDefinition);
+      },
+    }),
+  );
 }
 
 module.exports = TimerEventDefinition;

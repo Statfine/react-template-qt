@@ -1,6 +1,5 @@
-
-
-const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil')
+  .getBusinessObject;
 const is = require('bpmn-js/lib/util/ModelUtil').is;
 
 const assign = require('lodash/assign');
@@ -12,7 +11,6 @@ const elementHelper = require('../../../../helper/ElementHelper');
 const extensionElementsHelper = require('../../../../helper/ExtensionElementsHelper');
 const cmdHelper = require('../../../../helper/CmdHelper');
 const utils = require('../../../../Utils');
-
 
 function generatePropertyId() {
   return utils.nextId('Property_');
@@ -43,9 +41,8 @@ function getPropertyValues(parent) {
 function getPropertiesElement(element) {
   if (!isExtensionElements(element)) {
     return element.properties;
-  } 
+  }
   return getPropertiesElementInsideExtensionElements(element);
-  
 }
 
 /**
@@ -86,7 +83,6 @@ function isExtensionElements(element) {
  * @param  {function} options.show Indicate when the entry will be shown, should return boolean
  */
 module.exports = function(element, bpmnFactory, options, translate) {
-
   const getParent = options.getParent;
 
   const modelProperties = options.modelProperties;
@@ -120,19 +116,30 @@ module.exports = function(element, bpmnFactory, options, translate) {
 
       let properties = getPropertiesElement(parent);
       if (!properties) {
-        properties = elementHelper.createElement('smart:Properties', {}, parent, bpmnFactory);
+        properties = elementHelper.createElement(
+          'smart:Properties',
+          {},
+          parent,
+          bpmnFactory,
+        );
 
         if (!isExtensionElements(parent)) {
-          commands.push(cmdHelper.updateBusinessObject(element, parent, { 'properties': properties }));
+          commands.push(
+            cmdHelper.updateBusinessObject(element, parent, {
+              properties: properties,
+            }),
+          );
         } else {
-          commands.push(cmdHelper.addAndRemoveElementsFromList(
-            element,
-            parent,
-            'values',
-            'extensionElements',
-            [ properties ],
-            []
-          ));
+          commands.push(
+            cmdHelper.addAndRemoveElementsFromList(
+              element,
+              parent,
+              'values',
+              'extensionElements',
+              [properties],
+              [],
+            ),
+          );
         }
       }
 
@@ -146,8 +153,15 @@ module.exports = function(element, bpmnFactory, options, translate) {
         propertyProps.id = generatePropertyId();
       }
 
-      const property = elementHelper.createElement('smart:Property', propertyProps, properties, bpmnFactory);
-      commands.push(cmdHelper.addElementsTolist(element, properties, 'values', [ property ]));
+      const property = elementHelper.createElement(
+        'smart:Property',
+        propertyProps,
+        properties,
+        bpmnFactory,
+      );
+      commands.push(
+        cmdHelper.addElementsTolist(element, properties, 'values', [property]),
+      );
 
       return commands;
     },
@@ -164,14 +178,17 @@ module.exports = function(element, bpmnFactory, options, translate) {
     validate(element, value, node, idx) {
       // validate id if necessary
       if (modelProperties.indexOf('id') >= 0) {
-
         const parent = getParent(element, node, bo);
         const properties = getPropertyValues(parent);
         const property = properties[idx];
 
         if (property) {
           // check if id is valid
-          const validationError = utils.isIdValid(property, value.id, translate);
+          const validationError = utils.isIdValid(
+            property,
+            value.id,
+            translate,
+          );
 
           if (validationError) {
             return { id: validationError };
@@ -186,23 +203,33 @@ module.exports = function(element, bpmnFactory, options, translate) {
       const propertyValues = getPropertyValues(parent);
       const currentProperty = propertyValues[idx];
 
-      commands.push(cmdHelper.removeElementsFromList(element, properties, 'values', null, [ currentProperty ]));
+      commands.push(
+        cmdHelper.removeElementsFromList(element, properties, 'values', null, [
+          currentProperty,
+        ]),
+      );
 
       if (propertyValues.length === 1) {
         // remove smart:properties if the last existing property has been removed
         if (!isExtensionElements(parent)) {
-          commands.push(cmdHelper.updateBusinessObject(element, parent, { properties: undefined }));
+          commands.push(
+            cmdHelper.updateBusinessObject(element, parent, {
+              properties: undefined,
+            }),
+          );
         } else {
           forEach(parent.values, function(value) {
             if (is(value, 'smart:Properties')) {
-              commands.push(extensionElementsHelper.removeEntry(bo, element, value));
+              commands.push(
+                extensionElementsHelper.removeEntry(bo, element, value),
+              );
             }
           });
         }
       }
 
       return commands;
-    }
+    },
   });
 
   return factory.table(options);

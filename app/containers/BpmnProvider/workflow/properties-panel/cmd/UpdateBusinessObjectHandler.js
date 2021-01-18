@@ -1,5 +1,3 @@
-
-
 const reduce = require('lodash/transform');
 const is = require('bpmn-js/lib/util/ModelUtil').is;
 const keys = require('lodash/keys');
@@ -24,7 +22,7 @@ function UpdateBusinessObjectHandler(elementRegistry) {
   this._elementRegistry = elementRegistry;
 }
 
-UpdateBusinessObjectHandler.$inject = [ 'elementRegistry' ];
+UpdateBusinessObjectHandler.$inject = ['elementRegistry'];
 
 module.exports = UpdateBusinessObjectHandler;
 
@@ -40,19 +38,21 @@ function getRoot(businessObject) {
 }
 
 function getProperties(businessObject, propertyNames) {
-  return reduce(propertyNames, function(result, key) {
-    result[key] = businessObject.get(key);
-    return result;
-  }, {});
+  return reduce(
+    propertyNames,
+    function(result, key) {
+      result[key] = businessObject.get(key);
+      return result;
+    },
+    {},
+  );
 }
-
 
 function setProperties(businessObject, properties) {
   forEach(properties, function(value, key) {
     businessObject.set(key, value);
   });
 }
-
 
 // api /////////////////////////////////////////////
 
@@ -69,13 +69,12 @@ function setProperties(businessObject, properties) {
  * @return {Array<djs.mode.Base>} the updated element
  */
 UpdateBusinessObjectHandler.prototype.execute = function(context) {
-
   const element = context.element;
   const businessObject = context.businessObject;
   const rootElements = getRoot(businessObject).rootElements;
   const referenceType = context.referenceType;
   const referenceProperty = context.referenceProperty;
-  const changed = [ element ]; // this will not change any diagram-js elements
+  const changed = [element]; // this will not change any diagram-js elements
 
   if (!element) {
     throw new Error('element required');
@@ -86,10 +85,14 @@ UpdateBusinessObjectHandler.prototype.execute = function(context) {
   }
 
   const properties = context.properties;
-  const oldProperties = context.oldProperties || getProperties(businessObject, keys(properties));
+  const oldProperties =
+    context.oldProperties || getProperties(businessObject, keys(properties));
 
   // check if there the update needs an external element for reference
-  if (typeof referenceType !== 'undefined' && typeof referenceProperty !== 'undefined') {
+  if (
+    typeof referenceType !== 'undefined' &&
+    typeof referenceProperty !== 'undefined'
+  ) {
     forEach(rootElements, function(rootElement) {
       if (is(rootElement, referenceType)) {
         if (rootElement.id === properties[referenceProperty]) {
@@ -120,7 +123,6 @@ UpdateBusinessObjectHandler.prototype.execute = function(context) {
  * @return {djs.mode.Base} the updated element
  */
 UpdateBusinessObjectHandler.prototype.revert = function(context) {
-
   const oldProperties = context.oldProperties;
   const businessObject = context.businessObject;
 

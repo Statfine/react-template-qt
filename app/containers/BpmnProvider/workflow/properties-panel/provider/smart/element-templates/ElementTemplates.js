@@ -1,5 +1,3 @@
-
-
 const values = require('lodash/values');
 
 /**
@@ -10,7 +8,6 @@ const values = require('lodash/values');
  * this registry.
  */
 function ElementTemplates() {
-
   this._templates = {};
 
   /**
@@ -21,8 +18,7 @@ function ElementTemplates() {
    * @return {ElementTemplates}
    */
   this.set = function(descriptors) {
-
-    const templates = this._templates = {};
+    const templates = (this._templates = {});
 
     descriptors.forEach(function(descriptor) {
       templates[descriptor.id] = descriptor;
@@ -50,7 +46,6 @@ function ElementTemplates() {
   this.getAll = function() {
     return values(this._templates);
   };
-
 }
 
 module.exports = ElementTemplates;

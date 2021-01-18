@@ -1,6 +1,6 @@
 .custom-tool-title {
   color: #426395;
-  border-bottom: solid 1px #DBECFF;
+  border-bottom: solid 1px #dbecff;
   padding: 10px;
   text-align: center;
 }
@@ -19,7 +19,7 @@
 } */
 
 .nodeSuccess > g > text {
-  font-size: 14px!important;
+  font-size: 14px !important;
 }
 
 /* 所有边框 */
@@ -28,56 +28,56 @@
   stroke-width: 1px!important;
 } */
 .djs-element .djs-visual rect {
-  stroke: #DBECFF !important;
-  stroke-width: 1px!important;
+  stroke: #dbecff !important;
+  stroke-width: 1px !important;
 }
 
 /* 边框 */
 .djs-element .djs-visual circle {
-  stroke: #6389C5 !important;
+  stroke: #6389c5 !important;
 }
 .djs-element .djs-visual > path {
-  stroke: #6389C5 !important;
+  stroke: #6389c5 !important;
 }
 .djs-element .djs-visual > polygon {
-  stroke: #6389C5 !important;
+  stroke: #6389c5 !important;
 }
-
 
 /* 文字颜色 */
 .djs-element .djs-visual > text {
-  fill: #426395!important;
+  fill: #426395 !important;
 }
 
 /* palette 左侧图标颜色 */
-.djs-popup, .djs-palette {
-  border: solid 1px #DBECFF!important;
+.djs-popup,
+.djs-palette {
+  border: solid 1px #dbecff !important;
   background: #f8fbfd;
 }
 .djs-palette .entry:before {
   vertical-align: text-bottom;
-  color: #426395!important;
+  color: #426395 !important;
 }
 .djs-palette .separator {
-  border-bottom: solid 1px #DBECFF!important;
+  border-bottom: solid 1px #dbecff !important;
 }
 
 /* context-pad 图标颜色 */
 .djs-context-pad .entry:before {
   vertical-align: top;
-  color: #426395!important;
+  color: #426395 !important;
 }
 
 /* Participant内边框 */
-.djs-visual > polyline{
-  stroke: #DBECFF !important;
-  stroke-width: 1px!important;
+.djs-visual > polyline {
+  stroke: #dbecff !important;
+  stroke-width: 1px !important;
 }
 
 /* Task 背景+样式 */
 .djs-children .djs-group .djs-element .djs-visual > rect:not(.djs-label) {
-  stroke: #6389C5 !important;
-  stroke-width: 2px!important;
+  stroke: #6389c5 !important;
+  stroke-width: 2px !important;
 }
 
 /*   */
@@ -86,23 +86,23 @@
  * stroke-dasharray 虚线修改为实线
 */
 .djs-connection .djs-visual path {
-  stroke: rgba(99,137,197, 0.6) !important;
-  stroke-width: 3px!important;
-  stroke-dasharray: 0!important;
-  marker-start: none!important;
+  stroke: rgba(99, 137, 197, 0.6) !important;
+  stroke-width: 3px !important;
+  stroke-dasharray: 0 !important;
+  marker-start: none !important;
 }
 
 marker > path {
-  stroke: rgba(99,137,197) !important;
-  fill: rgba(99,137,197) !important;
+  stroke: rgba(99, 137, 197) !important;
+  fill: rgba(99, 137, 197) !important;
 }
 
 /* 拖动时线条样式调整 */
 .djs-connection-preview > path {
-  stroke: rgba(99,137,197, 0.6) !important;
-  stroke-width: 3px!important;
-  stroke-dasharray: 0!important;
-  marker-start: none!important;
+  stroke: rgba(99, 137, 197, 0.6) !important;
+  stroke-width: 3px !important;
+  stroke-dasharray: 0 !important;
+  marker-start: none !important;
 }
 
 /* .bpmn-icon-start-event-message {

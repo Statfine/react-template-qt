@@ -7,7 +7,7 @@ function Share() {
     <>
       <AppendApi />
     </>
-  )
-};
+  );
+}
 
 export default memo(Share);

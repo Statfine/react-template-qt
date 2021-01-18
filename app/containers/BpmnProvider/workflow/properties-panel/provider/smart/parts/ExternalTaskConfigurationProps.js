@@ -1,7 +1,6 @@
-
-
 const is = require('bpmn-js/lib/util/ModelUtil').is;
-const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil')
+  .getBusinessObject;
 
 const ImplementationTypeHelper = require('../../../helper/ImplementationTypeHelper');
 
@@ -20,7 +19,6 @@ function getServiceTaskLikeBusinessObject(element) {
 }
 
 module.exports = function(group, element, bpmnFactory, translate) {
-
   const bo = getServiceTaskLikeBusinessObject(element);
 
   if (!bo) {
@@ -28,14 +26,24 @@ module.exports = function(group, element, bpmnFactory, translate) {
   }
   // if (bo.$type === 'bpmn:Process') return;
 
-  if (is(bo, 'smart:TaskPriorized') || (is(bo, 'bpmn:Participant')) && bo.get('processRef')) {
-    group.entries = group.entries.concat(externalTaskPriority(element, bpmnFactory, {
-      getBusinessObject(element) {
-        if (!is(bo, 'bpmn:Participant')) {
-          return bo;
-        }
-        return bo.get('processRef');
-      }
-    }, translate));
+  if (
+    is(bo, 'smart:TaskPriorized') ||
+    (is(bo, 'bpmn:Participant') && bo.get('processRef'))
+  ) {
+    group.entries = group.entries.concat(
+      externalTaskPriority(
+        element,
+        bpmnFactory,
+        {
+          getBusinessObject(element) {
+            if (!is(bo, 'bpmn:Participant')) {
+              return bo;
+            }
+            return bo.get('processRef');
+          },
+        },
+        translate,
+      ),
+    );
   }
 };

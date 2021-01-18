@@ -1,5 +1,3 @@
-
-
 const elementHelper = require('../helper/ElementHelper');
 
 /**
@@ -14,10 +12,9 @@ function CreateAndReferenceElementHandler(elementRegistry, bpmnFactory) {
   this._bpmnFactory = bpmnFactory;
 }
 
-CreateAndReferenceElementHandler.$inject = [ 'elementRegistry', 'bpmnFactory' ];
+CreateAndReferenceElementHandler.$inject = ['elementRegistry', 'bpmnFactory'];
 
 module.exports = CreateAndReferenceElementHandler;
-
 
 // api ////////////////////
 
@@ -37,17 +34,32 @@ module.exports = CreateAndReferenceElementHandler;
  * @returns {Array<djs.mode.Base>} the updated element
  */
 CreateAndReferenceElementHandler.prototype.execute = function(context) {
-
-  const referencingObject = ensureNotNull(context.referencingObject, 'referencingObject');
-  const referenceProperty = ensureNotNull(context.referenceProperty, 'referenceProperty');
+  const referencingObject = ensureNotNull(
+    context.referencingObject,
+    'referencingObject',
+  );
+  const referenceProperty = ensureNotNull(
+    context.referenceProperty,
+    'referenceProperty',
+  );
   const newObject = ensureNotNull(context.newObject, 'newObject');
-  const newObjectContainer = ensureNotNull(context.newObjectContainer, 'newObjectContainer');
-  const newObjectParent = ensureNotNull(context.newObjectParent, 'newObjectParent');
-  const changed = [ context.element ]; // this will not change any diagram-js elements
+  const newObjectContainer = ensureNotNull(
+    context.newObjectContainer,
+    'newObjectContainer',
+  );
+  const newObjectParent = ensureNotNull(
+    context.newObjectParent,
+    'newObjectParent',
+  );
+  const changed = [context.element]; // this will not change any diagram-js elements
 
   // create new object
-  const referencedObject = elementHelper
-    .createElement(newObject.type, newObject.properties, newObjectParent, this._bpmnFactory);
+  const referencedObject = elementHelper.createElement(
+    newObject.type,
+    newObject.properties,
+    newObjectParent,
+    this._bpmnFactory,
+  );
   context.referencedObject = referencedObject;
 
   // add to containing list
@@ -73,7 +85,6 @@ CreateAndReferenceElementHandler.prototype.execute = function(context) {
  * @returns {djs.mode.Base} the updated element
  */
 CreateAndReferenceElementHandler.prototype.revert = function(context) {
-
   const referencingObject = context.referencingObject;
   const referenceProperty = context.referenceProperty;
   const previousReference = context.previousReference;
@@ -89,13 +100,11 @@ CreateAndReferenceElementHandler.prototype.revert = function(context) {
   return context.changed;
 };
 
-
-
 // helpers //////////////
 
 function ensureNotNull(prop, name) {
   if (!prop) {
-    throw new Error(`${name  } required`);
+    throw new Error(`${name} required`);
   }
   return prop;
 }

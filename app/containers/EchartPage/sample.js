@@ -20,7 +20,15 @@ export default class EchartPage extends PureComponent {
       // tooltip: {},
       xAxis: {
         type: 'category',
-        data: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'],
+        data: [
+          '星期一',
+          '星期二',
+          '星期三',
+          '星期四',
+          '星期五',
+          '星期六',
+          '星期日',
+        ],
       },
       yAxis: [
         {
@@ -43,14 +51,14 @@ export default class EchartPage extends PureComponent {
           name: 'one',
           data: [820, 932, 901, 934, 1290, 1330, 1320],
           type: 'line',
-          smooth: true
+          smooth: true,
         },
         {
           name: 'two',
           data: [1, 10, 5, 8, 20, 12, 30],
           type: 'line',
           yAxisIndex: 1,
-          smooth: true
+          smooth: true,
         },
       ],
     });

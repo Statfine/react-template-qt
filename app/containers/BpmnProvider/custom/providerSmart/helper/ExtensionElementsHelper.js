@@ -1,5 +1,3 @@
-
-
 const cmdHelper = require('./CmdHelper');
 const elementHelper = require('./ElementHelper');
 
@@ -32,24 +30,35 @@ ExtensionElementsHelper.addEntry = function(bo, element, entry, bpmnFactory) {
   // if there is no extensionElements list, create one
   if (!extensionElements) {
     // TODO: Ask Daniel which operation costs more
-    extensionElements = elementHelper.createElement('bpmn:ExtensionElements', { values: [entry] }, bo, bpmnFactory);
+    extensionElements = elementHelper.createElement(
+      'bpmn:ExtensionElements',
+      { values: [entry] },
+      bo,
+      bpmnFactory,
+    );
     return { extensionElements };
-  } 
+  }
   // add new failedJobRetryExtensionElement to existing extensionElements list
-  return cmdHelper.addElementsTolist(element, extensionElements, 'values', [entry]);
-  
+  return cmdHelper.addElementsTolist(element, extensionElements, 'values', [
+    entry,
+  ]);
 };
 
 ExtensionElementsHelper.removeEntry = function(bo, element, entry) {
   const extensionElements = bo.get('extensionElements');
 
   if (!extensionElements) {
-
     // return an empty command when there is no extensionElements list
     return {};
   }
 
-  return cmdHelper.removeElementsFromList(element, extensionElements, 'values', 'extensionElements', [entry]);
+  return cmdHelper.removeElementsFromList(
+    element,
+    extensionElements,
+    'values',
+    'extensionElements',
+    [entry],
+  );
 };
 
 module.exports = ExtensionElementsHelper;

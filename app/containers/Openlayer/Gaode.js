@@ -28,7 +28,6 @@ export default class Gaode extends PureComponent {
         // center: [106.51, 29.55],
         // projection: 'EPSG:4326',
         // zoom: 10
-
       }),
       target: 'map',
     });

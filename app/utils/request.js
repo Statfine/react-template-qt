@@ -72,8 +72,7 @@ export function requestNoSnack(url, options) {
   };
 
   if (global.window.localStorage.access_token) {
-    defaultOptions.headers.Authorization = `Bearer ${global.window.localStorage
-      .access_token}`;
+    defaultOptions.headers.Authorization = `Bearer ${global.window.localStorage.access_token}`;
   }
 
   const mergeOptions = _.merge({}, defaultOptions, options);
@@ -83,16 +82,21 @@ export function requestNoSnack(url, options) {
 }
 
 /**
- * 
- * @param {*} url 
- * @param {*} options 
+ *
+ * @param {*} url
+ * @param {*} options
  *   noNotice 不做错误提示
  * globalStore.dispatch 失败异常发送方法action
  */
 export default function request(url, options) {
-  return requestNoSnack(url, options).catch((error) => {
-    const msg = error.data ? error.message ? error.message : error : '网络异常';
-    if (error.data && error.data.code === 10093) throw error; //  申请未开通
+  return requestNoSnack(url, options).catch(error => {
+    const msg = error.data
+      ? error.message
+        ? error.message
+        : error
+      : '网络异常';
+    if (error.data && error.data.code === 10093) throw error;
+    //  申请未开通
     else if (!options || !options.noNotice) {
       // globalStore.dispatch();
       message.error(msg);
@@ -103,8 +107,8 @@ export default function request(url, options) {
 
 export function get(urlString, params = {}, option = {}) {
   const query = Object.keys(params)
-    .filter((key) => params[key] !== undefined)
-    .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+    .filter(key => params[key] !== undefined)
+    .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
     .join('&');
   const options = { method: 'GET' };
   const mergeOptions = _.merge({}, options, option);

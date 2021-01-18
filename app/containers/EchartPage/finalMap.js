@@ -37,7 +37,7 @@ function convertData(data) {
 function converNewData(data) {
   let res = [];
   for (let i = 0; i < data.length; i += 1) {
-    if(data[i].lines) res = res.concat(data[i].lines);
+    if (data[i].lines) res = res.concat(data[i].lines);
   }
   return res;
 }
@@ -45,10 +45,28 @@ function converNewData(data) {
 const planePath = 'arrow';
 const color = ['#a6c84c', '#ffa022', '#46bee9'];
 const defaultConfig = {
-  '供应商': { name: '供应商', zlevel: 3, color: '#a6c84c', lineWidth: 3, symbolSize: 16 },
-  'RDF': { name: 'RDF', zlevel: 2, color: '#ffa022', lineWidth: 2, symbolSize: 10 },
-  'FDC': { name: 'FDC', zlevel: 1, color: '#46bee9', lineWidth: 1, symbolSize: 7 },
-}
+  供应商: {
+    name: '供应商',
+    zlevel: 3,
+    color: '#a6c84c',
+    lineWidth: 3,
+    symbolSize: 16,
+  },
+  RDF: {
+    name: 'RDF',
+    zlevel: 2,
+    color: '#ffa022',
+    lineWidth: 2,
+    symbolSize: 10,
+  },
+  FDC: {
+    name: 'FDC',
+    zlevel: 1,
+    color: '#46bee9',
+    lineWidth: 1,
+    symbolSize: 7,
+  },
+};
 
 export default class EchartPage extends PureComponent {
   myChart;
@@ -58,7 +76,6 @@ export default class EchartPage extends PureComponent {
     this.initData();
   }
 
-  
   setPointAndLine = (role, data) => {
     const config = defaultConfig[role];
     const series = [];
@@ -101,7 +118,7 @@ export default class EchartPage extends PureComponent {
             color: config.color,
           },
         },
-        data: data.map((dataItem) => {
+        data: data.map(dataItem => {
           return {
             // 用于提及显示
             name: dataItem.name,
@@ -112,7 +129,7 @@ export default class EchartPage extends PureComponent {
       },
     );
     return series;
-  }
+  };
 
   initData = () => {
     const series = [];
@@ -291,7 +308,7 @@ export default class EchartPage extends PureComponent {
             return `${params.data.name}<br />key:null<br/>key: null`;
           }
           if (params.seriesType === 'lines') {
-            return (`${params.data.fromName}->${params.data.toName}<br />运输`);
+            return `${params.data.fromName}->${params.data.toName}<br />运输`;
           }
           return params.name;
         },
@@ -359,10 +376,18 @@ export default class EchartPage extends PureComponent {
       <div style={{ width: '100%' }}>
         <div style={{ position: 'relative', width: '80%' }}>
           <div id="main" style={{ width: '100%', height: 700 }} />
-          <div 
-            style={{ position: 'absolute', bottom: 100, right: 10, color: '#fff', cursor: 'pointer' }}
+          <div
+            style={{
+              position: 'absolute',
+              bottom: 100,
+              right: 10,
+              color: '#fff',
+              cursor: 'pointer',
+            }}
             onClick={this.handleFullScreen}
-          >全屏</div>
+          >
+            全屏
+          </div>
         </div>
       </div>
     );

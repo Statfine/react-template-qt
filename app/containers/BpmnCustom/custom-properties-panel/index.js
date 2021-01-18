@@ -1,3 +1,3 @@
 import PropertiesView from './PropertiesView';
 
-export { PropertiesView }
+export { PropertiesView };

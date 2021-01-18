@@ -15,8 +15,12 @@
  *    }
  */
 
-import { LOGIN_CHANGE, LOGIN_OUT, FETCH_USERINFO_SUC,
-  CHANGE_PROMPT_INFO } from './constants';
+import {
+  LOGIN_CHANGE,
+  LOGIN_OUT,
+  FETCH_USERINFO_SUC,
+  CHANGE_PROMPT_INFO,
+} from './constants';
 
 /**
  * Changes the input field of the form

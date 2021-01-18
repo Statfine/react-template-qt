@@ -1,11 +1,8 @@
-
-
 const entryFactory = require('../../../../factory/EntryFactory');
 
 const cmdHelper = require('../../../../helper/CmdHelper');
 
 module.exports = function(element, bpmnFactory, options, translate) {
-
   const getBusinessObject = options.getBusinessObject;
 
   const isStartableInTasklistEntry = entryFactory.checkbox({
@@ -18,20 +15,17 @@ module.exports = function(element, bpmnFactory, options, translate) {
       const isStartableInTasklist = bo.get('smart:isStartableInTasklist');
 
       return {
-        isStartableInTasklist: isStartableInTasklist || ''
+        isStartableInTasklist: isStartableInTasklist || '',
       };
     },
 
     set(element, values) {
       const bo = getBusinessObject(element);
       return cmdHelper.updateBusinessObject(element, bo, {
-        'smart:isStartableInTasklist': !!values.isStartableInTasklist
+        'smart:isStartableInTasklist': !!values.isStartableInTasklist,
       });
-    }
-
+    },
   });
 
-  return [
-    isStartableInTasklistEntry
-  ];
+  return [isStartableInTasklistEntry];
 };

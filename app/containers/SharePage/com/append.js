@@ -1,7 +1,4 @@
-import React, {
-  memo,
-  createRef,
-} from 'react';
+import React, { memo, createRef } from 'react';
 import { Button } from 'antd';
 
 import styled from 'styled-components';

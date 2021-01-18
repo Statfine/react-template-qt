@@ -22,7 +22,7 @@ function injectMap(m, v) {
  *  设置zoom和中心点
  *  center - [lng, lat]
  *  zoom 1~19
-*/
+ */
 function setViewZoom(center, zoom) {
   view.setCenter(olProj.transform(center, 'EPSG:4326', 'EPSG:3857'));
   view.setZoom(zoom);
@@ -105,7 +105,7 @@ function drawLine(coordinates, id, callback) {
     }),
   });
 
-  const line = new LineString(coordinatesLine)  // LineString 二维数组   Polygon三维数组
+  const line = new LineString(coordinatesLine); // LineString 二维数组   Polygon三维数组
   // const plygon = new Polygon([coordinatesLine]) // 设置为区域
   const feature = new Feature({
     type: 'route',
@@ -113,37 +113,49 @@ function drawLine(coordinates, id, callback) {
   });
   // const feature = new Feature(new LineString(coordinatesLine))
   feature.setId(id);
-  vectorSource.addFeature(feature); // 同理vectorLine.getSource().addFeature(feature); 
+  vectorSource.addFeature(feature); // 同理vectorLine.getSource().addFeature(feature);
   map.addLayer(vectorLine);
 
   if (callback) callback(vectorLine);
 }
 
 /**
-  * 线路设置-高德地图数据封装  基于高德返回的json数据
-  */
+ * 线路设置-高德地图数据封装  基于高德返回的json数据
+ */
 function drawRoadByGaoDeJson(json, id, callback) {
-  const startC = olProj.transform([json.start.location.lng, json.start.location.lat], "EPSG:4326", "EPSG:3857");
-  const endC = olProj.transform([json.end.location.lng, json.end.location.lat], "EPSG:4326", "EPSG:3857");
+  const startC = olProj.transform(
+    [json.start.location.lng, json.start.location.lat],
+    'EPSG:4326',
+    'EPSG:3857',
+  );
+  const endC = olProj.transform(
+    [json.end.location.lng, json.end.location.lat],
+    'EPSG:4326',
+    'EPSG:3857',
+  );
   const startF = new Feature({ geometry: new Point(startC) });
-  startF.name = "起点" || json.start.name;
+  startF.name = '起点' || json.start.name;
   const endF = new Feature({ geometry: new Point(endC) });
-  endF.name = "终点" || json.end.name;
+  endF.name = '终点' || json.end.name;
   const features = [startF, endF];
   const { routes } = json;
-  for(let i=0; i<routes.length; i += 1){
+  for (let i = 0; i < routes.length; i += 1) {
     const eachRoute = routes[i];
     const { steps } = eachRoute;
-    for(let j=0; j<steps.length; j += 1){
+    for (let j = 0; j < steps.length; j += 1) {
       const eachStep = steps[j];
       const { tmcsPaths } = eachStep;
-      for(let m = 0; m<tmcsPaths.length; m += 1){
+      for (let m = 0; m < tmcsPaths.length; m += 1) {
         const coord = [];
         const { path } = tmcsPaths[m];
-        for(let k=0; k<path.length; k += 1){
+        for (let k = 0; k < path.length; k += 1) {
           const eachPath = path[k];
-          const point = olProj.transform([eachPath.lng, eachPath.lat], "EPSG:4326", "EPSG:3857");
-          coord.push(point)
+          const point = olProj.transform(
+            [eachPath.lng, eachPath.lat],
+            'EPSG:4326',
+            'EPSG:3857',
+          );
+          coord.push(point);
         }
         const pathF = new Feature(new LineString(coord));
         pathF.status = tmcsPaths[m].status;
@@ -157,14 +169,14 @@ function drawRoadByGaoDeJson(json, id, callback) {
   });
   const vector = new Vector({
     source: vectorSource,
-    style: (feature) => {
-      const name = feature.name ? "" : "";
+    style: feature => {
+      const name = feature.name ? '' : '';
       const { status } = feature;
 
-      let strokeColor = "#ff7324";
-      if(status==="拥堵") strokeColor="#e20000";
-      else if(status==="缓行") strokeColor="#ff7324";
-      else if(status==="畅通") strokeColor="#00b514";
+      let strokeColor = '#ff7324';
+      if (status === '拥堵') strokeColor = '#e20000';
+      else if (status === '缓行') strokeColor = '#ff7324';
+      else if (status === '畅通') strokeColor = '#00b514';
 
       return new Style({
         // image: new Circle({
@@ -173,13 +185,13 @@ function drawRoadByGaoDeJson(json, id, callback) {
         //     color: pointerColor,
         //   })
         // }),
-        image: new Icon(({
+        image: new Icon({
           anchor: [0.5, 180],
           anchorXUnits: 'fraction',
           anchorYUnits: 'pixels',
           src: feature.name === '终点' ? coordinateEndPng : coordinateStartPng,
           scale: 0.18,
-        })),
+        }),
         stroke: new Stroke({
           color: strokeColor,
           width: 5,
@@ -187,15 +199,15 @@ function drawRoadByGaoDeJson(json, id, callback) {
         }),
         text: new Text({
           text: name,
-          font:"bold 15px 微软雅黑",
+          font: 'bold 15px 微软雅黑',
           fill: new Fill({
-            color: 'white'
+            color: 'white',
           }),
-          textAlign:"center",
-          textBaseline:"middle"
-        })
-      })
-    }
+          textAlign: 'center',
+          textBaseline: 'middle',
+        }),
+      });
+    },
   });
   map.addLayer(vector);
 
@@ -203,9 +215,9 @@ function drawRoadByGaoDeJson(json, id, callback) {
 }
 
 /**
-  * 线路设置-  基于json坐标数据
-  *   result {coordinates: [[lng, lat], [lng, lat], ...], ...}
-  */
+ * 线路设置-  基于json坐标数据
+ *   result {coordinates: [[lng, lat], [lng, lat], ...], ...}
+ */
 function drawRoadByCoordinates(result, id, callback) {
   // 实例一个数据源获取feature
   // 实例化一个矢量图层Vector作为绘制层
@@ -227,27 +239,31 @@ function drawRoadByCoordinates(result, id, callback) {
     source,
     style: new Style({
       fill: new Fill({
-        color: 'rgba(255, 255, 255, 0.2)'
+        color: 'rgba(255, 255, 255, 0.2)',
       }),
       stroke: new Stroke({
         color: '#00b514',
-        width: 4
+        width: 4,
       }),
       image: new Circle({
         radius: 2,
         fill: new Fill({
-          color: '#00b514'
-        })
-      })
-    })
+          color: '#00b514',
+        }),
+      }),
+    }),
   });
   map.addLayer(vectorLayer); // 将绘制层添加到地图容器中
   let i = 0;
   const interval = setInterval(() => {
-    const point = olProj.transform(result.coordinates[i], 'EPSG:4326', 'EPSG:3857');
+    const point = olProj.transform(
+      result.coordinates[i],
+      'EPSG:4326',
+      'EPSG:3857',
+    );
     geometry.appendCoordinate(point);
     i += 1;
-    if(i === result.coordinates.length) {
+    if (i === result.coordinates.length) {
       clearInterval(interval); // 停止循环
     }
   }, 500);
@@ -257,17 +273,20 @@ function drawRoadByCoordinates(result, id, callback) {
 
 /**
  * 添加遮罩区域 基于json数据
-*/
+ */
 function drawAreaShadeByJson(AreaJson, id, callback) {
   const geojsonObject = AreaJson; // geojson数据
   const vectorSource = new VectorSource({
-    features: (new GeoJSON({featureProjection: 'EPSG:3857'})).readFeatures(geojsonObject),
+    features: new GeoJSON({ featureProjection: 'EPSG:3857' }).readFeatures(
+      geojsonObject,
+    ),
     // 将EPSG:4326坐标系修改为EPSG:3857
   });
-  
+
   const vectorLayer = new Vector({
     source: vectorSource,
-    style: (feature) => getStyle('rgba(137, 228, 232, 0.5)', feature.getProperties().name, )
+    style: feature =>
+      getStyle('rgba(137, 228, 232, 0.5)', feature.getProperties().name),
   });
   map.addLayer(vectorLayer);
 
@@ -277,68 +296,78 @@ function drawAreaShadeByJson(AreaJson, id, callback) {
 /**
  * 添加遮罩区域 基于左边数组
  * coordinates - [[lng, lat], [lng, lat], ...]
-*/
-function drawAreaShadeByCoordinates(coordinates, name, fillColor, id, callback) {
+ */
+function drawAreaShadeByCoordinates(
+  coordinates,
+  name,
+  fillColor,
+  id,
+  callback,
+) {
   const coordinatesPolygon = [];
   for (let i = 0; i < coordinates.length; i += 1) {
-    const pointTransform = olProj.transform([coordinates[i][0], coordinates[i][1]], 'EPSG:4326', 'EPSG:3857');
+    const pointTransform = olProj.transform(
+      [coordinates[i][0], coordinates[i][1]],
+      'EPSG:4326',
+      'EPSG:3857',
+    );
     coordinatesPolygon.push(pointTransform);
   }
   const polygonFeature = new Feature({
     type: 'polygon',
-    geometry: new Polygon([coordinatesPolygon])
-  });  
-  polygonFeature.setStyle(new Style({
-    stroke: new Stroke({
-      width: 2,
-      color: "#4885eb"
+    geometry: new Polygon([coordinatesPolygon]),
+  });
+  polygonFeature.setStyle(
+    new Style({
+      stroke: new Stroke({
+        width: 2,
+        color: '#4885eb',
+      }),
+      fill: new Fill({
+        color: fillColor,
+      }),
+      text: new Text({
+        text: name,
+      }),
     }),
-    fill: new Fill({
-      color: fillColor
-    }),
-    text: new Text({
-      text: name
-    })
-  }))
+  );
   const polygonLayer = new Vector({
     source: new VectorSource({
-      features: [polygonFeature]
+      features: [polygonFeature],
     }),
-  })
-  map.addLayer(polygonLayer)
+  });
+  map.addLayer(polygonLayer);
 
   if (callback) callback(polygonLayer);
 }
 
 function getStyle(fillColor, name) {
-  return (
-    new Style({
-      stroke: new Stroke({
-        width: 2,
-        color: "#4885eb"
-      }),
-      fill: new Fill({
-        color: fillColor
-      }),
-      text: new Text({
-        text: name
-      })
-    })
-  )
+  return new Style({
+    stroke: new Stroke({
+      width: 2,
+      color: '#4885eb',
+    }),
+    fill: new Fill({
+      color: fillColor,
+    }),
+    text: new Text({
+      text: name,
+    }),
+  });
 }
 
 /**
  *  热力图
-*/
+ */
 function drawHeatMap(heatData, id, callback) {
   // 矢量图层 获取geojson数据
   const vectorSource = new VectorSource({
-    features: (new GeoJSON()).readFeatures(heatData,{
-      dataProjection : 'EPSG:4326',
-      featureProjection : 'EPSG:3857'
-    })
+    features: new GeoJSON().readFeatures(heatData, {
+      dataProjection: 'EPSG:4326',
+      featureProjection: 'EPSG:3857',
+    }),
   });
-  // Heatmap热力图             
+  // Heatmap热力图
   const vector = new Heatmap({
     source: vectorSource,
     opacity: 0.8, // 透明度
@@ -351,7 +380,6 @@ function drawHeatMap(heatData, id, callback) {
   if (callback) callback(vector);
 }
 
-
 export {
   injectMap,
   setViewZoom,
@@ -361,5 +389,5 @@ export {
   drawRoadByCoordinates,
   drawAreaShadeByJson,
   drawAreaShadeByCoordinates,
-  drawHeatMap
+  drawHeatMap,
 };

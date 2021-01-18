@@ -9,7 +9,17 @@ import XYZSource from 'ol/source/XYZ'; // 可以加载Tile瓦片图
 import { Map, View, Overlay } from 'ol';
 
 import './style.css';
-import { injectMap, setViewZoom, addMark, drawLine, drawRoadByGaoDeJson, drawRoadByCoordinates, drawAreaShadeByJson, drawAreaShadeByCoordinates, drawHeatMap } from './mapUtility';
+import {
+  injectMap,
+  setViewZoom,
+  addMark,
+  drawLine,
+  drawRoadByGaoDeJson,
+  drawRoadByCoordinates,
+  drawAreaShadeByJson,
+  drawAreaShadeByCoordinates,
+  drawHeatMap,
+} from './mapUtility';
 
 import coordinatePng from './img/coordinate.png';
 import RoadGaoDeJson from './data/huangqiangbeiToHuaxinDriving.json'; // 路径json
@@ -21,7 +31,7 @@ function guid() {
   function S4() {
     return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1); // eslint-disable-line
   }
-  return (S4() + S4() + '-' + S4() + '-' + S4() + '-' + S4() + '-' + S4() + S4() + S4()); // eslint-disable-line
+  return (`${S4()}${S4()}-${S4()}-${S4()}-${S4()}-${S4()}${S4()}${S4()}`);
 }
 
 export default class DefaultOpenLayer extends PureComponent {
@@ -44,7 +54,8 @@ export default class DefaultOpenLayer extends PureComponent {
 
   popupEl; // 标记浮层
 
-  layerList = { // 动态添加的层级
+  layerList = {
+    // 动态添加的层级
     mark: {},
     line: {},
     area: {},
@@ -128,9 +139,14 @@ export default class DefaultOpenLayer extends PureComponent {
     } else {
       this.popupEl.setPosition();
       const id = guid();
-      addMark([clickPosition[0], clickPosition[1]], id, coordinatePng, layer => {
-        this.layerList.mark[id] = layer;
-      });
+      addMark(
+        [clickPosition[0], clickPosition[1]],
+        id,
+        coordinatePng,
+        layer => {
+          this.layerList.mark[id] = layer;
+        },
+      );
       if (this.state.drawLineFlag) {
         const roadId = guid();
         drawLine([this.state.centerPoniter, clickPosition], roadId, layer => {
@@ -160,7 +176,7 @@ export default class DefaultOpenLayer extends PureComponent {
   // 中心点设置
   handleSetZoom = () => {
     setViewZoom(this.state.centerPoniter, 16);
-  }
+  };
 
   // 添加线
   handleDrawLine = () => {
@@ -190,28 +206,34 @@ export default class DefaultOpenLayer extends PureComponent {
     drawAreaShadeByJson(ShenZhenAreaJson, id, layer => {
       this.layerList.area[id] = layer;
     });
-  }
+  };
 
   // 单个区域遮罩
   handleDrawAreaByCoordinates = () => {
     const id = guid();
-    drawAreaShadeByCoordinates(ShenZhenAreaJson.features[0].geometry.coordinates[0][0], ShenZhenAreaJson.features[0].properties.name, 'rgba(137, 228, 232, 0.5)', id, layer => {
-      this.layerList.area[id] = layer;
-    });
-  }
+    drawAreaShadeByCoordinates(
+      ShenZhenAreaJson.features[0].geometry.coordinates[0][0],
+      ShenZhenAreaJson.features[0].properties.name,
+      'rgba(137, 228, 232, 0.5)',
+      id,
+      layer => {
+        this.layerList.area[id] = layer;
+      },
+    );
+  };
 
   handleDrawHeatMap = () => {
     const id = guid();
     drawHeatMap(HeatMap, id, layer => {
       this.layerList.heat[id] = layer;
     });
-  }
+  };
 
   /**
    * 清理layer层
    * flag  0-全部；1-mark；2-line；3-area； 4-road; 5-heat
    */
-  handleClear = (flag) => {
+  handleClear = flag => {
     if (flag === 1 || flag === 0) {
       for (const k in this.layerList.mark) {
         this.map.removeLayer(this.layerList.mark[k]);
@@ -269,50 +291,106 @@ export default class DefaultOpenLayer extends PureComponent {
         <Row gutter={16}>
           <Col span={8}>
             <Card title="区域设置" style={{ width: 300 }}>
-              <Button style={{ margin: '10px', display: 'block' }} type="primary" onClick={this.handleSetZoom}>
+              <Button
+                style={{ margin: '10px', display: 'block' }}
+                type="primary"
+                onClick={this.handleSetZoom}
+              >
                 中心点设置
               </Button>
-              <Button style={{ margin: '10px', display: 'block' }} type="primary" onClick={this.handleAddClickEvent}>
+              <Button
+                style={{ margin: '10px', display: 'block' }}
+                type="primary"
+                onClick={this.handleAddClickEvent}
+              >
                 添加点击事件
               </Button>
-              <Button style={{ margin: '10px', display: 'block' }} type="primary" onClick={this.handleAddMenuEvent}>
+              <Button
+                style={{ margin: '10px', display: 'block' }}
+                type="primary"
+                onClick={this.handleAddMenuEvent}
+              >
                 添加鼠标右键事件
               </Button>
-              <Button style={{ margin: '10px', display: 'block' }} type="primary" onClick={this.handleDrawRoad}>
+              <Button
+                style={{ margin: '10px', display: 'block' }}
+                type="primary"
+                onClick={this.handleDrawRoad}
+              >
                 高德数据路线
               </Button>
-              <Button style={{ margin: '10px', display: 'block' }} type="primary" onClick={this.handleDrawRoadCoordinates}>
+              <Button
+                style={{ margin: '10px', display: 'block' }}
+                type="primary"
+                onClick={this.handleDrawRoadCoordinates}
+              >
                 动态坐标路线
               </Button>
-              <Button style={{ margin: '10px', display: 'block' }} type="primary" onClick={this.handleDrawArea}>
+              <Button
+                style={{ margin: '10px', display: 'block' }}
+                type="primary"
+                onClick={this.handleDrawArea}
+              >
                 深圳区域
               </Button>
-              <Button style={{ margin: '10px', display: 'block' }} type="primary" onClick={this.handleDrawAreaByCoordinates}>
+              <Button
+                style={{ margin: '10px', display: 'block' }}
+                type="primary"
+                onClick={this.handleDrawAreaByCoordinates}
+              >
                 罗湖区域
               </Button>
-              <Button style={{ margin: '10px', display: 'block' }} type="primary" onClick={this.handleDrawHeatMap}>
+              <Button
+                style={{ margin: '10px', display: 'block' }}
+                type="primary"
+                onClick={this.handleDrawHeatMap}
+              >
                 热点图
               </Button>
-              <Button style={{ margin: '10px', display: 'block' }} type="primary" onClick={this.handleDrawLine}>
+              <Button
+                style={{ margin: '10px', display: 'block' }}
+                type="primary"
+                onClick={this.handleDrawLine}
+              >
                 {this.state.drawLineFlag ? '关闭连线' : '开启连线'}
               </Button>
             </Card>
           </Col>
           <Col span={8}>
             <Card title="清空操作" style={{ width: 300 }}>
-              <Button style={{ margin: '10px', display: 'block' }} type="primary" onClick={() => this.handleClear(1)}>
+              <Button
+                style={{ margin: '10px', display: 'block' }}
+                type="primary"
+                onClick={() => this.handleClear(1)}
+              >
                 清空标点
               </Button>
-              <Button style={{ margin: '10px', display: 'block' }} type="primary" onClick={() => this.handleClear(2)}>
+              <Button
+                style={{ margin: '10px', display: 'block' }}
+                type="primary"
+                onClick={() => this.handleClear(2)}
+              >
                 清空连线
               </Button>
-              <Button style={{ margin: '10px', display: 'block' }} type="primary" onClick={() => this.handleClear(3)}>
+              <Button
+                style={{ margin: '10px', display: 'block' }}
+                type="primary"
+                onClick={() => this.handleClear(3)}
+              >
                 清空区域
               </Button>
-              <Button style={{ margin: '10px', display: 'block' }} type="primary" onClick={() => this.handleClear(4)}>
+              <Button
+                style={{ margin: '10px', display: 'block' }}
+                type="primary"
+                onClick={() => this.handleClear(4)}
+              >
                 清空路线
               </Button>
-              <Button style={{ margin: '10px', display: 'block' }} type="primary" onClick={() => this.handleClear(5)}>
+              <Button
+                style={{ margin: '10px', display: 'block' }}
+                type="primary"
+                onClick={() => this.handleClear(5)}
+              >
                 清空热力
               </Button>
             </Card>

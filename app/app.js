@@ -55,7 +55,9 @@ const ConnectedApp = props => (
     <LanguageProvider messages={props.messages}>
       <ConnectedRouter history={history}>
         <HelmetProvider>
-          <ConfigProvider locale={zhCN}><App /></ConfigProvider>
+          <ConfigProvider locale={zhCN}>
+            <App />
+          </ConfigProvider>
         </HelmetProvider>
       </ConnectedRouter>
     </LanguageProvider>

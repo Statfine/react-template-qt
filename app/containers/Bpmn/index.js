@@ -4,13 +4,13 @@ import { Button, Modal, Input, Select, Form } from 'antd';
 
 import BpmnModeler from 'bpmn-js/lib/Modeler';
 // import elementHelper from 'bpmn-js-properties-panel/lib/helper/ElementHelper';
-import propertiesPanelModule from 'bpmn-js-properties-panel';   // 这里引入的是右侧属性栏这个框
+import propertiesPanelModule from 'bpmn-js-properties-panel'; // 这里引入的是右侧属性栏这个框
 import propertiesProviderModule from 'bpmn-js-properties-panel/lib/provider/camunda'; // 而这个引入的是右侧属性栏里的内容
-import camundaModdleDescriptor from 'camunda-bpmn-moddle/resources/camunda.json'; // 如果要在属性面板中维护camunda：XXX属性，则需要此 
-import 'bpmn-js/dist/assets/diagram-js.css' // 左边工具栏以及编辑节点的样式
-import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css'
-import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css'
-import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css'
+import camundaModdleDescriptor from 'camunda-bpmn-moddle/resources/camunda.json'; // 如果要在属性面板中维护camunda：XXX属性，则需要此
+import 'bpmn-js/dist/assets/diagram-js.css'; // 左边工具栏以及编辑节点的样式
+import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css';
+import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css';
+import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css';
 import 'bpmn-js-properties-panel/dist/assets/bpmn-js-properties-panel.css';
 // import { merge } from 'lodash';
 
@@ -29,14 +29,14 @@ import qaPackage from './utils/qaPackage.json';
 // import smartPackage from './utils/smart.json';
 
 const customTranslateModule = {
-  translate: [ 'value', customTranslate ]
+  translate: ['value', customTranslate],
 };
 
 const NEED_RELEVANCY_STYEL = { stroke: '#666', fill: '#666' };
 const RELEVANCY_STYEL = { stroke: 'black', fill: 'white' };
 
 const { Option } = Select;
-const SetModal = (props) => {
+const SetModal = props => {
   const { el, handleCancelModal, handleCallback } = props;
   const [form] = Form.useForm();
 
@@ -46,7 +46,7 @@ const SetModal = (props) => {
   useEffect(() => {
     setValue(el.businessObject.name);
     setLink(el.businessObject.$attrs.link_id);
-  }, [])
+  }, []);
 
   return (
     <Modal
@@ -58,7 +58,7 @@ const SetModal = (props) => {
           .validateFields()
           .then(values => {
             form.resetFields();
-            handleCallback(el, values.name, values.link)
+            handleCallback(el, values.name, values.link);
           })
           .catch(info => {
             console.log('Validate Failed:', info);
@@ -79,7 +79,11 @@ const SetModal = (props) => {
         >
           <Input placeholder="输入名称" />
         </Form.Item>
-        <Form.Item name="link" label="关联" rules={[{ required: true, message: '选择关联!' }]}>
+        <Form.Item
+          name="link"
+          label="关联"
+          rules={[{ required: true, message: '选择关联!' }]}
+        >
           <Select placeholder="选择关联" style={{ width: '100%' }}>
             <Option value="id">idid</Option>
             <Option value="id1">id1</Option>
@@ -97,12 +101,11 @@ SetModal.propTypes = {
 };
 
 export default class BpmnPage extends PureComponent {
-
   state = {
     scale: 1, // 流程图比例
     modalVisible: false,
     choosedEl: {},
-  }
+  };
 
   bpmnModeler;
 
@@ -110,7 +113,7 @@ export default class BpmnPage extends PureComponent {
     this.bpmnModeler = new BpmnModeler({
       container: '#js-canvas',
       propertiesPanel: {
-        parent: '#js-properties-panel'
+        parent: '#js-properties-panel',
       },
       // bpmnRenderer: {
       //   defaultFillColor: 'green',
@@ -125,8 +128,8 @@ export default class BpmnPage extends PureComponent {
       ],
       moddleExtensions: {
         camunda: camundaModdleDescriptor, // 官方自定义
-        qa: qaPackage // 自定义节点
-      }
+        qa: qaPackage, // 自定义节点
+      },
     });
     this.initDiagram(xmlData);
   }
@@ -146,40 +149,42 @@ export default class BpmnPage extends PureComponent {
   };
 
   changeClassName = () => {
-    const canvas = this.bpmnModeler.get('canvas')
+    const canvas = this.bpmnModeler.get('canvas');
     // canvas.zoom('fit-viewport', 'auto') // 适应，居中
     const colorClass = 'nodeSuccess';
     const elementRegistry = this.bpmnModeler.get('elementRegistry');
     // const relevancyNode = []; // 正常的Task节点
-    const participantNode = elementRegistry.filter((item) => {
-      console.log('elementRegistry', item)
+    const participantNode = elementRegistry.filter(item => {
+      console.log('elementRegistry', item);
       return item.type === 'bpmn:Participant';
     });
-    participantNode.forEach((item) => {
+    participantNode.forEach(item => {
       console.log('forEach', item);
       // if (i % 2 === 0) canvas.addMarker(item.id, colorClass)
-      canvas.addMarker(item.id, colorClass)
-    })
+      canvas.addMarker(item.id, colorClass);
+    });
     // canvas.addMarker("Participant_19mj649", colorClass)
     // setTimeout(() => {
     //   canvas.removeMarker("Participant_19mj649", colorClass);
     // }, 1000)
-  }
+  };
 
   // 动态再工具栏上添加div
   addToolTitle = () => {
-    if ($(".custom-tool-title").length < 1) {
-      $(".djs-palette-entries").before("<div class='custom-tool-title'>基本信息</div>");
+    if ($('.custom-tool-title').length < 1) {
+      $('.djs-palette-entries').before(
+        "<div class='custom-tool-title'>基本信息</div>",
+      );
     }
-  }
+  };
 
   setNodeColor = () => {
     // 目的：为第一个节点添加绿色，为第二个节点添加黄色
     // 实现步骤：1、找到页面里所有节点
     const elementRegistry = this.bpmnModeler.get('elementRegistry');
     // const relevancyNode = []; // 正常的Task节点
-    const needRelevancyNode = elementRegistry.filter((item) => {
-      console.log('elementRegistry', item)
+    const needRelevancyNode = elementRegistry.filter(item => {
+      console.log('elementRegistry', item);
       // if (item.type === 'bpmn:Task' && item.businessObject.$attrs.link_id) relevancyNode.push(item)
       return this.verifyNeedRelevancy(item);
     });
@@ -190,15 +195,21 @@ export default class BpmnPage extends PureComponent {
     // const modeling = this.bpmnModeler.get('modeling');
     // if (needRelevancyNode.length > 0) modeling.setColor(needRelevancyNode, NEED_RELEVANCY_STYEL);
     // modeling.setColor(relevancyNode, RELEVANCY_STYEL);
-  }
+  };
 
   // 验证是否需要关联，true-需要
-  verifyNeedRelevancy = (element) => element.type === 'bpmn:Task' && !element.businessObject.$attrs.link_id
+  verifyNeedRelevancy = element =>
+    element.type === 'bpmn:Task' && !element.businessObject.$attrs.link_id;
 
-  setSigleNodeColor = (element) => {
+  setSigleNodeColor = element => {
     const modeling = this.bpmnModeler.get('modeling');
-    modeling.setColor(element, this.verifyNeedRelevancy(element) ? NEED_RELEVANCY_STYEL : RELEVANCY_STYEL);
-  }
+    modeling.setColor(
+      element,
+      this.verifyNeedRelevancy(element)
+        ? NEED_RELEVANCY_STYEL
+        : RELEVANCY_STYEL,
+    );
+  };
 
   // 弹框回调
   handleChangeEl = (el, name, link) => {
@@ -207,20 +218,27 @@ export default class BpmnPage extends PureComponent {
     const modeling = this.bpmnModeler.get('modeling');
     modeling.updateProperties(el, {
       name,
-      link_id: link
+      link_id: link,
     });
     this.setState({ modalVisible: false });
-    if (link) this.setSigleNodeColor(el)
-  }
-  
+    if (link) this.setSigleNodeColor(el);
+  };
+
   addEventBusListener = () => {
     // 监听 element
-    const eventBus = this.bpmnModeler.get('eventBus')
-    const eventTypes = ['element.click', 'element.dblclick', 'element.changed', 'element.updateLabel', 'shape.added', 'shape.removed']
-    eventTypes.forEach((eventType) => {
-      eventBus.on(eventType, (e) => {
-        console.log(eventType, e.element.type, e)
-        if (!e || e.element.type === 'bpmn:Process') return
+    const eventBus = this.bpmnModeler.get('eventBus');
+    const eventTypes = [
+      'element.click',
+      'element.dblclick',
+      'element.changed',
+      'element.updateLabel',
+      'shape.added',
+      'shape.removed',
+    ];
+    eventTypes.forEach(eventType => {
+      eventBus.on(eventType, e => {
+        console.log(eventType, e.element.type, e);
+        if (!e || e.element.type === 'bpmn:Process') return;
         if (eventType === 'shape.added') {
           if (e.element.type === 'bpmn:Task') {
             // if ((!e.element.businessObject || !e.element.businessObject.$attrs.link_id)) { // 回退新增，新增触发
@@ -233,11 +251,13 @@ export default class BpmnPage extends PureComponent {
             // this.bpmnModeler.get('replace').replaceElement(e.element, newElementDataTask);
             setTimeout(() => {
               const newElementDataTask = {
-                type: 'bpmn:ServiceTask'
+                type: 'bpmn:ServiceTask',
               };
               // debugger;
-              this.bpmnModeler.get('replace').replaceElement(e.element, newElementDataTask);
-            }, 20)
+              this.bpmnModeler
+                .get('replace')
+                .replaceElement(e.element, newElementDataTask);
+            }, 20);
           }
           return;
         }
@@ -274,7 +294,7 @@ export default class BpmnPage extends PureComponent {
             // this.bpmnModeler.get('replace').replaceElement(e.element, newElementDataTask);
             // return;
           }
-            
+
           // modeling.setColor(e.element, {
           //   stroke: 'yellow',
           //   fill: 'blue',
@@ -327,21 +347,26 @@ export default class BpmnPage extends PureComponent {
           // // el.businessObject.documentation.push(son);
           // // console.log('son', son)
           // console.log('getExtension', this.getExtension(e.element, 'qa:AnalysisDetails'))
-        } else if (eventType === 'element.dblclick' && e.element.type === 'bpmn:Task') {
+        } else if (
+          eventType === 'element.dblclick' &&
+          e.element.type === 'bpmn:Task'
+        ) {
           this.setState({ modalVisible: true, choosedEl: e.element });
         } else if (eventType === 'element.updateLabel') {
-          console.log('element.updateLabel', e.element)
+          console.log('element.updateLabel', e.element);
         }
-      })
-    })
-  }
+      });
+    });
+  };
 
   getExtension = (element, type) => {
     if (!element.businessObject.extensionElements) {
       return null;
     }
-    return element.businessObject.extensionElements.values.filter((e) => e.$instanceOf(type))[0];
-  }
+    return element.businessObject.extensionElements.values.filter(e =>
+      e.$instanceOf(type),
+    )[0];
+  };
 
   // 前进
   handleRedo = () => {
@@ -364,9 +389,9 @@ export default class BpmnPage extends PureComponent {
   handleParseJson = () => {
     this.bpmnModeler.clear();
     const xml = JsonToString();
-    console.log(xml)
+    console.log(xml);
     this.initDiagram(xml, false);
-  }
+  };
 
   // 流程图放大缩小
   handleZoom = radio => {
@@ -385,24 +410,24 @@ export default class BpmnPage extends PureComponent {
 
   // 保存
   handleSave = () => {
-    this.bpmnModeler.saveXML({format: true}, (err, xml) => {
+    this.bpmnModeler.saveXML({ format: true }, (err, xml) => {
       console.log(xml);
     });
-    this.bpmnModeler.saveSVG({format: true}, (err, data) => {
+    this.bpmnModeler.saveSVG({ format: true }, (err, data) => {
       console.log(data);
     });
   };
 
   // 下载 SVG 格式
   handleDownloadSvg = () => {
-    this.bpmnModeler.saveSVG({format: true}, (err, data) => {
+    this.bpmnModeler.saveSVG({ format: true }, (err, data) => {
       this.download('svg', data);
     });
   };
 
   // 下载 XML 格式
   handleDownloadXml = () => {
-    this.bpmnModeler.saveXML({format: true}, (err, data) => {
+    this.bpmnModeler.saveXML({ format: true }, (err, data) => {
       this.download('xml', data);
     });
   };
@@ -424,7 +449,7 @@ export default class BpmnPage extends PureComponent {
     const downName = name || `diagram.${dataTrack}`;
     a.setAttribute(
       'href',
-      `data:application/bpmn20-xml;charset=UTF-8,${encodeURIComponent(data)}`
+      `data:application/bpmn20-xml;charset=UTF-8,${encodeURIComponent(data)}`,
     );
     a.setAttribute('target', '_blank');
     a.setAttribute('dataTrack', `diagram:download-${dataTrack}`);
@@ -439,38 +464,48 @@ export default class BpmnPage extends PureComponent {
     return (
       <div style={{ padding: '10px' }}>
         <div>
-          <Button  onClick={this.handleRedo}>前进</Button>
-          <Button  onClick={this.handleUndo}>后退</Button>
-          <Button  onClick={this.handleClear}>清空</Button>
-          <Button  onClick={() => this.handleZoom(0.1)}>放大</Button>
-          <Button  onClick={() => this.handleZoom(-0.1)}>缩小</Button>
-          <Button  onClick={this.handleZoom}>重置大小</Button>
-          <Button  onClick={this.handleSave}>保存</Button>
-          <Button  onClick={this.handleDownloadSvg}>下载 SVG</Button>
-          <Button  onClick={this.handleDownloadXml}>下载 XML</Button>
-          <Button  onClick={this.handleParseJson}>数据解析</Button>
+          <Button onClick={this.handleRedo}>前进</Button>
+          <Button onClick={this.handleUndo}>后退</Button>
+          <Button onClick={this.handleClear}>清空</Button>
+          <Button onClick={() => this.handleZoom(0.1)}>放大</Button>
+          <Button onClick={() => this.handleZoom(-0.1)}>缩小</Button>
+          <Button onClick={this.handleZoom}>重置大小</Button>
+          <Button onClick={this.handleSave}>保存</Button>
+          <Button onClick={this.handleDownloadSvg}>下载 SVG</Button>
+          <Button onClick={this.handleDownloadXml}>下载 XML</Button>
+          <Button onClick={this.handleParseJson}>数据解析</Button>
         </div>
-        <div style={{ width: '100%', height: '400px', border: '1px solid #4885ed', overflow: 'scroll' }} id="js-canvas">
-        </div>
-        <div id="js-properties-panel" style={{ position: 'absolute', right: '0', top: '0', width: '300px' }}></div>
-        {
-          modalVisible && <SetModal
+        <div
+          style={{
+            width: '100%',
+            height: '400px',
+            border: '1px solid #4885ed',
+            overflow: 'scroll',
+          }}
+          id="js-canvas"
+        ></div>
+        <div
+          id="js-properties-panel"
+          style={{ position: 'absolute', right: '0', top: '0', width: '300px' }}
+        ></div>
+        {modalVisible && (
+          <SetModal
             el={choosedEl}
             handleCancelModal={() => {
               // const modeling = this.bpmnModeler.get('modeling');
               // const elementRegistry = this.bpmnModeler.get('elementRegistry');
               // const ele = elementRegistry.get(this.state.choosedEl.id)
               // modeling.updateProperties(ele, {});
-              this.setState({ modalVisible: false })
+              this.setState({ modalVisible: false });
               // 弹框移除取消选中状态
               $('.djs-direct-editing-parent').remove();
-              $("div").removeClass("djs-label-hidden");
-              $("g").removeClass("djs-label-hidden");
+              $('div').removeClass('djs-label-hidden');
+              $('g').removeClass('djs-label-hidden');
             }}
             handleCallback={this.handleChangeEl}
           />
-        }
+        )}
       </div>
-    )
+    );
   }
 }

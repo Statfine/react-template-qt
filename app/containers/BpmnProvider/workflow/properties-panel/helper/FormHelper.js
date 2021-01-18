@@ -1,7 +1,7 @@
-
-
-const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
-const getExtensionElements = require('./ExtensionElementsHelper').getExtensionElements;
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil')
+  .getBusinessObject;
+const getExtensionElements = require('./ExtensionElementsHelper')
+  .getExtensionElements;
 
 const FormHelper = {};
 
@@ -30,7 +30,6 @@ FormHelper.getFormData = function(element) {
   return {};
 };
 
-
 /**
  * Return all form fields existing in the business object, and
  * an empty array if none exist.
@@ -40,7 +39,6 @@ FormHelper.getFormData = function(element) {
  * @return {Array} a list of form field objects
  */
 FormHelper.getFormFields = function(element) {
-
   /** 直接获取 ExtensionElements的 smart:FormProperty元素 */
   const bo = getBusinessObject(element);
 
@@ -48,7 +46,6 @@ FormHelper.getFormFields = function(element) {
 
   return formFields || [];
 };
-
 
 /**
  * Get a form field from the business object at given index
@@ -59,12 +56,10 @@ FormHelper.getFormFields = function(element) {
  * @return {ModdleElement} the form field
  */
 FormHelper.getFormField = function(element, idx) {
-
   const formFields = this.getFormFields(element);
 
   return formFields[idx];
 };
-
 
 /**
  * Get all constraints for a specific form field from the business object
@@ -80,7 +75,6 @@ FormHelper.getConstraints = function(formField) {
   return [];
 };
 
-
 /**
  * Get all smart:value objects for a specific form field from the business object
  *
@@ -94,4 +88,3 @@ FormHelper.getEnumValues = function(formField) {
   }
   return [];
 };
-

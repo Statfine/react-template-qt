@@ -1,6 +1,5 @@
-
-
-const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil')
+  .getBusinessObject;
 
 const domQuery = require('min-dom').query;
 const domClosest = require('min-dom').closest;
@@ -14,7 +13,9 @@ const escapeHTML = utils.escapeHTML;
 
 function getSelectBox(node, id) {
   const currentTab = domClosest(node, 'div.bpp-properties-tab');
-  const query = `select[name=selectedExtensionElement]${  id ? `[id=cam-extensionElements-${  id  }]` : ''}`;
+  const query = `select[name=selectedExtensionElement]${
+    id ? `[id=cam-extensionElements-${id}]` : ''
+  }`;
   return domQuery(query, currentTab);
 }
 
@@ -22,7 +23,7 @@ function getSelected(node, id) {
   const selectBox = getSelectBox(node, id);
   return {
     value: (selectBox || {}).value,
-    idx: (selectBox || {}).selectedIndex
+    idx: (selectBox || {}).selectedIndex,
   };
 }
 
@@ -35,11 +36,11 @@ const CREATE_EXTENSION_ELEMENT_ACTION = 'create-extension-element';
 const REMOVE_EXTENSION_ELEMENT_ACTION = 'remove-extension-element';
 
 module.exports = function(element, bpmnFactory, options, translate) {
-
   const id = options.id;
   const prefix = options.prefix || 'elem';
   const label = options.label || id;
-  const idGeneration = (options.idGeneration === false) ? options.idGeneration : true;
+  const idGeneration =
+    options.idGeneration === false ? options.idGeneration : true;
   let businessObject = options.businessObject || getBusinessObject(element);
 
   const modelProperty = options.modelProperty || 'id';
@@ -71,40 +72,54 @@ module.exports = function(element, bpmnFactory, options, translate) {
   };
 
   const createOption = function(value) {
-    return `<option value="${  escapeHTML(value)  }" data-value data-name="extensionElementValue">${  escapeHTML(value)  }</option>`;
+    return `<option value="${escapeHTML(
+      value,
+    )}" data-value data-name="extensionElementValue">${escapeHTML(
+      value,
+    )}</option>`;
   };
 
   const initSelectionSize = function(selectBox, optionsLength) {
     if (resizable) {
-      selectBox.size = optionsLength > defaultSize ? optionsLength : defaultSize;
+      selectBox.size =
+        optionsLength > defaultSize ? optionsLength : defaultSize;
     }
   };
 
   return {
     id,
-    html: `<div class="bpp-row bpp-element-list" ${ 
-      canBeHidden ? 'data-show="hideElements"' : ''  }>` +
-            `<label for="cam-extensionElements-${  escapeHTML(id)  }">${  escapeHTML(label)  }</label>` +
-            `<div class="bpp-field-wrapper">` +
-              `<select id="cam-extensionElements-${  escapeHTML(id)  }"` +
-                      `name="selectedExtensionElement" ` +
-                      `size="${  escapeHTML(defaultSize)  }" ` +
-                      `data-list-entry-container ` +
-                      `data-on-change="selectElement">` +
-              `</select>${ 
-                canCreate ? `${'<button class="add" ' +
-                                   'id="cam-extensionElements-create-'}${  escapeHTML(id)  }" ` +
-                                   `data-action="createElement">` +
-                             `<span>+</span>` +
-                           `</button>` : '' 
-              }${canRemove ? `${'<button class="clear" ' +
-                                   'id="cam-extensionElements-remove-'}${  escapeHTML(id)  }" ` +
-                                   `data-action="removeElement" ` +
-                                   `data-disable="disableRemove">` +
-                             `<span>-</span>` +
-                           `</button>` : '' 
-              }</div>` +
-          `</div>`,
+    html:
+      `<div class="bpp-row bpp-element-list" ${
+        canBeHidden ? 'data-show="hideElements"' : ''
+      }>` +
+      `<label for="cam-extensionElements-${escapeHTML(id)}">${escapeHTML(
+        label,
+      )}</label>` +
+      `<div class="bpp-field-wrapper">` +
+      `<select id="cam-extensionElements-${escapeHTML(id)}"` +
+      `name="selectedExtensionElement" ` +
+      `size="${escapeHTML(defaultSize)}" ` +
+      `data-list-entry-container ` +
+      `data-on-change="selectElement">` +
+      `</select>${
+        canCreate
+          ? `${'<button class="add" ' +
+              'id="cam-extensionElements-create-'}${escapeHTML(id)}" ` +
+            `data-action="createElement">` +
+            `<span>+</span>` +
+            `</button>`
+          : ''
+      }${
+        canRemove
+          ? `${'<button class="clear" ' +
+              'id="cam-extensionElements-remove-'}${escapeHTML(id)}" ` +
+            `data-action="removeElement" ` +
+            `data-disable="disableRemove">` +
+            `<span>-</span>` +
+            `</button>`
+          : ''
+      }</div>` +
+      `</div>`,
 
     get(element, node) {
       const elements = getElements(element, node);
@@ -112,7 +127,7 @@ module.exports = function(element, bpmnFactory, options, translate) {
       const result = [];
       forEach(elements, function(elem) {
         result.push({
-          extensionElementValue: elem.get(modelProperty)
+          extensionElementValue: elem.get(modelProperty),
         });
       });
 
@@ -129,7 +144,7 @@ module.exports = function(element, bpmnFactory, options, translate) {
       businessObject = businessObject || getBusinessObject(element);
 
       const bo =
-        (reference && businessObject.get(reference))
+        reference && businessObject.get(reference)
           ? businessObject.get(reference)
           : businessObject;
 
@@ -138,17 +153,30 @@ module.exports = function(element, bpmnFactory, options, translate) {
       if (action.id === CREATE_EXTENSION_ELEMENT_ACTION) {
         const commands = [];
         if (!extensionElements) {
-          extensionElements = elementHelper.createElement('bpmn:ExtensionElements', { values: [] }, bo, bpmnFactory);
-          commands.push(cmdHelper.updateBusinessObject(element, bo, { extensionElements }));
+          extensionElements = elementHelper.createElement(
+            'bpmn:ExtensionElements',
+            { values: [] },
+            bo,
+            bpmnFactory,
+          );
+          commands.push(
+            cmdHelper.updateBusinessObject(element, bo, { extensionElements }),
+          );
         }
-        commands.push(createElement(element, extensionElements, action.value, node));
+        commands.push(
+          createElement(element, extensionElements, action.value, node),
+        );
         return commands;
-
       }
       if (action.id === REMOVE_EXTENSION_ELEMENT_ACTION) {
-        return removeElement(element, extensionElements, action.value, action.idx, node);
+        return removeElement(
+          element,
+          extensionElements,
+          action.value,
+          action.idx,
+          node,
+        );
       }
-
     },
 
     createListEntryTemplate(value, index, selectBox) {
@@ -197,7 +225,7 @@ module.exports = function(element, bpmnFactory, options, translate) {
 
       this.__action = {
         id: CREATE_EXTENSION_ELEMENT_ACTION,
-        value: generatedId
+        value: generatedId,
       };
 
       return true;
@@ -215,7 +243,7 @@ module.exports = function(element, bpmnFactory, options, translate) {
       this.__action = {
         id: REMOVE_EXTENSION_ELEMENT_ACTION,
         value: selection.value,
-        idx: selection.idx
+        idx: selection.idx,
       };
 
       return true;
@@ -229,7 +257,6 @@ module.exports = function(element, bpmnFactory, options, translate) {
       return (getSelected(entryNode, id) || {}).idx < 0;
     },
 
-    selectElement: selectionChanged
+    selectElement: selectionChanged,
   };
-
 };

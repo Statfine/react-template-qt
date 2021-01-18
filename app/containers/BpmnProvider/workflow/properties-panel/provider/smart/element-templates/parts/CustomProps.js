@@ -1,9 +1,8 @@
-
-
 const assign = require('lodash/assign');
 
 const entryFactory = require('../../../../factory/EntryFactory');
-const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil')
+  .getBusinessObject;
 const getTemplate = require('../Helper').getTemplate;
 const cmdHelper = require('../../../../helper/CmdHelper');
 const elementHelper = require('../../../../helper/ElementHelper');
@@ -20,8 +19,10 @@ const createInputParameter = require('../CreateHelper').createInputParameter;
 const createOutputParameter = require('../CreateHelper').createOutputParameter;
 const createSmartIn = require('../CreateHelper').createSmartIn;
 const createSmartOut = require('../CreateHelper').createSmartOut;
-const createSmartInWithBusinessKey = require('../CreateHelper').createSmartInWithBusinessKey;
-const createSmartFieldInjection = require('../CreateHelper').createSmartFieldInjection;
+const createSmartInWithBusinessKey = require('../CreateHelper')
+  .createSmartInWithBusinessKey;
+const createSmartFieldInjection = require('../CreateHelper')
+  .createSmartFieldInjection;
 
 const SMART_PROPERTY_TYPE = 'smart:property';
 const SMART_INPUT_PARAMETER_TYPE = 'smart:inputParameter';
@@ -32,11 +33,7 @@ const SMART_IN_BUSINESS_KEY_TYPE = 'smart:in:businessKey';
 const SMART_EXECUTION_LISTENER_TYPE = 'smart:executionListener';
 const SMART_FIELD = 'smart:field';
 
-const BASIC_MODDLE_TYPES = [
-  'Boolean',
-  'Integer',
-  'String'
-];
+const BASIC_MODDLE_TYPES = ['Boolean', 'Integer', 'String'];
 
 const EXTENSION_BINDING_TYPES = [
   SMART_PROPERTY_TYPE,
@@ -45,18 +42,18 @@ const EXTENSION_BINDING_TYPES = [
   SMART_IN_TYPE,
   SMART_OUT_TYPE,
   SMART_IN_BUSINESS_KEY_TYPE,
-  SMART_FIELD
+  SMART_FIELD,
 ];
 
 const IO_BINDING_TYPES = [
   SMART_INPUT_PARAMETER_TYPE,
-  SMART_OUTPUT_PARAMETER_TYPE
+  SMART_OUTPUT_PARAMETER_TYPE,
 ];
 
 const IN_OUT_BINDING_TYPES = [
   SMART_IN_TYPE,
   SMART_OUT_TYPE,
-  SMART_IN_BUSINESS_KEY_TYPE
+  SMART_IN_BUSINESS_KEY_TYPE,
 ];
 
 /**
@@ -68,7 +65,6 @@ const IN_OUT_BINDING_TYPES = [
  * @param {Function} translate
  */
 module.exports = function(element, elementTemplates, bpmnFactory, translate) {
-
   const template = getTemplate(element, elementTemplates);
 
   if (!template) {
@@ -85,7 +81,7 @@ module.exports = function(element, elementTemplates, bpmnFactory, translate) {
       modelProperty: id,
       get: propertyGetter(id, p),
       set: propertySetter(id, p, bpmnFactory),
-      validate: propertyValidator(id, p, translate)
+      validate: propertyValidator(id, p, translate),
     };
 
     let entry;
@@ -112,16 +108,16 @@ module.exports = function(element, elementTemplates, bpmnFactory, translate) {
   };
 
   const groups = [];
-  let id; let entry;
+  let id;
+  let entry;
 
   const customFieldsGroup = {
     id: 'customField',
     label: translate('Custom Fields'),
-    entries: []
+    entries: [],
   };
   template.properties.forEach(function(p, idx) {
-
-    id = `custom-${  template.id  }-${  idx}`;
+    id = `custom-${template.id}-${idx}`;
 
     entry = renderCustomField(id, p, idx);
     if (entry) {
@@ -134,19 +130,17 @@ module.exports = function(element, elementTemplates, bpmnFactory, translate) {
 
   if (template.scopes) {
     for (var scopeName in template.scopes) {
-
       const scope = template.scopes[scopeName];
       var idScopeName = scopeName.replace(/:/g, '_');
 
       var customScopeFieldsGroup = {
-        id: `customField-${  idScopeName}`,
+        id: `customField-${idScopeName}`,
         label: translate('Custom Fields for scope: ') + scopeName,
-        entries: []
+        entries: [],
       };
 
       scope.properties.forEach(function(p, idx) {
-
-        const propertyId = `custom-${  template.id  }-${  idScopeName  }-${  idx}`;
+        const propertyId = `custom-${template.id}-${idScopeName}-${idx}`;
 
         const scopedProperty = propertyWithScope(p, scopeName);
 
@@ -165,9 +159,7 @@ module.exports = function(element, elementTemplates, bpmnFactory, translate) {
   return groups;
 };
 
-
 // getters, setters and validators ///////////////
-
 
 /**
  * Return a getter that retrieves the given property.
@@ -178,7 +170,6 @@ module.exports = function(element, elementTemplates, bpmnFactory, translate) {
  * @return {Function}
  */
 function propertyGetter(name, property) {
-
   /* getter */
   return function get(element) {
     const value = getPropertyValue(element, property);
@@ -197,10 +188,8 @@ function propertyGetter(name, property) {
  * @return {Function}
  */
 function propertySetter(name, property, bpmnFactory) {
-
   /* setter */
   return function set(element, values) {
-
     const value = values[name];
 
     return setPropertyValue(element, property, value, bpmnFactory);
@@ -217,7 +206,6 @@ function propertySetter(name, property, bpmnFactory) {
  * @return {Function}
  */
 function propertyValidator(name, property, translate) {
-
   /* validator */
   return function validate(element, values) {
     const value = values[name];
@@ -229,7 +217,6 @@ function propertyValidator(name, property, translate) {
     }
   };
 }
-
 
 // get, set and validate helpers ///////////////////
 
@@ -243,7 +230,6 @@ function propertyValidator(name, property, translate) {
  * @return {Any}
  */
 function getPropertyValue(element, property) {
-
   let bo = getBusinessObject(element);
 
   const binding = property.binding;
@@ -263,20 +249,17 @@ function getPropertyValue(element, property) {
 
   // property
   if (bindingType === 'property') {
-
     const value = bo.get(bindingName);
 
     if (bindingName === 'conditionExpression') {
       if (value) {
         return value.body;
-      } 
+      }
       // return defined default
       return propertyValue;
-      
-    } 
+    }
     // return value; default to defined default
     return typeof value !== 'undefined' ? value : propertyValue;
-    
   }
 
   let smartProperties;
@@ -304,7 +287,6 @@ function getPropertyValue(element, property) {
   let ioParameter;
 
   if (IO_BINDING_TYPES.indexOf(bindingType) !== -1) {
-
     if (scope) {
       inputOutput = bo.get('inputOutput');
     } else {
@@ -345,7 +327,6 @@ function getPropertyValue(element, property) {
     return propertyValue;
   }
 
-
   let ioElement;
 
   if (IN_OUT_BINDING_TYPES.indexOf(bindingType) != -1) {
@@ -354,9 +335,11 @@ function getPropertyValue(element, property) {
     if (ioElement) {
       if (bindingType === SMART_IN_BUSINESS_KEY_TYPE) {
         return ioElement.businessKey;
-      } if (bindingType === SMART_OUT_TYPE) {
+      }
+      if (bindingType === SMART_OUT_TYPE) {
         return ioElement.target;
-      } if (bindingType === SMART_IN_TYPE) {
+      }
+      if (bindingType === SMART_IN_TYPE) {
         return ioElement[binding.expression ? 'sourceExpression' : 'source'];
       }
     }
@@ -377,7 +360,7 @@ function getPropertyValue(element, property) {
 
   let fieldInjection;
   if (SMART_FIELD === bindingType) {
-    const fieldInjections = findExtensions(bo, [ 'smart:Field' ]);
+    const fieldInjections = findExtensions(bo, ['smart:Field']);
     fieldInjections.forEach(function(item) {
       if (item.name === binding.name) {
         fieldInjection = item;
@@ -385,16 +368,14 @@ function getPropertyValue(element, property) {
     });
     if (fieldInjection) {
       return fieldInjection.string || fieldInjection.expression;
-    } 
+    }
     return '';
-    
   }
 
   throw unknownPropertyBinding(property);
 }
 
 module.exports.getPropertyValue = getPropertyValue;
-
 
 /**
  * Return an update operation that changes the diagram
@@ -430,11 +411,20 @@ function setPropertyValue(element, property, value, bpmnFactory) {
 
     // create extension elements, if they do not exist (yet)
     if (!extensionElements) {
-      extensionElements = elementHelper.createElement('bpmn:ExtensionElements', null, element, bpmnFactory);
+      extensionElements = elementHelper.createElement(
+        'bpmn:ExtensionElements',
+        null,
+        element,
+        bpmnFactory,
+      );
 
-      updates.push(cmdHelper.updateBusinessObject(
-        element, bo, objectWithKey('extensionElements', extensionElements)
-      ));
+      updates.push(
+        cmdHelper.updateBusinessObject(
+          element,
+          bo,
+          objectWithKey('extensionElements', extensionElements),
+        ),
+      );
     }
   }
 
@@ -443,37 +433,39 @@ function setPropertyValue(element, property, value, bpmnFactory) {
     if (!bo) {
       bo = elementHelper.createElement(scope.name, null, element, bpmnFactory);
 
-      updates.push(cmdHelper.addElementsTolist(
-        bo, extensionElements, 'values', [ bo ]
-      ));
+      updates.push(
+        cmdHelper.addElementsTolist(bo, extensionElements, 'values', [bo]),
+      );
     }
   }
 
   // property
   if (bindingType === 'property') {
-
     if (bindingName === 'conditionExpression') {
-
-      propertyValue = elementHelper.createElement('bpmn:FormalExpression', {
-        body: value,
-        language: binding.scriptFormat
-      }, bo, bpmnFactory);
+      propertyValue = elementHelper.createElement(
+        'bpmn:FormalExpression',
+        {
+          body: value,
+          language: binding.scriptFormat,
+        },
+        bo,
+        bpmnFactory,
+      );
     } else {
-
-      const moddlePropertyDescriptor = bo.$descriptor.propertiesByName[bindingName];
+      const moddlePropertyDescriptor =
+        bo.$descriptor.propertiesByName[bindingName];
 
       const moddleType = moddlePropertyDescriptor.type;
 
       // make sure we only update String, Integer, Real and
       // Boolean properties (do not accidentally override complex objects...)
       if (BASIC_MODDLE_TYPES.indexOf(moddleType) === -1) {
-        throw new Error(`cannot set moddle type <${  moddleType  }>`);
+        throw new Error(`cannot set moddle type <${moddleType}>`);
       }
 
       if (moddleType === 'Boolean') {
         propertyValue = !!value;
-      } else
-      if (moddleType === 'Integer') {
+      } else if (moddleType === 'Integer') {
         propertyValue = parseInt(value, 10);
 
         if (isNaN(propertyValue)) {
@@ -486,9 +478,13 @@ function setPropertyValue(element, property, value, bpmnFactory) {
     }
 
     if (propertyValue !== undefined) {
-      updates.push(cmdHelper.updateBusinessObject(
-        element, bo, objectWithKey(bindingName, propertyValue)
-      ));
+      updates.push(
+        cmdHelper.updateBusinessObject(
+          element,
+          bo,
+          objectWithKey(bindingName, propertyValue),
+        ),
+      );
     }
   }
 
@@ -498,7 +494,6 @@ function setPropertyValue(element, property, value, bpmnFactory) {
   let newSmartProperty;
 
   if (bindingType === SMART_PROPERTY_TYPE) {
-
     if (scope) {
       smartProperties = bo.get('properties');
     } else {
@@ -506,17 +501,25 @@ function setPropertyValue(element, property, value, bpmnFactory) {
     }
 
     if (!smartProperties) {
-      smartProperties = elementHelper.createElement('smart:Properties', null, bo, bpmnFactory);
+      smartProperties = elementHelper.createElement(
+        'smart:Properties',
+        null,
+        bo,
+        bpmnFactory,
+      );
 
       if (scope) {
-        updates.push(cmdHelper.updateBusinessObject(
-          element, bo, { properties: smartProperties }
-        ));
-      }
-      else {
-        updates.push(cmdHelper.addElementsTolist(
-          element, extensionElements, 'values', [ smartProperties ]
-        ));
+        updates.push(
+          cmdHelper.updateBusinessObject(element, bo, {
+            properties: smartProperties,
+          }),
+        );
+      } else {
+        updates.push(
+          cmdHelper.addElementsTolist(element, extensionElements, 'values', [
+            smartProperties,
+          ]),
+        );
       }
     }
 
@@ -524,14 +527,16 @@ function setPropertyValue(element, property, value, bpmnFactory) {
 
     newSmartProperty = createSmartProperty(binding, value, bpmnFactory);
 
-    updates.push(cmdHelper.addAndRemoveElementsFromList(
-      element,
-      smartProperties,
-      'values',
-      null,
-      [ newSmartProperty ],
-      existingSmartProperty ? [ existingSmartProperty ] : []
-    ));
+    updates.push(
+      cmdHelper.addAndRemoveElementsFromList(
+        element,
+        smartProperties,
+        'values',
+        null,
+        [newSmartProperty],
+        existingSmartProperty ? [existingSmartProperty] : [],
+      ),
+    );
   }
 
   // smart:inputParameter
@@ -541,7 +546,6 @@ function setPropertyValue(element, property, value, bpmnFactory) {
   let newIoParameter;
 
   if (IO_BINDING_TYPES.indexOf(bindingType) !== -1) {
-
     if (scope) {
       inputOutput = bo.get('inputOutput');
     } else {
@@ -550,53 +554,63 @@ function setPropertyValue(element, property, value, bpmnFactory) {
 
     // create inputOutput element, if it do not exist (yet)
     if (!inputOutput) {
-      inputOutput = elementHelper.createElement('smart:InputOutput', null, bo, bpmnFactory);
+      inputOutput = elementHelper.createElement(
+        'smart:InputOutput',
+        null,
+        bo,
+        bpmnFactory,
+      );
 
       if (scope) {
-        updates.push(cmdHelper.updateBusinessObject(
-          element, bo, { inputOutput }
-        ));
-      }
-      else {
-        updates.push(cmdHelper.addElementsTolist(
-          element, extensionElements, 'values', inputOutput
-        ));
+        updates.push(
+          cmdHelper.updateBusinessObject(element, bo, { inputOutput }),
+        );
+      } else {
+        updates.push(
+          cmdHelper.addElementsTolist(
+            element,
+            extensionElements,
+            'values',
+            inputOutput,
+          ),
+        );
       }
     }
   }
 
   if (bindingType === SMART_INPUT_PARAMETER_TYPE) {
-
     existingIoParameter = findInputParameter(inputOutput, binding);
 
     newIoParameter = createInputParameter(binding, value, bpmnFactory);
 
-    updates.push(cmdHelper.addAndRemoveElementsFromList(
-      element,
-      inputOutput,
-      'inputParameters',
-      null,
-      [ newIoParameter ],
-      existingIoParameter ? [ existingIoParameter ] : []
-    ));
+    updates.push(
+      cmdHelper.addAndRemoveElementsFromList(
+        element,
+        inputOutput,
+        'inputParameters',
+        null,
+        [newIoParameter],
+        existingIoParameter ? [existingIoParameter] : [],
+      ),
+    );
   }
 
   if (bindingType === SMART_OUTPUT_PARAMETER_TYPE) {
-
     existingIoParameter = findOutputParameter(inputOutput, binding);
 
     newIoParameter = createOutputParameter(binding, value, bpmnFactory);
 
-    updates.push(cmdHelper.addAndRemoveElementsFromList(
-      element,
-      inputOutput,
-      'outputParameters',
-      null,
-      [ newIoParameter ],
-      existingIoParameter ? [ existingIoParameter ] : []
-    ));
+    updates.push(
+      cmdHelper.addAndRemoveElementsFromList(
+        element,
+        inputOutput,
+        'outputParameters',
+        null,
+        [newIoParameter],
+        existingIoParameter ? [existingIoParameter] : [],
+      ),
+    );
   }
-
 
   // smart:in
   // smart:out
@@ -605,52 +619,58 @@ function setPropertyValue(element, property, value, bpmnFactory) {
   let newInOut;
 
   if (IN_OUT_BINDING_TYPES.indexOf(bindingType) !== -1) {
-
     existingInOut = findSmartInOut(bo, binding);
 
     if (bindingType === SMART_IN_TYPE) {
       newInOut = createSmartIn(binding, value, bpmnFactory);
-    } else
-    if (bindingType === SMART_OUT_TYPE) {
+    } else if (bindingType === SMART_OUT_TYPE) {
       newInOut = createSmartOut(binding, value, bpmnFactory);
     } else {
       newInOut = createSmartInWithBusinessKey(binding, value, bpmnFactory);
     }
 
-    updates.push(cmdHelper.addAndRemoveElementsFromList(
-      element,
-      extensionElements,
-      'values',
-      null,
-      [ newInOut ],
-      existingInOut ? [ existingInOut ] : []
-    ));
+    updates.push(
+      cmdHelper.addAndRemoveElementsFromList(
+        element,
+        extensionElements,
+        'values',
+        null,
+        [newInOut],
+        existingInOut ? [existingInOut] : [],
+      ),
+    );
   }
 
   if (bindingType === SMART_FIELD) {
-    const existingFieldInjections = findExtensions(bo, [ 'smart:Field' ]);
+    const existingFieldInjections = findExtensions(bo, ['smart:Field']);
     const newFieldInjections = [];
 
     if (existingFieldInjections.length > 0) {
       existingFieldInjections.forEach(function(item) {
         if (item.name === binding.name) {
-          newFieldInjections.push(createSmartFieldInjection(binding, value, bpmnFactory));
+          newFieldInjections.push(
+            createSmartFieldInjection(binding, value, bpmnFactory),
+          );
         } else {
           newFieldInjections.push(item);
         }
       });
     } else {
-      newFieldInjections.push(createSmartFieldInjection(binding, value, bpmnFactory));
+      newFieldInjections.push(
+        createSmartFieldInjection(binding, value, bpmnFactory),
+      );
     }
 
-    updates.push(cmdHelper.addAndRemoveElementsFromList(
-      element,
-      extensionElements,
-      'values',
-      null,
-      newFieldInjections,
-      existingFieldInjections || []
-    ));
+    updates.push(
+      cmdHelper.addAndRemoveElementsFromList(
+        element,
+        extensionElements,
+        'values',
+        null,
+        newFieldInjections,
+        existingFieldInjections || [],
+      ),
+    );
   }
 
   if (updates.length) {
@@ -673,7 +693,6 @@ module.exports.setPropertyValue = setPropertyValue;
  * @return {Object} with validation errors
  */
 function validateValue(value, property, translate) {
-
   const constraints = property.constraints || {};
 
   if (constraints.notEmpty && isEmpty(value)) {
@@ -681,18 +700,21 @@ function validateValue(value, property, translate) {
   }
 
   if (constraints.maxLength && value.length > constraints.maxLength) {
-    return translate('Must have max length {length}', { length: constraints.maxLength });
+    return translate('Must have max length {length}', {
+      length: constraints.maxLength,
+    });
   }
 
   if (constraints.minLength && value.length < constraints.minLength) {
-    return translate('Must have min length {length}', { length: constraints.minLength });
+    return translate('Must have min length {length}', {
+      length: constraints.minLength,
+    });
   }
 
   let pattern = constraints.pattern;
   let message;
 
   if (pattern) {
-
     if (typeof pattern !== 'string') {
       message = pattern.message;
       pattern = pattern.value;
@@ -704,7 +726,6 @@ function validateValue(value, property, translate) {
   }
 }
 
-
 // misc helpers ///////////////////////////////
 
 function propertyWithScope(property, scopeName) {
@@ -714,8 +735,8 @@ function propertyWithScope(property, scopeName) {
 
   return assign({}, property, {
     scope: {
-      name: scopeName
-    }
+      name: scopeName,
+    },
   });
 }
 
@@ -764,5 +785,5 @@ function isEmpty(str) {
 function unknownPropertyBinding(property) {
   const binding = property.binding;
 
-  return new Error(`unknown binding: <${  binding.type  }>`);
+  return new Error(`unknown binding: <${binding.type}>`);
 }

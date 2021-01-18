@@ -1,5 +1,3 @@
-
-
 const Validator = require('../Validator');
 
 /**
@@ -11,6 +9,5 @@ const Validator = require('../Validator');
  * @return {Array<Error>}
  */
 module.exports = function validate(descriptors) {
-
   return new Validator().addAll(descriptors).getErrors();
 };

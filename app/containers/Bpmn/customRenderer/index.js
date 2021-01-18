@@ -14,15 +14,15 @@ const propertiesConfig = {
   //   stroke: '#f64f59',
   //   fill: '#f64f59'
   // }
-}
+};
 
-function setShapeProperties (shape, element) {
-  const type = element.type // 获取到的类型
+function setShapeProperties(shape, element) {
+  const type = element.type; // 获取到的类型
   if (propertiesConfig[type]) {
-    const properties = propertiesConfig[type]
+    const properties = propertiesConfig[type];
     Object.keys(properties).forEach(prop => {
-      shape.style.setProperty(prop, properties[prop])
-    })
+      shape.style.setProperty(prop, properties[prop]);
+    });
   }
 }
 
@@ -41,7 +41,7 @@ export default class CustomRenderer extends BaseRenderer {
   drawShape(parentNode, element) {
     // 核心函数就是绘制shape
     const shape = this.bpmnRenderer.drawShape(parentNode, element);
-    setShapeProperties(shape, element)
+    setShapeProperties(shape, element);
     return shape;
   }
 

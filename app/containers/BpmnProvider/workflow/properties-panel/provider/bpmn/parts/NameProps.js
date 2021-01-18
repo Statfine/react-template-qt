@@ -1,19 +1,17 @@
-
-
 const nameEntryFactory = require('./implementation/Name');
-const createCategoryValue = require('../../../helper/CategoryHelper').createCategoryValue;
+const createCategoryValue = require('../../../helper/CategoryHelper')
+  .createCategoryValue;
 const is = require('bpmn-js/lib/util/ModelUtil').is;
-const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil')
+  .getBusinessObject;
 
 module.exports = function(group, element, bpmnFactory, canvas, translate) {
-
   function initializeCategory(semantic) {
     const rootElement = canvas.getRootElement();
     const definitions = getBusinessObject(rootElement).$parent;
     const categoryValue = createCategoryValue(definitions, bpmnFactory);
 
     semantic.categoryValueRef = categoryValue;
-
   }
 
   function setGroupName(element, values) {
@@ -29,8 +27,8 @@ module.exports = function(group, element, bpmnFactory, canvas, translate) {
       cmd: 'element.updateLabel',
       context: {
         element,
-        newLabel: values.categoryValue
-      }
+        newLabel: values.categoryValue,
+      },
     };
   }
 
@@ -42,7 +40,6 @@ module.exports = function(group, element, bpmnFactory, canvas, translate) {
   }
 
   if (!is(element, 'bpmn:Collaboration')) {
-
     let options;
     if (is(element, 'bpmn:TextAnnotation')) {
       options = { modelProperty: 'text', label: translate('Text') };
@@ -51,13 +48,13 @@ module.exports = function(group, element, bpmnFactory, canvas, translate) {
         modelProperty: 'categoryValue',
         label: translate('Category Value'),
         get: getGroupName,
-        set: setGroupName
+        set: setGroupName,
       };
     }
 
     // name
-    group.entries = group.entries.concat(nameEntryFactory(element, options, translate));
-
+    group.entries = group.entries.concat(
+      nameEntryFactory(element, options, translate),
+    );
   }
-
 };

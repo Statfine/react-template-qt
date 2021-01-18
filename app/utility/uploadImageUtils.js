@@ -18,7 +18,6 @@
 //  * fileObj.cancel()取消上传。
 //  */
 
-
 // const FileApi = 'api/file';
 // export default function uploadCli(
 //   file,
@@ -99,9 +98,9 @@
 //   function idGetFile(fileId) {
 //     if (token) {
 //       return instance.get(`${API_BASE}/${FileApi}/${fileId}`);
-//     } 
+//     }
 //     return instance.get(`${API_BASE}/api/file/public/${fileId}`);
-    
+
 //   }
 
 //   let fileId = '';

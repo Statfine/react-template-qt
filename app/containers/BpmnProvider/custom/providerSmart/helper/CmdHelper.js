@@ -1,40 +1,52 @@
-
-
 const CmdHelper = {};
 module.exports = CmdHelper;
 
 CmdHelper.updateProperties = function(element, properties) {
   return {
     cmd: 'element.updateProperties',
-    context: { element, properties }
+    context: { element, properties },
   };
 };
 
-CmdHelper.updateBusinessObject = function(element, businessObject, newProperties) {
+CmdHelper.updateBusinessObject = function(
+  element,
+  businessObject,
+  newProperties,
+) {
   return {
     cmd: 'properties-panel.update-businessobject',
     context: {
       element,
       businessObject,
-      properties: newProperties
-    }
+      properties: newProperties,
+    },
   };
 };
 
-CmdHelper.addElementsTolist = function(element, businessObject, listPropertyName, objectsToAdd) {
+CmdHelper.addElementsTolist = function(
+  element,
+  businessObject,
+  listPropertyName,
+  objectsToAdd,
+) {
   return {
     cmd: 'properties-panel.update-businessobject-list',
     context: {
       element,
       currentObject: businessObject,
       propertyName: listPropertyName,
-      objectsToAdd
-    }
+      objectsToAdd,
+    },
   };
 };
 
-CmdHelper.removeElementsFromList = function(element, businessObject, listPropertyName, referencePropertyName, objectsToRemove) {
-
+CmdHelper.removeElementsFromList = function(
+  element,
+  businessObject,
+  listPropertyName,
+  referencePropertyName,
+  objectsToRemove,
+) {
   return {
     cmd: 'properties-panel.update-businessobject-list',
     context: {
@@ -42,14 +54,19 @@ CmdHelper.removeElementsFromList = function(element, businessObject, listPropert
       currentObject: businessObject,
       propertyName: listPropertyName,
       referencePropertyName,
-      objectsToRemove
-    }
+      objectsToRemove,
+    },
   };
 };
 
-
-CmdHelper.addAndRemoveElementsFromList = function(element, businessObject, listPropertyName, referencePropertyName, objectsToAdd, objectsToRemove) {
-
+CmdHelper.addAndRemoveElementsFromList = function(
+  element,
+  businessObject,
+  listPropertyName,
+  referencePropertyName,
+  objectsToAdd,
+  objectsToRemove,
+) {
   return {
     cmd: 'properties-panel.update-businessobject-list',
     context: {
@@ -58,20 +75,24 @@ CmdHelper.addAndRemoveElementsFromList = function(element, businessObject, listP
       propertyName: listPropertyName,
       referencePropertyName,
       objectsToAdd,
-      objectsToRemove
-    }
+      objectsToRemove,
+    },
   };
 };
 
-
-CmdHelper.setList = function(element, businessObject, listPropertyName, updatedObjectList) {
+CmdHelper.setList = function(
+  element,
+  businessObject,
+  listPropertyName,
+  updatedObjectList,
+) {
   return {
     cmd: 'properties-panel.update-businessobject-list',
     context: {
       element,
       currentObject: businessObject,
       propertyName: listPropertyName,
-      updatedObjectList
-    }
+      updatedObjectList,
+    },
   };
 };

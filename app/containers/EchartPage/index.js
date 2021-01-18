@@ -2,7 +2,7 @@
 /**
  * api https://echarts.apache.org/zh/option.html#geo.emphasis
  * demo https://gallery.echartsjs.com/editor.html?c=x4_ztBIf5u
-*/
+ */
 import React, { PureComponent } from 'react';
 
 import echarts from 'echarts/lib/echarts';
@@ -236,7 +236,8 @@ export default class EchartPage extends PureComponent {
             },
           },
           data: item[0].map(function(dataItem) {
-            return { // 用于提及显示
+            return {
+              // 用于提及显示
               name: dataItem[1].name,
               value: geoCoordMap[dataItem[1].name].concat([dataItem[1].value]),
             };
@@ -263,7 +264,13 @@ export default class EchartPage extends PureComponent {
             return `${params.data.name}${params.data.value[2]}`;
           }
           if (params.seriesType === 'lines') {
-            return params.data.fromName+"->"+params.data.toName+"<br />"+params.data.value;
+            return (
+              params.data.fromName +
+              '->' +
+              params.data.toName +
+              '<br />' +
+              params.data.value
+            );
           }
           return params.name;
         },
@@ -283,7 +290,8 @@ export default class EchartPage extends PureComponent {
         label: {
           show: true, // 地图文字
           color: '#fff',
-          emphasis: { // 高亮状态
+          emphasis: {
+            // 高亮状态
             show: true,
             color: '#fff',
           },

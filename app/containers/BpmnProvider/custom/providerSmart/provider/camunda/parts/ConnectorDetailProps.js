@@ -1,5 +1,3 @@
-
-
 const ImplementationTypeHelper = require('../../../helper/ImplementationTypeHelper');
 const InputOutputHelper = require('../../../helper/InputOutputHelper');
 
@@ -23,35 +21,36 @@ function isConnector(element) {
 }
 
 module.exports = function(group, element, bpmnFactory, translate) {
+  group.entries.push(
+    entryFactory.textField({
+      id: 'connectorId',
+      label: translate('Connector Id'),
+      modelProperty: 'connectorId',
 
-  group.entries.push(entryFactory.textField({
-    id: 'connectorId',
-    label: translate('Connector Id'),
-    modelProperty: 'connectorId',
+      get(element, node) {
+        const bo = getBusinessObject(element);
+        const connector = bo && getConnector(bo);
+        const value = connector && connector.get('connectorId');
+        return { connectorId: value };
+      },
 
-    get(element, node) {
-      const bo = getBusinessObject(element);
-      const connector = bo && getConnector(bo);
-      const value = connector && connector.get('connectorId');
-      return { connectorId: value };
-    },
+      set(element, values, node) {
+        const bo = getBusinessObject(element);
+        const connector = getConnector(bo);
+        return cmdHelper.updateBusinessObject(element, connector, {
+          connectorId: values.connectorId || undefined,
+        });
+      },
 
-    set(element, values, node) {
-      const bo = getBusinessObject(element);
-      const connector = getConnector(bo);
-      return cmdHelper.updateBusinessObject(element, connector, {
-        connectorId: values.connectorId || undefined
-      });
-    },
+      validate(element, values, node) {
+        return isConnector(element) && !values.connectorId
+          ? { connectorId: translate('Must provide a value') }
+          : {};
+      },
 
-    validate(element, values, node) {
-      return isConnector(element) && !values.connectorId ? { connectorId: translate('Must provide a value') } : {};
-    },
-
-    hidden(element, node) {
-      return !isConnector(element);
-    }
-
-  }));
-
+      hidden(element, node) {
+        return !isConnector(element);
+      },
+    }),
+  );
 };

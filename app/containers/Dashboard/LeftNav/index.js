@@ -58,26 +58,28 @@ const SubMenuTitle = styled.div`
   align-items: center;
 `;
 
-export const urlToList = (url) => {
+export const urlToList = url => {
   const urllist = url.split('/').filter(i => i);
-  return urllist.map((urlItem, index) => `/${urllist.slice(0, index + 1).join('/')}`);
-}
+  return urllist.map(
+    (urlItem, index) => `/${urllist.slice(0, index + 1).join('/')}`,
+  );
+};
 
 /* eslint-disable react/prefer-stateless-function */
 class LeftNav extends React.PureComponent {
   /**
    *  openKey 页面初始值，Item点击跳转之后改变
    */
-  state = { openKey: [] }
+  state = { openKey: [] };
 
   // Menud 点击
-  onHandleSelect = (openKey) => this.setState({ openKey });
+  onHandleSelect = openKey => this.setState({ openKey });
 
   // ITEM点击
   onJump = (url, openKey = []) => {
     history.push(url);
-    this.setState({ openKey })
-  }
+    this.setState({ openKey });
+  };
 
   // Get the currently selected menu
   getSelectedMenuKeys = pathname => urlToList(pathname);
@@ -88,7 +90,7 @@ class LeftNav extends React.PureComponent {
       <item.icon />
       <span>{item.name}</span>
     </Menu.Item>
-  )
+  );
 
   // 渲染组合menu
   renderListMeny = item => (
@@ -101,16 +103,13 @@ class LeftNav extends React.PureComponent {
         </SubMenuTitle>
       }
     >
-      {
-        item.listUrl.map((i) => (
-          <Menu.Item
-            key={i.url}
-            onClick={() => this.onJump(i.url)}
-          >{i.name}</Menu.Item>
-        ))
-      }
+      {item.listUrl.map(i => (
+        <Menu.Item key={i.url} onClick={() => this.onJump(i.url)}>
+          {i.name}
+        </Menu.Item>
+      ))}
     </SubMenu>
-  )
+  );
 
   render() {
     const {
@@ -119,7 +118,9 @@ class LeftNav extends React.PureComponent {
     } = this.props;
     const { openKey } = this.state;
     const selectedKeys = this.getSelectedMenuKeys(pathname);
-    const props = collapsed ? {} : { openKeys: openKey.length === 0 ? selectedKeys : openKey };
+    const props = collapsed
+      ? {}
+      : { openKeys: openKey.length === 0 ? selectedKeys : openKey };
     return (
       <LeftSilder trigger={null} collapsible collapsed={collapsed}>
         <LogoDiv id="logo" onClick={() => this.onJump('/')}>
@@ -135,12 +136,11 @@ class LeftNav extends React.PureComponent {
           style={{ height: '100%', borderRight: 0 }}
           {...props}
         >
-          {
-            ROOT.map((item) => (
-              item.type === 'single' ? 
-                this.renderSingleMenu(item) : this.renderListMeny(item)
-            ))
-          }
+          {ROOT.map(item =>
+            item.type === 'single'
+              ? this.renderSingleMenu(item)
+              : this.renderListMeny(item),
+          )}
         </Menu>
       </LeftSilder>
     );

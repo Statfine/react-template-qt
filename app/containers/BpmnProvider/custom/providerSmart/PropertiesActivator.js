@@ -1,7 +1,4 @@
-
-
 const DEFAULT_PRIORITY = 1000;
-
 
 /**
  * A component that decides upon the visibility / editable
@@ -32,10 +29,9 @@ function PropertiesActivator(eventBus, priority) {
   });
 }
 
-PropertiesActivator.$inject = [ 'eventBus' ];
+PropertiesActivator.$inject = ['eventBus'];
 
 module.exports = PropertiesActivator;
-
 
 /**
  * Should the given entry be visible for the specified element.
@@ -62,6 +58,10 @@ PropertiesActivator.prototype.isEntryVisible = function(entry, element) {
  *
  * @returns {Boolean}
  */
-PropertiesActivator.prototype.isPropertyEditable = function(entry, propertyName, element) {
+PropertiesActivator.prototype.isPropertyEditable = function(
+  entry,
+  propertyName,
+  element,
+) {
   return true;
 };

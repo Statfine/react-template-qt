@@ -1,11 +1,9 @@
-
-
-const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil')
+  .getBusinessObject;
 const is = require('bpmn-js/lib/util/ModelUtil').is;
 const entryFactory = require('../../../factory/EntryFactory');
 const cmdHelper = require('../../../helper/CmdHelper');
 const scriptImplementation = require('./implementation/Script');
-
 
 module.exports = function(group, element, bpmnFactory, translate) {
   let bo;
@@ -18,7 +16,12 @@ module.exports = function(group, element, bpmnFactory, translate) {
     return;
   }
 
-  const script = scriptImplementation('scriptFormat', 'script', false, translate);
+  const script = scriptImplementation(
+    'scriptFormat',
+    'script',
+    false,
+    translate,
+  );
   group.entries.push({
     id: 'script-implementation',
     label: translate('Script'),
@@ -40,29 +43,28 @@ module.exports = function(group, element, bpmnFactory, translate) {
 
     script,
 
-    cssClasses: ['bpp-textfield']
-
+    cssClasses: ['bpp-textfield'],
   });
 
-  group.entries.push(entryFactory.textField({
-    id : 'scriptResultVariable',
-    label : translate('Result Variable'),
-    modelProperty : 'scriptResultVariable',
+  group.entries.push(
+    entryFactory.textField({
+      id: 'scriptResultVariable',
+      label: translate('Result Variable'),
+      modelProperty: 'scriptResultVariable',
 
-    get(element, propertyName) {
-      const boResultVariable = bo.get('smart:resultVariable');
+      get(element, propertyName) {
+        const boResultVariable = bo.get('smart:resultVariable');
 
-      return { scriptResultVariable : boResultVariable };
-    },
+        return { scriptResultVariable: boResultVariable };
+      },
 
-    set(element, values, containerElement) {
-      return cmdHelper.updateProperties(element, {
-        'smart:resultVariable': values.scriptResultVariable.length
-          ? values.scriptResultVariable
-          : undefined
-      });
-    }
-
-  }));
-
+      set(element, values, containerElement) {
+        return cmdHelper.updateProperties(element, {
+          'smart:resultVariable': values.scriptResultVariable.length
+            ? values.scriptResultVariable
+            : undefined,
+        });
+      },
+    }),
+  );
 };

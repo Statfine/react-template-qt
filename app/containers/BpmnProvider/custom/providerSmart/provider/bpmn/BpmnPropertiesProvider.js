@@ -1,6 +1,3 @@
-
-
-
 const inherits = require('inherits');
 
 const PropertiesActivator = require('../../PropertiesActivator');
@@ -14,13 +11,16 @@ const nameProps = require('./parts/NameProps');
 const executableProps = require('./parts/ExecutableProps');
 
 function createGeneralTabGroups(
-  element, canvas, bpmnFactory,
-  elementRegistry, translate) {
-
+  element,
+  canvas,
+  bpmnFactory,
+  elementRegistry,
+  translate,
+) {
   const generalGroup = {
     id: 'general',
     label: translate('General'),
-    entries: []
+    entries: [],
   };
   idProps(generalGroup, element, translate);
   nameProps(generalGroup, element, bpmnFactory, canvas, translate);
@@ -30,7 +30,7 @@ function createGeneralTabGroups(
   const detailsGroup = {
     id: 'details',
     label: translate('Details'),
-    entries: []
+    entries: [],
   };
   linkProps(detailsGroup, element, translate);
   eventProps(detailsGroup, element, bpmnFactory, elementRegistry, translate);
@@ -38,36 +38,37 @@ function createGeneralTabGroups(
   const documentationGroup = {
     id: 'documentation',
     label: translate('Documentation'),
-    entries: []
+    entries: [],
   };
 
   documentationProps(documentationGroup, element, bpmnFactory, translate);
 
-  return [
-    generalGroup,
-    detailsGroup,
-    documentationGroup
-  ];
-
+  return [generalGroup, detailsGroup, documentationGroup];
 }
 
 function BpmnPropertiesProvider(
-  eventBus, canvas, bpmnFactory, elementRegistry, translate) {
-
+  eventBus,
+  canvas,
+  bpmnFactory,
+  elementRegistry,
+  translate,
+) {
   PropertiesActivator.call(this, eventBus);
 
   this.getTabs = function(element) {
-
     const generalTab = {
       id: 'general',
       label: translate('General'),
       groups: createGeneralTabGroups(
-        element, canvas, bpmnFactory, elementRegistry, translate)
+        element,
+        canvas,
+        bpmnFactory,
+        elementRegistry,
+        translate,
+      ),
     };
 
-    return [
-      generalTab
-    ];
+    return [generalTab];
   };
 }
 
@@ -76,7 +77,7 @@ BpmnPropertiesProvider.$inject = [
   'canvas',
   'bpmnFactory',
   'elementRegistry',
-  'translate'
+  'translate',
 ];
 
 inherits(BpmnPropertiesProvider, PropertiesActivator);

@@ -1,6 +1,3 @@
-
-
-
 const domify = require('min-dom').domify;
 
 const forEach = require('lodash/forEach');
@@ -8,17 +5,16 @@ const escapeHTML = require('../Utils').escapeHTML;
 
 const entryFieldDescription = require('./EntryFieldDescription');
 
-
 const isList = function(list) {
   return !(!list || Object.prototype.toString.call(list) !== '[object Array]');
 };
 
 const addEmptyParameter = function(list) {
-  return list.concat([ { name: '', value: '' } ]);
+  return list.concat([{ name: '', value: '' }]);
 };
 
 const createOption = function(option) {
-  return `<option value="${  option.value  }">${  option.name  }</option>`;
+  return `<option value="${option.value}">${option.name}</option>`;
 };
 
 /**
@@ -37,34 +33,35 @@ const createOption = function(option) {
 const selectbox = function(options, defaultParameters) {
   const resource = defaultParameters;
   const label = options.label || resource.id;
-  let selectOptions = options.selectOptions || [ { name: '', value: '' } ];
+  let selectOptions = options.selectOptions || [{ name: '', value: '' }];
   const modelProperty = options.modelProperty;
   const emptyParameter = options.emptyParameter;
-  const canBeDisabled = !!options.disabled && typeof options.disabled === 'function';
+  const canBeDisabled =
+    !!options.disabled && typeof options.disabled === 'function';
   const canBeHidden = !!options.hidden && typeof options.hidden === 'function';
   const description = options.description;
-
 
   if (emptyParameter) {
     selectOptions = addEmptyParameter(selectOptions);
   }
 
-
   resource.html =
-    `<label for="camunda-${  escapeHTML(resource.id)  }"${ 
-      canBeDisabled ? 'data-disable="isDisabled" ' : '' 
-    }${canBeHidden ? 'data-show="isHidden" ' : '' 
-    }>${  escapeHTML(label)  }</label>` +
-    `<select id="camunda-${  escapeHTML(resource.id)  }-select" name="${ 
-      escapeHTML(modelProperty)  }"${ 
-      canBeDisabled ? 'data-disable="isDisabled" ' : '' 
-    }${canBeHidden ? 'data-show="isHidden" ' : '' 
+    `<label for="camunda-${escapeHTML(resource.id)}"${
+      canBeDisabled ? 'data-disable="isDisabled" ' : ''
+    }${canBeHidden ? 'data-show="isHidden" ' : ''}>${escapeHTML(
+      label,
+    )}</label>` +
+    `<select id="camunda-${escapeHTML(resource.id)}-select" name="${escapeHTML(
+      modelProperty,
+    )}"${canBeDisabled ? 'data-disable="isDisabled" ' : ''}${
+      canBeHidden ? 'data-show="isHidden" ' : ''
     } data-value>`;
 
   if (isList(selectOptions)) {
     forEach(selectOptions, function(option) {
-      resource.html += `<option value="${  escapeHTML(option.value)  }">${ 
-        option.name ? escapeHTML(option.name) : ''  }</option>`;
+      resource.html += `<option value="${escapeHTML(option.value)}">${
+        option.name ? escapeHTML(option.name) : ''
+      }</option>`;
     });
   }
 
@@ -87,13 +84,17 @@ const selectbox = function(options, defaultParameters) {
    * @param {Object} inputName
    * @param {Object} newValue
    */
-  resource.setControlValue = function(element, entryNode, inputNode, inputName, newValue) {
+  resource.setControlValue = function(
+    element,
+    entryNode,
+    inputNode,
+    inputName,
+    newValue,
+  ) {
     if (typeof selectOptions === 'function') {
-
       const options = selectOptions(element, inputNode);
 
       if (options) {
-
         // remove existing options
         while (inputNode.firstChild) {
           inputNode.removeChild(inputNode.firstChild);
@@ -105,8 +106,6 @@ const selectbox = function(options, defaultParameters) {
 
           inputNode.appendChild(template);
         });
-
-
       }
     }
 
@@ -114,7 +113,6 @@ const selectbox = function(options, defaultParameters) {
     if (newValue !== undefined) {
       inputNode.value = newValue;
     }
-
   };
 
   if (canBeDisabled) {

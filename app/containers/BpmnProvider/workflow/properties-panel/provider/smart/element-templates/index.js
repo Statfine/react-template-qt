@@ -1,13 +1,13 @@
 module.exports = {
   __depends__: [
     require('./cmd/index'),
-    require('diagram-js/lib/i18n/translate').default
+    require('diagram-js/lib/i18n/translate').default,
   ],
-  __init__: [
-    'customElementsPropertiesActivator',
-    'elementTemplatesLoader'
+  __init__: ['customElementsPropertiesActivator', 'elementTemplatesLoader'],
+  customElementsPropertiesActivator: [
+    'type',
+    require('./CustomElementsPropertiesActivator'),
   ],
-  customElementsPropertiesActivator: [ 'type', require('./CustomElementsPropertiesActivator') ],
-  elementTemplates: [ 'type', require('./ElementTemplates') ],
-  elementTemplatesLoader: [ 'type', require('./ElementTemplatesLoader') ]
+  elementTemplates: ['type', require('./ElementTemplates')],
+  elementTemplatesLoader: ['type', require('./ElementTemplatesLoader')],
 };

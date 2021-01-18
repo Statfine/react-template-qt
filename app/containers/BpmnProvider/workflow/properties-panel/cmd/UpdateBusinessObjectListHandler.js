@@ -1,5 +1,3 @@
-
-
 const forEach = require('lodash/forEach');
 
 /**
@@ -22,13 +20,13 @@ function UpdateBusinessObjectListHandler(elementRegistry, bpmnFactory) {
   this._bpmnFactory = bpmnFactory;
 }
 
-UpdateBusinessObjectListHandler.$inject = [ 'elementRegistry', 'bpmnFactory' ];
+UpdateBusinessObjectListHandler.$inject = ['elementRegistry', 'bpmnFactory'];
 
 module.exports = UpdateBusinessObjectListHandler;
 
 function ensureNotNull(prop, name) {
   if (!prop) {
-    throw new Error(`${name  }required`);
+    throw new Error(`${name}required`);
   }
   return prop;
 }
@@ -39,13 +37,12 @@ function ensureNotNull(prop, name) {
  * Updates a element under a provided parent.
  */
 UpdateBusinessObjectListHandler.prototype.execute = function(context) {
-
   const currentObject = ensureNotNull(context.currentObject, 'currentObject');
   const propertyName = ensureNotNull(context.propertyName, 'propertyName');
   const updatedObjectList = context.updatedObjectList;
   const objectsToRemove = context.objectsToRemove || [];
   const objectsToAdd = context.objectsToAdd || [];
-  const changed = [ context.element]; // this will not change any diagram-js elements
+  const changed = [context.element]; // this will not change any diagram-js elements
   let referencePropertyName;
 
   if (context.referencePropertyName) {
@@ -71,11 +68,9 @@ UpdateBusinessObjectListHandler.prototype.execute = function(context) {
 
     // set property to new list
     if (listCopy.length > 0 || !referencePropertyName) {
-
       // as long as there are elements in the list update the list
       currentObject[propertyName] = listCopy;
     } else if (referencePropertyName) {
-
       // remove the list when it is empty
       const parentObject = currentObject.$parent;
       parentObject.set(referencePropertyName, undefined);
@@ -98,7 +93,6 @@ UpdateBusinessObjectListHandler.prototype.execute = function(context) {
  * @return {djs.mode.Base} the updated element
  */
 UpdateBusinessObjectListHandler.prototype.revert = function(context) {
-
   const currentObject = context.currentObject;
   const propertyName = context.propertyName;
   const previousList = context.previousList;

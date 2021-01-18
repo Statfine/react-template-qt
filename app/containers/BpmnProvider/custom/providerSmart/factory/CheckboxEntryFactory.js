@@ -1,31 +1,28 @@
-
-
-const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil')
+  .getBusinessObject;
 const cmdHelper = require('../helper/CmdHelper');
 const escapeHTML = require('../Utils').escapeHTML;
 
 const entryFieldDescription = require('./EntryFieldDescription');
 
-
 const checkbox = function(options, defaultParameters) {
   const resource = defaultParameters;
   const id = resource.id;
   const label = options.label || id;
-  const canBeDisabled = !!options.disabled && typeof options.disabled === 'function';
+  const canBeDisabled =
+    !!options.disabled && typeof options.disabled === 'function';
   const canBeHidden = !!options.hidden && typeof options.hidden === 'function';
   const description = options.description;
 
   resource.html =
-    `<input id="camunda-${  escapeHTML(id)  }" ` +
-         `type="checkbox" ` +
-         `name="${  escapeHTML(options.modelProperty)  }" ${ 
-           canBeDisabled ? 'data-disable="isDisabled"' : '' 
-         }${canBeHidden ? 'data-show="isHidden"' : '' 
-         } />` +
-    `<label for="camunda-${  escapeHTML(id)  }" ${ 
-      canBeDisabled ? 'data-disable="isDisabled"' : '' 
-    }${canBeHidden ? 'data-show="isHidden"' : '' 
-    }>${  escapeHTML(label)  }</label>`;
+    `<input id="camunda-${escapeHTML(id)}" ` +
+    `type="checkbox" ` +
+    `name="${escapeHTML(options.modelProperty)}" ${
+      canBeDisabled ? 'data-disable="isDisabled"' : ''
+    }${canBeHidden ? 'data-show="isHidden"' : ''} />` +
+    `<label for="camunda-${escapeHTML(id)}" ${
+      canBeDisabled ? 'data-disable="isDisabled"' : ''
+    }${canBeHidden ? 'data-show="isHidden"' : ''}>${escapeHTML(label)}</label>`;
 
   // add description below checkbox entry field
   if (description) {

@@ -1,5 +1,3 @@
-
-
 const entryFactory = require('../../../../factory/EntryFactory');
 const is = require('bpmn-js/lib/util/ModelUtil').is;
 const getTemplate = require('../Helper').getTemplate;
@@ -15,9 +13,7 @@ function isAny(element, types) {
   }, false);
 }
 
-
 module.exports = function(group, element, elementTemplates, translate) {
-
   const options = getTemplateOptions(element, elementTemplates, translate);
 
   if (options.length === 1 && !options[0].isDefault) {
@@ -25,28 +21,31 @@ module.exports = function(group, element, elementTemplates, translate) {
   }
 
   // select element template (via dropdown)
-  group.entries.push(entryFactory.selectBox({
-    id: 'elementTemplate-chooser',
-    label: translate('Element Template'),
-    modelProperty: 'smart:modelerTemplate',
-    selectOptions: options,
-    set(element, properties) {
-      return applyTemplate(element, properties[TEMPLATE_ATTR], elementTemplates);
-    },
-    disabled() {
-      const template = getTemplate(element, elementTemplates);
+  group.entries.push(
+    entryFactory.selectBox({
+      id: 'elementTemplate-chooser',
+      label: translate('Element Template'),
+      modelProperty: 'smart:modelerTemplate',
+      selectOptions: options,
+      set(element, properties) {
+        return applyTemplate(
+          element,
+          properties[TEMPLATE_ATTR],
+          elementTemplates,
+        );
+      },
+      disabled() {
+        const template = getTemplate(element, elementTemplates);
 
-      return template && isDefaultTemplate(template);
-    }
-  }));
-
+        return template && isDefaultTemplate(template);
+      },
+    }),
+  );
 };
-
 
 // helpers //////////////////////////////////////
 
 function applyTemplate(element, newTemplateId, elementTemplates) {
-
   // cleanup
   // clear input output mappings
   // undo changes to properties defined in template
@@ -67,32 +66,33 @@ function applyTemplate(element, newTemplateId, elementTemplates) {
     context: {
       element,
       oldTemplate,
-      newTemplate
-    }
+      newTemplate,
+    },
   };
 }
 
 function getTemplateOptions(element, elementTemplates, translate) {
-
   const currentTemplateId = getTemplateId(element);
 
   const emptyOption = {
     name: '',
-    value: ''
+    value: '',
   };
 
-  const allOptions = elementTemplates.getAll().reduce(function(templates, t) {
-    if (!isAny(element, t.appliesTo)) {
-      return templates;
-    }
+  const allOptions = elementTemplates.getAll().reduce(
+    function(templates, t) {
+      if (!isAny(element, t.appliesTo)) {
+        return templates;
+      }
 
-    return templates.concat({
-      name: translate(t.name),
-      value: t.id,
-      isDefault: t.isDefault
-    });
-  }, [ emptyOption ]);
-
+      return templates.concat({
+        name: translate(t.name),
+        value: t.id,
+        isDefault: t.isDefault,
+      });
+    },
+    [emptyOption],
+  );
 
   const defaultOption = find(allOptions, function(option) {
     return isDefaultTemplate(option);
@@ -109,7 +109,6 @@ function getTemplateOptions(element, elementTemplates, translate) {
   }
 
   if (!defaultOption) {
-
     // return all options, including empty
     // and optionally unknownTemplate option
     return allOptions;
@@ -124,7 +123,7 @@ function getTemplateOptions(element, elementTemplates, translate) {
   if (!currentTemplateId) {
     options.push({
       name: '',
-      value: ''
+      value: '',
     });
   }
 
@@ -142,7 +141,7 @@ function getTemplateOptions(element, elementTemplates, translate) {
 function unknownTemplate(templateId, translate) {
   return {
     name: translate('[unknown template: {templateId}]', { templateId }),
-    value: templateId
+    value: templateId,
   };
 }
 

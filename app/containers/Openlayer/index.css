@@ -14,7 +14,7 @@
 .ol-popup:before {
   top: 100%;
   border: solid transparent;
-  content: " ";
+  content: ' ';
   height: 0;
   width: 0;
   position: absolute;
@@ -39,5 +39,5 @@
   right: 8px;
 }
 .ol-popup-closer:after {
-  content: "✖";
+  content: '✖';
 }

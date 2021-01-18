@@ -1,7 +1,7 @@
-
-
-const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
-const getExtensionElements = require('./ExtensionElementsHelper').getExtensionElements;
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil')
+  .getBusinessObject;
+const getExtensionElements = require('./ExtensionElementsHelper')
+  .getExtensionElements;
 
 const FormHelper = {};
 
@@ -24,7 +24,6 @@ FormHelper.getFormData = function(element) {
   }
 };
 
-
 /**
  * Return all form fields existing in the business object, and
  * an empty array if none exist.
@@ -43,7 +42,6 @@ FormHelper.getFormFields = function(element) {
   return formData.fields || [];
 };
 
-
 /**
  * Get a form field from the business object at given index
  *
@@ -53,12 +51,10 @@ FormHelper.getFormFields = function(element) {
  * @return {ModdleElement} the form field
  */
 FormHelper.getFormField = function(element, idx) {
-
   const formFields = this.getFormFields(element);
 
   return formFields[idx];
 };
-
 
 /**
  * Get all constraints for a specific form field from the business object
@@ -74,7 +70,6 @@ FormHelper.getConstraints = function(formField) {
   return [];
 };
 
-
 /**
  * Get all camunda:value objects for a specific form field from the business object
  *
@@ -88,4 +83,3 @@ FormHelper.getEnumValues = function(formField) {
   }
   return [];
 };
-

@@ -1,10 +1,7 @@
-
-
 const entryFactory = require('../../../../factory/EntryFactory');
 const cmdHelper = require('../../../../helper/CmdHelper');
 
 module.exports = function(element, bpmnFactory, options, translate) {
-
   const getImplementationType = options.getImplementationType;
   const getBusinessObject = options.getBusinessObject;
 
@@ -25,20 +22,20 @@ module.exports = function(element, bpmnFactory, options, translate) {
     set(element, values, node) {
       const bo = getBusinessObject(element);
       return cmdHelper.updateBusinessObject(element, bo, {
-        'smart:topic': values.externalTopic
+        'smart:topic': values.externalTopic,
       });
     },
 
     validate(element, values, node) {
-      return isExternal(element) && !values.externalTopic ? { externalTopic: translate('Must provide a value') } : {};
+      return isExternal(element) && !values.externalTopic
+        ? { externalTopic: translate('Must provide a value') }
+        : {};
     },
 
     hidden(element, node) {
       return !isExternal(element);
-    }
-
+    },
   });
 
-  return [ topicEntry ];
-
+  return [topicEntry];
 };

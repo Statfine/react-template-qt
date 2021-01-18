@@ -115,13 +115,13 @@ class PropertiesView extends PureComponent {
   //     type: value
   //   })
   // };
-  
+
   handleSetDoc = () => {
     const { bpmnModeler } = this.props;
     const bpmnFactory = bpmnModeler.get('bpmnFactory');
 
     const newObjectList = bpmnFactory.create('bpmn:Documentation', {
-      text: 'values.documentation'
+      text: 'values.documentation',
     });
 
     // const modeling = bpmnModeler.get('modeling');
@@ -129,14 +129,14 @@ class PropertiesView extends PureComponent {
     // debugger;
     this.element.businessObject.documentation = [];
     this.element.businessObject.documentation.push(newObjectList);
-  }
+  };
 
   handleInset = () => {
     const { bpmnModeler } = this.props;
     const bpmnFactory = bpmnModeler.get('bpmnFactory');
     const elCom = elementHelper.createElement(
       'smart:Property',
-      { name: 'inP', direction: 'IN', type: "String" },
+      { name: 'inP', direction: 'IN', type: 'String' },
       this.element,
       bpmnFactory,
     );
@@ -151,15 +151,17 @@ class PropertiesView extends PureComponent {
     if (!this.element.businessObject.extensionElements) {
       // this.element.businessObject.extensionElements.values = []
       const modeling = bpmnModeler.get('modeling');
-      const extensionElements = bpmnModeler.get('moddle').create('bpmn:ExtensionElements', {
-        body: "{ value > 100 }",
-      });
+      const extensionElements = bpmnModeler
+        .get('moddle')
+        .create('bpmn:ExtensionElements', {
+          body: '{ value > 100 }',
+        });
       // 设置更新
       modeling.updateProperties(this.element, {
-        extensionElements
+        extensionElements,
       });
     }
-    this.element.businessObject.extensionElements.values = []
+    this.element.businessObject.extensionElements.values = [];
     this.element.businessObject.extensionElements.values.push(el);
   };
 

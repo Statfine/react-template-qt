@@ -1,11 +1,9 @@
-import {
-  HomeOutlined,
-} from '@ant-design/icons';
+import { HomeOutlined } from '@ant-design/icons';
 
 const path = '/dashboard';
 
 /**
- *  type  single-单页面 list-子页面  
+ *  type  single-单页面 list-子页面
  *  name  页面标题
  *  url   页面路径
  *  icon  页面图标
@@ -59,7 +57,6 @@ const ROOT = [
     url: `${path}/own`,
     icon: HomeOutlined,
   },
-]
+];
 
 export default ROOT;
-  

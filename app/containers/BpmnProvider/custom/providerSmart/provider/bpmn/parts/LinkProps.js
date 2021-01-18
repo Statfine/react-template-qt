@@ -1,14 +1,11 @@
-
-
 const is = require('bpmn-js/lib/util/ModelUtil').is;
-const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil')
+  .getBusinessObject;
 const forEach = require('lodash/forEach');
 const entryFactory = require('../../../factory/EntryFactory');
 const cmdHelper = require('../../../helper/CmdHelper');
 
-
 function getLinkEventDefinition(element) {
-
   const bo = getBusinessObject(element);
 
   let linkEventDefinition = null;
@@ -24,18 +21,20 @@ function getLinkEventDefinition(element) {
 }
 
 module.exports = function(group, element, translate) {
-  const linkEvents = [ 'bpmn:IntermediateThrowEvent', 'bpmn:IntermediateCatchEvent' ];
+  const linkEvents = [
+    'bpmn:IntermediateThrowEvent',
+    'bpmn:IntermediateCatchEvent',
+  ];
 
   forEach(linkEvents, function(event) {
     if (is(element, event)) {
-
       const linkEventDefinition = getLinkEventDefinition(element);
 
       if (linkEventDefinition) {
         const entry = entryFactory.textField({
           id: 'link-event',
           label: translate('Link Name'),
-          modelProperty: 'link-name'
+          modelProperty: 'link-name',
         });
 
         entry.get = function() {
@@ -44,9 +43,13 @@ module.exports = function(group, element, translate) {
 
         entry.set = function(element, values) {
           const newProperties = {
-            name: values['link-name']
+            name: values['link-name'],
           };
-          return cmdHelper.updateBusinessObject(element, linkEventDefinition, newProperties);
+          return cmdHelper.updateBusinessObject(
+            element,
+            linkEventDefinition,
+            newProperties,
+          );
         };
 
         group.entries.push(entry);
@@ -54,4 +57,3 @@ module.exports = function(group, element, translate) {
     }
   });
 };
-

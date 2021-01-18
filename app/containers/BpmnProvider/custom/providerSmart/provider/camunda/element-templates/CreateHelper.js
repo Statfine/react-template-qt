@@ -1,5 +1,3 @@
-
-
 const assign = require('lodash/assign');
 
 /**
@@ -20,7 +18,7 @@ function createInputParameter(binding, value, bpmnFactory) {
   if (scriptFormat) {
     parameterDefinition = bpmnFactory.create('smart:Script', {
       scriptFormat,
-      value
+      value,
     });
   } else {
     parameterValue = value;
@@ -29,12 +27,11 @@ function createInputParameter(binding, value, bpmnFactory) {
   return bpmnFactory.create('smart:InputParameter', {
     name: binding.name,
     value: parameterValue,
-    definition: parameterDefinition
+    definition: parameterDefinition,
   });
 }
 
 module.exports.createInputParameter = createInputParameter;
-
 
 /**
  * Create an output parameter representing the given
@@ -54,7 +51,7 @@ function createOutputParameter(binding, value, bpmnFactory) {
   if (scriptFormat) {
     parameterDefinition = bpmnFactory.create('smart:Script', {
       scriptFormat,
-      value: binding.source
+      value: binding.source,
     });
   } else {
     parameterValue = binding.source;
@@ -63,12 +60,11 @@ function createOutputParameter(binding, value, bpmnFactory) {
   return bpmnFactory.create('smart:OutputParameter', {
     name: value,
     value: parameterValue,
-    definition: parameterDefinition
+    definition: parameterDefinition,
   });
 }
 
 module.exports.createOutputParameter = createOutputParameter;
-
 
 /**
  * Create smart property from the given binding.
@@ -82,12 +78,11 @@ module.exports.createOutputParameter = createOutputParameter;
 function createSmartProperty(binding, value, bpmnFactory) {
   return bpmnFactory.create('smart:Property', {
     name: binding.name,
-    value: value || ''
+    value: value || '',
   });
 }
 
 module.exports.createSmartProperty = createSmartProperty;
-
 
 /**
  * Create smart:in element from given binding.
@@ -99,14 +94,12 @@ module.exports.createSmartProperty = createSmartProperty;
  * @return {ModdleElement}
  */
 function createSmartIn(binding, value, bpmnFactory) {
-
   const properties = createsmartInOutAttrs(binding, value);
 
   return bpmnFactory.create('smart:In', properties);
 }
 
 module.exports.createSmartIn = createSmartIn;
-
 
 /**
  * Create smart:in with businessKey element from given binding.
@@ -119,12 +112,11 @@ module.exports.createSmartIn = createSmartIn;
  */
 function createSmartInWithBusinessKey(binding, value, bpmnFactory) {
   return bpmnFactory.create('smart:In', {
-    businessKey: value
+    businessKey: value,
   });
 }
 
 module.exports.createSmartInWithBusinessKey = createSmartInWithBusinessKey;
-
 
 /**
  * Create smart:out element from given binding.
@@ -143,7 +135,6 @@ function createSmartOut(binding, value, bpmnFactory) {
 
 module.exports.createSmartOut = createSmartOut;
 
-
 /**
  * Create smart:executionListener element containing an inline script from given binding.
  *
@@ -161,7 +152,7 @@ function createSmartExecutionListenerScript(binding, value, bpmnFactory) {
   if (scriptFormat) {
     parameterDefinition = bpmnFactory.create('smart:Script', {
       scriptFormat,
-      value
+      value,
     });
   } else {
     parameterValue = value;
@@ -170,7 +161,7 @@ function createSmartExecutionListenerScript(binding, value, bpmnFactory) {
   return bpmnFactory.create('smart:ExecutionListener', {
     event: binding.event,
     value: parameterValue,
-    script: parameterDefinition
+    script: parameterDefinition,
   });
 }
 
@@ -187,9 +178,9 @@ module.exports.createSmartExecutionListenerScript = createSmartExecutionListener
  */
 function createSmartFieldInjection(binding, value, bpmnFactory) {
   const DEFAULT_PROPS = {
-    'string': undefined,
-    'expression': undefined,
-    'name': undefined
+    string: undefined,
+    expression: undefined,
+    name: undefined,
   };
 
   const props = assign({}, DEFAULT_PROPS);
@@ -205,19 +196,16 @@ function createSmartFieldInjection(binding, value, bpmnFactory) {
 }
 module.exports.createSmartFieldInjection = createSmartFieldInjection;
 
-
 // helpers ////////////////////////////
 
 /**
  * Create properties for smart:in and smart:out types.
  */
 function createSmartInOutAttrs(binding, value) {
-
   const properties = {};
 
   // smart:in source(Expression) target
   if (binding.target) {
-
     properties.target = binding.target;
 
     if (binding.expression) {
@@ -225,10 +213,10 @@ function createSmartInOutAttrs(binding, value) {
     } else {
       properties.source = value;
     }
-  } else
+  }
 
   // smart:(in|out) variables local
-  if (binding.variables) {
+  else if (binding.variables) {
     properties.variables = 'all';
 
     if (binding.variables === 'local') {
@@ -240,7 +228,7 @@ function createSmartInOutAttrs(binding, value) {
   else {
     properties.target = value;
 
-    [ 'source', 'sourceExpression' ].forEach(function(k) {
+    ['source', 'sourceExpression'].forEach(function(k) {
       if (binding[k]) {
         properties[k] = binding[k];
       }

@@ -24,12 +24,13 @@ function FFunc() {
   // }, [count]);
   // set.add(callback);
 
-
-  return (<div>
-    <p>{name}</p>
-    <div onClick={handleChangeFunc}>Change FFunc</div>
-    <p>{expensive}</p>
-  </div>)
+  return (
+    <div>
+      <p>{name}</p>
+      <div onClick={handleChangeFunc}>Change FFunc</div>
+      <p>{expensive}</p>
+    </div>
+  );
 }
 
 export default memo(FFunc);

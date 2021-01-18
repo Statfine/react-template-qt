@@ -61,13 +61,11 @@ import {
 const LoginPage = userIsNotAuthenticatedRedir(Login);
 const DashboardPage = userIsAuthenticatedRedir(Dashboard);
 
-
 const styleApp = {
   height: '100vh',
   width: '100vw',
-}
+};
 function App() {
-
   useInjectReducer({ key: 'app', reducer });
   useInjectSaga({ key: 'app', saga });
 

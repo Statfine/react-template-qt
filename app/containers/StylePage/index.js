@@ -24,8 +24,6 @@ const Div = styled.div`
 `;
 
 export default class StylePage extends React.PureComponent {
-
-
   render() {
     return (
       <Continar>
@@ -34,6 +32,6 @@ export default class StylePage extends React.PureComponent {
           <img src={BacPng} style={{ width: '100%', height: 'auto' }} alt="" />
         </Div>
       </Continar>
-    )
+    );
   }
 }

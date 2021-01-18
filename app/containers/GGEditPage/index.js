@@ -45,20 +45,25 @@ const data = {
     //   source: '0',
     //   target: '1'
     // }
-  ]
+  ],
 };
 
 function GGedit() {
   const editorRef = useRef();
 
   React.useEffect(() => {
-    document.onselectstart = function(){return false;};
+    document.onselectstart = function() {
+      return false;
+    };
     setTimeout(() => {
-      editorRef.current.state.graph.on(constants.GraphNodeEvent.onNodeClick, (graphEvent) => {
-        console.log(graphEvent.item.getModel());
-      });
+      editorRef.current.state.graph.on(
+        constants.GraphNodeEvent.onNodeClick,
+        graphEvent => {
+          console.log(graphEvent.item.getModel());
+        },
+      );
     }, 0);
-  }, [])
+  }, []);
 
   return (
     <div className="app">
@@ -95,8 +100,8 @@ function GGedit() {
                   label: '结束',
                   style: {
                     fill: '#fff',
-                    stroke: '#000'
-                  }
+                    stroke: '#000',
+                  },
                 }}
               >
                 <ItemDiv>
@@ -136,7 +141,9 @@ function GGedit() {
                 }}
               >
                 <ItemDiv>
-                  <DiamondItemDiv><p>网关1</p></DiamondItemDiv>
+                  <DiamondItemDiv>
+                    <p>网关1</p>
+                  </DiamondItemDiv>
                 </ItemDiv>
               </Item>
               <Item
@@ -145,11 +152,14 @@ function GGedit() {
                   type: 'image',
                   size: [80, 80],
                   label: '网关1',
-                  img: "https://yyb.gtimg.com/aiplat/page/product/visionimgidy/img/demo6-16a47e5d31.jpg?max_age=31536000"
+                  img:
+                    'https://yyb.gtimg.com/aiplat/page/product/visionimgidy/img/demo6-16a47e5d31.jpg?max_age=31536000',
                 }}
               >
                 <ItemDiv>
-                  <DiamondItemDiv><p>网关1</p></DiamondItemDiv>
+                  <DiamondItemDiv>
+                    <p>网关1</p>
+                  </DiamondItemDiv>
                 </ItemDiv>
               </Item>
               {/* 自定义：写法一，实现层添加circle实现锚点 */}
@@ -165,9 +175,9 @@ function GGedit() {
                       item,
                       (item, anchorPoint) => {
                         const { width, height } = item.getKeyShape().getBBox();
-                
+
                         const [x, y] = anchorPoint;
-                
+
                         return {
                           x: width * x - width / 2,
                           y: height * y - height / 2,
@@ -175,9 +185,9 @@ function GGedit() {
                       },
                       (item, anchorPoint) => {
                         const { width, height } = item.getKeyShape().getBBox();
-                
+
                         const [x, y] = anchorPoint;
-                
+
                         return {
                           x: width * x - width / 2,
                           y: height * y - height / 2,
@@ -208,9 +218,9 @@ function GGedit() {
                       item,
                       (item, anchorPoint) => {
                         const { width, height } = item.getKeyShape().getBBox();
-                
+
                         const [x, y] = anchorPoint;
-                
+
                         return {
                           x: width * x - width / 2,
                           y: height * y - height / 2,
@@ -218,9 +228,9 @@ function GGedit() {
                       },
                       (item, anchorPoint) => {
                         const { width, height } = item.getKeyShape().getBBox();
-                
+
                         const [x, y] = anchorPoint;
-                
+
                         return {
                           x: width * x - width / 2,
                           y: height * y - height / 2,

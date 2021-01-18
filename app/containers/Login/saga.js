@@ -12,9 +12,9 @@ export function* fetchLoginSaga() {
     const params = yield select(makeSelectParams());
     const result = yield call(LoginApi.fetchLogin, params);
     yield delay(2000);
-    console.log('fetchLoginSaga', result)
+    console.log('fetchLoginSaga', result);
     setLocal('access_token', 'result.access_token');
-    setLocal('expires_in', Date.now() + (3600000 * 1000));
+    setLocal('expires_in', Date.now() + 3600000 * 1000);
     yield put(actionRequestLoginSuc());
     yield put(changeLogined(true));
   } catch (error) {

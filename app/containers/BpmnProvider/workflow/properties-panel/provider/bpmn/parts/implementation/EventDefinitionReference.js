@@ -1,6 +1,3 @@
-
-
-
 const domQuery = require('min-dom').query;
 const domify = require('min-dom').domify;
 const domAttr = require('min-dom').attr;
@@ -58,7 +55,6 @@ function findElementById(eventDefinition, type, id) {
  * @return {Array<Object>} return an array containing the entries
  */
 module.exports = function(element, definition, bpmnFactory, options) {
-
   const elementName = options.elementName || '';
   const elementType = options.elementType;
   const referenceProperty = options.referenceProperty;
@@ -71,23 +67,27 @@ module.exports = function(element, definition, bpmnFactory, options) {
   const entries = [];
 
   entries.push({
-
-    id: `event-definitions-${  elementName}`,
+    id: `event-definitions-${elementName}`,
     description,
-    html: `${'<div class="bpp-row bpp-select">' +
-             '<label for="camunda-'}${  escapeHTML(elementName)  }">${  escapeHTML(label)  }</label>` +
-             `<div class="bpp-field-wrapper">` +
-               `<select id="camunda-${  escapeHTML(elementName)  }" name="selectedElement" data-value>` +
-               `</select>` +
-               `<button class="add" id="addElement" data-action="addElement"><span>+</span></button>` +
-             `</div>` +
-          `</div>`,
+    html:
+      `${'<div class="bpp-row bpp-select">' +
+        '<label for="camunda-'}${escapeHTML(elementName)}">${escapeHTML(
+        label,
+      )}</label>` +
+      `<div class="bpp-field-wrapper">` +
+      `<select id="camunda-${escapeHTML(
+        elementName,
+      )}" name="selectedElement" data-value>` +
+      `</select>` +
+      `<button class="add" id="addElement" data-action="addElement"><span>+</span></button>` +
+      `</div>` +
+      `</div>`,
 
     get(element, entryNode) {
       utils.updateOptionsDropDown(selector, definition, elementType, entryNode);
       const reference = definition.get(referenceProperty);
       return {
-        selectedElement: (reference && reference.id) || ''
+        selectedElement: (reference && reference.id) || '',
       };
     },
 
@@ -109,8 +109,21 @@ module.exports = function(element, definition, bpmnFactory, options) {
         const root = utils.getRoot(definition);
 
         // create a new element
-        selectedElement = elementHelper.createElement(elementType, { name: selection }, root, bpmnFactory);
-        commands.push(cmdHelper.addAndRemoveElementsFromList(element, root, 'rootElements', null, [ selectedElement ]));
+        selectedElement = elementHelper.createElement(
+          elementType,
+          { name: selection },
+          root,
+          bpmnFactory,
+        );
+        commands.push(
+          cmdHelper.addAndRemoveElementsFromList(
+            element,
+            root,
+            'rootElements',
+            null,
+            [selectedElement],
+          ),
+        );
       }
 
       // update reference to element
@@ -125,7 +138,10 @@ module.exports = function(element, definition, bpmnFactory, options) {
       // of the element and not as id
       const id = utils.nextId(newElementIdPrefix);
 
-      const optionTemplate = domify(`<option value="${  escapeHTML(id)  }"> (id=${escapeHTML(id)})` + `</option>`);
+      const optionTemplate = domify(
+        `<option value="${escapeHTML(id)}"> (id=${escapeHTML(id)})` +
+          `</option>`,
+      );
 
       // add new option
       const selectBox = getSelectBox(inputNode);
@@ -141,10 +157,8 @@ module.exports = function(element, definition, bpmnFactory, options) {
       });
 
       return true;
-    }
-
+    },
   });
 
   return entries;
-
 };

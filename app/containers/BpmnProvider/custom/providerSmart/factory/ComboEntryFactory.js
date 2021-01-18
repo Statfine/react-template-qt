@@ -1,5 +1,3 @@
-
-
 const assign = require('lodash/assign');
 const find = require('lodash/find');
 
@@ -9,7 +7,6 @@ const escapeHTML = require('../Utils').escapeHTML;
 
 const selectEntryFactory = require('./SelectEntryFactory');
 const entryFieldDescription = require('./EntryFieldDescription');
-
 
 /**
  * The combo box is a special implementation of the select entry and adds the option 'custom' to the
@@ -29,11 +26,10 @@ const entryFieldDescription = require('./EntryFieldDescription');
  * @return {Object}
  */
 const comboBox = function(options) {
-
   const selectOptions = options.selectOptions;
   const modelProperty = options.modelProperty;
   const customValue = options.customValue || 'custom';
-  const customName = options.customName || `custom ${  modelProperty}`;
+  const customName = options.customName || `custom ${modelProperty}`;
   const description = options.description;
 
   // check if a value is not a built in value
@@ -53,7 +49,10 @@ const comboBox = function(options) {
 
   // true if the selected value in the select box is customValue
   comboOptions.showCustomInput = function(element, node) {
-    const selectBox = domQuery(`[data-entry="${ options.id }"] select`, node.parentNode);
+    const selectBox = domQuery(
+      `[data-entry="${options.id}"] select`,
+      node.parentNode,
+    );
 
     if (selectBox) {
       return selectBox.value === customValue;
@@ -85,9 +84,8 @@ const comboBox = function(options) {
     // if the custom select option has been selected
     // take the value from the text input field
     if (values[modelProperty] === customValue) {
-      modifiedValues[modelProperty] = values[`custom-${  modelProperty}`] || '';
-    }
-    else if (options.emptyParameter && values[modelProperty] === '') {
+      modifiedValues[modelProperty] = values[`custom-${modelProperty}`] || '';
+    } else if (options.emptyParameter && values[modelProperty] === '') {
       modifiedValues[modelProperty] = undefined;
     } else {
       modifiedValues[modelProperty] = values[modelProperty];
@@ -97,15 +95,20 @@ const comboBox = function(options) {
 
   comboOptions.selectOptions.push({ name: customName, value: customValue });
 
-  const comboBoxEntry = assign({}, selectEntryFactory(comboOptions, comboOptions));
+  const comboBoxEntry = assign(
+    {},
+    selectEntryFactory(comboOptions, comboOptions),
+  );
 
-  comboBoxEntry.html += `${'<div class="bpp-field-wrapper bpp-combo-input" ' +
-    'data-show="showCustomInput"' +
-    '>' +
-    '<input id="camunda-'}${  escapeHTML(options.id)  }-input" type="text" name="custom-${ 
-    escapeHTML(modelProperty)  }" ` +
+  comboBoxEntry.html +=
+    `${'<div class="bpp-field-wrapper bpp-combo-input" ' +
+      'data-show="showCustomInput"' +
+      '>' +
+      '<input id="camunda-'}${escapeHTML(
+      options.id,
+    )}-input" type="text" name="custom-${escapeHTML(modelProperty)}" ` +
     ` />` +
-  `</div>`;
+    `</div>`;
 
   // add description below combo box entry field
   if (description) {

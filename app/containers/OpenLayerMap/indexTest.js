@@ -186,7 +186,7 @@ export default class OpenLayerTestMap extends PureComponent {
       source: new VectorSource({
         features: [routeFeature],
       }),
-      style: this.styleFunction
+      style: this.styleFunction,
     });
     // 添加图层
     this.map.addLayer(routeLayer);
@@ -283,25 +283,29 @@ export default class OpenLayerTestMap extends PureComponent {
       source,
       style: new Style({
         fill: new Fill({
-          color: 'rgba(255, 255, 255, 0.2)'
+          color: 'rgba(255, 255, 255, 0.2)',
         }),
         stroke: new Stroke({
           color: '#f00',
-          width: 4
+          width: 4,
         }),
         image: new Circle({
           radius: 2,
           fill: new Fill({
-            color: '#f00'
-          })
-        })
-      })
+            color: '#f00',
+          }),
+        }),
+      }),
     });
     this.map.addLayer(vectorLayer); // 将绘制层添加到地图容器中
 
     let i = 0;
     const interval = setInterval(() => {
-      const point = olProj.transform(this.coordinate2[i], 'EPSG:4326', 'EPSG:3857');
+      const point = olProj.transform(
+        this.coordinate2[i],
+        'EPSG:4326',
+        'EPSG:3857',
+      );
       geometry.appendCoordinate(point);
       i += 1;
     }, 500);
@@ -309,7 +313,7 @@ export default class OpenLayerTestMap extends PureComponent {
     setTimeout(() => {
       clearInterval(interval);
     }, 7000);
-  }
+  };
 
   render() {
     return (

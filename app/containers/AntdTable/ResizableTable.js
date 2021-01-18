@@ -31,11 +31,10 @@ const ResizableTitle = props => {
   );
 };
 
-
 ResizableTitle.propTypes = {
   onResize: PropTypes.func,
   width: PropTypes.any,
-}
+};
 
 export default class Demo extends PureComponent {
   state = {
@@ -58,8 +57,8 @@ export default class Demo extends PureComponent {
             title: 'Type',
             dataIndex: 'type',
             width: 100,
-          }
-        ]
+          },
+        ],
       },
       {
         title: 'Note',
@@ -124,6 +123,13 @@ export default class Demo extends PureComponent {
       }),
     }));
 
-    return <Table bordered components={this.components} columns={columns} dataSource={this.data} />;
+    return (
+      <Table
+        bordered
+        components={this.components}
+        columns={columns}
+        dataSource={this.data}
+      />
+    );
   }
 }

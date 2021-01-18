@@ -2,7 +2,6 @@
  * Created by easub on 2017/1/11.
  */
 const Tool = {
-
   /*
    *  字符串转时间格式分钟:秒
    *  01:54
@@ -38,9 +37,9 @@ const Tool = {
   },
 
   /*
- *  时间戳(13位)转换 月-日 小时:分之
- *  09-01 24:01
- */
+   *  时间戳(13位)转换 月-日 小时:分之
+   *  09-01 24:01
+   */
   dataMonthDayHoursMin(time, flag) {
     const setData = new Date(time);
     let month = setData.getMonth() + 1;
@@ -62,7 +61,8 @@ const Tool = {
     const reg = new RegExp(regExp, 'i');
     const r = window.location.search.substr(1).match(reg);
     try {
-      if (r !== null) return decodeURIComponent(r[2]); return null;
+      if (r !== null) return decodeURIComponent(r[2]);
+      return null;
     } catch (error) {
       return null;
     }
@@ -99,7 +99,7 @@ const Tool = {
    */
   formatTime(t) {
     const m = parseInt(t / 60);
-    const s = Number(t - (m * 60)).toFixed(2);
+    const s = Number(t - m * 60).toFixed(2);
     return `${this.zeroFill(m)}:${this.zeroFill(s)}`;
   },
 
@@ -110,7 +110,10 @@ const Tool = {
   changeDate(timeStamp, start) {
     const date = new Date(timeStamp);
     const year = date.getFullYear();
-    const month = date.getMonth() + 1 >= 10 ? (date.getMonth() + 1) : `0${(date.getMonth() + 1)}`;
+    const month =
+      date.getMonth() + 1 >= 10
+        ? date.getMonth() + 1
+        : `0${date.getMonth() + 1}`;
     const day = date.getDate() >= 10 ? date.getDate() : `0${date.getDate()}`;
     if (start) {
       return `${year}-${month}-${day} 00:00:01`;
@@ -140,14 +143,14 @@ const Tool = {
 
   formatTimeNoMinsec(t) {
     const m = parseInt(t / 60);
-    const s = parseInt(t - (m * 60));
+    const s = parseInt(t - m * 60);
     return `${this.zeroFill(m)}:${this.zeroFill(s)}`;
   },
 
   formatHourMinSec(t) {
     const h = parseInt(t / 3600);
-    const m = parseInt((t - (h * 3600)) / 60);
-    const s = parseInt(t - ((h * 3600) + (m * 60)));
+    const m = parseInt((t - h * 3600) / 60);
+    const s = parseInt(t - (h * 3600 + m * 60));
     return `${this.zeroFill(h)}:${this.zeroFill(m)}:${this.zeroFill(s)}`;
   },
 
@@ -161,7 +164,15 @@ const Tool = {
     const len = b.length;
     if (len <= 3) return b;
     const r = len % 3;
-    return r > 0 ? `${b.slice(0, r)},${b.slice(r, len).match(/\d{3}/g).join(',')}` : b.slice(r, len).match(/\d{3}/g).join(',');
+    return r > 0
+      ? `${b.slice(0, r)},${b
+        .slice(r, len)
+        .match(/\d{3}/g)
+        .join(',')}`
+      : b
+        .slice(r, len)
+        .match(/\d{3}/g)
+        .join(',');
   },
 
   getLength(q, gg) {
@@ -176,7 +187,11 @@ const Tool = {
       const s = g.max;
       const b = g.surl;
       let n = q;
-      const r = q.match(/(http|https):\/\/[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)+([-A-Z0-9a-z\$\.\+\!\_\*\(\)\/\,\:;@&=\?~#%]*)*/gi) || []; // eslint-disable-line
+      const r =
+        q.match(
+          // eslint-disable-next-line
+          /(http|https):\/\/[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)+([-A-Z0-9a-z\$\.\+\!\_\*\(\)\/\,\:;@&=\?~#%]*)*/gi,
+        ) || [];
       let h = 0;
       for (let m = 0, len = r.length; m < len; m += 1) {
         const o = this.byteLength(r[m]);
@@ -219,14 +234,19 @@ const Tool = {
   sizeTransform(length) {
     const limit = Number(length);
     let size = '';
-    if (limit < 0.1 * 1024) size = `${limit.toFixed(2)}B`; // 小于0.1KB，则转化成B
-    else if (limit < 0.1 * 1024 * 1024) size = `${(limit / 1024).toFixed(2)}KB`; // 小于0.1MB，则转化成KB
-    else if (limit < 0.1 * 1024 * 1024 * 1024) size = `${(limit / (1024 * 1024)).toFixed(2)}MB`; // 小于0.1GB，则转化成MB
+    if (limit < 0.1 * 1024) size = `${limit.toFixed(2)}B`;
+    // 小于0.1KB，则转化成B
+    else if (limit < 0.1 * 1024 * 1024) size = `${(limit / 1024).toFixed(2)}KB`;
+    // 小于0.1MB，则转化成KB
+    else if (limit < 0.1 * 1024 * 1024 * 1024)
+      size = `${(limit / (1024 * 1024)).toFixed(2)}MB`;
+    // 小于0.1GB，则转化成MB
     else size = `${(limit / (1024 * 1024 * 1024)).toFixed(2)}GB`; // 其他转化成GB
     const sizeStr = size.toString(); // 转成字符串
     const index = sizeStr.indexOf('.'); // 获取小数点处的索引
     const dou = sizeStr.substr(index + 1, 2); // 获取小数点后两位的值
-    if (dou === '00') return sizeStr.substring(0, index) + sizeStr.substr(index + 3, 2); // 判断后两位是否为00，如果是则删除00
+    if (dou === '00')
+      return sizeStr.substring(0, index) + sizeStr.substr(index + 3, 2); // 判断后两位是否为00，如果是则删除00
     return size;
   },
 };

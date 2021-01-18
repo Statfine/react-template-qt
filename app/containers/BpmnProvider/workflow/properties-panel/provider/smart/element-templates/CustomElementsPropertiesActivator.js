@@ -1,5 +1,3 @@
-
-
 const inherits = require('inherits');
 
 const getTemplate = require('./Helper').getTemplate;
@@ -28,7 +26,6 @@ function CustomElementsPropertiesActivator(eventBus, elementTemplates) {
   PropertiesActivator.call(this, eventBus, HIGHER_PRIORITY);
 
   this.isEntryVisible = function(entry, element) {
-
     const template = getTemplate(element, elementTemplates);
 
     if (template && !isEntryVisible(entry, template)) {
@@ -37,7 +34,6 @@ function CustomElementsPropertiesActivator(eventBus, elementTemplates) {
   };
 
   this.isPropertyEditable = function(entry, propertyName, element) {
-
     const template = getTemplate(element, elementTemplates);
 
     if (template && !isEntryEditable(entry, template)) {
@@ -46,23 +42,20 @@ function CustomElementsPropertiesActivator(eventBus, elementTemplates) {
   };
 }
 
-CustomElementsPropertiesActivator.$inject = [ 'eventBus', 'elementTemplates' ];
+CustomElementsPropertiesActivator.$inject = ['eventBus', 'elementTemplates'];
 
 inherits(CustomElementsPropertiesActivator, PropertiesActivator);
 
 module.exports = CustomElementsPropertiesActivator;
 
-
-
 // helpers ////////////////////////////////////
-
 
 const CUSTOM_PROPERTIES_PATTERN = /^custom-/;
 
 const DEFAULT_ENTRIES_VISIBLE = {
   _all: false,
   id: true,
-  name: true
+  name: true,
 };
 
 function isCustomEntry(entry) {
@@ -70,7 +63,6 @@ function isCustomEntry(entry) {
 }
 
 function isEntryVisible(entry, template) {
-
   const entryId = entry.id;
 
   if (entryId === 'elementTemplate-chooser' || isCustomEntry(entry)) {
@@ -96,7 +88,6 @@ function isEntryVisible(entry, template) {
 }
 
 function isEntryEditable(entry, template) {
-
   let property;
 
   if (isCustomEntry(entry)) {
@@ -109,9 +100,8 @@ function isEntryEditable(entry, template) {
 }
 
 function getProperty(template, entry) {
-
   let index;
-  const idx = entry.id.replace(`custom-${  template.id  }-`, '');
+  const idx = entry.id.replace(`custom-${template.id}-`, '');
   if (idx.indexOf('-') !== -1) {
     const indexes = idx.split('-');
     if (indexes.length == 2) {
@@ -128,5 +118,5 @@ function getProperty(template, entry) {
     }
   }
 
-  throw new Error(`cannot extract property index for entry <${  entry.id  }>`);
+  throw new Error(`cannot extract property index for entry <${entry.id}>`);
 }

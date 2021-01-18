@@ -20,7 +20,7 @@ import saga from './saga';
 /**
  *  params  参数 { password, uasername }
  *  isRequesting 请求状态-true,fasle
-*/
+ */
 const stateSelector = createStructuredSelector({
   params: makeSelectParams(),
   isRequesting: makeSelectIsRequesting(),

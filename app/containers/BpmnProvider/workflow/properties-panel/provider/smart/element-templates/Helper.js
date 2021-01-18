@@ -1,12 +1,10 @@
-
-
-const getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+const getBusinessObject = require('bpmn-js/lib/util/ModelUtil')
+  .getBusinessObject;
 
 const is = require('bpmn-js/lib/util/ModelUtil').is;
 const isAny = require('bpmn-js/lib/features/modeling/util/ModelingUtil').isAny;
 
 const find = require('lodash/find');
-
 
 const TEMPLATE_ATTR = 'smart:modelerTemplate';
 
@@ -18,7 +16,6 @@ const TEMPLATE_ATTR = 'smart:modelerTemplate';
  */
 module.exports.TEMPLATE_ATTR = TEMPLATE_ATTR;
 
-
 /**
  * Get template id for a given diagram element.
  *
@@ -27,7 +24,6 @@ module.exports.TEMPLATE_ATTR = TEMPLATE_ATTR;
  * @return {String}
  */
 function getTemplateId(element) {
-
   const bo = getBusinessObject(element);
 
   if (bo) {
@@ -36,7 +32,6 @@ function getTemplateId(element) {
 }
 
 module.exports.getTemplateId = getTemplateId;
-
 
 /**
  * Get template of a given element.
@@ -63,17 +58,13 @@ module.exports.getTemplate = getTemplate;
  * @return {TemplateDefinition}
  */
 function getDefaultTemplate(element, elementTemplates) {
-
   // return first default template, if any exists
-  return (
-    elementTemplates.getAll().filter(function(t) {
-      return isAny(element, t.appliesTo) && t.isDefault;
-    })
-  )[0];
+  return elementTemplates.getAll().filter(function(t) {
+    return isAny(element, t.appliesTo) && t.isDefault;
+  })[0];
 }
 
 module.exports.getDefaultTemplate = getDefaultTemplate;
-
 
 /**
  * Find extension with given type in
@@ -106,7 +97,6 @@ function findExtension(element, type) {
 
 module.exports.findExtension = findExtension;
 
-
 function findExtensions(element, types) {
   const extensionElements = getExtensionElements(element);
 
@@ -121,9 +111,7 @@ function findExtensions(element, types) {
 
 module.exports.findExtensions = findExtensions;
 
-
 function findSmartInOut(element, binding) {
-
   const extensionElements = getExtensionElements(element);
 
   if (!extensionElements) {
@@ -136,13 +124,11 @@ function findSmartInOut(element, binding) {
     matcher = function(e) {
       return is(e, 'smart:In') && isInOut(e, binding);
     };
-  } else
-  if (binding.type === 'smart:out') {
+  } else if (binding.type === 'smart:out') {
     matcher = function(e) {
       return is(e, 'smart:Out') && isInOut(e, binding);
     };
-  } else
-  if (binding.type === 'smart:in:businessKey') {
+  } else if (binding.type === 'smart:in:businessKey') {
     matcher = function(e) {
       return is(e, 'smart:In') && 'businessKey' in e;
     };
@@ -161,7 +147,6 @@ function findSmartProperty(smartProperties, binding) {
 
 module.exports.findSmartProperty = findSmartProperty;
 
-
 function findInputParameter(inputOutput, binding) {
   const parameters = inputOutput.get('inputParameters');
 
@@ -171,7 +156,6 @@ function findInputParameter(inputOutput, binding) {
 }
 
 module.exports.findInputParameter = findInputParameter;
-
 
 function findOutputParameter(inputOutput, binding) {
   const parameters = inputOutput.get('outputParameters');
@@ -195,8 +179,6 @@ function findOutputParameter(inputOutput, binding) {
 
 module.exports.findOutputParameter = findOutputParameter;
 
-
-
 // helpers /////////////////////////////////
 
 function getExtensionElements(element) {
@@ -204,14 +186,11 @@ function getExtensionElements(element) {
 
   if (is(bo, 'bpmn:ExtensionElements')) {
     return bo;
-  } 
+  }
   return bo.extensionElements;
-  
 }
 
-
 function isInOut(element, binding) {
-
   if (binding.type === 'smart:in') {
     // find based on target attribute
     if (binding.target) {
@@ -232,8 +211,9 @@ function isInOut(element, binding) {
 
   // find based variables / local combination
   if (binding.variables) {
-    return element.variables === 'all' && (
-      binding.variables !== 'local' || element.local
+    return (
+      element.variables === 'all' &&
+      (binding.variables !== 'local' || element.local)
     );
   }
 }

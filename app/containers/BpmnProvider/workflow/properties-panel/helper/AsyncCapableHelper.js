@@ -1,5 +1,3 @@
-
-
 const map = require('lodash/map');
 
 const extensionElementsHelper = require('./ExtensionElementsHelper');
@@ -54,7 +52,10 @@ module.exports.isExclusive = isExclusive;
  * @return {Array<ModdleElement>} a list of 'smart:FailedJobRetryTimeCycle'
  */
 function getFailedJobRetryTimeCycle(bo) {
-  return (extensionElementsHelper.getExtensionElements(bo, 'smart:FailedJobRetryTimeCycle') || [])[0];
+  return (extensionElementsHelper.getExtensionElements(
+    bo,
+    'smart:FailedJobRetryTimeCycle',
+  ) || [])[0];
 }
 
 module.exports.getFailedJobRetryTimeCycle = getFailedJobRetryTimeCycle;
@@ -67,7 +68,10 @@ module.exports.getFailedJobRetryTimeCycle = getFailedJobRetryTimeCycle;
  * @return {Array<ModdleElement>} a list of 'smart:FailedJobRetryTimeCycle'
  */
 function removeFailedJobRetryTimeCycle(bo, element) {
-  const retryTimeCycles = extensionElementsHelper.getExtensionElements(bo, 'smart:FailedJobRetryTimeCycle');
+  const retryTimeCycles = extensionElementsHelper.getExtensionElements(
+    bo,
+    'smart:FailedJobRetryTimeCycle',
+  );
   return map(retryTimeCycles, function(cycle) {
     return extensionElementsHelper.removeEntry(bo, element, cycle);
   });

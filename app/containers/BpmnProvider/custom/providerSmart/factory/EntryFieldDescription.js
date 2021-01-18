@@ -1,5 +1,3 @@
-
-
 const escapeHTML = require('../Utils').escapeHTML;
 
 /**
@@ -11,7 +9,6 @@ const escapeHTML = require('../Utils').escapeHTML;
  * @param {String} description
  */
 module.exports = function entryFieldDescription(description) {
-
   // we tokenize the description to extract text, HTML and markdown links
   // text, links and new lines are handled seperately
 
@@ -22,20 +19,20 @@ module.exports = function entryFieldDescription(description) {
 
   let index = 0;
   let match;
-  let link; let text;
+  let link;
+  let text;
 
   while ((match = pattern.exec(description))) {
-
     // escape + insert text before match
     if (match.index > index) {
       escaped.push(escapeText(description.substring(index, match.index)));
     }
 
-    link = match[2] && encodeURI(match[2]) || match[3];
+    link = (match[2] && encodeURI(match[2])) || match[3];
     text = match[1] || match[4];
 
     // insert safe link
-    escaped.push(`<a href="${  link  }" target="_blank">${  escapeText(text)  }</a>`);
+    escaped.push(`<a href="${link}" target="_blank">${escapeText(text)}</a>`);
 
     index = match.index + match[0].length;
   }
@@ -45,17 +42,18 @@ module.exports = function entryFieldDescription(description) {
     escaped.push(escapeText(description.substring(index)));
   }
 
-  return `<div class="bpp-field-description">${  escaped.join('')  }</div>`;
+  return `<div class="bpp-field-description">${escaped.join('')}</div>`;
 };
 
 function escapeText(text) {
-  let match; let index = 0; const escaped = [];
+  let match;
+  let index = 0;
+  const escaped = [];
 
   // match new line <br/> <br /> <br.... /> etc.
   const pattern = /<br\s*\/?>/gi;
 
   while ((match = pattern.exec(text))) {
-
     if (match.index > index) {
       escaped.push(escapeHTML(text.substring(index, match.index)));
     }

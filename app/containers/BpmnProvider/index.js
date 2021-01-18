@@ -2,19 +2,18 @@ import React, { PureComponent } from 'react';
 import { Button } from 'antd';
 
 import BpmnModeler from 'bpmn-js/lib/Modeler';
-import propertiesPanelModule from 'bpmn-js-properties-panel';   // 这里引入的是右侧属性栏这个框
-import 'bpmn-js/dist/assets/diagram-js.css' // 左边工具栏以及编辑节点的样式
-import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css'
-import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css'
-import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css'
+import propertiesPanelModule from 'bpmn-js-properties-panel'; // 这里引入的是右侧属性栏这个框
+import 'bpmn-js/dist/assets/diagram-js.css'; // 左边工具栏以及编辑节点的样式
+import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css';
+import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css';
+import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css';
 import 'bpmn-js-properties-panel/dist/assets/bpmn-js-properties-panel.css';
 
 import $ from 'jquery';
 
 import propertiesProviderModule from './workflow/properties-panel/provider/smart'; // 而这个引入的是右侧属性栏里的内容
 // import propertiesProviderModule from 'hiforce-bpmn-js-properties-panel/lib/provider/smart'; // 而这个引入的是右侧属性栏里的内容
-import smartPackage from './source/smart.json';  // 如果要在属性面板中维护smart：XXX属性，则需要此 
-
+import smartPackage from './source/smart.json'; // 如果要在属性面板中维护smart：XXX属性，则需要此
 
 import xmlInit from '../Bpmn/init.bpmn';
 import '../Bpmn/styled.css';
@@ -28,28 +27,28 @@ const NEED_RELEVANCY_STYEL = { stroke: '#666', fill: '#666' };
 const RELEVANCY_STYEL = { stroke: 'black', fill: 'white' };
 
 export default class BpmnPage extends PureComponent {
-
-  state = {
-  }
+  state = {};
 
   bpmnModeler;
 
   // eslint-disable-next-line react/no-deprecated
   componentWillMount() {
-    window.hiBpmn = { exteralClass: 'com.quadtalent.bpmn.smartengine.CallServiceDelegation' };
+    window.hiBpmn = {
+      exteralClass: 'com.quadtalent.bpmn.smartengine.CallServiceDelegation',
+    };
   }
 
   componentDidMount() {
-    const language = getQueryString('language')
+    const language = getQueryString('language');
     let customTranslateModule = {
-      translate: [ 'value', customTranslate ]
+      translate: ['value', customTranslate],
     };
     if (language === 'en') customTranslateModule = {};
 
     this.bpmnModeler = new BpmnModeler({
       container: '#js-canvas',
       propertiesPanel: {
-        parent: '#js-properties-panel'
+        parent: '#js-properties-panel',
       },
       // bpmnRenderer: {
       //   defaultFillColor: 'green',
@@ -64,13 +63,13 @@ export default class BpmnPage extends PureComponent {
       ],
       moddleExtensions: {
         smart: smartPackage,
-      }
+      },
     });
     this.initDiagram(xmlInit);
   }
 
   // '<?xml version="1.0" encoding="UTF-8"?><bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" id="Definitions_06armuw" targetNamespace="http://bpmn.io/schema/bpmn" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="7.0.0"><bpmn:collaboration id="Collaboration_0jiv3ag"><bpmn:participant id="Participant_16bft7w" processRef="Process_1" /></bpmn:collaboration><bpmn:process id="Process_1" /><bpmndi:BPMNDiagram id="BPMNDiagram_1"><bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0jiv3ag"><bpmndi:BPMNShape id="Participant_16bft7w_di" bpmnElement="Participant_16bft7w" isHorizontal="true"><dc:Bounds x="250" y="30" width="410" height="140" /></bpmndi:BPMNShape></bpmndi:BPMNPlane></bpmndi:BPMNDiagram></bpmn:definitions>'
-  initDiagram = async (xml) => {
+  initDiagram = async xml => {
     try {
       await this.bpmnModeler.importXML(xml);
       this.addToolTitle();
@@ -84,40 +83,42 @@ export default class BpmnPage extends PureComponent {
   };
 
   changeClassName = () => {
-    const canvas = this.bpmnModeler.get('canvas')
+    const canvas = this.bpmnModeler.get('canvas');
     // canvas.zoom('fit-viewport', 'auto') // 适应，居中
     const colorClass = 'nodeSuccess';
     const elementRegistry = this.bpmnModeler.get('elementRegistry');
     // const relevancyNode = []; // 正常的Task节点
-    const participantNode = elementRegistry.filter((item) => {
-      console.log('elementRegistry', item)
+    const participantNode = elementRegistry.filter(item => {
+      console.log('elementRegistry', item);
       return item.type === 'bpmn:Participant';
     });
-    participantNode.forEach((item) => {
+    participantNode.forEach(item => {
       console.log('forEach', item);
       // if (i % 2 === 0) canvas.addMarker(item.id, colorClass)
-      canvas.addMarker(item.id, colorClass)
-    })
+      canvas.addMarker(item.id, colorClass);
+    });
     // canvas.addMarker("Participant_19mj649", colorClass)
     // setTimeout(() => {
     //   canvas.removeMarker("Participant_19mj649", colorClass);
     // }, 1000)
-  }
+  };
 
   // 动态再工具栏上添加div
   addToolTitle = () => {
-    if ($(".custom-tool-title").length < 1) {
-      $(".djs-palette-entries").before("<div class='custom-tool-title'>基本信息</div>");
+    if ($('.custom-tool-title').length < 1) {
+      $('.djs-palette-entries').before(
+        "<div class='custom-tool-title'>基本信息</div>",
+      );
     }
-  }
+  };
 
   setNodeColor = () => {
     // 目的：为第一个节点添加绿色，为第二个节点添加黄色
     // 实现步骤：1、找到页面里所有节点
     const elementRegistry = this.bpmnModeler.get('elementRegistry');
     // const relevancyNode = []; // 正常的Task节点
-    const needRelevancyNode = elementRegistry.filter((item) => {
-      console.log('elementRegistry', item)
+    const needRelevancyNode = elementRegistry.filter(item => {
+      console.log('elementRegistry', item);
       // if (item.type === 'bpmn:Task' && item.businessObject.$attrs.link_id) relevancyNode.push(item)
       return this.verifyNeedRelevancy(item);
     });
@@ -128,15 +129,21 @@ export default class BpmnPage extends PureComponent {
     // const modeling = this.bpmnModeler.get('modeling');
     // if (needRelevancyNode.length > 0) modeling.setColor(needRelevancyNode, NEED_RELEVANCY_STYEL);
     // modeling.setColor(relevancyNode, RELEVANCY_STYEL);
-  }
+  };
 
   // 验证是否需要关联，true-需要
-  verifyNeedRelevancy = (element) => element.type === 'bpmn:Task' && !element.businessObject.$attrs.link_id
+  verifyNeedRelevancy = element =>
+    element.type === 'bpmn:Task' && !element.businessObject.$attrs.link_id;
 
-  setSigleNodeColor = (element) => {
+  setSigleNodeColor = element => {
     const modeling = this.bpmnModeler.get('modeling');
-    modeling.setColor(element, this.verifyNeedRelevancy(element) ? NEED_RELEVANCY_STYEL : RELEVANCY_STYEL);
-  }
+    modeling.setColor(
+      element,
+      this.verifyNeedRelevancy(element)
+        ? NEED_RELEVANCY_STYEL
+        : RELEVANCY_STYEL,
+    );
+  };
 
   // 弹框回调
   handleChangeEl = (el, name, link) => {
@@ -145,17 +152,19 @@ export default class BpmnPage extends PureComponent {
     const modeling = this.bpmnModeler.get('modeling');
     modeling.updateProperties(el, {
       name,
-      link_id: link
+      link_id: link,
     });
-    if (link) this.setSigleNodeColor(el)
-  }
+    if (link) this.setSigleNodeColor(el);
+  };
 
   getExtension = (element, type) => {
     if (!element.businessObject.extensionElements) {
       return null;
     }
-    return element.businessObject.extensionElements.values.filter((e) => e.$instanceOf(type))[0];
-  }
+    return element.businessObject.extensionElements.values.filter(e =>
+      e.$instanceOf(type),
+    )[0];
+  };
 
   // 打开文件
   handleOpen = () => {
@@ -169,7 +178,7 @@ export default class BpmnPage extends PureComponent {
     const reader = new FileReader();
     let data = '';
     reader.readAsText(file);
-    reader.onload = (event) => {
+    reader.onload = event => {
       data = event.target.result;
       that.initDiagram(data, false);
     };
@@ -194,7 +203,7 @@ export default class BpmnPage extends PureComponent {
 
   // 保存
   handleSave = () => {
-    this.bpmnModeler.saveXML({format: true}, (err, xml) => {
+    this.bpmnModeler.saveXML({ format: true }, (err, xml) => {
       console.log(xml);
     });
     // this.bpmnModeler.saveSVG({format: true}, (err, data) => {
@@ -204,14 +213,14 @@ export default class BpmnPage extends PureComponent {
 
   // 下载 SVG 格式
   handleDownloadSvg = () => {
-    this.bpmnModeler.saveSVG({format: true}, (err, data) => {
+    this.bpmnModeler.saveSVG({ format: true }, (err, data) => {
       this.download('svg', data);
     });
   };
 
   // 下载 XML 格式
   handleDownloadXml = () => {
-    this.bpmnModeler.saveXML({format: true}, (err, data) => {
+    this.bpmnModeler.saveXML({ format: true }, (err, data) => {
       this.download('xml', data);
     });
   };
@@ -233,7 +242,7 @@ export default class BpmnPage extends PureComponent {
     const downName = name || `diagram.${dataTrack}`;
     a.setAttribute(
       'href',
-      `data:application/bpmn20-xml;charset=UTF-8,${encodeURIComponent(data)}`
+      `data:application/bpmn20-xml;charset=UTF-8,${encodeURIComponent(data)}`,
     );
     a.setAttribute('target', '_blank');
     a.setAttribute('dataTrack', `diagram:download-${dataTrack}`);
@@ -245,37 +254,51 @@ export default class BpmnPage extends PureComponent {
 
   addEventBusListener = () => {
     // 监听 element
-    const eventBus = this.bpmnModeler.get('eventBus')
-    const eventTypes = ['element.click', 'element.dblclick', 'element.changed', 'element.updateLabel', 'shape.added', 'shape.removed']
-    eventTypes.forEach((eventType) => {
-      eventBus.on(eventType, (e) => {
-        console.log(eventType, e.element.type, e)
-      })
-    })
-  }
+    const eventBus = this.bpmnModeler.get('eventBus');
+    const eventTypes = [
+      'element.click',
+      'element.dblclick',
+      'element.changed',
+      'element.updateLabel',
+      'shape.added',
+      'shape.removed',
+    ];
+    eventTypes.forEach(eventType => {
+      eventBus.on(eventType, e => {
+        console.log(eventType, e.element.type, e);
+      });
+    });
+  };
 
   render() {
     return (
       <div style={{ margin: '10px', position: 'relative' }}>
         <div style={{ position: 'absolute', bottom: '-40px' }}>
-          <Button  onClick={this.handleClear}>清空</Button>
-          <Button  onClick={this.handleSave}>保存</Button>
+          <Button onClick={this.handleClear}>清空</Button>
+          <Button onClick={this.handleSave}>保存</Button>
           <input
             ref={file => {
               this.file = file;
             }}
-            style={{ display: "none" }}
+            style={{ display: 'none' }}
             type="file"
             onChange={this.handleOpenFile}
           />
-          <Button  onClick={this.handleOpen}>打开BPMN文件</Button>
+          <Button onClick={this.handleOpen}>打开BPMN文件</Button>
           {/* <Button  onClick={this.handleDownloadSvg}>下载 SVG</Button> */}
-          <Button  onClick={this.handleDownloadXml}>下载 XML</Button>
+          <Button onClick={this.handleDownloadXml}>下载 XML</Button>
         </div>
-        <div style={{ width: '100%', height: '400px', border: '1px solid #DBECFF', overflow: 'scroll' }} id="js-canvas">
-        </div>
+        <div
+          style={{
+            width: '100%',
+            height: '400px',
+            border: '1px solid #DBECFF',
+            overflow: 'scroll',
+          }}
+          id="js-canvas"
+        ></div>
         <div className="smart-content" id="js-properties-panel"></div>
       </div>
-    )
+    );
   }
 }

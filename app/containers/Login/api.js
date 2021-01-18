@@ -5,7 +5,7 @@ const api = {
    *  password 密码
    */
   fetchLogin(params) {
-    console.log('api', params)
+    console.log('api', params);
     return 'suc';
   },
 };

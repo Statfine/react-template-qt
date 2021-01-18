@@ -1,5 +1,3 @@
-
-
 const escapeHTML = require('../Utils').escapeHTML;
 
 const entryFieldDescription = require('./EntryFieldDescription');
@@ -34,7 +32,6 @@ const bind = require('lodash/bind');
  * @return {Entry} the newly created entry
  */
 function link(options) {
-
   const id = options.id;
   const label = options.label || id;
   const showLink = options.showLink;
@@ -50,14 +47,14 @@ function link(options) {
   }
 
   const resource = {
-    id
+    id,
   };
 
-  resource.html =
-    `<a data-action="handleClick" ${ 
-      showLink ? 'data-show="showLink" ' : '' 
-    }class="bpp-entry-link${  options.cssClasses ? ` ${  escapeHTML(options.cssClasses)}` : '' 
-    }">${  escapeHTML(label)  }</a>`;
+  resource.html = `<a data-action="handleClick" ${
+    showLink ? 'data-show="showLink" ' : ''
+  }class="bpp-entry-link${
+    options.cssClasses ? ` ${escapeHTML(options.cssClasses)}` : ''
+  }">${escapeHTML(label)}</a>`;
 
   // add description below link entry field
   if (description) {

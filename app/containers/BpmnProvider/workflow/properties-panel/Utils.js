@@ -1,5 +1,3 @@
-
-
 const domQuery = require('min-dom').query;
 const domClear = require('min-dom').clear;
 const is = require('bpmn-js/lib/util/ModelUtil').is;
@@ -22,7 +20,7 @@ const HTML_ESCAPE_MAP = {
   '<': '&lt;',
   '>': '&gt;',
   '"': '&quot;',
-  '\'': '&#39;'
+  "'": '&#39;',
 };
 
 function selectedOption(selectBox) {
@@ -33,14 +31,12 @@ function selectedOption(selectBox) {
 
 module.exports.selectedOption = selectedOption;
 
-
 function selectedType(elementSyntax, inputNode) {
   const typeSelect = domQuery(elementSyntax, inputNode);
   return selectedOption(typeSelect);
 }
 
 module.exports.selectedType = selectedType;
-
 
 /**
  * Retrieve the root element the document this
@@ -57,7 +53,6 @@ function getRoot(businessObject) {
 }
 
 module.exports.getRoot = getRoot;
-
 
 /**
  * filters all elements in the list which have a given type.
@@ -76,7 +71,6 @@ function filterElementsByType(objectList, type) {
 
 module.exports.filterElementsByType = filterElementsByType;
 
-
 function findRootElementsByType(businessObject, referencedType) {
   const root = getRoot(businessObject);
 
@@ -84,7 +78,6 @@ function findRootElementsByType(businessObject, referencedType) {
 }
 
 module.exports.findRootElementsByType = findRootElementsByType;
-
 
 function removeAllChildren(domElement) {
   while (domElement.firstChild) {
@@ -94,28 +87,29 @@ function removeAllChildren(domElement) {
 
 module.exports.removeAllChildren = removeAllChildren;
 
-
 /**
  * adds an empty option to the list
  */
 function addEmptyParameter(list) {
-  return list.push({ 'label': '', 'value': '', 'name': '' });
+  return list.push({ label: '', value: '', name: '' });
 }
 
 module.exports.addEmptyParameter = addEmptyParameter;
-
 
 /**
  * returns a list with all root elements for the given parameter 'referencedType'
  */
 function refreshOptionsModel(businessObject, referencedType) {
   const model = [];
-  const referableObjects = findRootElementsByType(businessObject, referencedType);
+  const referableObjects = findRootElementsByType(
+    businessObject,
+    referencedType,
+  );
   forEach(referableObjects, function(obj) {
     model.push({
-      label: `${obj.name || ''  } (id=${obj.id})`,
+      label: `${obj.name || ''} (id=${obj.id})`,
       value: obj.id,
-      name: obj.name
+      name: obj.name,
     });
   });
   return model;
@@ -123,25 +117,32 @@ function refreshOptionsModel(businessObject, referencedType) {
 
 module.exports.refreshOptionsModel = refreshOptionsModel;
 
-
 /**
  * fills the drop down with options
  */
-function updateOptionsDropDown(domSelector, businessObject, referencedType, entryNode) {
+function updateOptionsDropDown(
+  domSelector,
+  businessObject,
+  referencedType,
+  entryNode,
+) {
   const options = refreshOptionsModel(businessObject, referencedType);
   addEmptyParameter(options);
   const selectBox = domQuery(domSelector, entryNode);
   domClear(selectBox);
 
   forEach(options, function(option) {
-    const optionEntry = domify(`<option value="${  escapeHTML(option.value)  }">${  escapeHTML(option.label)  }</option>`);
+    const optionEntry = domify(
+      `<option value="${escapeHTML(option.value)}">${escapeHTML(
+        option.label,
+      )}</option>`,
+    );
     selectBox.appendChild(optionEntry);
   });
   return options;
 }
 
 module.exports.updateOptionsDropDown = updateOptionsDropDown;
-
 
 /**
  * checks whether the id value is valid
@@ -166,9 +167,7 @@ function isIdValid(bo, idValue, translate) {
 
 module.exports.isIdValid = isIdValid;
 
-
 function validateId(idValue, translate) {
-
   idValue = stripPlaceholders(idValue);
 
   if (containsSpace(idValue)) {
@@ -176,7 +175,6 @@ function validateId(idValue, translate) {
   }
 
   if (!ID_REGEX.test(idValue)) {
-
     if (QNAME_REGEX.test(idValue)) {
       return translate('Id must not contain prefix.');
     }
@@ -187,16 +185,13 @@ function validateId(idValue, translate) {
 
 module.exports.validateId = validateId;
 
-
 function containsSpace(value) {
   return SPACE_REGEX.test(value);
 }
 
 module.exports.containsSpace = containsSpace;
 
-
 function stripPlaceholders(idValue) {
-
   // replace expression e.g. ${VERSION_TAG}
   // use only the content between ${}
   // for the REGEX check
@@ -207,13 +202,12 @@ function stripPlaceholders(idValue) {
  * generate a semantic id with given prefix
  */
 function nextId(prefix) {
-  const ids = new Ids([32,32,1]);
+  const ids = new Ids([32, 32, 1]);
 
   return ids.nextPrefixed(prefix);
 }
 
 module.exports.nextId = nextId;
-
 
 function triggerClickEvent(element) {
   let evt;
@@ -222,31 +216,36 @@ function triggerClickEvent(element) {
   if (document.createEvent) {
     try {
       // Chrome, Safari, Firefox
-      evt = new MouseEvent((eventType), { view: window, bubbles: true, cancelable: true });
+      evt = new MouseEvent(eventType, {
+        view: window,
+        bubbles: true,
+        cancelable: true,
+      });
     } catch (e) {
       // IE 11, PhantomJS (wat!)
       evt = document.createEvent('MouseEvent');
 
-      evt.initEvent((eventType), true, true);
+      evt.initEvent(eventType, true, true);
     }
     return element.dispatchEvent(evt);
-  } 
+  }
   // Welcome IE
   evt = document.createEventObject();
 
-  return element.fireEvent(`on${  eventType}`, evt);
-  
+  return element.fireEvent(`on${eventType}`, evt);
 }
 
 module.exports.triggerClickEvent = triggerClickEvent;
 
-
 function escapeHTML(str) {
-  str = `${  str}`;
+  str = `${str}`;
 
-  return str && str.replace(/[&<>"']/g, function(match) {
-    return HTML_ESCAPE_MAP[match];
-  });
+  return (
+    str &&
+    str.replace(/[&<>"']/g, function(match) {
+      return HTML_ESCAPE_MAP[match];
+    })
+  );
 }
 
 module.exports.escapeHTML = escapeHTML;

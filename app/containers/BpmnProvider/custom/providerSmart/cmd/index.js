@@ -1,5 +1,3 @@
-
-
 const forEach = require('lodash/forEach');
 
 const HANDLERS = {
@@ -7,12 +5,10 @@ const HANDLERS = {
   'properties-panel.create-and-reference': require('./CreateAndReferenceHandler'),
   'properties-panel.create-businessobject-list': require('./CreateBusinessObjectListHandler'),
   'properties-panel.update-businessobject-list': require('./UpdateBusinessObjectListHandler'),
-  'properties-panel.multi-command-executor': require('./MultiCommandHandler')
+  'properties-panel.multi-command-executor': require('./MultiCommandHandler'),
 };
 
-
 function CommandInitializer(eventBus, commandStack) {
-
   eventBus.on('diagram.init', function() {
     forEach(HANDLERS, function(handler, id) {
       commandStack.registerHandler(id, handler);
@@ -20,8 +16,8 @@ function CommandInitializer(eventBus, commandStack) {
   });
 }
 
-CommandInitializer.$inject = [ 'eventBus', 'commandStack' ];
+CommandInitializer.$inject = ['eventBus', 'commandStack'];
 
 module.exports = {
-  __init__: [ CommandInitializer ]
+  __init__: [CommandInitializer],
 };

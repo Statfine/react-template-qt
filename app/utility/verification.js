@@ -10,12 +10,12 @@ function testFileNameAudio(name) {
 
 function testFileNameVideo(name) {
   return /\.(3g2|3gp|a64|amr|apng|asf|avi|cavsvideo|dv|flv|hds|mjpeg|mpegts|ts|rawvideo|vc1|wav|webm|oma|mj2|vivo|xmv|wmvhd|wmv|vob|dat|mp4|mkv|rm|rmvb|mov|ogg|ogv|oga|mod|mpeg|mts|m4v)$/.test(
-    name.toLowerCase()
+    name.toLowerCase(),
   );
 }
 
 function testUrl(url) {
-  const exp = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;// eslint-disable-line
+  const exp = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/; // eslint-disable-line
   return exp.test(url);
 }
 
@@ -57,7 +57,7 @@ function guid() {
   function S4() {
     return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1); // eslint-disable-line
   }
-  return (S4() + S4() + '-' + S4() + '-' + S4() + '-' + S4() + '-' + S4() + S4() + S4()); // eslint-disable-line
+  return (`${S4()}${S4()}-${S4()}-${S4()}-${S4()}-${S4()}${S4()}${S4()}`);
 }
 
 // console.log(testFileNameVideo("1.avi"));

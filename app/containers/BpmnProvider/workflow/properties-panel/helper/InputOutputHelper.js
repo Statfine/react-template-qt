@@ -1,5 +1,3 @@
-
-
 const ModelUtil = require('bpmn-js/lib/util/ModelUtil');
 const is = ModelUtil.is;
 const getBusinessObject = ModelUtil.getBusinessObject;
@@ -17,7 +15,10 @@ function getElements(bo, type, prop) {
 }
 
 function getParameters(element, prop, insideConnector) {
-  const inputOutput = InputOutputHelper.getInputOutput(element, insideConnector);
+  const inputOutput = InputOutputHelper.getInputOutput(
+    element,
+    insideConnector,
+  );
   return (inputOutput && inputOutput.get(prop)) || [];
 }
 
@@ -60,7 +61,11 @@ InputOutputHelper.getConnector = function(element) {
  * @return {Array} a list of input parameter objects
  */
 InputOutputHelper.getInputParameters = function(element, insideConnector) {
-  return getParameters.apply(this, [ element, 'inputParameters', insideConnector ]);
+  return getParameters.apply(this, [
+    element,
+    'inputParameters',
+    insideConnector,
+  ]);
 };
 
 /**
@@ -73,7 +78,11 @@ InputOutputHelper.getInputParameters = function(element, insideConnector) {
  * @return {Array} a list of output parameter objects
  */
 InputOutputHelper.getOutputParameters = function(element, insideConnector) {
-  return getParameters.apply(this, [ element, 'outputParameters', insideConnector ]);
+  return getParameters.apply(this, [
+    element,
+    'outputParameters',
+    insideConnector,
+  ]);
 };
 
 /**
@@ -111,7 +120,6 @@ InputOutputHelper.getOutputParameter = function(element, insideConnector, idx) {
  * @return {boolean} a boolean value
  */
 InputOutputHelper.isInputOutputSupported = function(element, insideConnector) {
-
   if (insideConnector) {
     return true;
   }
@@ -119,13 +127,12 @@ InputOutputHelper.isInputOutputSupported = function(element, insideConnector) {
   const bo = getBusinessObject(element);
 
   return (
-    is(bo, 'bpmn:FlowNode') && !(
+    is(bo, 'bpmn:FlowNode') &&
+    !(
       is(bo, 'bpmn:StartEvent') ||
       is(bo, 'bpmn:Gateway') ||
       is(bo, 'bpmn:BoundaryEvent') ||
-      (
-        is(bo, 'bpmn:SubProcess') && bo.get('triggeredByEvent')
-      )
+      (is(bo, 'bpmn:SubProcess') && bo.get('triggeredByEvent'))
     )
   );
 };
@@ -138,7 +145,12 @@ InputOutputHelper.isInputOutputSupported = function(element, insideConnector) {
  *
  * @return {boolean} a boolean value
  */
-InputOutputHelper.areOutputParametersSupported = function(element, insideConnector) {
+InputOutputHelper.areOutputParametersSupported = function(
+  element,
+  insideConnector,
+) {
   const bo = getBusinessObject(element);
-  return insideConnector || (!is(bo, 'bpmn:EndEvent') && !bo.loopCharacteristics);
+  return (
+    insideConnector || (!is(bo, 'bpmn:EndEvent') && !bo.loopCharacteristics)
+  );
 };

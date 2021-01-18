@@ -6,19 +6,26 @@
   width: 300px;
   height: calc(100% - 2px);
   overflow: auto;
-  box-shadow: -10px 0 16px -8px rgba(0,0,0,.08), -9px 0 28px 0 rgba(0,0,0,.05), -12px 0 48px 16px rgba(0,0,0,.03);
+  box-shadow: -10px 0 16px -8px rgba(0, 0, 0, 0.08),
+    -9px 0 28px 0 rgba(0, 0, 0, 0.05), -12px 0 48px 16px rgba(0, 0, 0, 0.03);
 }
 
-.bpp-properties-panel input:focus, .bpp-properties-panel button:focus, .bpp-properties-panel textarea:focus, .bpp-properties-panel [contenteditable]:focus {
-  border-color: #40a9ff!important;
-  border-right-width: 1px!important;
-  outline: 0!important;
-  box-shadow: 0 0 0 2px rgba(24,144,255,.2)!important;
+.bpp-properties-panel input:focus,
+.bpp-properties-panel button:focus,
+.bpp-properties-panel textarea:focus,
+.bpp-properties-panel [contenteditable]:focus {
+  border-color: #40a9ff !important;
+  border-right-width: 1px !important;
+  outline: 0 !important;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2) !important;
 }
 
-.bpp-properties-panel input:hover, .bpp-properties-panel button:hover, .bpp-properties-panel textarea:hover, .bpp-properties-panel [contenteditable]:hover {
-  border-color: #40a9ff!important;
-  border-right-width: 1px!important;
+.bpp-properties-panel input:hover,
+.bpp-properties-panel button:hover,
+.bpp-properties-panel textarea:hover,
+.bpp-properties-panel [contenteditable]:hover {
+  border-color: #40a9ff !important;
+  border-right-width: 1px !important;
 }
 
 .bpp-properties-panel select {
@@ -31,29 +38,32 @@
   overflow: auto;
 }
 
-.bpp-properties-panel [type=text]:hover, .bpp-properties-panel [contenteditable]:hover, .bpp-properties-panel textarea:hover, .bpp-properties-panel select:hover {
-  border-color: #40a9ff!important;
-  border-right-width: 1px!important;
+.bpp-properties-panel [type='text']:hover,
+.bpp-properties-panel [contenteditable]:hover,
+.bpp-properties-panel textarea:hover,
+.bpp-properties-panel select:hover {
+  border-color: #40a9ff !important;
+  border-right-width: 1px !important;
 }
 
 .bpp-table-row > input.bpp-table-row-columns-2:nth-child(2) {
-  border-left: 1px solid #ccc!important;
+  border-left: 1px solid #ccc !important;
 }
 
 .bpp-table-row > input.bpp-table-row-columns-2:nth-child(2):hover {
-  border-left: 1px solid #40a9ff!important;
+  border-left: 1px solid #40a9ff !important;
 }
 
 .bpp-table-row > button {
-  height: 29px!important;
-  border-left: 1px solid #ccc!important;
+  height: 29px !important;
+  border-left: 1px solid #ccc !important;
 }
 
-.bpp-table-row > label.bpp-table-row-columns-2.bpp-table-row-removable, .bpp-table-row > input.bpp-table-row-columns-2.bpp-table-row-removable {
-  width: calc(50% - 20px)!important;
+.bpp-table-row > label.bpp-table-row-columns-2.bpp-table-row-removable,
+.bpp-table-row > input.bpp-table-row-columns-2.bpp-table-row-removable {
+  width: calc(50% - 20px) !important;
   margin-right: 6px;
 }
-
 
 /* line 16, styles/workflow/properties.less */
 .bpp-properties-panel {
@@ -103,7 +113,7 @@
   box-shadow: 0 0 1px 2px rgba(204, 51, 51, 0.2);
 }
 /* line 48, styles/workflow/properties.less */
-.bpp-properties-panel [type=text],
+.bpp-properties-panel [type='text'],
 .bpp-properties-panel [contenteditable],
 .bpp-properties-panel textarea,
 .bpp-properties-panel select {
@@ -132,7 +142,7 @@
 }
 /* line 72, styles/workflow/properties.less */
 .bpp-properties-panel [contenteditable]:before {
-  content: "\feff";
+  content: '\feff';
 }
 /* line 77, styles/workflow/properties.less */
 .bpp-properties-panel [disabled] {
@@ -198,7 +208,7 @@
 }
 /* line 48, styles/workflow/_mixins.less */
 .bpp-properties-panel button:before {
-  font-family: "bpmn-js-pp";
+  font-family: 'bpmn-js-pp';
   font-style: normal;
   font-weight: normal;
   speak: none;
@@ -415,7 +425,7 @@ label.bpp-hidden {
 }
 /* line 302, styles/workflow/properties.less */
 .bpp-icon-warning:before {
-  font-family: "bpmn-js-pp";
+  font-family: 'bpmn-js-pp';
   font-style: normal;
   font-weight: normal;
   speak: none;
@@ -485,7 +495,8 @@ label.bpp-hidden {
   padding: 6px 15px 6px 15px;
   position: relative;
   overflow: hidden;
-  transition: max-height 0.218s ease-in-out, padding-top 0.218s ease-in-out, padding-bottom 0.218s ease-in-out;
+  transition: max-height 0.218s ease-in-out, padding-top 0.218s ease-in-out,
+    padding-bottom 0.218s ease-in-out;
 }
 /* line 9, styles/workflow/groups.less */
 .bpp-properties-group:empty {
@@ -679,7 +690,7 @@ ul.bpp-properties-tabs-links > li.bpp-active a {
 /* line 7, styles/app.less */
 body,
 html {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 12px;
   height: 100%;
   max-height: 100%;
@@ -717,14 +728,14 @@ a:link {
   font-size: 12px;
   margin: 20px auto;
   text-align: left;
-  color: #BD2828;
+  color: #bd2828;
 }
 /* line 53, styles/app.less */
 .content > .message.error pre {
-  border: solid 1px #BD2828;
+  border: solid 1px #bd2828;
   background: #fefafa;
   padding: 10px;
-  color: #BD2828;
+  color: #bd2828;
 }
 /* line 61, styles/app.less */
 .content:not(.with-error) .error,
@@ -766,7 +777,7 @@ a:link {
 }
 /* line 102, styles/app.less */
 .buttons > li > a {
-  background: #DDD;
+  background: #ddd;
   border: solid 1px #666;
   display: inline-block;
   padding: 5px;

@@ -1,5 +1,3 @@
-
-
 const domQuery = require('min-dom').query;
 const domClasses = require('min-dom').classes;
 const domify = require('min-dom').domify;
@@ -12,7 +10,7 @@ const bind = require('lodash/bind');
 function Popup(options) {
   options = options || {};
   this.template = options.template || this.template;
-  const el = this.el = domify(this.template);
+  const el = (this.el = domify(this.template));
 
   this.header = domQuery('.popup-header', el);
   this.body = domQuery('.popup-body', el);
@@ -23,17 +21,16 @@ function Popup(options) {
   this._attachEvents();
 }
 
-Popup.prototype.template = '<div class="bpp-properties-panel-popup">' +
-                              '<div class="underlay"></div>' +
-                              '<div class="popup">' +
-                                '<button class="popup-close"><span>Close</span></button>' +
-                                '<div class="popup-header"></div>' +
-                                '<div class="popup-body"></div>' +
-                                '<div class="popup-footer"></div>' +
-                              '</div>' +
-                            '</div>';
-
-
+Popup.prototype.template =
+  '<div class="bpp-properties-panel-popup">' +
+  '<div class="underlay"></div>' +
+  '<div class="popup">' +
+  '<button class="popup-close"><span>Close</span></button>' +
+  '<div class="popup-header"></div>' +
+  '<div class="popup-body"></div>' +
+  '<div class="popup-footer"></div>' +
+  '</div>' +
+  '</div>';
 
 Popup.prototype._attachEvents = function() {
   const self = this;
@@ -46,7 +43,9 @@ Popup.prototype._attachEvents = function() {
     const evtName = parts.shift();
     let target = parts.length ? parts.shift() : false;
     target = target ? domQuery(target, el) : el;
-    if (!target) { return; }
+    if (!target) {
+      return;
+    }
     target.addEventListener(evtName, cb);
   });
 };
@@ -62,7 +61,9 @@ Popup.prototype._detachEvents = function() {
     const evtName = parts.shift();
     let target = parts.length ? parts.shift() : false;
     target = target ? domQuery(target, el) : el;
-    if (!target) { return; }
+    if (!target) {
+      return;
+    }
     target.removeEventListener(evtName, cb);
   });
 };
@@ -70,14 +71,12 @@ Popup.prototype._detachEvents = function() {
 Popup.prototype.events = {
   // 'keydown:esc':        '_handleClose',
   'click .underlay': '_handleClose',
-  'click .popup-close': '_handleClose'
+  'click .popup-close': '_handleClose',
 };
-
 
 Popup.prototype._handleClose = function(evt) {
   this.close();
 };
-
 
 Popup.prototype.open = function(content) {
   domClasses(this.el).add('open');

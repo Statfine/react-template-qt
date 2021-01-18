@@ -1,5 +1,3 @@
-
-
 const findExtension = require('../Helper').findExtension;
 const findExtensions = require('../Helper').findExtensions;
 
@@ -8,25 +6,26 @@ const createInputParameter = require('../CreateHelper').createInputParameter;
 const createOutputParameter = require('../CreateHelper').createOutputParameter;
 const createSmartIn = require('../CreateHelper').createSmartIn;
 const createSmartOut = require('../CreateHelper').createSmartOut;
-const createSmartInWithBusinessKey = require('../CreateHelper').createSmartInWithBusinessKey;
-const createSmartExecutionListenerScript = require('../CreateHelper').createSmartExecutionListenerScript;
-const createSmartFieldInjection = require('../CreateHelper').createSmartFieldInjection;
+const createSmartInWithBusinessKey = require('../CreateHelper')
+  .createSmartInWithBusinessKey;
+const createSmartExecutionListenerScript = require('../CreateHelper')
+  .createSmartExecutionListenerScript;
+const createSmartFieldInjection = require('../CreateHelper')
+  .createSmartFieldInjection;
 
 const forEach = require('lodash/forEach');
 
 const SMART_SERVICE_TASK_LIKE = [
   'smart:class',
   'smart:delegateExpression',
-  'smart:expression'
+  'smart:expression',
 ];
 
 /**
  * A handler that changes the modeling template of a BPMN element.
  */
 function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
-
   function getOrCreateExtensionElements(element) {
-
     const bo = element.businessObject;
 
     let extensionElements = bo.extensionElements;
@@ -34,11 +33,11 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
     // add extension elements
     if (!extensionElements) {
       extensionElements = bpmnFactory.create('bpmn:ExtensionElements', {
-        values: []
+        values: [],
       });
 
       modeling.updateProperties(element, {
-        extensionElements
+        extensionElements,
       });
     }
 
@@ -47,12 +46,11 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
 
   function updateModelerTemplate(element, newTemplate) {
     modeling.updateProperties(element, {
-      'smart:modelerTemplate': newTemplate && newTemplate.id
+      'smart:modelerTemplate': newTemplate && newTemplate.id,
     });
   }
 
   function updateIoMappings(element, newTemplate, context) {
-
     const newMappings = createInputOutputMappings(newTemplate, bpmnFactory);
     let oldMappings;
 
@@ -64,7 +62,7 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
       commandStack.execute('properties-panel.update-businessobject', {
         element,
         businessObject: context,
-        properties: { inputOutput: newMappings }
+        properties: { inputOutput: newMappings },
       });
     } else {
       context = getOrCreateExtensionElements(element);
@@ -73,14 +71,13 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
         element,
         currentObject: context,
         propertyName: 'values',
-        objectsToAdd: [ newMappings ],
-        objectsToRemove: oldMappings ? [ oldMappings ] : []
+        objectsToAdd: [newMappings],
+        objectsToRemove: oldMappings ? [oldMappings] : [],
       });
     }
   }
 
   function updateSmartField(element, newTemplate, context) {
-
     const newMappings = createSmartFieldInjections(newTemplate, bpmnFactory);
     let oldMappings;
 
@@ -91,7 +88,7 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
       commandStack.execute('properties-panel.update-businessobject', {
         element,
         businessObject: context,
-        properties: { field: newMappings }
+        properties: { field: newMappings },
       });
     } else {
       context = getOrCreateExtensionElements(element);
@@ -102,14 +99,12 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
         currentObject: context,
         propertyName: 'values',
         objectsToAdd: newMappings,
-        objectsToRemove: oldMappings || []
+        objectsToRemove: oldMappings || [],
       });
     }
   }
 
-
   function updateSmartProperties(element, newTemplate, context) {
-
     const newProperties = createSmartProperties(newTemplate, bpmnFactory);
     let oldProperties;
 
@@ -121,7 +116,7 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
       commandStack.execute('properties-panel.update-businessobject', {
         element,
         businessObject: context,
-        properties: { properties: newProperties }
+        properties: { properties: newProperties },
       });
     } else {
       context = getOrCreateExtensionElements(element);
@@ -131,14 +126,13 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
         element,
         currentObject: context,
         propertyName: 'values',
-        objectsToAdd: [ newProperties ],
-        objectsToRemove: oldProperties ? [ oldProperties ] : []
+        objectsToAdd: [newProperties],
+        objectsToRemove: oldProperties ? [oldProperties] : [],
       });
     }
   }
 
   function updateProperties(element, newTemplate, context) {
-
     const newProperties = createBpmnPropertyUpdates(newTemplate, bpmnFactory);
 
     const newPropertiesCount = Object.keys(newProperties).length;
@@ -151,7 +145,7 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
       commandStack.execute('properties-panel.update-businessobject', {
         element,
         businessObject: context,
-        properties: newProperties
+        properties: newProperties,
       });
     } else {
       modeling.updateProperties(element, newProperties);
@@ -159,7 +153,6 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
   }
 
   function updateInOut(element, newTemplate, context) {
-
     const newInOut = createSmartInOut(newTemplate, bpmnFactory);
     let oldInOut;
 
@@ -171,25 +164,27 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
       commandStack.execute('properties-panel.update-businessobject', {
         element,
         businessObject: context,
-        properties: { inout: newInOut }
+        properties: { inout: newInOut },
       });
     } else {
       context = getOrCreateExtensionElements(element);
-      oldInOut = findExtensions(context, [ 'smart:In', 'smart:Out' ]);
+      oldInOut = findExtensions(context, ['smart:In', 'smart:Out']);
 
       commandStack.execute('properties-panel.update-businessobject-list', {
         element,
         currentObject: context,
         propertyName: 'values',
         objectsToAdd: newInOut,
-        objectsToRemove: oldInOut
+        objectsToRemove: oldInOut,
       });
     }
   }
 
   function updateExecutionListener(element, newTemplate, context) {
-
-    const newExecutionListeners = createSmartExecutionListeners(newTemplate, bpmnFactory);
+    const newExecutionListeners = createSmartExecutionListeners(
+      newTemplate,
+      bpmnFactory,
+    );
     let oldExecutionsListeners;
 
     if (!newExecutionListeners.length) {
@@ -200,18 +195,20 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
       commandStack.execute('properties-panel.update-businessobject', {
         element,
         businessObject: context,
-        properties: { executionListener: newExecutionListeners }
+        properties: { executionListener: newExecutionListeners },
       });
     } else {
       context = getOrCreateExtensionElements(element);
-      oldExecutionsListeners = findExtensions(context, [ 'smart:ExecutionListener' ]);
+      oldExecutionsListeners = findExtensions(context, [
+        'smart:ExecutionListener',
+      ]);
 
       commandStack.execute('properties-panel.update-businessobject-list', {
         element,
         currentObject: context,
         propertyName: 'values',
         objectsToAdd: newExecutionListeners,
-        objectsToRemove: oldExecutionsListeners
+        objectsToRemove: oldExecutionsListeners,
       });
     }
   }
@@ -224,7 +221,6 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
    * @param {Object} scopeDefinition
    */
   function updateScopeElements(element, scopeName, scopeDefinition) {
-
     const scopeElement = bpmnFactory.create(scopeName);
 
     // update smart:inputOutput
@@ -252,8 +248,8 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
       element,
       currentObject: extensionElements,
       propertyName: 'values',
-      objectsToAdd: [ scopeElement ],
-      objectsToRemove: oldScope ? [ oldScope ] : []
+      objectsToAdd: [scopeElement],
+      objectsToRemove: oldScope ? [oldScope] : [],
     });
   }
 
@@ -267,7 +263,6 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
    * @param {Object} context.newTemplate
    */
   this.preExecute = function(context) {
-
     const element = context.element;
     const newTemplate = context.newTemplate;
 
@@ -275,7 +270,6 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
     updateModelerTemplate(element, newTemplate);
 
     if (newTemplate) {
-
       // update smart:inputOutput
       updateIoMappings(element, newTemplate);
 
@@ -298,35 +292,33 @@ function ChangeElementTemplateHandler(modeling, commandStack, bpmnFactory) {
       forEach(newTemplate.scopes, function(scopeDefinition, scopeName) {
         updateScopeElements(element, scopeName, scopeDefinition);
       });
-
     }
   };
 }
 
-ChangeElementTemplateHandler.$inject = [ 'modeling', 'commandStack', 'bpmnFactory' ];
+ChangeElementTemplateHandler.$inject = [
+  'modeling',
+  'commandStack',
+  'bpmnFactory',
+];
 
 module.exports = ChangeElementTemplateHandler;
-
-
 
 // helpers /////////////////////////////
 
 function createBpmnPropertyUpdates(template, bpmnFactory) {
-
   const propertyUpdates = {};
 
   template.properties.forEach(function(p) {
-
     const binding = p.binding;
     const bindingTarget = binding.name;
     let propertyValue;
 
     if (binding.type === 'property') {
-
       if (bindingTarget === 'conditionExpression') {
         propertyValue = bpmnFactory.create('bpmn:FormalExpression', {
           body: p.value,
-          language: binding.scriptFormat
+          language: binding.scriptFormat,
         });
       } else {
         propertyValue = p.value;
@@ -359,9 +351,7 @@ function createSmartFieldInjections(template, bpmnFactory) {
     const binding = p.binding;
     const bindingType = binding.type;
     if (bindingType === 'smart:field') {
-      injections.push(createSmartFieldInjection(
-        binding, p.value, bpmnFactory
-      ));
+      injections.push(createSmartFieldInjection(binding, p.value, bpmnFactory));
     }
   });
 
@@ -371,7 +361,6 @@ function createSmartFieldInjections(template, bpmnFactory) {
 }
 
 function createSmartProperties(template, bpmnFactory) {
-
   const properties = [];
 
   template.properties.forEach(function(p) {
@@ -379,21 +368,18 @@ function createSmartProperties(template, bpmnFactory) {
     const bindingType = binding.type;
 
     if (bindingType === 'smart:property') {
-      properties.push(createSmartProperty(
-        binding, p.value, bpmnFactory
-      ));
+      properties.push(createSmartProperty(binding, p.value, bpmnFactory));
     }
   });
 
   if (properties.length) {
     return bpmnFactory.create('smart:Properties', {
-      values: properties
+      values: properties,
     });
   }
 }
 
 function createInputOutputMappings(template, bpmnFactory) {
-
   const inputParameters = [];
   const outputParameters = [];
 
@@ -402,15 +388,13 @@ function createInputOutputMappings(template, bpmnFactory) {
     const bindingType = binding.type;
 
     if (bindingType === 'smart:inputParameter') {
-      inputParameters.push(createInputParameter(
-        binding, p.value, bpmnFactory
-      ));
+      inputParameters.push(createInputParameter(binding, p.value, bpmnFactory));
     }
 
     if (bindingType === 'smart:outputParameter') {
-      outputParameters.push(createOutputParameter(
-        binding, p.value, bpmnFactory
-      ));
+      outputParameters.push(
+        createOutputParameter(binding, p.value, bpmnFactory),
+      );
     }
   });
 
@@ -418,13 +402,12 @@ function createInputOutputMappings(template, bpmnFactory) {
   if (outputParameters.length || inputParameters.length) {
     return bpmnFactory.create('smart:InputOutput', {
       inputParameters,
-      outputParameters
+      outputParameters,
     });
   }
 }
 
 function createSmartInOut(template, bpmnFactory) {
-
   const inOuts = [];
 
   template.properties.forEach(function(p) {
@@ -432,28 +415,18 @@ function createSmartInOut(template, bpmnFactory) {
     const bindingType = binding.type;
 
     if (bindingType === 'smart:in') {
-      inOuts.push(createSmartIn(
-        binding, p.value, bpmnFactory
-      ));
-    } else
-    if (bindingType === 'smart:out') {
-      inOuts.push(createSmartOut(
-        binding, p.value, bpmnFactory
-      ));
-    } else
-    if (bindingType === 'smart:in:businessKey') {
-      inOuts.push(createSmartInWithBusinessKey(
-        binding, p.value, bpmnFactory
-      ));
+      inOuts.push(createSmartIn(binding, p.value, bpmnFactory));
+    } else if (bindingType === 'smart:out') {
+      inOuts.push(createSmartOut(binding, p.value, bpmnFactory));
+    } else if (bindingType === 'smart:in:businessKey') {
+      inOuts.push(createSmartInWithBusinessKey(binding, p.value, bpmnFactory));
     }
   });
 
   return inOuts;
 }
 
-
 function createSmartExecutionListeners(template, bpmnFactory) {
-
   const executionListener = [];
 
   template.properties.forEach(function(p) {
@@ -461,9 +434,9 @@ function createSmartExecutionListeners(template, bpmnFactory) {
     const bindingType = binding.type;
 
     if (bindingType === 'smart:executionListener') {
-      executionListener.push(createSmartExecutionListenerScript(
-        binding, p.value, bpmnFactory
-      ));
+      executionListener.push(
+        createSmartExecutionListenerScript(binding, p.value, bpmnFactory),
+      );
     }
   });
 
