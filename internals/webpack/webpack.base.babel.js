@@ -144,7 +144,8 @@ module.exports = options => ({
     extensions: ['.js', '.jsx', '.react.js'],
     alias: {
       'react-dom': '@hot-loader/react-dom',
-      moment$: 'moment/moment.js'
+      moment$: 'moment/moment.js',
+      react: path.resolve('./node_modules/react')
     },
   },
   devtool: options.devtool,

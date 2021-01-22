@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react';
+import React, { memo, useCallback, useMemo } from 'react';
 
 function FFunc() {
   const [count, setCuont] = React.useState(1); // eslint-disable-line
@@ -24,11 +24,18 @@ function FFunc() {
   // }, [count]);
   // set.add(callback);
 
+  const getCount = useCallback(() => {
+    console.log('getCount')
+    return count + 1;
+  }, []);
+
   return (
     <div>
       <p>{name}</p>
       <div onClick={handleChangeFunc}>Change FFunc</div>
-      <p>{expensive}</p>
+      <div onClick={() => setCuont(3)}>setCuont</div>
+      <p>expensive:{expensive}</p>
+      <p>getCount:{getCount()}</p>
     </div>
   );
 }
