@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SayName, Echarts } from 'easub-ui/lib';
+import { SayName, Echarts, Emoji } from 'easub-ui-demo/lib';
 
 import SonPage from './son';
 import FFunc from './FFunc';
@@ -9,6 +9,9 @@ import UseState from './UseState';
 export default class LifePage extends React.PureComponent {
   state = {
     name: 'hello word',
+    user: {
+      name: 'haha',
+    },
   };
 
   // eslint-disable-next-line
@@ -27,12 +30,14 @@ export default class LifePage extends React.PureComponent {
     console.log('F render');
     return (
       <div>
+        <p>{this.state.user?.name}</p>
         {name}
         <div onClick={this.handleChangeName}>Change</div>
         <SonPage />
         <FFunc />
         <SayName />
         <UseState />
+        <Emoji handleBack={v => console.log(v)} />
         <Echarts
           id="video"
           options={{
