@@ -94,6 +94,7 @@ module.exports.createSmartProperty = createSmartProperty;
  * @return {ModdleElement}
  */
 function createSmartIn(binding, value, bpmnFactory) {
+  // eslint-disable-next-line no-undef
   const properties = createsmartInOutAttrs(binding, value);
 
   return bpmnFactory.create('smart:In', properties);

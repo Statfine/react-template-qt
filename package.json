@@ -38,7 +38,9 @@
     "test": "cross-env NODE_ENV=test jest --coverage",
     "test:watch": "cross-env NODE_ENV=test jest --watchAll",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
-    "prettify": "prettier -c --write \"app/**/*\""
+    "prettify": "prettier -c --write \"app/**/*\"",
+    "lint:fix": "npm run eslint -- --fix app",
+    "eslint": "eslint --ext js"
   },
   "lint-staged": {
     "*.{js,jsx}": [
@@ -73,7 +75,7 @@
     "connected-react-router": "6.6.0",
     "cross-env": "6.0.3",
     "draft-js-prism": "1.0.6",
-    "easub-ui": "^0.1.11",
+    "easub-ui": "^0.2.4",
     "easub-ui-demo": "^0.1.25",
     "echarts": "4.9.0",
     "express": "4.17.1",

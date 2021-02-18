@@ -1338,6 +1338,7 @@ function setContentEditableSelection(node, selection) {
   let domRange;
   let domSelection;
 
+  // eslint-disable-next-line no-unused-expressions
   (focusNode = node.firstChild || node), (domRange = document.createRange());
   domRange.setStart(focusNode, selection.start);
   domRange.setEnd(focusNode, selection.end);

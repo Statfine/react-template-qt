@@ -25,9 +25,9 @@ function FFunc() {
   // set.add(callback);
 
   const getCount = useCallback(() => {
-    console.log('getCount')
+    console.log('getCount');
     return count + 1;
-  }, []);
+  }, [count]);
 
   return (
     <div>

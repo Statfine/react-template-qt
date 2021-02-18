@@ -31,10 +31,10 @@ import { requestInjectStore } from 'utils/request';
 import LanguageProvider from 'containers/LanguageProvider';
 
 // Load the favicon and the .htaccess file
-/* eslint-disable import/no-unresolved */
+/* eslint-disable */
 import '!file-loader?name=[name].[ext]!./images/favicon.ico';
 import 'file-loader?name=.htaccess!./.htaccess';
-/* eslint-enable import/no-unresolved */
+/* eslint-enable */
 
 import { HelmetProvider } from 'react-helmet-async';
 import configureStore from './configureStore';

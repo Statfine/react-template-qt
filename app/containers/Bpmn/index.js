@@ -46,7 +46,7 @@ const SetModal = props => {
   useEffect(() => {
     setValue(el.businessObject.name);
     setLink(el.businessObject.$attrs.link_id);
-  }, []);
+  }, [el.businessObject.$attrs.link_id, el.businessObject.name]);
 
   return (
     <Modal

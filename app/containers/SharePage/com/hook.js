@@ -45,7 +45,7 @@ function AppendApi() {
 
   const handleAlert = useCallback(() => {
     alert(text);
-  }, []);
+  }, [text]);
 
   return (
     <div>

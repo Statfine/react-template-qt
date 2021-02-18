@@ -39,7 +39,7 @@ function UseStateTest() {
     console.log('handleCallBack');
     list.push(`行程 ${count}`);
     setList([...list]);
-  }, [list]);
+  }, [count, list]);
 
   const maxCount = useMemo(() => {
     console.log('useMemo');

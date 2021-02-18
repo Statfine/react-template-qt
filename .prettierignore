@@ -5,3 +5,8 @@ internals/scripts/
 package-lock.json
 yarn.lock
 package.json
+.DS_Store
+*.log
+*.md
+*.svg
+*.png

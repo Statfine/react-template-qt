@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SayName, Echarts, Emoji } from 'easub-ui-demo/lib';
+import { SayName, Echarts, Emoji } from 'easub-ui';
 
 import SonPage from './son';
 import FFunc from './FFunc';
@@ -30,7 +30,7 @@ export default class LifePage extends React.PureComponent {
     console.log('F render');
     return (
       <div>
-        <p>{this.state.user?.name}</p>
+        <p>{this.state.user.name}</p>
         {name}
         <div onClick={this.handleChangeName}>Change</div>
         <SonPage />
