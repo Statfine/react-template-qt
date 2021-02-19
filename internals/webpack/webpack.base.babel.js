@@ -7,7 +7,10 @@ const webpack = require('webpack');
 
 const fs = require('fs');
 
-const paletteLess = fs.readFileSync(path.join(__dirname, './../../app/theme/antd_theme.json'), 'utf8');
+const paletteLess = fs.readFileSync(
+  path.join(__dirname, './../../app/theme/antd_theme.json'),
+  'utf8',
+);
 
 module.exports = options => ({
   mode: options.mode,
@@ -40,11 +43,11 @@ module.exports = options => ({
       },
       {
         test: /\.bpmn$/,
-        use: 'raw-loader'
+        use: 'raw-loader',
       },
       {
-        test:/\.scss$/,
-        use:['style-loader','css-loader','sass-loader']
+        test: /\.scss$/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         // Preprocess 3rd party .css files located in node_modules

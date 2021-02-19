@@ -10,3 +10,7 @@ package.json
 *.md
 *.svg
 *.png
+*.jpg
+*.ico
+*.snap
+app/containers/Bpmn/
